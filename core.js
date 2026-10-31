@@ -211,6 +211,66 @@
     }
     return out.join(' ');
   }
+  /* ---------- Weather details, for the forecast sheet ---------- */
+  // Which small picture suits a WMO weather code.
+  function weatherIcon(code, isDay) {
+    if (code === 0 || code === 1) return isDay ? 'sun' : 'moon';
+    if (code === 2) return isDay ? 'partsun' : 'partmoon';
+    if (code === 45 || code === 48) return 'fog';
+    const f = family(code);
+    return { thunderstorms: 'thunder', snow: 'snow', sleet: 'sleet', showers: 'showers', drizzle: 'drizzle', rain: 'rain' }[f] || 'cloud';
+  }
+  const COMPASS = ['north', 'north-east', 'east', 'south-east', 'south', 'south-west', 'west', 'north-west'];
+  const compassIdx = (deg) => Math.round((((Number(deg) % 360) + 360) % 360) / 45) % 8;
+  const compass = (deg) => COMPASS[compassIdx(deg)];
+  const compassShort = (deg) => ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'][compassIdx(deg)];
+  // The Beaufort scale in everyday words, from a speed in mph.
+  function windWord(mph) {
+    const b = [[1, 'Calm'], [4, 'Light air'], [8, 'Light breeze'], [13, 'Gentle breeze'], [19, 'Moderate breeze'], [25, 'Fresh breeze'],
+      [32, 'Strong breeze'], [39, 'Near gale'], [47, 'Gale'], [55, 'Severe gale']];
+    for (const [lim, w] of b) if (mph < lim) return w;
+    return 'Storm';
+  }
+  function uvWord(uv) {
+    if (uv == null || !isFinite(uv)) return '';
+    const u = Math.round(uv);
+    return u <= 2 ? 'Low' : u <= 5 ? 'Moderate' : u <= 7 ? 'High' : u <= 10 ? 'Very high' : 'Extreme';
+  }
+  // European Air Quality Index bands.
+  function aqiWord(a) {
+    if (a == null || !isFinite(a)) return '';
+    return a < 20 ? 'Good' : a < 40 ? 'Fair' : a < 60 ? 'Moderate' : a < 80 ? 'Poor' : a < 100 ? 'Very poor' : 'Extremely poor';
+  }
+  // Grains per cubic metre where each pollen turns moderate, high and very high (Met Office style bands).
+  const POLLEN = [['grass_pollen', 'Grass', [30, 50, 150]], ['birch_pollen', 'Birch', [40, 80, 200]], ['alder_pollen', 'Alder', [40, 80, 200]],
+    ['olive_pollen', 'Olive', [40, 80, 200]], ['mugwort_pollen', 'Mugwort', [10, 30, 100]], ['ragweed_pollen', 'Ragweed', [10, 30, 100]]];
+  // The worst pollen in values ({grass_pollen: highest today, ...}): null without data, none when there's nothing to speak of.
+  function pollenLevel(values) {
+    let best = null, any = false;
+    for (const [k, name, t] of POLLEN) {
+      const v = values && values[k];
+      if (v == null || !isFinite(v)) continue;
+      any = true;
+      if (v < 1) continue;
+      const level = v >= t[2] ? 3 : v >= t[1] ? 2 : v >= t[0] ? 1 : 0;
+      const score = level + v / t[0] / 1000;
+      if (!best || score > best.score) best = { name, level, word: ['Low', 'Moderate', 'High', 'Very high'][level], score };
+    }
+    if (!any) return null;
+    if (!best) return { none: true };
+    delete best.score;
+    return best;
+  }
+  function dayLength(riseH, setH) {
+    const m = Math.round((setH - riseH) * 60);
+    return `${Math.floor(m / 60)}h ${m % 60}m`;
+  }
+  // The next event for the top of the page: "Diwali today", "Diwali tomorrow", "Diwali in 8 days".
+  function eventLine(e) {
+    if (!e) return '';
+    return e.away <= 0 ? `${e.title} today` : e.away === 1 ? `${e.title} tomorrow` : `${e.title} in ${e.away} days`;
+  }
+
   function tempLine(o) {
     const cur = Math.round(o.current), max = Math.round(o.max), min = Math.round(o.min);
     if (o.nowH < 14 && max >= cur + 1) return `Up to ${max}° this afternoon`;
@@ -600,6 +660,7 @@
   const Core = {
     sunTimes, sunAltitude, skyTheme, moonPhase, tzOffsetSec, localHours, localDayKey, localWeekday, localNoon, hourWord,
     ringPoint, arcPath, ticksPath, wetRuns, wetKind, conditionWord, weatherSentence, tempLine,
+    weatherIcon, compass, compassShort, windWord, uvWord, aqiWord, pollenLevel, dayLength, eventLine,
     CUR, currencyFor, catalogue, defaultWatch, INDICES, METALS, COINS, fxList, fmtValue, fmtPct, barWidth, moveWords, marketSentence,
     greenestWindow, hourlyBars, greenSentence, filterTrending, pickOnThisDay, timeAgo, TOPIC_PRESETS, cleanTopic, briefLabel,
     placeFromNominatim, placeFromSearch, cleanCouncil, PARTS, defaultSections, defaultCalendars, migratePrefs,

@@ -6,7 +6,9 @@ Live at **https://quick-sheet.github.io/Lowdown/**
 
 ## What it does
 
-- **The day ring.** Daylight as a gold arc, rain as dots round the edge, the sun (or moon) marking now, and one plain sentence about the weather. Settings can shrink it to a single line.
+- **The brief is a list you tick off.** Tap a part to open it (one at a time); reach its end and it gets a tick. **Next** at the bottom of each part carries you through. When a new story arrives later, that part loses its tick and says "1 new".
+- **Weather, top right.** A small day ring and the temperature. Tap it for the full forecast: the day ring (gold daylight, rain dots, the sun or moon at now) and one plain sentence, the next 24 hours with sunrise and sunset, tiles for daylight, rain, wind, UV, air quality and pollen, and the moon, then the next 7 days.
+- **What's next, under the weather.** The next event from your calendars: "Diwali in 8 days", "Diwali tomorrow". Tap it to read about it.
 - **News in four tiers**, world, country, county and local, based on where you are. The most local tier claims a story first, so nothing repeats.
 - **Politics.** Westminster and your own council, straight news with no opinion.
 - **Money.** The latest from Martin Lewis's MoneySavingExpert.
@@ -14,14 +16,14 @@ Live at **https://quick-sheet.github.io/Lowdown/**
 - **Coming up.** Festivals and holidays from the calendars you pick (Christian, Orthodox, Jewish, Islamic, Hindu, Sikh, Buddhist, Lunar New Year, UK bank holidays), plus up to three public calendar links of your own, such as your church or gurdwara.
 - **Videos.** Search YouTube for channels; their new uploads from the past week show in your brief.
 - **Your interests.** Pick from a list or add your own ("snooker", "hip hop"); each gets a short update.
-- **Markets.** Indices, currencies, gold and crypto, plus any share by its Google Finance code.
+- **Markets.** Indices, currencies, gold and crypto, plus any share: pick its market, type its code (LIDR on NASDAQ, BARC on London) and Lowdown checks it.
 - **What people looked up** (Wikipedia's most-read), **On this day**, and, in Britain, **the greenest hours** to run the washing machine.
 - **Every part can be switched off and put in your own order** in Settings.
-- **It ends.** "You're up to date." Open it again later and anything new is marked.
+- **It ends.** Tick every part and it says "You're up to date."
 
-New people get four welcome cards, a six-step setup (place, parts, interests, suppliers, calendars, markets) and three pointers on their first brief. **Settings → Show me around again** replays them.
+New people see one screen on what Lowdown is, then four quick steps: where they are, something they follow, a YouTube channel and a share. Suppliers, calendars and which parts show are in Settings. **Settings → Show me around again** goes through the steps with their own choices filled in.
 
-No notifications and no accounts. It's invite-only: without an invite, the site shows nothing but a box for one. Each person's choices stay on their own phone. The colours follow the sky (Auto), or pick a theme from the eye icon.
+No notifications and no accounts. It's invite-only: without an invite, the site shows nothing but a box for one. Each person's choices stay on their own phone. It's white with black text, or black with white text when the phone is in dark mode; the ☾ button at the top swaps it, and **Settings → Colours → Match my phone** puts it back.
 
 ## Set up, once
 
@@ -65,7 +67,7 @@ Upload every file to the public repo `quick-sheet/Lowdown`, then **Settings → 
 
 1. Open the live URL, tap **Setting up your own Lowdown?**, paste the web app address and your invite code, and tap **Connect**.
 2. In **Settings → Invite a friend**, tap **Share invite link** (or **Copy**) and send it.
-3. A friend taps the link, sees the welcome cards and sets up their own place, parts, interests, suppliers, calendars and markets, kept on their phone. On iPhone, Lowdown asks them to add it to the Home Screen first and paste the link there, because Safari and the installed app keep separate storage.
+3. A friend taps the link, sees what Lowdown is, and sets up their own place, interests, channel and share in four quick steps, kept on their phone. On iPhone, Lowdown asks them to add it to the Home Screen first and paste the link there, because Safari and the installed app keep separate storage.
 
 Your Apps Script serves everyone. It checks the invite code on every request, and stores nothing about anyone.
 
@@ -84,7 +86,7 @@ Every release bumps both markers together: `core.js?v=N` in `index.html` and `lo
 | File | Role |
 | --- | --- |
 | `index.html` | The whole app: layout, styles and script |
-| `core.js` | Pure logic: sun and moon, the ring, the sentences, markets, greenest hours, calendars and festival dates, suppliers |
+| `core.js` | Pure logic: sun and moon, the ring, the sentences, weather words, markets, greenest hours, calendars and festival dates, suppliers |
 | `sw.js` | Offline copy and instant updates |
 | `manifest.webmanifest`, icons | Installing to the home screen |
 | `apps-script/` | The thin server, deployed separately in Apps Script |
@@ -92,7 +94,7 @@ Every release bumps both markers together: `core.js?v=N` in `index.html` and `lo
 ## Good to know
 
 - **The invite is a shared code, not a login.** Anyone holding the link gets in, so share it only with friends, and change the code if it spreads. The page itself stays public on GitHub Pages; only the invite box shows without one.
-- **Sources.** News from BBC News, Google News and Bing News; money from MoneySavingExpert via Google News; weather from Open-Meteo; place names from OpenStreetMap; trending, on this day and festival summaries from Wikipedia; prices from Google Finance (up to 20 minutes behind) and CoinGecko; grid data from the National Energy System Operator; power cuts from UK Power Networks; Jewish dates from Hebcal; bank holidays from GOV.UK; videos from YouTube. All free, for personal use.
+- **Sources.** News from BBC News, Google News and Bing News; money from MoneySavingExpert via Google News; weather from Open-Meteo; air quality and pollen from Copernicus via Open-Meteo (pollen is Europe only, in season); place names from OpenStreetMap; trending, on this day and festival summaries from Wikipedia; prices from Google Finance (up to 20 minutes behind) and CoinGecko; grid data from the National Energy System Operator; power cuts from UK Power Networks; Jewish dates from Hebcal; bank holidays from GOV.UK; videos from YouTube. All free, for personal use.
 - **Supplier status is what makes the news.** Small or very local faults won't show; each tile's sheet has a search for the provider's own status page, which can check your postcode. Live power cuts only cover UK Power Networks' area (London, the South East and the East); elsewhere it's news only.
 - **Festival dates.** Christian dates are worked out on the phone; Jewish dates and bank holidays come live. Hindu, Sikh, Buddhist, Islamic and Lunar New Year dates come from a table checked against published calendars, covering to the end of 2027, so it needs topping up in a release next year. Islamic dates are marked "expected": they can move by a day with the moon sighting, and some communities differ.
 - **Local and council news are matched by place name**, so the odd stray story can slip in. Settings lets you change the county, local and council names used.

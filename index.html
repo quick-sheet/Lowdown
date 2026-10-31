@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="en-GB" data-theme="day">
+<html lang="en-GB" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Lowdown</title>
 <meta name="description" content="Your day in two minutes: news from the world to your street, your interests and markets.">
-<meta name="theme-color" content="#E8EDF1">
+<meta name="theme-color" content="#FFFFFF">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -16,18 +16,21 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&family=Hanken+Grotesk:wght@300;400;500;600&display=swap">
+<script>
+// White or black before the first paint: the phone's own setting, unless this phone chose one.
+(function () { var m = 'auto'; try { m = JSON.parse(localStorage.getItem('ldn.mode')) || 'auto'; } catch (e) {}
+  var dark = m === 'dark' || (m !== 'light' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.theme = dark ? 'dark' : 'light'; })();
+</script>
 <style>
-/* Themes: Daylight follows the playbook's night set; Auto picks by the sun's height at your place. */
-:root{--bg:#E8EDF1;--raise:#F6F8F9;--raise-2:#DDE4EA;--line:rgba(19,32,44,.10);--line-2:rgba(19,32,44,.20);--ink:#13202C;--ink-2:#46525E;--ink-3:#5B6672;--meta:#5B6672;
---sun:#F0B04F;--sun-soft:rgba(240,176,79,.28);--on-sun:#1A1205;--link:#A84F1C;--tag:#7A3E12;--up:#1F5FA8;--down:#B4521F;--rain:#3E76B8;
---arc-a:#F0B04F;--arc-b:#F6D78E;--arc-c:#E7864A;--arc-o:1;--scrim:rgba(8,14,22,.48);--shadow:0 12px 32px rgba(19,32,44,.18);
+/* One look in two modes: white with black text, or black with white text. Gold marks daylight only. */
+:root{--bg:#FFFFFF;--raise:#F4F4F3;--raise-2:#E9E9E7;--line:rgba(0,0,0,.09);--line-2:rgba(0,0,0,.18);--ink:#0B0B0B;--ink-2:#444444;--ink-3:#666666;--meta:#666666;
+--sun:#EDA23A;--sun-soft:rgba(237,162,58,.22);--on-sun:#1A1205;--link:#0B0B0B;--tag:#0B0B0B;--up:#1F5FA8;--down:#B4521F;--rain:#2F6DB5;
+--arc-a:#EDA23A;--arc-b:#F4CF7E;--arc-c:#E5823F;--arc-o:1;--scrim:rgba(0,0,0,.42);--shadow:0 12px 32px rgba(0,0,0,.16);
 --sans:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--disp:"Bricolage Grotesque","Hanken Grotesk",system-ui,sans-serif;color-scheme:light}
-:root[data-theme="twilight"]{--bg:#0F1528;--raise:#161E37;--raise-2:#1D2645;--line:rgba(205,214,245,.09);--line-2:rgba(205,214,245,.17);--ink:#ECE8DF;--ink-2:#A3ABC2;--ink-3:#6E7794;--meta:#A3ABC2;--sun:#F2C063;--sun-soft:rgba(242,192,99,.17);--on-sun:#1D1505;--link:#F2C063;--tag:#F2C063;--up:#8FB8F0;--down:#F0A56B;--rain:#8FB8F0;--arc-a:#F2C063;--arc-b:#F6D78E;--arc-c:#E7A15C;--arc-o:.6;--scrim:rgba(0,0,0,.55);--shadow:0 12px 32px rgba(0,0,0,.5);color-scheme:dark}
-:root[data-theme="red"]{--bg:#0C0404;--raise:#160707;--raise-2:#1F0A0A;--line:rgba(255,90,70,.12);--line-2:rgba(255,90,70,.22);--ink:#E2573F;--ink-2:#A9412F;--ink-3:#74291F;--meta:#C04A35;--sun:#FF5B3D;--sun-soft:rgba(255,91,61,.18);--on-sun:#1A0503;--link:#FF5B3D;--tag:#FF7A5F;--up:#FF8A6B;--down:#B5452F;--rain:#C04A35;--arc-a:#FF5B3D;--arc-b:#FF7A5F;--arc-c:#E2573F;--arc-o:.6;--scrim:rgba(0,0,0,.6);--shadow:0 12px 32px rgba(0,0,0,.6);color-scheme:dark}
-:root[data-theme="amber"]{--bg:#0D0904;--raise:#171008;--raise-2:#20170C;--line:rgba(255,190,110,.10);--line-2:rgba(255,190,110,.20);--ink:#EBC48A;--ink-2:#A98A5C;--ink-3:#6F5A3B;--meta:#BC9A66;--sun:#FFB04A;--sun-soft:rgba(255,176,74,.18);--on-sun:#1A0F02;--link:#FFB04A;--tag:#FFC879;--up:#FFD08A;--down:#C9874A;--rain:#C9A06A;--arc-a:#FFB04A;--arc-b:#FFC879;--arc-c:#E8963A;--arc-o:.6;--scrim:rgba(0,0,0,.6);--shadow:0 12px 32px rgba(0,0,0,.6);color-scheme:dark}
-:root[data-theme="sea"]{--bg:#06121A;--raise:#0B1C26;--raise-2:#102632;--line:rgba(150,220,230,.09);--line-2:rgba(150,220,230,.18);--ink:#D6E9EC;--ink-2:#8EAEB4;--ink-3:#5A7880;--meta:#8EAEB4;--sun:#6FD9D0;--sun-soft:rgba(111,217,208,.16);--on-sun:#031513;--link:#6FD9D0;--tag:#6FD9D0;--up:#8FC8F0;--down:#E8A07A;--rain:#8FC8F0;--arc-a:#6FD9D0;--arc-b:#A6E8E1;--arc-c:#E8C07A;--arc-o:.6;--scrim:rgba(0,0,0,.55);--shadow:0 12px 32px rgba(0,0,0,.5);color-scheme:dark}
-:root[data-theme="aurora"]{--bg:#07110D;--raise:#0C1A14;--raise-2:#11241B;--line:rgba(150,235,190,.09);--line-2:rgba(150,235,190,.18);--ink:#D7EBDF;--ink-2:#8DAA9A;--ink-3:#5A7566;--meta:#8DAA9A;--sun:#86E3A8;--sun-soft:rgba(134,227,168,.16);--on-sun:#04140B;--link:#86E3A8;--tag:#86E3A8;--up:#8FD0E8;--down:#EBA27C;--rain:#8FD0E8;--arc-a:#86E3A8;--arc-b:#B8F0CB;--arc-c:#E8D07A;--arc-o:.6;--scrim:rgba(0,0,0,.55);--shadow:0 12px 32px rgba(0,0,0,.5);color-scheme:dark}
-:root[data-theme="dusk"]{--bg:#110D1A;--raise:#1A1426;--raise-2:#221A31;--line:rgba(210,190,255,.09);--line-2:rgba(210,190,255,.18);--ink:#E8E1F4;--ink-2:#A79CBD;--ink-3:#6E6485;--meta:#A79CBD;--sun:#F2A7C8;--sun-soft:rgba(242,167,200,.16);--on-sun:#1E0812;--link:#F2A7C8;--tag:#F2A7C8;--up:#8FB8F0;--down:#F0A56B;--rain:#8FB8F0;--arc-a:#B98AB0;--arc-b:#E7B9CF;--arc-c:#F2A7C8;--arc-o:.55;--scrim:rgba(0,0,0,.55);--shadow:0 12px 32px rgba(0,0,0,.5);color-scheme:dark}
+:root[data-theme="dark"]{--bg:#000000;--raise:#121212;--raise-2:#1E1E1E;--line:rgba(255,255,255,.11);--line-2:rgba(255,255,255,.22);--ink:#F4F4F4;--ink-2:#B8B8B8;--ink-3:#8C8C8C;--meta:#9C9C9C;
+--sun:#F0B04F;--sun-soft:rgba(240,176,79,.2);--on-sun:#1A1205;--link:#F4F4F4;--tag:#F4F4F4;--up:#82B4F0;--down:#F0A06B;--rain:#82B4F0;
+--arc-a:#F0B04F;--arc-b:#F6D78E;--arc-c:#E7A15C;--arc-o:.9;--scrim:rgba(0,0,0,.6);--shadow:0 12px 32px rgba(0,0,0,.6);color-scheme:dark}
 
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;background:var(--bg)}
@@ -35,13 +38,21 @@ body{margin:0;min-height:100dvh;background:var(--bg);color:var(--ink);font-famil
 button,input{font:inherit;color:inherit}
 button{cursor:pointer}
 a{color:var(--link)}
-:focus-visible{outline:2px solid var(--sun);outline-offset:2px}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 [hidden]{display:none!important}
 
 /* Header */
-.bar{position:sticky;top:0;z-index:10;background:var(--bg);padding-top:env(safe-area-inset-top)}
-.top{max-width:34rem;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 10px 6px 20px}
+.bar{position:sticky;top:0;z-index:10;background:var(--bg);padding-top:env(safe-area-inset-top);transition:box-shadow .2s}
+.scrolled .bar{box-shadow:0 1px 0 var(--line)}
+.top{max-width:34rem;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:8px;padding:8px 10px 8px 20px}
+.top .id{grid-row:1/3}
+.hb{align-items:center}
+.wx{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 12px 0 7px;margin-right:2px;border:1px solid var(--line-2);border-radius:19px;background:transparent;color:var(--ink);font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+.wx svg{width:24px;height:24px;flex-shrink:0;overflow:visible}
+.wx:active{background:var(--line)}
+.evl{grid-column:2;justify-self:start;max-width:min(240px,52vw);margin:2px 0 0 2px;padding:0;border:0;background:transparent;color:var(--ink-2);font-size:13px;font-weight:500;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.evl b{font-weight:600;color:var(--ink)}
 .id{display:flex;flex-direction:column;gap:2px;min-width:0}
 .brand{font-family:var(--disp);font-size:22px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
 .sub{display:flex;align-items:center;min-width:0;font-size:13px;color:var(--meta);white-space:nowrap}
@@ -60,30 +71,10 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 .notice .acts{display:flex;align-items:center;gap:4px;margin-top:-6px}
 .notice .ib{width:36px;height:36px}
 
-/* Hero: the day ring */
-.hero{position:relative;width:min(300px,78vw);aspect-ratio:1;margin:4px auto 0}
-.hero svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.mid{position:absolute;left:50%;top:50%;transform:translate(-50%,-46%);width:58%;display:flex;flex-direction:column;align-items:center;text-align:center}
-.temp{font-family:var(--disp);font-size:72px;font-weight:600;line-height:1;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
-.temp.clock{font-size:44px;letter-spacing:-.03em}
-.cond{font-size:15px;font-weight:500;margin-top:8px}
-.tline{font-size:13px;color:var(--meta);margin-top:2px}
-.r-base{fill:none;stroke:var(--ink);stroke-opacity:.1;stroke-width:1.5}
-.r-night{fill:none;stroke:var(--ink);stroke-opacity:.08;stroke-width:10}
-.r-day{fill:none;stroke:url(#dayArc);stroke-opacity:var(--arc-o);stroke-width:10;stroke-linecap:round}
-.r-tick{fill:none;stroke:var(--ink);stroke-opacity:.35;stroke-width:1.2;stroke-linecap:round}
-.r-rain{fill:none;stroke:var(--rain);stroke-width:3.5;stroke-dasharray:.1 7;stroke-linecap:round}
-.r-lbl{font:11px var(--sans);fill:var(--meta)}
-.r-now{font:600 11px var(--sans);fill:var(--ink);font-variant-numeric:tabular-nums}
-.say{margin:14px 4px 0;font-size:18px;font-weight:300;line-height:1.55}
-.facts{display:flex;flex-wrap:wrap;gap:6px 18px;margin:12px 4px 0;font-size:13px;color:var(--ink-2);font-variant-numeric:tabular-nums}
-.facts span{display:inline-flex;align-items:center;gap:6px}
-.go{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:22px}
-.cap{font-size:13px;color:var(--meta)}
 
 /* Buttons */
 .btn{height:52px;padding:0 24px;border:0;border-radius:26px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:17px;font-weight:600;text-decoration:none;white-space:nowrap}
-.btn.primary{width:100%;background:var(--sun);color:var(--on-sun)}
+.btn.primary{width:100%;background:var(--ink);color:var(--bg)}
 .btn.dark{width:100%;background:var(--ink);color:var(--bg)}
 .btn.ghost{height:44px;padding:0 18px 0 14px;border:1px solid var(--line-2);background:transparent;color:var(--ink);font-size:15px;font-weight:500}
 .btn.small{height:40px;padding:0 16px;border-radius:20px;font-size:15px;background:var(--ink);color:var(--bg)}
@@ -99,26 +90,33 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2.2px),#000 calc(100% - 2px));mask:radial-gradient(farthest-side,transparent calc(100% - 2.2px),#000 calc(100% - 2px));animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(1turn)}}
 
-/* Contents and the reading line */
-.toc{margin-top:26px;display:flex;flex-direction:column}
-.toc h2{margin:0 0 4px 36px;font-size:13px;font-weight:600;color:var(--ink-2)}
-.toc a{position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;padding-left:36px;text-decoration:none;color:var(--ink);border-bottom:1px solid var(--line)}
-.toc a:last-of-type{border-bottom:0}
-.toc a::before{content:"";position:absolute;left:14px;top:-1px;bottom:-1px;width:2px;background:var(--line-2)}
-.toc a:first-of-type::before{top:26px}
-.toc a:last-of-type::before{bottom:auto;height:27px}
-.toc .t{font-size:16px;font-weight:500}
-.toc .n{font-size:13px;color:var(--meta);white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
-.node{position:absolute;left:9px;top:50%;margin-top:-6px;width:12px;height:12px;border-radius:6px;border:2px solid var(--meta);background:var(--bg);z-index:1}
-.node.done{background:var(--ink);border-color:var(--ink)}
-.node.now{left:8px;width:14px;height:14px;margin-top:-7px;border:3px solid var(--sun);box-shadow:0 0 0 5px var(--sun-soft)}
-.ch{position:relative;padding:22px 0 18px 36px;scroll-margin-top:calc(72px + env(safe-area-inset-top))}
-.ch::before{content:"";position:absolute;left:14px;top:38px;bottom:-24px;width:2px;background:var(--line-2)}
-.ch.done::before{background:var(--ink);opacity:.5}
-.ch>.node{top:27px;margin-top:0}
-.ch>.node.now{top:26px}
-.chh{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;column-gap:8px;font-size:13px;font-weight:600;color:var(--ink-2)}
-.chh span{font-weight:400;color:var(--meta);white-space:nowrap}
+/* The brief: a list of parts, one open at a time */
+.bh{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:16px 0 4px}
+.bh h2{margin:0;font-family:var(--disp);font-size:26px;font-weight:600;letter-spacing:-.02em;line-height:1.1}
+.bh span{font-size:13px;color:var(--meta);white-space:nowrap}
+.part{position:relative}
+.part::before{content:"";position:absolute;left:14px;top:0;bottom:0;width:2px;background:var(--line-2)}
+.part:first-of-type::before{top:29px}
+.part:last-of-type:not(.open)::before{bottom:auto;height:29px}
+.part:only-of-type:not(.open)::before{display:none}
+.ph{position:relative;display:flex;align-items:center;gap:10px;width:100%;min-height:58px;padding:0 0 0 36px;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left;scroll-margin-top:calc(70px + env(safe-area-inset-top))}
+.ph .t{flex:1;min-width:0;font-size:17px;font-weight:500;line-height:1.25}
+.ph .n{font-size:13px;color:var(--meta);white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.ph>svg{color:var(--meta);flex-shrink:0;transition:transform .2s}
+.part.open .ph{border-bottom-color:transparent}
+.part.open .ph .t{font-family:var(--disp);font-size:23px;font-weight:600;letter-spacing:-.015em}
+.part.open .ph>svg{transform:rotate(180deg);color:var(--ink)}
+.node{position:absolute;left:8px;top:50%;margin-top:-7px;width:14px;height:14px;border-radius:7px;border:2px solid var(--meta);background:var(--bg);z-index:1;display:flex;align-items:center;justify-content:center}
+.node.now{border:3px solid var(--ink)}
+.node.done{left:5px;width:20px;height:20px;margin-top:-10px;border:0;border-radius:10px;background:var(--ink);color:var(--bg)}
+.node.done svg{width:12px;height:12px}
+.pb{padding:0 0 24px 36px;border-bottom:1px solid var(--line);animation:open .24s cubic-bezier(.2,.8,.2,1)}
+@keyframes open{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.chsub{margin:-8px 0 2px;font-size:13px;color:var(--meta)}
+.nextbtn{margin-top:22px}
+.nextbtn svg{margin-left:2px}
+.foot{margin:22px 0 0;padding-left:36px}
+.foot .src{margin-top:12px}
 .ch-end{display:block;height:1px}
 .src{margin:12px 0 0;font-size:12px;line-height:1.5;color:var(--meta)}
 .empty{margin:0;padding:12px 0;font-size:15px;font-weight:300;line-height:1.5;color:var(--ink-2);display:flex;align-items:center;gap:8px}
@@ -137,7 +135,7 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 .item .sum{font-size:15px;font-weight:300;line-height:1.5;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .item .meta{font-size:13px;color:var(--meta)}
 .item>svg{margin-top:4px;flex-shrink:0;color:var(--meta)}
-.newdot{display:inline-block;width:8px;height:8px;border-radius:4px;background:var(--sun);margin:0 8px 2px 0;vertical-align:middle}
+.newdot{display:inline-block;width:8px;height:8px;border-radius:4px;background:var(--ink);margin:0 8px 2px 0;vertical-align:middle}
 .topic{margin-top:16px}
 .topich{margin:0;display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink);background:var(--raise-2);border-radius:12px;padding:4px 10px}
 
@@ -165,7 +163,7 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 .rk .tx{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0}
 .rk .tt{font-size:17px;font-weight:500;line-height:1.3}
 .rk .ds{font-size:14px;font-weight:300;line-height:1.45;color:var(--ink-2)}
-.tag{margin-top:4px;font-size:12px;font-weight:600;color:var(--tag);background:var(--sun-soft);border-radius:10px;padding:3px 9px}
+.tag{margin-top:4px;font-size:12px;font-weight:600;color:var(--tag);background:var(--raise-2);border-radius:10px;padding:3px 9px}
 .otd{display:grid;grid-template-columns:70px minmax(0,1fr);gap:10px;width:100%;padding:14px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left}
 .otd:last-of-type{border-bottom:0}
 .otd .yr{font-family:var(--disp);font-size:26px;font-weight:600;line-height:1.05;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
@@ -217,12 +215,11 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 .evd{flex-shrink:0;width:48px;height:52px;border-radius:12px;background:var(--raise-2);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
 .evd b{font-family:var(--disp);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums}
 .evd span{font-size:11px;color:var(--meta);margin-top:3px}
-.ev.today .evd{background:var(--sun);color:var(--on-sun)} .ev.today .evd span{color:var(--on-sun)}
+.ev.today .evd{background:var(--ink);color:var(--bg)} .ev.today .evd span{color:var(--bg)}
 .evt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
 .evn{font-size:17px;font-weight:500;line-height:1.3}
 .evm{font-size:13px;color:var(--meta)}
 .ev>svg{color:var(--meta);flex-shrink:0}
-.todayline{display:flex;align-items:center;gap:8px;width:100%;margin:14px 0 0;padding:11px 14px;border:0;border-radius:14px;background:var(--sun-soft);color:var(--ink);font-size:15px;font-weight:500;text-align:left}
 .vid{display:grid;grid-template-columns:128px minmax(0,1fr);gap:12px;align-items:start;width:100%;padding:12px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left}
 .vid:last-of-type{border-bottom:0}
 .vid img{width:128px;aspect-ratio:16/9;object-fit:cover;border-radius:10px;background:var(--raise-2);display:block}
@@ -236,51 +233,12 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 .chx span{font-size:13px;color:var(--meta);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .relx{display:flex;flex-direction:column;gap:2px;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
 .relx span{font-size:13px;color:var(--meta)}
-.mini{display:flex;align-items:center;gap:14px;margin-top:10px;padding:12px 14px;border-radius:18px;background:var(--raise)}
-.mini>svg{width:72px;height:72px;flex-shrink:0;overflow:visible}
-.mini .r-lbl,.mini .r-now,.mini .r-tick{display:none}
-.minitx{min-width:0}
-.mt{font-family:var(--disp);font-size:30px;font-weight:600;line-height:1;letter-spacing:-.03em}
-.minitx .cond{margin:0;font-size:15px}
-.minitx p{margin:6px 0 0;font-size:15px;font-weight:300;line-height:1.45}
 .sel{padding-right:40px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23778290' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
 .suprow{padding-bottom:6px}
 .supl{display:inline-flex;align-items:center;gap:7px;font-weight:600;color:var(--ink)}
 .swmini{display:flex;align-items:center;justify-content:space-between;cursor:pointer}
-.welcome{padding-top:4px}
-.wtop{display:flex;justify-content:flex-end;margin-right:-8px}
-.cards{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -20px}
-.cards::-webkit-scrollbar{display:none}
-.card{flex:0 0 100%;scroll-snap-align:start;padding:0 20px}
-.art{height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;margin:4px 0 22px;border-radius:24px;background:var(--raise)}
-.minihero{width:190px;height:190px}
-.minihero svg{width:100%;height:100%;overflow:visible}
-.legend{display:flex;gap:16px;font-size:13px;color:var(--ink-2)}
-.legend span{display:inline-flex;align-items:center;gap:6px}
-.lg-day{width:16px;height:6px;border-radius:3px;background:var(--arc-a)}
-.lg-now{width:10px;height:10px;border-radius:5px;background:var(--sun)}
-.card h2{margin:0;font-family:var(--disp);font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1.15}
-.card p{margin:10px 0 0;font-size:18px;font-weight:300;line-height:1.55;color:var(--ink-2)}
-.dots{display:flex;justify-content:center;gap:8px;margin:24px 0 18px}
-.dots i{width:8px;height:8px;border-radius:4px;background:var(--line-2);transition:width .2s}
-.dots i.on{width:22px;background:var(--ink)}
-.spine{display:flex;flex-direction:column;gap:14px;font-size:16px;font-weight:500}
-.sp{position:relative;padding-left:30px}
-.sp .node{left:2px}
-.sp.end{font-family:var(--disp);font-size:20px;font-weight:600}
-.sp .tick{position:absolute;left:-4px;top:-2px;width:24px;height:24px;border-radius:12px;background:var(--raise-2);display:flex;align-items:center;justify-content:center}
-.demo{width:86%;display:flex;flex-direction:column;gap:12px;align-items:stretch}
-.demoitem{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-radius:14px;background:var(--bg);font-family:var(--disp);font-weight:600}
-.demosheet{display:flex;flex-direction:column;gap:4px;padding:10px 14px 14px;border-radius:18px 18px 6px 6px;background:var(--bg);box-shadow:var(--shadow);transform:translateX(18px)}
-.demosheet .grab{margin-bottom:6px}
-.demosheet span:not(.grab){font-size:13px;color:var(--meta)}
-.swipe{display:inline-flex;align-items:center;gap:6px;align-self:center;font-size:13px;color:var(--ink-2)}
-.demo-sw{background:var(--bg);border-radius:14px;padding:0 14px;border:0}
-.fake-sw{width:46px;height:28px;border-radius:14px;background:var(--line-2);position:relative}
-.fake-sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:11px;background:#fff}
-.fake-sw.on{background:var(--ink)} .fake-sw.on::after{transform:translateX(18px);background:var(--bg)}
 .step{padding-top:14px}
-.prog{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px}
+.prog{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
 .prog i{height:4px;border-radius:2px;background:var(--line-2)}
 .prog i.on{background:var(--ink)}
 .stepn{margin:14px 0 0;font-size:13px;color:var(--meta)}
@@ -290,15 +248,88 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 .stepnav .btn.primary{flex:1;width:auto}
 .stepnav .back{height:52px;padding:0 22px;border-radius:26px;font-size:17px}
 .skip{display:block;margin:10px auto 0}
-.coach{position:fixed;z-index:30;left:16px;right:16px;max-width:30rem;margin:0 auto;padding:14px 12px 10px 16px;border-radius:18px;background:var(--ink);color:var(--bg);box-shadow:var(--shadow);font-size:15px;line-height:1.45}
-.coach p{margin:0;padding-right:4px}
-.coach .cbar{display:flex;align-items:center;gap:4px;margin-top:8px}
-.coach .cbar span{flex:1;font-size:13px;opacity:.75}
-.coach .linkbtn{color:var(--bg);opacity:.85}
-.coach .btn.small{background:var(--sun);color:var(--on-sun)}
-.coach .carrow{position:absolute;width:14px;height:14px;background:var(--ink);transform:rotate(45deg)}
 .inv-h{margin:30px 0 0;font-size:16px;font-weight:600}
 .btnrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+
+/* Intro */
+.intro{padding-top:14px}
+.preview{padding:12px 16px 4px;border-radius:22px;background:var(--raise);border:1px solid var(--line)}
+.pv-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.pv-top b{font-family:var(--disp);font-size:18px;font-weight:700;letter-spacing:-.02em}
+.pv-chip{display:inline-flex;align-items:center;gap:5px;height:30px;padding:0 10px 0 6px;border:1px solid var(--line-2);border-radius:15px;font-size:13px;font-weight:600}
+.pv-chip svg{width:18px;height:18px;overflow:visible}
+.pv-ev{margin:4px 0 8px;text-align:right;font-size:12px;color:var(--ink-2)} .pv-ev b{color:var(--ink);font-weight:600}
+.pv-row{display:flex;align-items:center;gap:10px;min-height:40px;border-top:1px solid var(--line);font-size:15px;font-weight:500}
+.pv-row .pn{margin-left:auto;font-size:12px;font-weight:400;color:var(--meta)}
+.pv-dot{width:16px;height:16px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.pv-dot.done{background:var(--ink);color:var(--bg)} .pv-dot.done svg{width:10px;height:10px}
+.pv-dot.todo{border:2px solid var(--meta)}
+.intro h1{margin:22px 0 0;font-family:var(--disp);font-size:36px;font-weight:600;letter-spacing:-.03em;line-height:1.05}
+.lede{margin:12px 0 0;font-size:18px;font-weight:300;line-height:1.5;color:var(--ink-2)}
+.what{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-direction:column;gap:14px}
+.what li{display:grid;grid-template-columns:42px minmax(0,1fr);gap:14px;align-items:start}
+.what .ic{width:42px;height:42px;border-radius:21px;background:var(--raise-2);display:flex;align-items:center;justify-content:center}
+.what b{display:block;font-size:16px;font-weight:600;line-height:1.3}
+.what li>span:last-child{font-size:15px;line-height:1.45;color:var(--ink-2);padding-top:1px}
+.intro .btn{margin-top:26px}
+.intro .linkbtn{display:block;margin:8px auto 0}
+.picked{display:flex;flex-direction:column;gap:8px;margin-bottom:6px}
+.pcard{display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 4px 8px 14px;border-radius:16px;background:var(--raise);border:1px solid var(--line)}
+.pcard>svg{flex-shrink:0;color:var(--ink)}
+.pcard .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.pcard b{font-size:15px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pcard .tx span{font-size:13px;color:var(--meta);font-variant-numeric:tabular-nums}
+.sharef{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) auto;gap:8px;align-items:end;margin-top:10px}
+.sharef .lbl{margin-top:0}
+.sharef .btn{height:48px;border-radius:24px}
+.lastnote{margin:22px 0 0;font-size:14px;line-height:1.5;color:var(--ink-2)}
+
+/* Weather sheet */
+.wxt{text-align:center}
+.wxsub{margin:6px 0 0;text-align:center;font-size:14px;color:var(--ink-2)}
+.wxring{position:relative;width:min(250px,64vw);aspect-ratio:1;margin:10px auto 0}
+.wxring svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.mid{position:absolute;left:50%;top:50%;transform:translate(-50%,-46%);width:58%;display:flex;flex-direction:column;align-items:center;text-align:center}
+.temp{font-family:var(--disp);font-size:64px;font-weight:600;line-height:1;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.temp.clock{font-size:40px;letter-spacing:-.03em}
+.cond{font-size:14px;font-weight:500;margin-top:8px}
+.tline{font-size:12px;color:var(--meta);margin-top:2px}
+.r-base{fill:none;stroke:var(--ink);stroke-opacity:.1;stroke-width:1.5}
+.r-night{fill:none;stroke:var(--ink);stroke-opacity:.08;stroke-width:10}
+.r-day{fill:none;stroke:url(#dayArc);stroke-opacity:var(--arc-o);stroke-width:10;stroke-linecap:round}
+.r-tick{fill:none;stroke:var(--ink);stroke-opacity:.35;stroke-width:1.2;stroke-linecap:round}
+.r-rain{fill:none;stroke:var(--rain);stroke-width:3.5;stroke-dasharray:.1 7;stroke-linecap:round}
+.r-lbl{font:11px var(--sans);fill:var(--meta)}
+.r-now{font:600 11px var(--sans);fill:var(--ink);font-variant-numeric:tabular-nums}
+.say{margin:12px 0 0;text-align:center;font-size:17px;font-weight:300;line-height:1.5}
+.wxh{margin:26px 0 8px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.hours{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;margin:0 -20px;padding:0 20px 2px;overscroll-behavior-x:contain}
+.hours::-webkit-scrollbar{display:none}
+.hr{flex:0 0 54px;display:flex;flex-direction:column;align-items:center;gap:7px;padding:10px 0 9px;border-radius:16px;font-variant-numeric:tabular-nums}
+.hr.now{background:var(--bg)}
+.hr .hl{font-size:12px;color:var(--meta);white-space:nowrap}
+.hr.now .hl{color:var(--ink);font-weight:600}
+.hr .tp{font-size:16px;font-weight:600}
+.hr .rp{font-size:11px;font-weight:600;color:var(--rain);min-height:14px}
+.hr.mark{flex-basis:62px}
+.hr.mark .tp{font-size:13px}
+.hr.mark svg{color:var(--sun)}
+.wtiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.wt{display:flex;flex-direction:column;gap:3px;min-height:108px;padding:13px 14px;border-radius:18px;background:var(--bg);border:1px solid var(--line)}
+.wt .wk{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-2)}
+.wt .wk svg{width:16px;height:16px}
+.wt .wv{display:flex;align-items:center;gap:6px;margin-top:2px;font-family:var(--disp);font-size:21px;font-weight:600;line-height:1.2;letter-spacing:-.01em}
+.wt .wd{font-size:13px;line-height:1.4;color:var(--ink-2)}
+.days{list-style:none;margin:0;padding:0}
+.days li{display:grid;grid-template-columns:52px 24px 36px 30px minmax(0,1fr) 30px;align-items:center;column-gap:8px;min-height:48px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.days li:last-child{border-bottom:0}
+.days .dn{font-size:15px;font-weight:500}
+.days .rp{font-size:12px;font-weight:600;color:var(--rain)}
+.days .lo{font-size:15px;color:var(--meta);text-align:right}
+.days .hi{font-size:15px;font-weight:600;text-align:right}
+.range{position:relative;height:6px;border-radius:3px;background:var(--line)}
+.range i{position:absolute;top:0;bottom:0;border-radius:3px;background:var(--ink)}
+.range b{position:absolute;top:-3px;width:12px;height:12px;margin-left:-6px;border-radius:6px;background:var(--bg);border:3px solid var(--ink)}
 
 /* Forms */
 .lbl{display:flex;flex-direction:column;gap:6px;margin-top:12px;font-size:13px;color:var(--ink-2)}
@@ -337,7 +368,7 @@ dialog.sheet::backdrop{background:var(--scrim)}
 dialog.sheet[open]{animation:rise .26s cubic-bezier(.2,.8,.2,1)}
 dialog.sheet.closing{transition:transform .18s ease-in,opacity .18s;transform:translateY(40px);opacity:0}
 @keyframes rise{from{transform:translateY(48px);opacity:.3}to{transform:none;opacity:1}}
-.shead{position:sticky;top:0;z-index:2;background:var(--raise);padding-top:8px;touch-action:none}
+.shead{position:sticky;top:0;z-index:2;margin:0 -20px;padding:8px 20px 0;background:var(--raise);touch-action:none}
 .grab{display:block;width:36px;height:5px;margin:0 auto 2px;border-radius:3px;background:var(--line-2)}
 .shbar{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px}
 .shbar .lab{font-size:13px;font-weight:600;color:var(--ink-2)}
@@ -370,15 +401,6 @@ dialog.sheet.closing{transition:transform .18s ease-in,opacity .18s;transform:tr
 .pick span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pick[aria-disabled="true"]{background:var(--raise-2);border-color:transparent;cursor:default}
 
-/* Header panels */
-.pop{position:fixed;z-index:20;top:calc(58px + env(safe-area-inset-top));right:max(12px,calc(50vw - 17rem + 12px));width:264px;padding:8px;border-radius:18px;background:var(--raise);border:1px solid var(--line-2);box-shadow:var(--shadow)}
-.pop h2{margin:6px 10px 4px;font-size:13px;font-weight:600;color:var(--ink-2)}
-.trow{display:flex;align-items:center;gap:12px;width:100%;min-height:44px;padding:0 10px;border:0;border-radius:12px;background:transparent;color:var(--ink);font-size:15px;text-align:left}
-.trow[aria-pressed="true"]{background:var(--line);font-weight:600}
-.trow small{color:var(--meta);font-weight:400;margin-left:auto;font-size:12px}
-.sw8{width:22px;height:22px;border-radius:11px;flex-shrink:0;border:1px solid var(--line-2);position:relative;overflow:hidden}
-.sw8::after{content:"";position:absolute;right:3px;bottom:3px;width:8px;height:8px;border-radius:4px;background:var(--dot)}
-.pop p{margin:6px 10px 6px;font-size:12px;line-height:1.45;color:var(--meta)}
 
 /* Toast */
 #toast{position:fixed;inset:auto auto calc(24px + env(safe-area-inset-bottom)) 50%;transform:translateX(-50%);margin:0;border:0;width:max-content;max-width:calc(100vw - 40px);padding:12px 18px;border-radius:24px;background:var(--ink);color:var(--bg);font-size:15px;line-height:1.4;box-shadow:var(--shadow);display:none;align-items:center;gap:10px;z-index:50}
@@ -398,26 +420,23 @@ dialog.sheet.closing{transition:transform .18s ease-in,opacity .18s;transform:tr
       <div class="sub" id="sub"><span class="l"></span></div>
     </div>
     <div class="hb">
-      <button class="ib" id="themeBtn" aria-label="Choose a theme" title="Choose a theme" aria-expanded="false" aria-controls="themes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      <button class="wx" id="wxBtn" data-act="weather" hidden></button>
+      <button class="ib" id="modeBtn" data-act="mode"></button>
       <button class="ib" id="setBtn" data-act="settings" aria-label="Settings" title="Settings"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></button>
     </div>
+    <button class="evl" id="evLine" data-act="nextEvent" hidden></button>
   </header>
-</div>
-<div class="pop" id="themes" role="dialog" aria-label="Theme" hidden>
-  <h2>Theme</h2>
-  <div id="themeList"></div>
-  <p>Night red and Amber are gentlest on eyes adjusted to the dark.</p>
 </div>
 <main id="app" aria-live="off"></main>
 <div id="toast" popover="manual" role="status" aria-live="polite"></div>
 
-<script src="core.js?v=3"></script>
+<script src="core.js?v=4"></script>
 <script>
 'use strict';
 // Invite-only: the Apps Script address and the shared code arrive in an invite link and
 // stay on each phone, so neither is in this public repo.
 const EXPECT_BUILD = 3;    // the Apps Script release this page needs
-const RELEASE = 3;
+const RELEASE = 4;
 const SCRIPT_RE = /^https:\/\/script\.google\.com\/(?:a\/macros\/[^/]+|macros)\/s\/[\w-]+\/exec$/;
 const CODE_RE = /^[A-Za-z0-9-]{6,40}$/;
 const C = window.Core;
@@ -458,8 +477,43 @@ const ICON = {
   water: svg('<path d="M12 3s6.5 7.2 6.5 11.5a6.5 6.5 0 0 1-13 0C5.5 10.2 12 3 12 3z"/>', 18),
   spark: svg('<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/>', 18),
   tick: svg('<path d="m5 12.5 4.5 4.5L19 7.5"/>', 14, 2.4),
+  chevd: svg('<path d="m6 9 6 6 6-6"/>', 18, 1.8),
+  arrow: svg('<path d="M5 12h14M13 6l6 6-6 6"/>', 18, 1.8),
+  moonMode: svg('<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>', 21),
+  sunMode: svg('<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>', 21),
+  globe: svg('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/>', 20),
+  heart: svg('<path d="M12 20s-7.5-4.6-7.5-10.1A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z"/>', 20),
+  done: svg('<circle cx="12" cy="12" r="9"/><path d="m8 12.3 2.8 2.8L16.2 9.6"/>', 20),
+  sliders: svg('<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>', 16),
+  play: svg('<rect x="3" y="5.5" width="18" height="13" rx="3.5"/><path d="m10.5 9.5 4 2.5-4 2.5z"/>', 20),
+  chart: svg('<path d="M4 18 9.5 12l3.5 3.5L20 8"/><path d="M15 8h5v5"/>', 20),
+  sun16: svg('<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>', 16),
+  drop16: svg('<path d="M12 3s6.5 7.2 6.5 11.5a6.5 6.5 0 0 1-13 0C5.5 10.2 12 3 12 3z"/>', 16),
+  wind16: svg('<path d="M3 8.5h10.5a2.75 2.75 0 1 0-2.75-2.75M3 12.5h15a2.75 2.75 0 1 1-2.75 2.75M3 16.5h6"/>', 16),
+  leaf16: svg('<path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14z"/><path d="M5 19 13 11"/>', 16),
+  moon16: svg('<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>', 16),
+  rise16: svg('<path d="M3 18h18M7 18a5 5 0 0 1 10 0M12 3v6M9 5.5 12 2.8l3 2.7"/>', 16),
   rain: '<svg width="22" height="8" viewBox="0 0 22 8" aria-hidden="true"><circle cx="3" cy="4" r="1.8" style="fill:var(--rain)"/><circle cx="11" cy="4" r="1.8" style="fill:var(--rain)"/><circle cx="19" cy="4" r="1.8" style="fill:var(--rain)"/></svg>'
 };
+// Small weather pictures, drawn in ink.
+const CLOUD_HI = 'M7 15.5h10.5a3.6 3.6 0 0 0 .5-7.2 5.1 5.1 0 0 0-9.8-.9A4.1 4.1 0 0 0 7 15.5z';
+const DOT = (x, y) => `<circle cx="${x}" cy="${y}" r="1" fill="currentColor" stroke="none"/>`;
+const WXI = {
+  sun: '<circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/>',
+  moon: '<path d="M19.5 14.5A8 8 0 1 1 9.5 4.5a6.4 6.4 0 0 0 10 10z"/>',
+  partsun: '<circle cx="8.5" cy="8" r="3"/><path d="M8.5 2.3v1.4M2.8 8h1.4M4.5 4l1 1M12.5 4l-1 1M4.5 12l1-1"/><path d="M9.5 20h8a3.3 3.3 0 0 0 .4-6.6 4.6 4.6 0 0 0-8.8-.6A3.6 3.6 0 0 0 9.5 20z"/>',
+  partmoon: '<path d="M11.3 9.6A4.4 4.4 0 1 1 6.2 3.8a3.6 3.6 0 0 0 5.1 5.8z"/><path d="M9.5 20h8a3.3 3.3 0 0 0 .4-6.6 4.6 4.6 0 0 0-8.8-.6A3.6 3.6 0 0 0 9.5 20z"/>',
+  cloud: '<path d="M7 19h10.5a4 4 0 0 0 .6-7.95A5.6 5.6 0 0 0 7.4 10 4.5 4.5 0 0 0 7 19z"/>',
+  fog: '<path d="M7 13.5h10.5a3.6 3.6 0 0 0 .5-7.2 5.1 5.1 0 0 0-9.8-.9A4.1 4.1 0 0 0 7 13.5z"/><path d="M4 17h16M7 20.5h10"/>',
+  drizzle: `<path d="${CLOUD_HI}"/>${DOT(8.5, 18.6)}${DOT(12, 20)}${DOT(15.5, 18.6)}`,
+  rain: `<path d="${CLOUD_HI}"/><path d="m8.6 18-1 2.6M12.1 18l-1 2.6M15.6 18l-1 2.6"/>`,
+  showers: `<path d="${CLOUD_HI}"/><path d="m9.6 18-1 2.6M14.1 18l-1 2.6"/>`,
+  sleet: `<path d="${CLOUD_HI}"/><path d="m9.4 18-1 2.6"/>${DOT(14.2, 19.4)}`,
+  snow: `<path d="${CLOUD_HI}"/>${DOT(8.5, 18.6)}${DOT(12, 20.4)}${DOT(15.5, 18.6)}${DOT(10.2, 21.6)}${DOT(13.8, 21.6)}`,
+  thunder: `<path d="${CLOUD_HI}"/><path d="m12.6 15.5-2.2 3.6h3.2l-2.2 3.6"/>`
+};
+const wxIcon = (k, s = 24) => svg(WXI[k] || WXI.cloud, s, 1.6);
+
 // Concentric rings: which way out from your street a tier sits.
 function tierGlyph(level) {
   let s = '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">';
@@ -469,23 +523,25 @@ function tierGlyph(level) {
 
 const TIERS = ['world', 'country', 'county', 'local'];
 const SUPPLY_CATS = ['broadband', 'mobile', 'electricity', 'gas', 'water'];
-const THEMES = [['auto', 'Auto', 'follows the sky', '#E8EDF1', '#F0B04F'], ['day', 'Daylight', '', '#E8EDF1', '#F0B04F'], ['twilight', 'Twilight', '', '#0F1528', '#F2C063'],
-  ['red', 'Night red', '', '#0C0404', '#FF5B3D'], ['amber', 'Amber', '', '#0D0904', '#FFB04A'], ['sea', 'Deep sea', '', '#06121A', '#6FD9D0'],
-  ['aurora', 'Aurora', '', '#07110D', '#86E3A8'], ['dusk', 'Dusk', '', '#110D1A', '#F2A7C8']];
 
+const EXCHANGES = [['LON', 'London', 'BARC'], ['NASDAQ', 'NASDAQ', 'AAPL'], ['NYSE', 'NYSE', 'KO'], ['NYSEARCA', 'NYSE Arca', 'SPY'], ['ETR', 'Frankfurt', 'SAP'],
+  ['EPA', 'Paris', 'MC'], ['AMS', 'Amsterdam', 'ASML'], ['TSE', 'Toronto', 'SHOP'], ['TYO', 'Tokyo', '7203'], ['HKG', 'Hong Kong', '0700'], ['ASX', 'Sydney', 'BHP'], ['NSE', 'India NSE', 'RELIANCE']];
+const homeExchange = (cc) => ({ GB: 'LON', US: 'NASDAQ', DE: 'ETR', FR: 'EPA', NL: 'AMS', CA: 'TSE', JP: 'TYO', HK: 'HKG', AU: 'ASX', IN: 'NSE' }[cc] || 'NASDAQ');
+
+let fromOld = false;
 const S = {
   // Older settings gain the release 3 parts, keeping every choice already made.
-  prefs: (() => { const p = get('prefs', null); if (!p) return null; const m = C.migratePrefs(p); if (m.v !== p.v) { put('prefs', m); if (p.setupDone) put('whatsNew', 3); } return m; })(),
+  prefs: (() => { const p = get('prefs', null); if (!p) return null; const m = C.migratePrefs(p); if (m.v !== p.v) { put('prefs', m); if (p.setupDone) fromOld = true; } return m; })(),
   cache: get('cache', {}),
   seen: get('seen', {}),
   read: get('read', { day: '', parts: [] }),
   dismissed: get('dismissed', {}),
-  theme: get('theme', 'auto'),
+  mode: ['auto', 'light', 'dark'].includes(get('mode', 'auto')) ? get('mode', 'auto') : 'auto',
   scriptBuild: get('scriptBuild', null),
-  seenAtOpen: {}, showNew: false, refreshing: false, errors: {}, installEvt: null,
+  open: null, newKeys: {}, refreshing: false, errors: {}, installEvt: null, shareQuotes: {}, exPick: {},
   draft: null, townResults: {}, mkTab: 'index', mkQuery: '', pendingRetry: false,
   invite: get('invite', null), inviteBad: false, inviteError: '', checkingInvite: false, iosFirst: false,
-  view: null, coach: 0, ytResults: [], whatsNew: get('whatsNew', 0)
+  view: null, ytResults: [], whatsNew: get('whatsNew', 0)
 };
 const hasApi = () => !!(S.invite && S.invite.u && S.invite.c);
 const ready = () => hasApi() && !!(S.prefs && S.prefs.setupDone && S.prefs.place);
@@ -510,26 +566,21 @@ function fmtDay(ms) {
   catch { return ''; }
 }
 
-/* ---------- Theme ---------- */
-function currentTheme() {
-  if (S.theme !== 'auto') return S.theme;
-  const p = S.prefs && S.prefs.place;
-  if (p && isFinite(p.lat)) return C.skyTheme(C.sunAltitude(new Date(), p.lat, p.lon));
-  const h = new Date().getHours();
-  return h >= 7 && h < 18 ? 'day' : 'twilight';
-}
+/* ---------- White or black ---------- */
+const darkMQ = matchMedia('(prefers-color-scheme: dark)');
+function currentTheme() { return S.mode === 'dark' || (S.mode !== 'light' && darkMQ.matches) ? 'dark' : 'light'; }
 function applyTheme() {
   const t = currentTheme();
   if (document.documentElement.dataset.theme !== t) document.documentElement.dataset.theme = t;
-  const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
-  $('meta[name="theme-color"]').setAttribute('content', bg || '#E8EDF1');
+  $('meta[name="theme-color"]').setAttribute('content', t === 'dark' ? '#000000' : '#FFFFFF');
+  const b = $('#modeBtn'), next = t === 'dark' ? 'light' : 'dark', say = next === 'dark' ? 'Switch to black' : 'Switch to white';
+  if (b && b.dataset.mode !== next) { b.dataset.mode = next; b.innerHTML = t === 'dark' ? ICON.sunMode : ICON.moonMode; b.setAttribute('aria-label', say); b.title = say; }
 }
-function renderThemes() {
-  $('#themeList').innerHTML = THEMES.map(([id, name, note, bg, dot]) => {
-    const bgStyle = id === 'auto' ? `background:linear-gradient(135deg,${bg} 50%,#0F1528 50%)` : `background:${bg}`;
-    return `<button class="trow" data-act="theme" data-id="${id}" aria-pressed="${S.theme === id}"><span class="sw8" style="${bgStyle};--dot:${dot}"></span>${esc(name)}${note ? `<small>${esc(note)}</small>` : ''}</button>`;
-  }).join('');
+function setMode(m) {
+  S.mode = m; put('mode', m); applyTheme();
+  $$('[data-act=setmode]').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.mode === m)));
 }
+try { darkMQ.addEventListener('change', applyTheme); } catch { darkMQ.addListener(applyTheme); }
 
 /* ---------- Toasts and busy buttons ---------- */
 let toastTimer;
@@ -678,16 +729,24 @@ async function submitInvite(form) {
 /* ---------- Loading ---------- */
 async function loadWeather(force) {
   const p = S.prefs.place, c = S.cache.weather;
-  if (!force && c && Date.now() - c.at < 15 * 60000 && c.lat === p.lat) return;
-  const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + p.lat.toFixed(2) + '&longitude=' + p.lon.toFixed(2) +
-    '&current=temperature_2m,weather_code,is_day&hourly=temperature_2m,precipitation_probability,precipitation,weather_code' +
-    '&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=2' + (p.cc === 'US' ? '&temperature_unit=fahrenheit' : '');
-  try {
-    const d = await getJSON(url);
-    S.cache.weather = { at: Date.now(), lat: p.lat, data: { current: d.current, hourly: d.hourly, daily: d.daily, timezone: d.timezone } };
+  if (!force && c && c.v === 4 && Date.now() - c.at < 15 * 60000 && c.lat === p.lat) return;
+  const ll = 'latitude=' + p.lat.toFixed(2) + '&longitude=' + p.lon.toFixed(2), wind = p.cc === 'GB' || p.cc === 'US' ? 'mph' : 'kmh';
+  const url = 'https://api.open-meteo.com/v1/forecast?' + ll +
+    '&current=temperature_2m,apparent_temperature,weather_code,is_day,wind_speed_10m,wind_direction_10m,wind_gusts_10m' +
+    '&hourly=temperature_2m,precipitation_probability,precipitation,weather_code,is_day,uv_index' +
+    '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,uv_index_max&timezone=auto&forecast_days=7&wind_speed_unit=' + wind +
+    (p.cc === 'US' ? '&temperature_unit=fahrenheit' : '');
+  const airUrl = 'https://air-quality-api.open-meteo.com/v1/air-quality?' + ll + '&current=european_aqi,pm2_5' +
+    '&hourly=alder_pollen,birch_pollen,grass_pollen,mugwort_pollen,olive_pollen,ragweed_pollen&timezone=auto&forecast_days=1';
+  const [wr, ar] = await Promise.allSettled([getJSON(url), getJSON(airUrl)]);
+  if (wr.status === 'fulfilled') {
+    const d = wr.value;
+    S.cache.weather = { at: Date.now(), lat: p.lat, v: 4, data: { current: d.current, hourly: d.hourly, daily: d.daily, timezone: d.timezone, windUnit: wind === 'kmh' ? 'km/h' : 'mph' } };
     if (d.timezone && d.timezone !== p.tz) { p.tz = d.timezone; savePrefs(); }
     S.errors.weather = null;
-  } catch (e) { S.errors.weather = 'Couldn’t fetch the weather.'; }
+  } else S.errors.weather = 'Couldn’t fetch the weather.';
+  if (ar.status === 'fulfilled') { S.cache.air = { at: Date.now(), data: { current: ar.value.current, hourly: ar.value.hourly } }; S.errors.air = null; }
+  else S.errors.air = 'Air quality is unavailable just now.';
 }
 function utcDay(d = new Date()) { return [d.getUTCFullYear(), String(d.getUTCMonth() + 1).padStart(2, '0'), String(d.getUTCDate()).padStart(2, '0')]; }
 async function loadWiki(force) {
@@ -741,9 +800,10 @@ async function loadCrypto() {
   } catch (e) { S.errors.crypto = 'Crypto prices are unavailable just now.'; }
 }
 let refreshing = null;
+// A change made while an update is running gets one more update straight after.
 function refresh(force) {
   if (!ready()) return Promise.resolve();
-  if (refreshing) return refreshing;
+  if (refreshing) { S.again = force || S.again === 'force' ? 'force' : 'soft'; return refreshing; }
   S.refreshing = true;
   renderHeader();
   refreshing = Promise.allSettled([loadWeather(force), loadWiki(force), loadBrief(), loadCrypto()]).then(() => {
@@ -751,6 +811,9 @@ function refresh(force) {
     S.cache.at = Date.now();
     saveCache();
     render();
+    const wb = sheetBody('weather');
+    if (wb) wb.innerHTML = weatherHTML();
+    if (S.again) { const f = S.again === 'force'; S.again = null; refresh(f); }
     // Codes just added to the Sheet can take a moment to price: look once more shortly.
     const q = (S.cache.brief && S.cache.brief.data && S.cache.brief.data.quotes) || [];
     if (q.some((x) => x.status === 'pending') && !S.pendingRetry) {
@@ -763,16 +826,16 @@ function refresh(force) {
 
 /* ---------- Opening and reading ---------- */
 function beginOpen() {
-  const prev = get('lastOpen', 0), now = Date.now();
-  S.showNew = !!prev && C.localDayKey(prev, off(prev)) === today() && now - prev > 2 * 60000;
-  S.seenAtOpen = { ...S.seen };
+  const now = Date.now();
   put('lastOpen', now);
   const cut = now - 3 * 86400000;
   for (const k of Object.keys(S.seen)) if (S.seen[k] < cut) delete S.seen[k];
   put('seen', S.seen);
   if (S.read.day !== today()) { S.read = { day: today(), parts: [] }; put('read', S.read); }
+  S.open = null; S.newKeys = {};
 }
-const isNew = (key) => S.showNew && key && !S.seenAtOpen[key];
+// A story is new when its part was read earlier today and this one hasn't been seen.
+const isNew = (key) => !!(key && S.open && S.newKeys[S.open] && S.newKeys[S.open].has(key));
 
 /* ---------- What's in the brief ---------- */
 function newsTiers() {
@@ -792,7 +855,7 @@ function topicItems(name) {
 }
 function weekday() { const n = Date.now(); return C.localWeekday(n, off(n)); }
 /* ---------- Politics, money, suppliers, coming up, videos ---------- */
-const freshCount = (items) => items.filter((i) => isNew(i.id)).length;
+const keysOf = (items) => items.map((i) => i.id).filter(Boolean);
 const whenLower = (w) => (/^(Today|Tomorrow|In )/.test(w) ? w[0].toLowerCase() + w.slice(1) : w);
 function politicsTiers() {
   const pl = S.prefs.place;
@@ -849,17 +912,17 @@ function partInfo(id) {
       const tiers = newsTiers();
       if (!tiers.length) return null;
       const items = tiers.flatMap((t) => newsItems(t.key));
-      return { title: 'News', note: items.length ? plural(items.length, 'story', 'stories') : 'World to local', fresh: freshCount(items), n: items.length };
+      return { title: 'News', note: items.length ? plural(items.length, 'story', 'stories') : 'World to local', keys: keysOf(items), n: items.length };
     }
     case 'politics': {
       if (!on.politics) return null;
       const items = politicsTiers().flatMap((t) => newsItems(t.key));
-      return { title: 'Politics', note: items.length ? plural(items.length, 'story', 'stories') : 'Westminster and council', fresh: freshCount(items), n: items.length };
+      return { title: 'Politics', note: items.length ? plural(items.length, 'story', 'stories') : 'Westminster and council', keys: keysOf(items), n: items.length };
     }
     case 'money': {
       if (!on.money) return null;
       const items = newsItems('money');
-      return { title: 'Money', note: 'MoneySavingExpert', fresh: freshCount(items), n: items.length };
+      return { title: 'Money', note: 'MoneySavingExpert', keys: keysOf(items), n: items.length };
     }
     case 'suppliers': {
       if (!on.suppliers) return null;
@@ -874,12 +937,12 @@ function partInfo(id) {
     case 'videos': {
       if (!on.videos) return null;
       const v = videoList();
-      return { title: 'Videos', note: v.length ? plural(v.length, 'new video', 'new videos') : (p.channels || []).length ? 'Your channels' : 'Add channels', fresh: freshCount(v), n: v.length };
+      return { title: 'Videos', note: v.length ? plural(v.length, 'new video', 'new videos') : (p.channels || []).length ? 'Your channels' : 'Add channels', keys: keysOf(v), n: v.length };
     }
     case 'interests': {
       if (!on.interests || !p.topics.length) return null;
       const items = p.topics.flatMap((t) => topicItems(t) || []);
-      return { title: 'Your interests', note: plural(p.topics.length, 'topic', 'topics'), fresh: freshCount(items), n: items.length };
+      return { title: 'Your interests', note: plural(p.topics.length, 'topic', 'topics'), keys: keysOf(items), n: items.length };
     }
     case 'markets': return on.markets && p.watch.length ? { title: 'Markets', note: [0, 6].includes(weekday()) ? 'Friday’s close' : 'Latest', n: 2 } : null;
     case 'looked': return on.looked ? { title: 'What people looked up', note: 'Top 5', n: 5 } : null;
@@ -945,12 +1008,6 @@ function videosHTML(parts, p) {
   else h += v.map((x, i) => `<button class="vid" data-act="video" data-i="${i}" data-key="${esc(x.id)}"><img src="${esc(x.thumb)}" alt="" loading="lazy"><span class="tx"><span class="vt">${isNew(x.id) ? '<span class="newdot" aria-hidden="true"></span><span class="vh">New: </span>' : ''}${esc(x.title)}</span><span class="meta">${esc(x.channel)}${x.at ? ' · ' + esc(C.timeAgo(x.at, Date.now())) : ''}</span></span></button>`).join('');
   return h + `<button class="btn ghost edit" data-act="channels">${ICON.pencil}${ch.length ? 'Edit your channels' : 'Add channels'}</button>` + chClose(p);
 }
-function todayLine() {
-  if (!S.prefs.sections.comingup) return '';
-  const t = events().filter((e) => e.away === 0);
-  return t.length ? `<button class="todayline" data-act="go" data-id="comingup">${ICON.spark}<span>Today: ${esc(t.map((e) => e.title).join(', '))}</span></button>` : '';
-}
-
 /* ---------- Supplier, event and video sheets ---------- */
 function openSupplier(cat) {
   if (!supplyIsSet(cat)) { openSettings('suppliers'); return; }
@@ -999,17 +1056,20 @@ function channelsHTML() {
   return `<h2 class="sh-title" id="channels-t">Your channels</h2>
     ${ch.length ? `<ul class="mlist">${ch.map((c) => `<li class="mrow"><span class="mn" style="margin-left:0"><b>${esc(c.title)}</b></span><button class="ib" data-act="unchannel" data-id="${esc(c.id)}" aria-label="Remove ${esc(c.title)}" title="Remove">${ICON.x}</button></li>`).join('')}</ul>` : '<p class="empty">No channels yet.</p>'}
     <h3 class="grp">Add a channel</h3>
-    <form class="addrow" data-form="yt"><label class="vh" for="ytQ">Search YouTube</label><input class="field" id="ytQ" type="search" placeholder="Search YouTube, or paste a channel link" autocomplete="off" maxlength="120"><button class="btn small" type="submit">Search</button></form>
-    <p class="ferr" id="ytErr" role="alert"></p>
-    <div class="res" id="ytRes">${ytResultsHTML()}</div>
+    ${ytSearchHTML('set')}
     <p class="hint">Up to 12 channels. New uploads from the last week show in your brief.</p>`;
 }
-function ytResultsHTML() {
-  const have = (S.prefs.channels || []).map((c) => c.id);
+function ytSearchHTML(scope) {
+  return `<form class="addrow" data-form="yt" data-scope="${scope}"><label class="vh" for="ytQ">Search YouTube</label><input class="field" id="ytQ" type="search" placeholder="${scope === 'setup' ? 'Search for a channel' : 'Search YouTube, or paste a channel link'}" autocomplete="off" maxlength="120" enterkeyhint="search"><button class="btn small" type="submit">Search</button></form>
+    <p class="ferr" id="ytErr" role="alert"></p>
+    <div class="res" id="ytRes">${ytResultsHTML(scope)}</div>`;
+}
+function ytResultsHTML(scope = 'set') {
+  const have = ((scope === 'setup' ? S.draft && S.draft.channels : S.prefs.channels) || []).map((c) => c.id);
   return (S.ytResults || []).map((c, i) => {
     const added = have.includes(c.id);
     return `<div class="chrow">${c.thumb ? `<img src="${esc(c.thumb)}" alt="">` : '<span class="chph" aria-hidden="true"></span>'}<span class="chx"><b>${esc(c.title)}</b>${c.desc ? `<span>${esc(c.desc)}</span>` : ''}</span>` +
-      `<button class="btn small" data-act="addChannel" data-i="${i}"${added ? ' disabled' : ''}>${added ? 'Added' : 'Add'}</button></div>`;
+      `<button class="btn small" data-act="addChannel" data-scope="${scope}" data-i="${i}"${added ? ' disabled' : ''}>${added ? 'Added' : 'Add'}</button></div>`;
   }).join('');
 }
 async function searchChannels(form) {
@@ -1017,7 +1077,7 @@ async function searchChannels(form) {
   err.textContent = '';
   if (!q) { err.textContent = 'Type a channel name, or paste its link.'; return; }
   await withBusy(btn, async () => {
-    try { const j = await api('ytsearch', { q }); S.ytResults = j.channels || []; $('#ytRes').innerHTML = ytResultsHTML(); }
+    try { const j = await api('ytsearch', { q }); S.ytResults = j.channels || []; $('#ytRes').innerHTML = ytResultsHTML(form.dataset.scope); }
     catch (e) { err.textContent = e.message; }
   });
 }
@@ -1077,24 +1137,38 @@ function addIcs(form) {
 }
 
 const isRead = (id) => S.read.day === today() && S.read.parts.includes(id);
-function partState(parts, id) {
-  if (isRead(id)) return 'done';
-  const first = parts.find((p) => !isRead(p.id));
-  return first && first.id === id && S.read.parts.length ? 'now' : '';
-}
+const unseen = (p) => (p.keys || []).filter((k) => !S.seen[k]).length;
+// A part is ticked once you reach its end, until a story you haven't seen arrives in it.
+const isDone = (p) => isRead(p.id) && !unseen(p);
 
 /* ---------- Header ---------- */
+function nextEvent() {
+  if (!ready() || !S.prefs.sections.comingup) return null;
+  return events()[0] || null;
+}
 function renderHeader() {
-  const sub = $('#sub');
+  const sub = $('#sub'), wx = $('#wxBtn'), ev = $('#evLine');
   $('#setBtn').hidden = !ready();
+  if (!ready()) { wx.hidden = true; ev.hidden = true; }
   if (!hasApi()) { sub.innerHTML = '<span class="l">Invite only</span>'; return; }
   if (!ready()) { sub.innerHTML = '<span class="l">Set up your brief</span>'; return; }
-  const parts = partList(), done = parts.filter((p) => isRead(p.id)).length;
+  const m = heroModel();
+  wx.hidden = false;
+  wx.innerHTML = chipSVG(m) + `<span>${m.current ? Math.round(m.current.temp) + '\u00b0' : '\u2013'}</span>`;
+  wx.setAttribute('aria-label', m.current ? `Weather: ${Math.round(m.current.temp)}\u00b0, ${C.conditionWord(m.current.code, m.current.isDay).toLowerCase()}. Open the forecast.` : 'Weather. Open the forecast.');
+  const e = nextEvent();
+  ev.hidden = !e;
+  if (e) {
+    const line = C.eventLine(e);
+    ev.innerHTML = `<b>${esc(e.title)}</b> ${esc(line.slice(e.title.length).trim())}`;
+    ev.setAttribute('aria-label', line + '. Find out more.');
+  }
+  const parts = partList(), done = parts.filter(isDone).length;
   let right;
   if (S.refreshing) right = '<span class="spinner" aria-hidden="true"></span>Updating';
   else if (!navigator.onLine) right = 'Offline';
   else right = parts.length && done >= parts.length ? 'All read' : `${done} of ${parts.length} read`;
-  sub.innerHTML = `<span class="l">${esc(C.briefLabel(nowH()))}</span><span class="c">&nbsp;·&nbsp;${right}</span>`;
+  sub.innerHTML = `<span class="l">${esc(C.briefLabel(nowH()))}</span><span class="c">&nbsp;\u00b7&nbsp;${right}</span>`;
 }
 
 /* ---------- The day ring ---------- */
@@ -1154,32 +1228,136 @@ function ringSVG(m) {
 }
 // Local hours today back to a moment, for formatting sunrise and sunset.
 function sunMs(h) { const n = Date.now(), o = off(n); return C.localNoon(n, o) + (h - 12) * 3600000; }
-function heroHTML() {
-  const m = heroModel(), parts = partList();
-  let mid, say;
+// The little ring by the temperature: daylight in gold, a dot for now.
+function chipSVG(m) {
+  const s = ['<circle cx="160" cy="160" r="118" style="fill:none;stroke:var(--ink);stroke-opacity:.16;stroke-width:32"/>'];
+  if (m.polar === 'day') s.push('<circle cx="160" cy="160" r="118" style="fill:none;stroke:var(--sun);stroke-width:32"/>');
+  else if (!m.polar) s.push(`<path d="${C.arcPath(m.riseH, m.setH, 118)}" style="fill:none;stroke:var(--sun);stroke-width:32;stroke-linecap:round"/>`);
+  const [x, y] = C.ringPoint(m.nowH, 118);
+  s.push(`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="44" style="fill:${m.daylight ? 'var(--sun)' : 'var(--ink)'};stroke:var(--bg);stroke-width:20"/>`);
+  return `<svg viewBox="0 0 320 320" aria-hidden="true">${s.join('')}</svg>`;
+}
+function wxRingHTML(m) {
+  let mid;
   if (m.current) {
     const tl = m.today ? C.tempLine({ nowH: m.nowH, current: m.current.temp, max: m.today.max, min: m.today.min, minTonight: m.tomorrow && m.tomorrow.min }) : '';
-    mid = `<span class="temp">${Math.round(m.current.temp)}°</span><span class="cond">${esc(C.conditionWord(m.current.code, m.current.isDay))}</span>${tl ? `<span class="tline">${esc(tl)}</span>` : ''}`;
-    say = C.weatherSentence({ hours: m.hours, nowH: m.nowH, sunsetH: m.setH, tomorrow: m.nowH >= 17 ? m.tomorrow : null });
+    mid = `<span class="temp">${Math.round(m.current.temp)}\u00b0</span><span class="cond">${esc(C.conditionWord(m.current.code, m.current.isDay))}</span>${tl ? `<span class="tline">${esc(tl)}</span>` : ''}`;
+  } else mid = `<span class="temp clock">${esc(fmtTime(m.now))}</span><span class="cond">Weather unavailable</span><span class="tline">Daylight still shown</span>`;
+  return `<div class="wxring">${ringSVG(m)}<div class="mid">${mid}</div></div>`;
+}
+const hourLbl = (h) => (H12 ? C.hourWord(h) : String(h).padStart(2, '0') + ':00');
+// The next 24 hours, with sunrise and sunset slotted in where they fall.
+function hourCols(m, w) {
+  const H = w.hourly, o = off(), now = Date.now(), dayKey = C.localDayKey(now, o), tomorrowKey = C.localDayKey(now + 86400000, o);
+  let i0 = H.time.indexOf(dayKey + 'T' + String(Math.floor(m.nowH)).padStart(2, '0') + ':00');
+  if (i0 < 0) i0 = 0;
+  const pl = S.prefs.place, st = C.sunTimes(tomorrowKey, pl.lat, pl.lon), marks = [];
+  if (!m.polar) marks.push({ key: dayKey, h: m.riseH, kind: 'Sunrise', ms: sunMs(m.riseH) }, { key: dayKey, h: m.setH, kind: 'Sunset', ms: sunMs(m.setH) });
+  if (st.sunrise) marks.push({ key: tomorrowKey, h: C.localHours(+st.sunrise, o), kind: 'Sunrise', ms: +st.sunrise });
+  if (st.sunset) marks.push({ key: tomorrowKey, h: C.localHours(+st.sunset, o), kind: 'Sunset', ms: +st.sunset });
+  const out = [];
+  for (let i = i0; i < Math.min(i0 + 25, H.time.length); i++) {
+    const d = H.time[i].slice(0, 10), hh = +H.time[i].slice(11, 13), first = i === i0;
+    const day = H.is_day ? !!H.is_day[i] : hh >= 7 && hh < 18, prob = H.precipitation_probability ? H.precipitation_probability[i] : null;
+    const t = Math.round(first && m.current ? m.current.temp : H.temperature_2m[i]);
+    out.push(`<div class="hr${first ? ' now' : ''}" role="listitem"><span class="hl">${first ? 'Now' : esc(hourLbl(hh))}</span>${wxIcon(C.weatherIcon(H.weather_code[i], day))}<span class="tp">${t}\u00b0</span><span class="rp">${prob >= 20 ? prob + '%' : ''}</span><span class="vh">${esc(C.conditionWord(H.weather_code[i], day))}${prob >= 20 ? `, ${prob}% chance of rain` : ''}</span></div>`);
+    for (const k of marks) if (k.key === d && Math.floor(k.h) === hh && (!first || k.h >= m.nowH)) {
+      out.push(`<div class="hr mark" role="listitem"><span class="hl">${k.kind}</span>${k.kind === 'Sunrise' ? ICON.sunrise : ICON.sunset}<span class="tp">${esc(fmtTime(k.ms))}</span><span class="rp"></span></div>`);
+    }
+  }
+  return out;
+}
+function pollenToday(a) {
+  const H = a && a.hourly;
+  if (!H || !H.time) return null;
+  const dayKey = today(), out = {};
+  for (const k of Object.keys(H)) {
+    if (!/_pollen$/.test(k)) continue;
+    const v = H[k].filter((x, i) => H.time[i].slice(0, 10) === dayKey && x != null && isFinite(x));
+    if (v.length) out[k] = Math.max(...v);
+  }
+  return out;
+}
+function wxTiles(m, w) {
+  const cur = w.current || {}, D = w.daily || {}, H = w.hourly, unit = w.windUnit || 'mph', out = [];
+  const tile = (icon, k, v, d) => `<div class="wt"><span class="wk">${icon}${esc(k)}</span><span class="wv">${v}</span><span class="wd">${esc(d)}</span></div>`;
+  const evening = m.nowH >= 17, ti = D.time ? D.time.indexOf(today()) : -1;
+  // Daylight
+  if (m.polar) out.push(tile(ICON.rise16, 'Daylight', m.polar === 'day' ? 'All day' : 'None today', m.polar === 'day' ? 'The sun stays up' : 'The sun stays down'));
+  else if (m.nowH >= m.setH) {
+    const o = off(), pl = S.prefs.place, st = C.sunTimes(C.localDayKey(Date.now() + 86400000, o), pl.lat, pl.lon);
+    if (st.sunrise && st.sunset) out.push(tile(ICON.rise16, 'Daylight', `${esc(fmtTime(+st.sunrise))}\u2013${esc(fmtTime(+st.sunset))}`, `Tomorrow, ${C.dayLength(C.localHours(+st.sunrise, o), C.localHours(+st.sunset, o))} of light`));
+  } else out.push(tile(ICON.rise16, 'Daylight', `${esc(fmtTime(sunMs(m.riseH)))}\u2013${esc(fmtTime(sunMs(m.setH)))}`, `${C.dayLength(m.riseH, m.setH)} of light`));
+  // Rain, from now to midnight
+  const rest = m.hours.filter((x) => x.h >= Math.floor(m.nowH)), runs = C.wetRuns(rest);
+  const maxP = Math.max(0, ...rest.map((x) => x.prob || 0)), mm = rest.reduce((a, x) => a + (x.mm || 0), 0);
+  if (runs.length) {
+    const r = runs[0], amt = mm >= 0.1 ? `, about ${mm < 1 ? mm.toFixed(1) : Math.round(mm)}\u00a0mm` : '';
+    out.push(tile(ICON.drop16, 'Rain', esc(cap(r.kind)), (r.start <= m.nowH ? `Until ${C.hourWord(r.end)}` : `${cap(C.hourWord(r.start))} to ${C.hourWord(r.end)}`) + amt));
   } else {
-    mid = `<span class="temp clock">${esc(fmtTime(m.now))}</span><span class="cond">Weather unavailable</span><span class="tline">Daylight still shown</span>`;
-    say = m.polar ? '' : `Light from ${fmtTime(sunMs(m.riseH))} to ${fmtTime(sunMs(m.setH))}.`;
+    const tp = D.precipitation_probability_max && ti >= 0 ? D.precipitation_probability_max[ti + 1] : null;
+    out.push(tile(ICON.drop16, 'Rain', evening ? 'Dry tonight' : 'Dry today', maxP >= 10 ? `Up to a ${maxP}% chance` : evening && tp != null ? `Tomorrow: ${tp}% chance` : 'Little or no chance'));
   }
-  const facts = [];
-  if (!m.polar && m.nowH < m.setH) facts.push(`<span>${ICON.sunrise}<span class="vh">Sunrise </span>${esc(fmtTime(sunMs(m.riseH)))}</span>`, `<span>${ICON.sunset}<span class="vh">Sunset </span>${esc(fmtTime(sunMs(m.setH)))}</span>`);
-  else {
-    facts.push(`<span>${ICON.moon}${esc(C.moonPhase(new Date(m.now)).name)}</span>`);
-    if (m.riseTomorrow) facts.push(`<span>${ICON.sunrise}Sunrise ${esc(fmtTime(m.riseTomorrow))}</span>`);
+  // Wind
+  if (isFinite(cur.wind_speed_10m)) {
+    const sp = cur.wind_speed_10m, mph = unit === 'mph' ? sp : sp / 1.609, dir = cur.wind_direction_10m;
+    const arrow = isFinite(dir) ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(${Math.round((dir + 180) % 360)}deg)" aria-hidden="true"><path d="M12 20V4M6 10l6-6 6 6"/></svg>` : '';
+    out.push(tile(ICON.wind16, 'Wind', `${Math.round(sp)}\u00a0${esc(unit)} ${isFinite(dir) ? esc(C.compassShort(dir)) : ''}${arrow}<span class="vh">, from the ${isFinite(dir) ? C.compass(dir) : ''}</span>`,
+      `${C.windWord(mph)}${isFinite(cur.wind_gusts_10m) ? `, gusts ${Math.round(cur.wind_gusts_10m)}\u00a0${unit}` : ''}`));
   }
-  const next = m.runs.find((r) => r.end > m.nowH);
-  if (next) facts.push(`<span>${ICON.rain}${esc(cap(next.kind))} ${esc(next.start <= m.nowH ? 'until ' + C.hourWord(next.end) : C.hourWord(next.start) + ' to ' + C.hourWord(next.end))}</span>`);
-  const n = parts.reduce((a, p) => a + (p.n || 0), 0), mins = Math.max(1, Math.round((n * 8 + parts.length * 12) / 60));
-  const label = C.briefLabel(m.nowH), verb = label === 'Evening wrap' ? 'Read the evening wrap' : label === 'Afternoon brief' ? 'Read the afternoon brief' : 'Read today’s brief';
-  const top = S.prefs.ring === 'compact'
-    ? `<div class="mini">${ringSVG(m)}<div class="minitx"><span class="mt">${m.current ? Math.round(m.current.temp) + '\u00b0' : esc(fmtTime(m.now))}</span> <span class="cond">${esc(m.current ? C.conditionWord(m.current.code, m.current.isDay) : 'Weather unavailable')}</span>${say ? `<p>${esc(say)}</p>` : ''}</div></div>`
-    : `<div class="hero">${ringSVG(m)}<div class="mid">${mid}</div></div>${say ? `<p class="say">${esc(say)}</p>` : ''}<div class="facts">${facts.join('')}</div>`;
-  return `${top}${todayLine()}
-    ${parts.length ? `<div class="go"><button class="btn primary" data-act="start">${verb}</button><span class="cap">${plural(parts.length, 'part', 'parts')}, about ${plural(mins, 'minute', 'minutes')}</span></div>` : ''}`;
+  // UV, today until five, then tomorrow
+  const ui = evening && ti >= 0 && D.time[ti + 1] ? ti + 1 : ti;
+  const uv = D.uv_index_max && ui >= 0 ? D.uv_index_max[ui] : null;
+  if (uv != null && isFinite(uv)) {
+    let peak = -1;
+    if (H.uv_index) H.time.forEach((t, i) => { if (t.slice(0, 10) === D.time[ui] && (peak < 0 || H.uv_index[i] > H.uv_index[peak])) peak = i; });
+    const advice = Math.round(uv) >= 3 && peak >= 0 ? `Strongest around ${C.hourWord(+H.time[peak].slice(11, 13))}. Use sunscreen.` : 'No sun protection needed.';
+    out.push(tile(ICON.sun16, 'UV', `${esc(C.uvWord(uv))} \u00b7 ${Math.round(uv)}`, (ui !== ti ? 'Tomorrow. ' : '') + advice));
+  }
+  // Air and pollen
+  const a = S.cache.air && S.cache.air.data;
+  if (a && a.current && isFinite(a.current.european_aqi)) {
+    const pol = C.pollenLevel(pollenToday(a));
+    const d = pol ? (pol.none ? 'No pollen to speak of' : `${pol.name} pollen ${pol.word.toLowerCase()}`) : isFinite(a.current.pm2_5) ? `Fine particles ${Math.round(a.current.pm2_5)} \u00b5g/m\u00b3` : 'European air quality index';
+    out.push(tile(ICON.leaf16, 'Air quality', `${esc(C.aqiWord(a.current.european_aqi))} \u00b7 ${Math.round(a.current.european_aqi)}`, d));
+  } else out.push(tile(ICON.leaf16, 'Air quality', '\u2013', S.errors.air ? 'Unavailable just now' : 'Arrives with the next update'));
+  // Moon
+  const mp = C.moonPhase(new Date());
+  out.push(tile(ICON.moon16, 'Moon', esc(mp.name), `${Math.round(mp.illum * 100)}% lit`));
+  return out;
+}
+function daysHTML(w, m) {
+  const D = w.daily;
+  if (!D || !D.time) return '';
+  const dayKey = today(), idx = D.time.map((k, i) => i).filter((i) => D.time[i] >= dayKey);
+  if (!idx.length) return '';
+  const lo = Math.min(...idx.map((i) => D.temperature_2m_min[i])), hi = Math.max(...idx.map((i) => D.temperature_2m_max[i])), span = Math.max(1, hi - lo);
+  const name = (k) => (k === dayKey ? 'Today' : new Intl.DateTimeFormat('en-GB', { weekday: 'short', timeZone: 'UTC' }).format(new Date(k + 'T12:00:00Z')));
+  return `<ul class="days">${idx.map((i) => {
+    const k = D.time[i], mn = D.temperature_2m_min[i], mx = D.temperature_2m_max[i], pr = D.precipitation_probability_max ? D.precipitation_probability_max[i] : null;
+    const left = ((mn - lo) / span) * 100, width = Math.max(4, ((mx - mn) / span) * 100);
+    const dot = k === dayKey && m.current ? `<b style="left:${Math.min(100, Math.max(0, ((m.current.temp - lo) / span) * 100)).toFixed(1)}%"></b>` : '';
+    const long = k === dayKey ? 'Today' : new Intl.DateTimeFormat('en-GB', { weekday: 'long', timeZone: 'UTC' }).format(new Date(k + 'T12:00:00Z'));
+    return `<li><span class="vh">${esc(long)}: ${esc(C.conditionWord(D.weather_code[i], true).toLowerCase())}, ${Math.round(mn)}\u00b0 to ${Math.round(mx)}\u00b0${pr >= 20 ? `, ${pr}% chance of rain` : ''}.</span>` +
+      `<span class="dn" aria-hidden="true">${esc(name(k))}</span><span aria-hidden="true">${wxIcon(C.weatherIcon(D.weather_code[i], true), 22)}</span><span class="rp" aria-hidden="true">${pr >= 20 ? pr + '%' : ''}</span>` +
+      `<span class="lo" aria-hidden="true">${Math.round(mn)}\u00b0</span><span class="range" aria-hidden="true"><i style="left:${left.toFixed(1)}%;width:${Math.min(100 - left, width).toFixed(1)}%"></i>${dot}</span><span class="hi" aria-hidden="true">${Math.round(mx)}\u00b0</span></li>`;
+  }).join('')}</ul>`;
+}
+function weatherHTML() {
+  const m = heroModel(), pl = S.prefs.place, wc = S.cache.weather, w = wc && wc.data, cur = w && w.current;
+  let h = `<h2 class="sh-title wxt" id="weather-t">${esc(pl.town || pl.county || 'Your weather')}</h2>`;
+  const feels = m.current && cur && isFinite(cur.apparent_temperature) ? ` \u00b7 feels like ${Math.round(cur.apparent_temperature)}\u00b0` : '';
+  h += `<p class="wxsub">${esc(m.current ? fmtDay(Date.now()) + feels : S.errors.weather || 'The forecast is unavailable just now.')}</p>`;
+  h += wxRingHTML(m);
+  const say = m.current ? C.weatherSentence({ hours: m.hours, nowH: m.nowH, sunsetH: m.setH, tomorrow: m.nowH >= 17 ? m.tomorrow : null })
+    : m.polar ? '' : `Light from ${fmtTime(sunMs(m.riseH))} to ${fmtTime(sunMs(m.setH))}.`;
+  if (say) h += `<p class="say">${esc(say)}</p>`;
+  if (w && w.hourly && w.hourly.time) {
+    h += `<h3 class="wxh">Next 24 hours</h3><div class="hours" role="list" aria-label="Hour by hour">${hourCols(m, w).join('')}</div>`;
+    h += `<h3 class="wxh">${m.nowH >= 17 ? 'Tonight and tomorrow' : 'Today'}</h3><div class="wtiles">${wxTiles(m, w).join('')}</div>`;
+    h += `<h3 class="wxh">Next 7 days</h3>${daysHTML(w, m)}`;
+  }
+  return h + `<p class="sh-note">Forecast by Open-Meteo${S.cache.air ? '; air quality and pollen from Copernicus' : ''}.${wc ? ` Updated ${esc(fmtTime(wc.at))}.` : ''}</p>`;
 }
 const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : s);
 
@@ -1191,23 +1369,35 @@ function noticesHTML() {
     if (S.installEvt) n.push(notice('install', 'Add Lowdown to your home screen for one-tap access.', '<button class="btn small" data-act="install">Install</button>'));
     else if (isIOS) n.push(notice('install', 'Add Lowdown to your Home Screen: tap Share (under ⋯ on iOS 26), then Add to Home Screen.'));
   }
-  if (S.whatsNew === 3 && !S.dismissed.new3) n.push(notice('new3', 'New in Lowdown: Politics, Money, Your suppliers, Coming up and Videos. Pick your suppliers, calendars and channels in Settings, and drag the parts into your own order.', '<button class="btn small" data-act="settings">Settings</button>'));
+  if ((S.whatsNew === 3 || S.whatsNew === 4) && !S.dismissed.new4) n.push(notice('new4', S.whatsNew === 3
+    ? 'New in Lowdown: Politics, Money, Your suppliers, Coming up and Videos, and a cleaner look. Tap a part to open it; the weather sits top right.'
+    : 'New look: tap a part to open it, and you\u2019ll get a tick when you reach its end. The weather sits top right with what\u2019s coming up, and \u263e switches between white and black.'));
   if (S.inviteBad) n.push(notice('invite', 'Your invite isn\u2019t valid any more, so news, interests and markets can\u2019t update. Ask whoever shared Lowdown for a new link.', '<button class="btn small" data-act="reinvite">Paste new link</button>', false));
   else if (S.scriptBuild != null && S.scriptBuild < EXPECT_BUILD) n.push(notice('script', `Your Apps Script is out of date (release ${S.scriptBuild}, this app needs ${EXPECT_BUILD}). In Apps Script, choose Deploy, Manage deployments, edit, New version, Deploy.`, '', false));
   return n.join('');
 }
-function tocHTML(parts) {
-  if (!parts.length) return '';
-  return `<nav class="toc" aria-label="In today's brief"><h2>In today’s brief</h2>${parts.map((p) => {
-    const st = partState(parts, p.id);
-    return `<a href="#ch-${p.id}" data-act="go" data-id="${p.id}"><span class="node ${st}" aria-hidden="true"></span><span class="t">${esc(p.title)}</span><span class="n">${p.fresh ? `<span class="newdot" aria-hidden="true"></span>${p.fresh} new` : esc(p.note)}${st === 'done' ? '<span class="vh">, read</span>' : ''}</span></a>`;
-  }).join('')}</nav>`;
+function noteHTML(p) {
+  const n = isRead(p.id) ? unseen(p) : 0;
+  return n ? `<span class="newdot" aria-hidden="true"></span>${n} new` : esc(p.note);
 }
-const chOpen = (parts, p, title, sub) => {
-  const st = partState(parts, p.id);
-  return `<section class="ch ${st}" id="ch-${p.id}" data-part="${p.id}" data-anchor="ch-${p.id}" aria-labelledby="h-${p.id}"><span class="node ${st}" aria-hidden="true"></span><h2 class="chh" id="h-${p.id}">${esc(title)}${sub ? `<span>${esc(sub)}</span>` : ''}</h2>`;
-};
-const chClose = (p) => `<span class="ch-end" data-end="${p.id}" aria-hidden="true"></span></section>`;
+function phHTML(p) {
+  const open = S.open === p.id, done = isDone(p);
+  return `<button class="ph" id="h-${p.id}" data-act="part" data-id="${p.id}" aria-expanded="${open}" aria-controls="pb-${p.id}">` +
+    `<span class="node${done ? ' done' : open ? ' now' : ''}" aria-hidden="true">${done ? ICON.tick : ''}</span><span class="t">${esc(p.title)}</span>` +
+    `<span class="n">${noteHTML(p)}${done ? '<span class="vh">, read</span>' : ''}</span>${ICON.chevd}</button>`;
+}
+function nextHTML(parts, i) {
+  const nx = parts[i + 1];
+  return `<button class="btn dark nextbtn" data-act="next" data-id="${parts[i].id}">${nx ? `Next: ${esc(nx.title)}${ICON.arrow}` : `Finish${ICON.check}`}</button>`;
+}
+function partHTML(parts, p, i) {
+  const open = S.open === p.id;
+  return `<section class="part${open ? ' open' : ''}${isDone(p) ? ' done' : ''}" id="ch-${p.id}" data-part="${p.id}" data-anchor="ch-${p.id}">${phHTML(p)}` +
+    (open ? `<div class="pb" id="pb-${p.id}" role="region" aria-labelledby="h-${p.id}">${PART_HTML[p.id](parts, p)}${nextHTML(parts, i)}<span class="ch-end" data-end="${p.id}" aria-hidden="true"></span></div>` : '') + '</section>';
+}
+// Each part's own content starts with a short line about where it comes from.
+const chOpen = (parts, p, title, sub) => (sub ? `<p class="chsub">${esc(sub)}</p>` : '');
+const chClose = () => '';
 function itemHTML(it, g, i, cls) {
   const fresh = isNew(it.id);
   return `<button class="item${cls ? ' ' + cls : ''}" data-act="story" data-g="${esc(g)}" data-i="${i}" data-key="${esc(it.id)}"><span class="tx"><span class="hl">${fresh ? '<span class="newdot" aria-hidden="true"></span><span class="vh">New: </span>' : ''}${esc(it.title)}</span>${it.summary && cls !== 'small' ? `<span class="sum">${esc(it.summary)}</span>` : ''}<span class="meta">${esc(it.source || '')}${it.at ? (it.source ? ' · ' : '') + esc(C.timeAgo(it.at, Date.now())) : ''}</span></span>${ICON.chev}</button>`;
@@ -1336,12 +1526,15 @@ function greenHTML(parts, p) {
   return h + chClose(p);
 }
 function endHTML(parts) {
+  if (!parts.length || !parts.every(isDone)) return '';
   const label = C.briefLabel(nowH());
-  const next = label === 'Evening wrap' ? 'Tomorrow’s brief is waiting from 6am.' : 'Your evening wrap is ready from 5pm.';
+  const next = label === 'Evening wrap' ? 'Tomorrow\u2019s brief is waiting from 6am.' : 'Your evening wrap is ready from 5pm.';
+  return `<section class="end" data-anchor="end"><span class="tick" aria-hidden="true">${ICON.check}</span><h2>You\u2019re up to date.</h2><p>${esc(next)}</p></section>`;
+}
+function footHTML() {
   const at = S.cache.at;
-  return `<section class="end" data-anchor="end"><span class="tick" aria-hidden="true">${ICON.check}</span><h2>You’re up to date.</h2><p>${esc(next)}</p>
-    <p class="src">${at ? `Updated ${esc(fmtTime(at))}. ` : ''}News from BBC News, Google News and Bing News. Weather by Open-Meteo, trending and on this day from Wikipedia, prices from Google Finance and CoinGecko, grid data from the National Energy System Operator.</p>
-    <button class="btn ghost" data-act="refresh">${ICON.refresh}Check for updates</button><span class="ch-end" data-end="__end" aria-hidden="true"></span></section>`;
+  return `<div class="foot"><button class="btn ghost" data-act="refresh">${ICON.refresh}Check for updates</button>
+    <p class="src">${at ? `Updated ${esc(fmtTime(at))}. ` : ''}News from BBC News, Google News and Bing News. Weather by Open-Meteo, trending and on this day from Wikipedia, prices from Google Finance and CoinGecko, grid data from the National Energy System Operator.</p></div>`;
 }
 const PART_HTML = { news: newsHTML, politics: politicsHTML, money: moneyHTML, suppliers: suppliersHTML, comingup: comingupHTML, videos: videosHTML,
   interests: interestsHTML, markets: marketsHTML, looked: lookedHTML, onthisday: otdHTML, greenest: greenHTML };
@@ -1360,59 +1553,90 @@ function restoreAnchor(a) {
   const el = $(`[data-anchor="${a.id}"]`);
   if (el) window.scrollBy(0, el.getBoundingClientRect().top - a.top);
 }
-function renderBrief() {
-  const parts = partList(), a = keepAnchor();
-  $('#app').innerHTML = noticesHTML() + `<section id="hero" aria-label="Today at a glance">${heroHTML()}</section>` + tocHTML(parts) +
-    parts.map((p) => PART_HTML[p.id](parts, p)).join('') + (parts.length ? endHTML(parts) : '');
-  restoreAnchor(a);
+const headerH = () => ($('.bar') ? $('.bar').offsetHeight : 0);
+// opt.scrollTo: bring that part's heading to the top. opt.hold: keep that heading where it is.
+function renderBrief(opt = {}) {
+  const parts = partList();
+  let held = null, a = null;
+  if (opt.hold) { const el = $(`#h-${opt.hold}`); if (el) held = el.getBoundingClientRect().top; }
+  else if (!opt.scrollTo) a = keepAnchor();
+  const n = parts.reduce((x, p) => x + (p.n || 0), 0), mins = Math.max(1, Math.round((n * 8 + parts.length * 12) / 60));
+  $('#app').innerHTML = noticesHTML() +
+    (parts.length ? `<div class="bh"><h2>In today\u2019s brief</h2><span>${plural(parts.length, 'part', 'parts')} \u00b7 about ${mins} min</span></div>`
+      : '<p class="empty" style="margin-top:16px">Every part is switched off. Turn some on in Settings.</p>') +
+    `<div class="parts">${parts.map((p, i) => partHTML(parts, p, i)).join('')}</div><div id="endBox">${endHTML(parts)}</div>` + footHTML();
+  if (opt.scrollTo) {
+    const h = $(`#h-${opt.scrollTo}`);
+    if (h) window.scrollTo(0, Math.max(0, h.getBoundingClientRect().top + window.scrollY - headerH()));
+  } else if (opt.hold && held != null) {
+    const el = $(`#h-${opt.hold}`);
+    if (el) window.scrollBy(0, el.getBoundingClientRect().top - held);
+  } else restoreAnchor(a);
   observe();
-  showCoach();
 }
-function renderHero() { const h = $('#hero'); if (h && ready()) h.innerHTML = heroHTML(); }
+function openPart(id) {
+  if (S.open === id) { S.open = null; renderBrief({ hold: id }); return; }
+  const info = partInfo(id);
+  S.open = id;
+  S.newKeys = { [id]: new Set(info && isRead(id) ? info.keys ? info.keys.filter((k) => !S.seen[k]) : [] : []) };
+  renderBrief({ scrollTo: id });
+}
 function render() {
   applyTheme();
   renderHeader();
   if (!hasApi()) renderInvite();
   else if (S.iosFirst) renderIosFirst();
-  else if (S.view === 'welcome' || (!ready() && !get('welcomed', false))) renderWelcome();
-  else if (ready()) renderBrief();
-  else renderSetup();
-  showCoach();
+  else if (S.view === 'intro' || (!ready() && !S.draft && !get('welcomed', false))) renderIntro();
+  else if (S.view === 'setup' || !ready()) renderSetup();
+  else renderBrief();
 }
 
 /* ---------- Seen and read, as you scroll ---------- */
 let seenIO, readIO, seenTimer;
+const dwell = {};
 function observe() {
   if (!('IntersectionObserver' in window)) return;
   if (seenIO) seenIO.disconnect();
   if (readIO) readIO.disconnect();
+  for (const k of Object.keys(dwell)) { clearTimeout(dwell[k]); delete dwell[k]; }
   seenIO = new IntersectionObserver((es) => {
     let ch = false;
     for (const e of es) if (e.isIntersecting) { const k = e.target.dataset.key; if (k && !S.seen[k]) { S.seen[k] = Date.now(); ch = true; } }
     if (ch) { clearTimeout(seenTimer); seenTimer = setTimeout(() => put('seen', S.seen), 500); }
   }, { threshold: 0.6 });
   $$('[data-key]').forEach((el) => seenIO.observe(el));
+  // Reaching the end of an open part, and staying a moment, ticks it.
   readIO = new IntersectionObserver((es) => {
-    let ch = false;
     for (const e of es) {
-      if (!(e.isIntersecting || e.boundingClientRect.top < 0)) continue;
       const id = e.target.dataset.end;
-      if (id === '__end') { for (const p of partList()) if (!isRead(p.id)) { S.read.parts.push(p.id); ch = true; } }
-      else if (id && !isRead(id)) { S.read.parts.push(id); ch = true; }
+      if (e.isIntersecting) { if (!dwell[id]) dwell[id] = setTimeout(() => { delete dwell[id]; finishPart(id); }, 1200); }
+      else { clearTimeout(dwell[id]); delete dwell[id]; if (e.boundingClientRect.top < 0) finishPart(id); }
     }
-    if (ch) { S.read.day = today(); put('read', S.read); markRead(); }
   });
   $$('.ch-end').forEach((el) => readIO.observe(el));
+}
+function finishPart(id) {
+  if (S.open !== id) return;
+  const info = partInfo(id), now = Date.now();
+  let ch = false;
+  if (!isRead(id)) { S.read.day = today(); S.read.parts.push(id); ch = true; }
+  for (const k of (info && info.keys) || []) if (!S.seen[k]) { S.seen[k] = now; ch = true; }
+  if (ch) { put('read', S.read); put('seen', S.seen); }
+  markRead();
 }
 function markRead() {
   const parts = partList();
   for (const p of parts) {
-    const st = partState(parts, p.id);
-    const sec = $(`#ch-${p.id}`);
-    if (sec) { sec.classList.toggle('done', st === 'done'); const n = $(':scope > .node', sec); if (n) n.className = 'node ' + st; }
-    const a = $(`.toc a[data-id="${p.id}"] .node`);
-    if (a) a.className = 'node ' + st;
+    const sec = $(`#ch-${p.id}`), h = $(`#h-${p.id}`);
+    if (!sec || !h) continue;
+    sec.classList.toggle('done', isDone(p));
+    const node = $('.node', h), done = isDone(p), open = S.open === p.id;
+    node.className = 'node' + (done ? ' done' : open ? ' now' : '');
+    node.innerHTML = done ? ICON.tick : '';
+    $('.n', h).innerHTML = noteHTML(p) + (done ? '<span class="vh">, read</span>' : '');
   }
+  const eb = $('#endBox');
+  if (eb) eb.innerHTML = endHTML(parts);
   renderHeader();
 }
 
@@ -1588,16 +1812,7 @@ function locate(btn, scope) {
 }
 function setPlace(scope, place) {
   place.cc = place.cc || 'GB';
-  if (scope === 'setup') {
-    const d = S.draft;
-    d.place = place;
-    d.sections = { ...C.defaultSections(place.cc), interests: d.sections.interests, markets: d.sections.markets };
-    d.calendars = { ...d.calendars, bank: place.cc === 'GB' };
-    const net = C.guessNetwork(place);
-    if (net) d.suppliers.electricity = { ...(d.suppliers.electricity || {}), network: net };
-    renderSetup();
-    return;
-  }
+  if (scope === 'setup') { S.draft.place = place; renderSetup(); return; }
   const old = S.prefs.place;
   S.prefs.place = { ...old, ...place };
   savePrefs();
@@ -1611,10 +1826,10 @@ function setPlace(scope, place) {
 }
 
 /* ---------- Interests editor ---------- */
-function interestsEditor(topics, scope) {
-  const left = C.TOPIC_PRESETS.filter((t) => !topics.some((x) => x.toLowerCase() === t.toLowerCase()));
+function interestsEditor(topics, scope, limit) {
+  const left = C.TOPIC_PRESETS.filter((t) => !topics.some((x) => x.toLowerCase() === t.toLowerCase())).slice(0, limit || 99);
   return `${topics.length ? `<div class="chips">${topics.map((t) => `<button class="chip on" data-act="untopic" data-scope="${scope}" data-t="${esc(t)}" aria-label="Remove ${esc(t)}" title="Remove">${esc(t)}${ICON.x}</button>`).join('')}</div>` : ''}
-    <form class="addrow" data-form="topic" data-scope="${scope}"><label class="vh" for="topicIn-${scope}">Add your own interest</label><input class="field" id="topicIn-${scope}" placeholder="Add your own, such as snooker" maxlength="40" autocomplete="off" enterkeyhint="done"><button class="btn small" type="submit">Add</button></form>
+    <form class="addrow" data-form="topic" data-scope="${scope}"><label class="vh" for="topicIn-${scope}">Add your own interest</label><input class="field" id="topicIn-${scope}" placeholder="${scope === 'setup' ? 'Type anything, such as snooker' : 'Add your own, such as snooker'}" maxlength="40" autocomplete="off" enterkeyhint="done"><button class="btn small" type="submit">Add</button></form>
     <p class="ferr" id="topicErr-${scope}" role="alert"></p>
     ${left.length ? `<div class="chips">${left.map((t) => `<button class="chip" data-act="topic" data-scope="${scope}" data-t="${esc(t)}">${ICON.plus}${esc(t)}</button>`).join('')}</div>` : ''}`;
 }
@@ -1632,7 +1847,7 @@ function removeTopic(scope, t) {
   afterTopics(scope, `${t} removed.`);
 }
 function afterTopics(scope, msg) {
-  if (scope === 'setup') { renderSetup(); return; }
+  if (scope === 'setup') { renderSetup(); const i = $('#topicIn-setup'); if (i) i.focus(); return; }
   savePrefs();
   const box = $('#interestsBox');
   if (box) box.innerHTML = interestsEditor(S.prefs.topics, 'set');
@@ -1681,84 +1896,91 @@ function movePart(from, to) {
   if (g) g.focus();
 }
 
-/* ---------- Welcome: four cards ---------- */
-function welcomeArt(i) {
-  if (i === 0) {
-    const m = { now: sunMs(9.5), nowH: 9.5, riseH: 7, setH: 16.6, polar: null, runs: [{ start: 16, end: 21, kind: 'showers' }], daylight: true };
-    return `<div class="art"><div class="minihero">${ringSVG(m)}</div><div class="legend"><span><i class="lg-day"></i>Daylight</span><span>${ICON.rain}Rain</span><span><i class="lg-now"></i>Now</span></div></div>`;
-  }
-  if (i === 1) return `<div class="art"><div class="spine">${['News', 'Politics', 'Coming up'].map((t, k) => `<div class="sp"><span class="node ${k < 2 ? 'done' : 'now'}"></span>${t}</div>`).join('')}<div class="sp end"><span class="tick">${ICON.check}</span>You’re up to date.</div></div></div>`;
-  if (i === 2) return `<div class="art"><div class="demo"><div class="demoitem"><span>Council approves new cycle lanes</span>${ICON.chev}</div><div class="demosheet"><span class="grab"></span><b>Council approves new cycle lanes</b><span>Richmond and Twickenham Times</span></div><span class="swipe">${svg('<path d="M5 12h14M13 6l6 6-6 6"/>', 22)}Swipe right to close</span></div></div>`;
-  return `<div class="art"><div class="demo"><div class="chips" style="justify-content:center"><span class="chip on">Snooker${ICON.x}</span><span class="chip">${ICON.plus}Hip hop</span></div><div class="swrow demo-sw"><span>Politics</span><span class="fake-sw on"></span></div><div class="swrow demo-sw"><span>Videos</span><span class="fake-sw"></span></div></div></div>`;
+/* ---------- Intro: what Lowdown is, before four quick steps ---------- */
+// A small picture of the real thing: weather and what's next at the top, parts ticked off below.
+function introPreview() {
+  const row = (done, t, n) => `<div class="pv-row"><span class="pv-dot ${done ? 'done' : 'todo'}">${done ? ICON.tick : ''}</span>${t}<span class="pn">${n}</span></div>`;
+  return `<div class="preview" aria-hidden="true"><div class="pv-top"><b>Lowdown</b><span class="pv-chip">${chipSVG({ nowH: 9.5, riseH: 7, setH: 16.6, polar: null, daylight: true })}11\u00b0</span></div>
+    <p class="pv-ev"><b>Bank holiday</b> in 4 days</p>${row(true, 'News', '9 stories')}${row(true, 'Your interests', 'Snooker')}${row(false, 'Markets', 'FTSE 100 +0.4%')}</div>`;
 }
-const CARDS = [
-  ['Your day at a glance', 'Gold is daylight, dots are rain, and the marker is now. One sentence tells you what to expect.'],
-  ['A brief that ends', 'The line fills as you read, from the world to your street, until you’re up to date. Come back later and anything new is marked.'],
-  ['Tap for more', 'Tap any story for the short version and a link to the full article. Swipe right, or drag the handle down, to close it.'],
-  ['Make it yours', 'Choose your parts, add interests like snooker or hip hop, pick your suppliers and calendars, and reorder it all in Settings.']
-];
-function renderWelcome() {
-  $('#app').innerHTML = `<section class="welcome" aria-label="Welcome to Lowdown"><div class="wtop"><button class="linkbtn" data-act="welcomeDone">Skip</button></div>
-    <div class="cards" id="cards">${CARDS.map(([t, d], i) => `<div class="card" role="group" aria-roledescription="slide" aria-label="${i + 1} of ${CARDS.length}">${welcomeArt(i)}<h2>${esc(t)}</h2><p>${esc(d)}</p></div>`).join('')}</div>
-    <div class="dots" aria-hidden="true">${CARDS.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div>
-    <button class="btn primary" data-act="welcomeNext" id="wNext">Next</button></section>`;
-  const track = $('#cards');
-  track.addEventListener('scroll', () => {
-    const i = Math.round(track.scrollLeft / track.clientWidth);
-    $$('.dots i').forEach((d, k) => d.classList.toggle('on', k === i));
-    $('#wNext').textContent = i >= CARDS.length - 1 ? (ready() ? 'Back to my brief' : 'Set up my brief') : 'Next';
-  }, { passive: true });
-}
-function welcomeNext() {
-  const track = $('#cards'), i = Math.round(track.scrollLeft / track.clientWidth);
-  if (i >= CARDS.length - 1) return welcomeDone();
-  track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: reduced() ? 'auto' : 'smooth' });
-}
-function welcomeDone() {
-  put('welcomed', true);
-  S.view = null;
-  if (ready() && !get('coached', false)) S.coach = 1;
-  window.scrollTo(0, 0);
-  render();
+function renderIntro() {
+  const back = ready();
+  $('#app').innerHTML = `<section class="intro" aria-labelledby="intro-t">
+    ${introPreview()}
+    <h1 id="intro-t">Your day in two minutes.</h1>
+    <p class="lede">A short daily brief made around you: the news from the world to your street, plus the things you care about.</p>
+    <ul class="what">
+      <li><span class="ic" aria-hidden="true">${ICON.globe}</span><span><b>World to your street</b>The news, politics, money and what\u2019s coming up where you live.</span></li>
+      <li><span class="ic" aria-hidden="true">${ICON.heart}</span><span><b>Your interests</b>The topics you follow, your YouTube channels and your shares.</span></li>
+      <li><span class="ic" aria-hidden="true">${ICON.done}</span><span><b>It ends</b>Open each part, tick it off, and you\u2019re up to date.</span></li>
+    </ul>
+    <button class="btn primary" data-act="introGo">${back ? 'Go through the steps' : 'Get started'}</button>
+    ${back ? '<button class="linkbtn" data-act="introBack">Back to my brief</button>' : '<p class="fine">Four quick steps. Your choices stay on this phone.</p>'}
+  </section>`;
 }
 
 /* ---------- Setup, one step at a time ---------- */
 const STEPS = [
   ['Where are you?', 'For your weather, local news and council.'],
-  ['What would you like in your brief?', 'Switch parts on or off. You can change this any time.'],
-  ['Anything you follow?', 'Pick a few interests, or add your own. Each gets its own short update.'],
-  ['Who are your suppliers?', 'Pick the ones you use, and Lowdown will flag problems.'],
-  ['Which calendars?', 'Festivals and holidays from the calendars you choose.'],
-  ['Markets?', 'A quick line on the markets, if you like.']
+  ['What do you follow?', 'Type anything you\u2019re into: a sport, a team, a band, a hobby. Each gets its own short update.'],
+  ['A YouTube channel you watch', 'Search for it by name. Its new videos show up in your brief.'],
+  ['A share to keep an eye on', 'Pick the market, then type the share\u2019s code. Lowdown checks it and shows the price.']
 ];
 function newDraft() {
-  return { place: null, step: 0, sections: C.defaultSections('GB'), topics: [], suppliers: {}, calendars: C.defaultCalendars('GB'), ics: [], touched: false };
+  if (ready()) { const p = S.prefs; return { edit: true, step: 0, place: { ...p.place }, topics: [...p.topics], channels: (p.channels || []).map((c) => ({ ...c })), watch: p.watch.map((w) => ({ ...w })) }; }
+  return { edit: false, step: 0, place: null, topics: [], channels: [], watch: [] };
+}
+function channelPicks(list, scope) {
+  return list.length ? `<div class="picked">${list.map((c) => `<div class="pcard">${ICON.play}<span class="tx"><b>${esc(c.title)}</b><span>New videos in your brief</span></span><button class="ib" data-act="unchannel" data-scope="${scope}" data-id="${esc(c.id)}" aria-label="Remove ${esc(c.title)}" title="Remove">${ICON.x}</button></div>`).join('')}</div>` : '';
+}
+function sharePicks(list, scope, cc) {
+  const shares = list.filter((w) => w.kind === 'stock');
+  return shares.length ? `<div class="picked">${shares.map((w) => {
+    const q = S.shareQuotes[w.sym], price = q && q.status === 'ok' && isFinite(q.price) ? C.fmtValue({ ...w, cur: q.cur || w.cur }, q.price, C.currencyFor(cc)) : '';
+    return `<div class="pcard">${ICON.chart}<span class="tx"><b>${esc(w.name)}</b><span>${esc(w.sym)}${price ? ' \u00b7 ' + esc(price) : ''}</span></span><button class="ib" data-act="unshare" data-scope="${scope}" data-id="${esc(w.id)}" aria-label="Remove ${esc(w.name)}" title="Remove">${ICON.x}</button></div>`;
+  }).join('')}</div>` : '';
+}
+function shareFormHTML(scope, cc) {
+  const ex = S.exPick[scope] || homeExchange(cc), eg = (EXCHANGES.find((x) => x[0] === ex) || EXCHANGES[0])[2];
+  return `<form class="sharef" data-form="share" data-scope="${scope}">
+    <label class="lbl">Market<select class="field sel" id="exIn-${scope}" data-ex="${scope}">${EXCHANGES.map(([k, n]) => `<option value="${k}"${k === ex ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select></label>
+    <label class="lbl">Code<input class="field" id="codeIn-${scope}" placeholder="e.g. ${esc(eg)}" maxlength="24" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="done"></label>
+    <button class="btn small" type="submit">Add</button></form>
+    <p class="ferr" id="codeErr-${scope}" role="alert"></p>`;
 }
 function renderSetup() {
   if (!S.draft) S.draft = newDraft();
-  const d = S.draft, n = d.step, [title, help] = STEPS[n];
+  const d = S.draft, n = d.step, [title, help] = STEPS[n], last = n === STEPS.length - 1, cc = (d.place && d.place.cc) || 'GB';
   let body = '';
   if (n === 0) body = d.place ? `<div class="placecard"><span>${ICON.pin}${esc(placeLine(d.place))}</span><button class="linkbtn" data-act="changePlace">Change</button></div>` : pickerHTML('setup');
-  else if (n === 1) body = partSwitches(d.sections, d.place, 'setup');
-  else if (n === 2) body = interestsEditor(d.topics, 'setup');
-  else if (n === 3) body = `<div id="supplyBox">${supplyEditor(d.suppliers, 'setup')}</div>`;
-  else if (n === 4) body = `<div id="calBox">${calendarEditor(d.calendars, d.ics, d.place, 'setup')}</div>`;
-  else body = `${swRow('markets', d.sections.markets, d.place, 'setup')}<div class="chips" style="margin-top:14px">${C.defaultWatch((d.place && d.place.cc) || 'GB').map((m) => `<span class="chip">${esc(m.name)}</span>`).join('')}</div><p class="hint">Change these any time in Settings, or add shares by their code.</p>`;
-  const last = n === STEPS.length - 1;
+  else if (n === 1) body = interestsEditor(d.topics, 'setup', 8);
+  else if (n === 2) body = channelPicks(d.channels, 'setup') + ytSearchHTML('setup');
+  else body = sharePicks(d.watch, 'setup', cc) + shareFormHTML('setup', cc) +
+    '<p class="hint">Find codes on Google Finance or your broker\u2019s app: LIDR on NASDAQ is AEye, BARC on London is Barclays.</p>' +
+    `<p class="lastnote">Suppliers, calendars and which parts show are in Settings ${ICON.sliders}, whenever you want them.</p>`;
+  const go = last ? (d.edit ? 'Save' : 'Make my brief') : 'Next';
   $('#app').innerHTML = `<section class="setup step" aria-labelledby="setup-t">
     <div class="prog" aria-hidden="true">${STEPS.map((_, i) => `<i class="${i <= n ? 'on' : ''}"></i>`).join('')}</div>
     <p class="stepn">Step ${n + 1} of ${STEPS.length}</p>
     <h1 id="setup-t" class="steph">${esc(title)}</h1><p class="tagline" style="margin-top:6px">${esc(help)}</p>
     <div class="stepbody">${body}</div>
-    <div class="stepnav">${n ? '<button class="btn ghost back" data-act="setupBack">Back</button>' : ''}<button class="btn primary" data-act="${last ? 'finish' : 'setupNext'}"${n === 0 && !d.place ? ' disabled' : ''}>${last ? 'Make my brief' : 'Next'}</button></div>
-    ${n ? `<button class="linkbtn skip" data-act="${last ? 'finish' : 'setupNext'}">${last ? 'Skip and make my brief' : 'Skip for now'}</button>` : d.place ? '' : '<p class="fine">Choose your place to carry on.</p>'}
-    ${n === 0 ? '<p class="fine">Your choices stay on this phone. To fetch your news, place names, interests and suppliers are sent to the news service, which keeps nothing.</p>' : ''}
+    <div class="stepnav">${n ? '<button class="btn ghost back" data-act="setupBack">Back</button>' : ''}<button class="btn primary" data-act="${last ? 'finish' : 'setupNext'}"${n === 0 && !d.place ? ' disabled' : ''}>${go}</button></div>
+    ${n ? `<button class="linkbtn skip" data-act="${last ? 'finish' : 'setupNext'}">${last ? (d.edit ? 'Skip and save' : 'Skip and make my brief') : 'Skip for now'}</button>` : d.place ? '' : '<p class="fine">Choose your place to carry on.</p>'}
+    ${d.edit && !n ? '<button class="linkbtn skip" data-act="introBack">Back to my brief</button>' : ''}
+    ${n === 0 && !d.edit ? '<p class="fine">Your choices stay on this phone. To fetch your news, place names and interests are sent to the news service, which keeps nothing.</p>' : ''}
   </section>`;
+}
+// Re-draw the step, keeping what was typed in the search box.
+function refreshStep() {
+  const q = $('#ytQ') ? $('#ytQ').value : null;
+  renderSetup();
+  if (q != null && $('#ytQ')) $('#ytQ').value = q;
 }
 function setupStep(dir) {
   const d = S.draft;
   if (d.step === 0 && !d.place) return;
   d.step = Math.max(0, Math.min(STEPS.length - 1, d.step + dir));
+  S.ytResults = [];
   window.scrollTo(0, 0);
   renderSetup();
   const h = $('#setup-t');
@@ -1767,59 +1989,55 @@ function setupStep(dir) {
 function finishSetup() {
   const d = S.draft;
   if (!d || !d.place) return;
-  if (d.topics.length && !d.touched) d.sections.interests = true;
-  S.prefs = C.migratePrefs({ v: 3, place: d.place, sections: d.sections, topics: d.topics, watch: C.defaultWatch(d.place.cc), suppliers: d.suppliers,
-    calendars: d.calendars, ics: d.ics, channels: [], order: C.PARTS.slice(), ring: 'full', setupDone: true, created: Date.now() });
-  savePrefs();
-  S.draft = null;
-  S.cache = {};
-  saveCache();
-  if (!get('coached', false)) S.coach = 1;
-  beginOpen();
+  const shares = d.watch.filter((w) => w.kind === 'stock');
+  if (d.edit) {
+    const p = S.prefs, moved = p.place.lat !== d.place.lat || p.place.lon !== d.place.lon;
+    p.place = d.place; p.topics = d.topics; p.channels = d.channels; p.watch = d.watch;
+    if (d.topics.length) p.sections.interests = true;
+    if (d.channels.length) p.sections.videos = true;
+    if (shares.length) p.sections.markets = true;
+    if (moved) { delete S.cache.weather; delete S.cache.air; delete S.cache.crypto; }
+    savePrefs();
+  } else {
+    const cc = d.place.cc, home = C.defaultWatch(cc)[0], net = C.guessNetwork(d.place);
+    S.prefs = C.migratePrefs({ v: 3, place: d.place, topics: d.topics, channels: d.channels,
+      sections: { ...C.defaultSections(cc), interests: d.topics.length > 0, videos: d.channels.length > 0, markets: shares.length > 0 },
+      watch: shares.length ? [...shares, ...(home ? [{ ...home }] : [])] : C.defaultWatch(cc),
+      suppliers: net ? { electricity: { network: net } } : {}, calendars: C.defaultCalendars(cc), ics: [], order: C.PARTS.slice(), setupDone: true, created: Date.now() });
+    savePrefs();
+    S.cache = {};
+    saveCache();
+    beginOpen();
+  }
+  const edit = d.edit;
+  S.draft = null; S.view = null; S.ytResults = [];
   window.scrollTo(0, 0);
   render();
   refresh(true);
+  toast(edit ? 'Saved.' : 'Your brief is ready. Tap a part to open it.');
 }
-
-/* ---------- First-brief pointers ---------- */
-const COACH = [
-  ['.hero, .mini', 'Your day at a glance: gold is daylight, dots are rain, and the marker is now.'],
-  ['[data-act=start]', 'Your brief has an end. Start here, or tap a part below to jump straight to it.'],
-  ['#setBtn', 'Switch parts on or off, reorder them, set your suppliers and invite friends here.']
-];
-function showCoach() {
-  let c = $('#coach');
-  if (!S.coach || !ready() || S.view) { if (c) c.remove(); return; }
-  const [sel, text] = COACH[S.coach - 1], target = $(sel);
-  if (!target) { S.coach = 0; put('coached', true); if (c) c.remove(); return; }
-  if (!c) { c = document.createElement('div'); c.id = 'coach'; c.className = 'coach'; c.setAttribute('role', 'dialog'); document.body.appendChild(c); }
-  c.setAttribute('aria-label', `Tip ${S.coach} of ${COACH.length}`);
-  const lastTip = S.coach === COACH.length;
-  c.innerHTML = `<i class="carrow" aria-hidden="true"></i><p>${esc(text)}</p><div class="cbar"><span>${S.coach} of ${COACH.length}</span>${lastTip ? '' : '<button class="linkbtn" data-act="coachSkip">Skip</button>'}<button class="btn small" data-act="coachNext">${lastTip ? 'Done' : 'Next'}</button></div>`;
-  placeCoach();
-  $('[data-act=coachNext]', c).focus({ preventScroll: true });
+async function addShare(form) {
+  const scope = form.dataset.scope, ex = $(`#exIn-${scope}`).value, inp = $(`#codeIn-${scope}`), err = $(`#codeErr-${scope}`), btn = $('button[type=submit]', form);
+  const eg = (EXCHANGES.find((x) => x[0] === ex) || EXCHANGES[0])[2];
+  const raw = inp.value.trim().toUpperCase().replace(/\s+/g, '');
+  err.textContent = '';
+  if (!raw) { err.textContent = `Type the share\u2019s code, such as ${eg}.`; return; }
+  const code = raw.includes(':') ? raw : `${ex}:${raw}`;
+  if (!/^[A-Z]{2,12}:[A-Z0-9][A-Z0-9._-]{0,15}$/.test(code)) { err.textContent = `\u201c${inp.value.trim()}\u201d doesn\u2019t look like a share code. Codes are letters and numbers, such as ${eg}.`; return; }
+  const list = scope === 'setup' ? S.draft.watch : S.prefs.watch;
+  if (list.some((w) => w.sym === code)) { err.textContent = `${code} is already in your markets.`; return; }
+  if (list.length >= 20) { err.textContent = 'You can follow up to 20 markets. Remove one first.'; return; }
+  await withBusy(btn, async () => {
+    try {
+      const j = await api('lookup', { symbol: code });
+      const q = j.quote || {}, name = q.name || code;
+      S.shareQuotes[code] = q;
+      list.push({ id: 'gf-' + code, name: name.length > 28 ? code : name, kind: 'stock', sym: code, cur: q.cur || '', note: code });
+      if (scope === 'setup') { renderSetup(); toast(`${name} added.`); }
+      else { marketsChanged(`${name} added.`); refresh(); }
+    } catch (e) { err.textContent = e.message; }
+  });
 }
-function placeCoach() {
-  const c = $('#coach');
-  if (!c || !S.coach) return;
-  const target = $(COACH[S.coach - 1][0]);
-  if (!target) return;
-  const r = target.getBoundingClientRect(), h = c.offsetHeight, vh = innerHeight;
-  const below = r.bottom + 14 + h < vh - 10 || r.top < h + 24;
-  const top = below ? Math.min(r.bottom + 12, vh - h - 10) : Math.max(10, r.top - h - 12);
-  c.style.top = top + 'px';
-  const cr = c.getBoundingClientRect(), a = $('.carrow', c);
-  a.style.left = Math.max(16, Math.min(cr.width - 30, r.left + r.width / 2 - cr.left - 7)) + 'px';
-  a.style.top = below ? '-6px' : '';
-  a.style.bottom = below ? '' : '-6px';
-}
-function coachNext(skip) {
-  if (skip || S.coach >= COACH.length) { S.coach = 0; put('coached', true); showCoach(); return; }
-  S.coach++;
-  showCoach();
-}
-addEventListener('resize', placeCoach);
-addEventListener('scroll', placeCoach, { passive: true });
 
 /* ---------- Settings ---------- */
 function settingsHTML() {
@@ -1837,7 +2055,6 @@ function settingsHTML() {
     <h3 class="grp" id="grp-parts">In your brief</h3>
     <p class="hint" style="margin-top:0">Drag to put the parts in your own order.</p>
     <div id="partBox">${partOrderHTML()}</div>
-    <label class="swrow" style="margin-top:6px"><span>Full day ring<small>Off shows a single line instead</small></span><input type="checkbox" role="switch" class="sw" data-ring="1"${p.ring !== 'compact' ? ' checked' : ''}></label>
     <h3 class="grp" id="grp-interests">Your interests</h3>
     <div id="interestsBox">${interestsEditor(p.topics, 'set')}</div>
     <h3 class="grp" id="grp-suppliers">Your suppliers</h3>
@@ -1848,6 +2065,8 @@ function settingsHTML() {
     <button class="btn ghost" data-act="channels">${ICON.pencil}${(p.channels || []).length ? `Your channels (${p.channels.length})` : 'Add YouTube channels'}</button>
     <h3 class="grp">Markets</h3>
     <button class="btn ghost" data-act="markets">${ICON.pencil}Edit your markets</button>
+    <h3 class="grp">Colours</h3>
+    <div class="seg" role="group" aria-label="Colours">${[['auto', 'Match my phone'], ['light', 'White'], ['dark', 'Black']].map(([k, n]) => `<button data-act="setmode" data-mode="${k}" aria-pressed="${S.mode === k}">${n}</button>`).join('')}</div>
     <h3 class="grp">Invite a friend</h3>
     <p class="about">Anyone with your link can set up their own Lowdown, with their own place and interests.</p>
     <div class="btnrow"><button class="btn ghost" data-act="shareInvite">${ICON.share}Share invite link</button><button class="btn ghost" data-act="copyInvite">${ICON.copy}Copy</button></div>
@@ -1857,7 +2076,7 @@ function settingsHTML() {
     <button class="btn ghost" data-act="tour">Show me around again</button>
     <h3 class="grp">About</h3>
     <p class="about">Lowdown release ${RELEASE}. ${esc(scriptLine)}</p>
-    <p class="about">News from BBC News, Google News and Bing News. Money from MoneySavingExpert. Weather by Open-Meteo. Place names from OpenStreetMap. Trending and on this day from Wikipedia. Calendars from Hebcal and GOV.UK. Power cuts from UK Power Networks. Videos from YouTube. Prices from Google Finance and CoinGecko. Grid data from the National Energy System Operator.</p>`;
+    <p class="about">News from BBC News, Google News and Bing News. Money from MoneySavingExpert. Weather by Open-Meteo, air quality and pollen from Copernicus. Place names from OpenStreetMap. Trending and on this day from Wikipedia. Calendars from Hebcal and GOV.UK. Power cuts from UK Power Networks. Videos from YouTube. Prices from Google Finance and CoinGecko. Grid data from the National Energy System Operator.</p>`;
 }
 function openSettings(to) {
   if (topSheet() && topSheet().id === 'settings') return;
@@ -1878,10 +2097,9 @@ function marketsSheetHTML() {
     <label class="addrow" style="margin-top:0"><span class="vh">Search markets</span><input class="field" id="mkQ" type="search" placeholder="Search indices, currencies, coins" autocomplete="off" value="${esc(S.mkQuery)}"></label>
     <div class="seg" role="group" aria-label="Kind of market">${MK_TABS.map(([k, n]) => `<button data-act="mktab" data-k="${k}" aria-pressed="${S.mkTab === k && !S.mkQuery}">${n}</button>`).join('')}</div>
     <div class="pickgrid" id="mkres">${pickListHTML()}</div>
-    <h3 class="grp">Add a share by its code</h3>
-    <form class="addrow" data-form="code"><label class="vh" for="codeIn">Google Finance code</label><input class="field" id="codeIn" placeholder="For example, LON:BARC" maxlength="32" autocomplete="off" autocapitalize="characters"><button class="btn small" type="submit">Add</button></form>
-    <p class="ferr" id="codeErr" role="alert"></p>
-    <p class="hint">Codes are exchange then symbol, as on Google Finance: LON:BARC for Barclays, NASDAQ:AAPL for Apple.</p>`;
+    <h3 class="grp">Add a share</h3>
+    ${shareFormHTML('mk', S.prefs.place.cc)}
+    <p class="hint">Find codes on Google Finance or your broker\u2019s app, such as BARC on London or LIDR on NASDAQ.</p>`;
 }
 function allMarkets() { const c = C.catalogue(C.currencyFor(S.prefs.place.cc)); return [...c.index, ...c.fx, ...c.metal, ...c.crypto]; }
 function pickListHTML() {
@@ -1922,22 +2140,6 @@ function removeMarket(id) {
   const [m] = S.prefs.watch.splice(i, 1);
   marketsChanged(`${m.name} removed.`);
 }
-async function addCode(form) {
-  const inp = $('#codeIn'), err = $('#codeErr'), btn = $('button', form);
-  const code = inp.value.trim().toUpperCase();
-  err.textContent = '';
-  if (!/^[A-Z0-9][A-Z0-9.:_-]{0,31}$/.test(code) || !code.includes(':')) { err.textContent = `“${inp.value.trim() || ' '}” isn’t a code. Codes look like LON:BARC or NASDAQ:AAPL.`; return; }
-  if (S.prefs.watch.some((w) => w.sym === code)) { err.textContent = `${code} is already in your brief.`; return; }
-  await withBusy(btn, async () => {
-    try {
-      const j = await api('lookup', { symbol: code });
-      const name = (j.quote && j.quote.name) || code;
-      S.prefs.watch.push({ id: 'gf-' + code, name: name.length > 28 ? code : name, kind: 'stock', sym: code, cur: (j.quote && j.quote.cur) || '', note: code });
-      marketsChanged(`${name} added.`);
-      refresh();
-    } catch (e) { err.textContent = e.message; }
-  });
-}
 // Drag the handle to reorder; arrow keys do the same.
 function dragStart(e, grip) {
   const li = grip.closest('.mrow'), list = li.parentElement, rows = [...list.children], from = rows.indexOf(li), h = li.offsetHeight;
@@ -1977,29 +2179,13 @@ function moveMarket(from, to) {
 }
 
 /* ---------- Taps ---------- */
-const POPS = { themes: '#themeBtn' };
-function closePops() {
-  for (const [id, btn] of Object.entries(POPS)) { document.getElementById(id).hidden = true; $(btn).setAttribute('aria-expanded', 'false'); }
-}
-// A tap outside an open panel only closes it.
-document.addEventListener('click', (e) => {
-  const open = Object.keys(POPS).some((id) => !document.getElementById(id).hidden);
-  if (!open || e.target.closest('.pop, ' + Object.values(POPS).join(', '))) return;
-  e.preventDefault(); e.stopPropagation(); closePops();
-}, true);
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closePops();
   const g = e.target.closest && e.target.closest('[data-grip]');
   if (g && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
     e.preventDefault();
     const list = g.closest('ul'), rows = [...list.children], i = rows.indexOf(g.closest('.mrow')), j = i + (e.key === 'ArrowUp' ? -1 : 1);
     if (j >= 0 && j < rows.length) (list.id === 'plist' ? movePart : moveMarket)(i, j);
   }
-});
-$('#themeBtn').addEventListener('click', () => {
-  const p = $('#themes'), show = p.hidden;
-  closePops();
-  if (show) { renderThemes(); p.hidden = false; $('#themeBtn').setAttribute('aria-expanded', 'true'); }
 });
 document.addEventListener('pointerdown', (e) => {
   const g = e.target.closest('[data-grip]');
@@ -2010,11 +2196,22 @@ document.addEventListener('click', (e) => {
   if (!el) return;
   const act = el.dataset.act;
   switch (act) {
-    case 'start': case 'go': {
-      e.preventDefault();
-      const parts = partList(), id = act === 'go' ? el.dataset.id : (parts.find((p) => !isRead(p.id)) || parts[0] || {}).id;
-      const sec = id && document.getElementById('ch-' + id);
-      if (sec) sec.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
+    case 'part': openPart(el.dataset.id); break;
+    case 'next': {
+      const id = el.dataset.id, parts = partList(), i = parts.findIndex((p) => p.id === id), nx = parts[i + 1];
+      finishPart(id);
+      if (nx) openPart(nx.id);
+      else { S.open = null; renderBrief(); const eb = $('#endBox'); if (eb && eb.firstChild) eb.scrollIntoView({ block: 'center' }); else window.scrollTo(0, 0); }
+      break;
+    }
+    case 'weather': openSheet('weather', 'Weather', weatherHTML()); break;
+    case 'nextEvent': openEvent(0); break;
+    case 'mode': case 'setmode': setMode(el.dataset.mode); break;
+    case 'introGo': put('welcomed', true); S.draft = newDraft(); S.view = ready() ? 'setup' : null; window.scrollTo(0, 0); render(); break;
+    case 'introBack': S.view = null; S.draft = null; S.ytResults = []; window.scrollTo(0, 0); render(); break;
+    case 'unshare': {
+      const o = el.dataset.scope === 'setup' ? S.draft : S.prefs, i = o.watch.findIndex((w) => w.id === el.dataset.id);
+      if (i >= 0) { const [w] = o.watch.splice(i, 1); if (el.dataset.scope === 'setup') renderSetup(); else marketsChanged(`${w.name} removed.`); }
       break;
     }
     case 'story': openStory(el.dataset.g, +el.dataset.i); break;
@@ -2023,7 +2220,6 @@ document.addEventListener('click', (e) => {
     case 'settings': if (topSheet()) { history.back(); setTimeout(() => openSettings(el.dataset.to), 220); } else openSettings(el.dataset.to); break;
     case 'markets': S.mkQuery = ''; openSheet('markets', 'Markets', marketsSheetHTML()); break;
     case 'refresh': withBusy(el, () => refresh(true)).then(() => toast('Up to date.')); break;
-    case 'theme': S.theme = el.dataset.id; put('theme', S.theme); applyTheme(); renderThemes(); break;
     case 'dismiss': S.dismissed[el.dataset.id] = Date.now(); put('dismissed', S.dismissed); el.closest('.notice').remove(); break;
     case 'install': if (S.installEvt) { S.installEvt.prompt(); S.installEvt.userChoice.finally(() => { S.installEvt = null; render(); }); } break;
     case 'locate': locate(el, el.dataset.scope); break;
@@ -2038,25 +2234,27 @@ document.addEventListener('click', (e) => {
     case 'finish': finishSetup(); break;
     case 'setupNext': setupStep(1); break;
     case 'setupBack': setupStep(-1); break;
-    case 'welcomeNext': welcomeNext(); break;
-    case 'welcomeDone': welcomeDone(); break;
-    case 'coachNext': coachNext(false); break;
-    case 'coachSkip': coachNext(true); break;
-    case 'tour': put('welcomed', false); put('coached', false); S.coach = 0; if (topSheet()) history.back(); setTimeout(() => { S.view = 'welcome'; window.scrollTo(0, 0); render(); }, topSheet() ? 220 : 0); break;
+    case 'tour': { const t = topSheet() ? 220 : 0; if (t) history.back(); setTimeout(() => { S.view = 'intro'; S.draft = null; window.scrollTo(0, 0); render(); }, t); break; }
     case 'supplier': openSupplier(el.dataset.cat); break;
     case 'event': openEvent(+el.dataset.i); break;
     case 'video': openVideo(+el.dataset.i); break;
     case 'channels': S.ytResults = []; openSheet('channels', 'Videos', channelsHTML()); break;
     case 'addChannel': {
-      const c = S.ytResults[+el.dataset.i], list = S.prefs.channels = S.prefs.channels || [];
+      const setup = el.dataset.scope === 'setup', c = S.ytResults[+el.dataset.i];
+      const list = setup ? S.draft.channels : (S.prefs.channels = S.prefs.channels || []);
       if (!c || list.some((x) => x.id === c.id)) break;
       if (list.length >= 12) { toast('You can follow up to 12 channels. Remove one first.'); break; }
       list.push({ id: c.id, title: c.title });
+      if (setup) { refreshStep(); toast(`${c.title} added.`); break; }
       if (!S.prefs.sections.videos) S.prefs.sections.videos = true;
       channelsChanged(`${c.title} added.`);
       break;
     }
-    case 'unchannel': { const list = S.prefs.channels || [], i = list.findIndex((x) => x.id === el.dataset.id); if (i >= 0) { const [c] = list.splice(i, 1); channelsChanged(`${c.title} removed.`); } break; }
+    case 'unchannel': {
+      const setup = el.dataset.scope === 'setup', list = (setup ? S.draft.channels : S.prefs.channels) || [], i = list.findIndex((x) => x.id === el.dataset.id);
+      if (i >= 0) { const [c] = list.splice(i, 1); if (setup) refreshStep(); else channelsChanged(`${c.title} removed.`); }
+      break;
+    }
     case 'unics': { const o = draftOrPrefs(el.dataset.scope); o.ics.splice(+el.dataset.i, 1); afterCalendars(el.dataset.scope, 'Calendar removed.'); break; }
     case 'shareInvite': shareInvite(); break;
     case 'copyInvite': copyInvite(); break;
@@ -2075,7 +2273,7 @@ document.addEventListener('submit', (e) => {
   if (f.dataset.form === 'topic') {
     const inp = $('input', f);
     if (addTopic(f.dataset.scope, inp.value)) { const again = $(`#topicIn-${f.dataset.scope}`); if (again) { again.value = ''; again.focus(); } }
-  } else if (f.dataset.form === 'code') addCode(f);
+  } else if (f.dataset.form === 'share') addShare(f);
   else if (f.dataset.form === 'invite' || f.dataset.form === 'own') submitInvite(f);
   else if (f.dataset.form === 'yt') searchChannels(f);
   else if (f.dataset.form === 'ics') addIcs(f);
@@ -2085,7 +2283,7 @@ document.addEventListener('input', (e) => {
   if (t.dataset.town) searchTown(t.dataset.town, t.value);
   else if (t.id === 'mkQ') { S.mkQuery = t.value; $('#mkres').innerHTML = pickListHTML(); $$('.seg button', topSheet()).forEach((b) => b.setAttribute('aria-pressed', String(!S.mkQuery && b.dataset.k === S.mkTab))); }
   else if (t.id && t.id.startsWith('topicIn-')) { const err = $(`#topicErr-${t.id.slice(8)}`); if (err) err.textContent = ''; }
-  else if (t.id === 'codeIn') $('#codeErr').textContent = '';
+  else if (t.id && t.id.startsWith('codeIn-')) { const e2 = $(`#codeErr-${t.id.slice(7)}`); if (e2) e2.textContent = ''; }
   else if (t.id === 'ytQ') $('#ytErr').textContent = '';
   else if (t.id && t.id.startsWith('icsIn-')) { const e2 = $(`#icsErr-${t.id.slice(6)}`); if (e2) e2.textContent = ''; }
   else if (t.id && /^(invIn|ownUrl|ownCode)-/.test(t.id)) { $$('.ferr', t.closest('section, dialog') || document).forEach((x) => { if (/^(invErr|ownErr)/.test(x.id)) x.textContent = ''; }); S.inviteError = ''; }
@@ -2097,9 +2295,10 @@ document.addEventListener('change', (e) => {
     secs[t.dataset.sec] = t.checked;
     if (scope === 'setup' && t.dataset.sec === 'interests') S.draft.touched = true;
     if (scope !== 'setup') { savePrefs(); render(); if (t.checked) refresh(); }
-  } else if (t.dataset.ring) {
-    S.prefs.ring = t.checked ? 'full' : 'compact';
-    savePrefs(); render();
+  } else if (t.dataset.ex) {
+    const scope = t.dataset.ex, eg = (EXCHANGES.find((x) => x[0] === t.value) || EXCHANGES[0])[2], inp = $(`#codeIn-${scope}`);
+    S.exPick[scope] = t.value;
+    if (inp) inp.placeholder = 'e.g. ' + eg;
   } else if (t.dataset.cal) {
     const o = draftOrPrefs(t.dataset.scope);
     o.calendars = { ...(o.calendars || {}), [t.dataset.cal]: t.checked };
@@ -2142,10 +2341,14 @@ document.addEventListener('visibilitychange', () => {
 });
 window.addEventListener('online', () => { if (ready()) { renderHeader(); refresh(); } });
 window.addEventListener('offline', renderHeader);
-setInterval(() => { if (document.visibilityState === 'visible' && ready()) { applyTheme(); renderHero(); renderHeader(); } }, 60000);
+setInterval(() => { if (document.visibilityState === 'visible' && ready()) { applyTheme(); renderHeader(); } }, 60000);
 
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+addEventListener('scroll', () => document.documentElement.classList.toggle('scrolled', window.scrollY > 4), { passive: true });
 beginOpen();
+// Someone already set up sees one short note about what changed.
+if (S.prefs && S.prefs.setupDone && get('release', 0) < RELEASE) { S.whatsNew = fromOld ? 3 : 4; put('whatsNew', S.whatsNew); }
+put('release', RELEASE);
 const fromLink = takeHashInvite();
 if (fromLink === 'bad') S.inviteError = 'That invite link is incomplete. Ask for it again, or paste it below.';
 if (fromLink && fromLink !== 'bad') {
