@@ -265,10 +265,44 @@
     const m = Math.round((setH - riseH) * 60);
     return `${Math.floor(m / 60)}h ${m % 60}m`;
   }
+  // Views and counts the way people say them: 2.1M, 340K, 12,345.
+  function compactNum(n) {
+    if (n == null || !isFinite(n)) return '';
+    if (n >= 1e9) return (n / 1e9).toFixed(n < 1e10 ? 1 : 0).replace(/\.0$/, '') + 'B';
+    if (n >= 1e6) return (n / 1e6).toFixed(n < 1e7 ? 1 : 0).replace(/\.0$/, '') + 'M';
+    if (n >= 1e5) return Math.round(n / 1e3) + 'K';
+    return Math.round(n).toLocaleString('en-GB');
+  }
   // The next event for the top of the page: "Diwali today", "Diwali tomorrow", "Diwali in 8 days".
   function eventLine(e) {
     if (!e) return '';
     return e.away <= 0 ? `${e.title} today` : e.away === 1 ? `${e.title} tomorrow` : `${e.title} in ${e.away} days`;
+  }
+
+  /* ---------- Getting around ---------- */
+  // TfL status codes that mean all's well: good service, no issues, information, closed for the night.
+  const lineBad = (l) => !!l && ![10, 18, 19, 20].includes(Number(l.sev));
+  // "[A313] Park Road (Richmond)" -> "Park Road".
+  function shortRoad(loc) {
+    const s = String(loc || '').trim();
+    return s.replace(/^\[[^\]]*\]\s*/, '').replace(/\s*\([^)]*\)$/, '').trim() || s;
+  }
+  // What's wrong at a station, in a few words: the worst line's status, else its own notice.
+  function stationProblem(st) {
+    const bad = (st.lines || []).filter(lineBad).sort((a, b) => a.sev - b.sev);
+    if (bad.length) return { sev: bad[0].sev, word: String(bad[0].status || 'delays').toLowerCase() };
+    const n = (st.notices || [])[0];
+    if (n) return { sev: 12, word: /clos/i.test(n.type || '') && !/lift|escalator/i.test(n.desc || '') ? 'closure' : 'station notice' };
+    return null;
+  }
+  // The short lines under the next event, only when something is wrong: your stations, then closures or serious problems on roads within 5 miles.
+  function travelAlerts(stations, roads) {
+    const out = [];
+    const hit = (stations || []).map((s) => ({ s, p: stationProblem(s) })).filter((x) => x.p).sort((a, b) => a.p.sev - b.p.sev);
+    if (hit.length) out.push({ kind: 'train', name: hit[0].s.name, what: hit[0].p.word, more: hit.length - 1 });
+    const bad = (roads || []).filter((r) => r.closure || r.sev === 'Serious' || r.sev === 'Severe').sort((a, b) => a.km - b.km || b.closure - a.closure);
+    if (bad.length) out.push({ kind: 'road', name: shortRoad(bad[0].loc), what: bad[0].closure ? 'closed' : 'disrupted', more: bad.length - 1 });
+    return out;
   }
 
   function tempLine(o) {
@@ -482,11 +516,11 @@
   }
 
   /* ---------- Parts of the brief ---------- */
-  const PARTS = ['news', 'politics', 'money', 'suppliers', 'comingup', 'videos', 'interests', 'markets', 'looked', 'onthisday', 'greenest'];
+  const PARTS = ['news', 'politics', 'money', 'suppliers', 'travel', 'comingup', 'videos', 'interests', 'markets', 'trending', 'viral', 'looked', 'onthisday', 'greenest'];
   function defaultSections(cc) {
     const uk = cc === 'GB';
     return { world: true, country: true, county: true, local: true, politics: true, money: uk, suppliers: uk, comingup: true, videos: false,
-      interests: false, markets: false, looked: false, onthisday: false, greenest: false };
+      interests: false, markets: false, trending: true, viral: true, looked: false, onthisday: false, greenest: false, transport: uk, roads: uk };
   }
   const defaultCalendars = (cc) => ({ christian: false, orthodox: false, jewish: false, islamic: false, hindu: false, sikh: false, buddhist: false, lunar: false, bank: cc === 'GB' });
   // Release 3 adds parts, an order and calendars to older settings, keeping every choice already made.
@@ -506,7 +540,19 @@
       out.ring = out.ring || 'full';
       out.v = 3;
     }
-    out.order = [...new Set([...(out.order || []).filter((k) => PARTS.includes(k)), ...PARTS])];
+    // Release 5 adds Trending now and Viral, switched on, and Getting around (public transport and roads, in the UK), each in its place.
+    out.sections = { ...out.sections };
+    const d5 = defaultSections(out.place && out.place.cc);
+    for (const k of ['trending', 'viral', 'transport', 'roads']) if (!(k in out.sections)) out.sections[k] = d5[k];
+    if (!Array.isArray(out.stations)) out.stations = [];
+    const order = [...new Set((out.order || []).filter((k) => PARTS.includes(k)))];
+    // A missing part goes straight after the part that comes before it, so a chosen order is kept.
+    PARTS.forEach((k, i) => {
+      if (order.includes(k)) return;
+      const prev = PARTS.slice(0, i).reverse().find((x) => order.includes(x));
+      order.splice(prev ? order.indexOf(prev) + 1 : 0, 0, k);
+    });
+    out.order = order;
     return out;
   }
 
@@ -660,12 +706,12 @@
   const Core = {
     sunTimes, sunAltitude, skyTheme, moonPhase, tzOffsetSec, localHours, localDayKey, localWeekday, localNoon, hourWord,
     ringPoint, arcPath, ticksPath, wetRuns, wetKind, conditionWord, weatherSentence, tempLine,
-    weatherIcon, compass, compassShort, windWord, uvWord, aqiWord, pollenLevel, dayLength, eventLine,
+    weatherIcon, compass, compassShort, windWord, uvWord, aqiWord, pollenLevel, dayLength, eventLine, compactNum,
     CUR, currencyFor, catalogue, defaultWatch, INDICES, METALS, COINS, fxList, fmtValue, fmtPct, barWidth, moveWords, marketSentence,
     greenestWindow, hourlyBars, greenSentence, filterTrending, pickOnThisDay, timeAgo, TOPIC_PRESETS, cleanTopic, briefLabel,
     placeFromNominatim, placeFromSearch, cleanCouncil, PARTS, defaultSections, defaultCalendars, migratePrefs,
     addDays, daysBetween, easter, orthodoxEaster, adventSunday, christianEvents, orthodoxEvents, FAITH_TABLE, CALENDARS, localEvents, upcoming, whenWord, shortDate,
-    SUPPLY, NETWORKS, guessNetwork, supplyQuery, distanceKm, powerNear
+    SUPPLY, NETWORKS, guessNetwork, supplyQuery, distanceKm, powerNear, lineBad, shortRoad, stationProblem, travelAlerts
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = Core;
   else root.Core = Core;

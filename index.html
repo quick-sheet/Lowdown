@@ -15,7 +15,7 @@
 <meta name="apple-mobile-web-app-title" content="Lowdown">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&family=Hanken+Grotesk:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&family=Newsreader:opsz,wght@6..72,500..700&display=swap">
 <script>
 // White or black before the first paint: the phone's own setting, unless this phone chose one.
 (function () { var m = 'auto'; try { m = JSON.parse(localStorage.getItem('ldn.mode')) || 'auto'; } catch (e) {}
@@ -27,14 +27,14 @@
 :root{--bg:#FFFFFF;--raise:#F4F4F3;--raise-2:#E9E9E7;--line:rgba(0,0,0,.09);--line-2:rgba(0,0,0,.18);--ink:#0B0B0B;--ink-2:#444444;--ink-3:#666666;--meta:#666666;
 --sun:#EDA23A;--sun-soft:rgba(237,162,58,.22);--on-sun:#1A1205;--link:#0B0B0B;--tag:#0B0B0B;--up:#1F5FA8;--down:#B4521F;--rain:#2F6DB5;
 --arc-a:#EDA23A;--arc-b:#F4CF7E;--arc-c:#E5823F;--arc-o:1;--scrim:rgba(0,0,0,.42);--shadow:0 12px 32px rgba(0,0,0,.16);
---sans:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--disp:"Bricolage Grotesque","Hanken Grotesk",system-ui,sans-serif;color-scheme:light}
+--sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--disp:"Newsreader","Iowan Old Style",Georgia,serif;color-scheme:light}
 :root[data-theme="dark"]{--bg:#000000;--raise:#121212;--raise-2:#1E1E1E;--line:rgba(255,255,255,.11);--line-2:rgba(255,255,255,.22);--ink:#F4F4F4;--ink-2:#B8B8B8;--ink-3:#8C8C8C;--meta:#9C9C9C;
 --sun:#F0B04F;--sun-soft:rgba(240,176,79,.2);--on-sun:#1A1205;--link:#F4F4F4;--tag:#F4F4F4;--up:#82B4F0;--down:#F0A06B;--rain:#82B4F0;
 --arc-a:#F0B04F;--arc-b:#F6D78E;--arc-c:#E7A15C;--arc-o:.9;--scrim:rgba(0,0,0,.6);--shadow:0 12px 32px rgba(0,0,0,.6);color-scheme:dark}
 
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;background:var(--bg)}
-body{margin:0;min-height:100dvh;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+body{margin:0;min-height:100dvh;overflow-x:clip;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;font-optical-sizing:auto;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;text-rendering:optimizeLegibility}
 button,input{font:inherit;color:inherit}
 button{cursor:pointer}
 a{color:var(--link)}
@@ -45,21 +45,36 @@ a{color:var(--link)}
 /* Header */
 .bar{position:sticky;top:0;z-index:10;background:var(--bg);padding-top:env(safe-area-inset-top);transition:box-shadow .2s}
 .scrolled .bar{box-shadow:0 1px 0 var(--line)}
-.top{max-width:34rem;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:8px;padding:8px 10px 8px 20px}
-.top .id{grid-row:1/3}
-.hb{align-items:center}
-.wx{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 12px 0 7px;margin-right:2px;border:1px solid var(--line-2);border-radius:19px;background:transparent;color:var(--ink);font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+.top{max-width:34rem;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:6px;padding:8px 12px 10px 20px}
+.top .id{display:contents}
+.brandrow{grid-column:1;grid-row:1;display:flex;align-items:center;gap:2px;min-width:0}
+.top .sub{grid-column:1;grid-row:2;margin-top:1px}
+.hb{grid-column:2;grid-row:1;align-items:center;gap:0}
+.hb .ib{width:40px;height:40px}
+.lk{position:relative}
+.badge{position:absolute;top:3px;right:1px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--ink);color:var(--bg);font-size:11px;font-weight:700;line-height:17px;text-align:center;font-variant-numeric:tabular-nums;box-shadow:0 0 0 2px var(--bg)}
+.wx{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 11px 0 7px;margin-right:4px;border:1px solid var(--line-2);border-radius:19px;background:transparent;color:var(--ink);font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
 .wx svg{width:24px;height:24px;flex-shrink:0;overflow:visible}
 .wx:active{background:var(--line)}
-.evl{grid-column:2;justify-self:start;max-width:min(240px,52vw);margin:2px 0 0 2px;padding:0;border:0;background:transparent;color:var(--ink-2);font-size:13px;font-weight:500;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.evl b{font-weight:600;color:var(--ink)}
+.evl{grid-column:2;grid-row:2;justify-self:start;display:flex;gap:4px;width:0;min-width:100%;min-height:24px;margin:2px 0 0 2px;padding:0;border:0;background:transparent;color:var(--ink-2);font-size:13px;font-weight:500;text-align:left;white-space:nowrap}
+.evl b{min-width:0;overflow:hidden;text-overflow:ellipsis;font-weight:600;color:var(--ink)}
+.evl span{flex-shrink:0}
+.als{grid-column:2;grid-row:3;display:flex;flex-direction:column;width:0;min-width:100%}
+.evl[hidden]+.als{grid-row:2}
+.als .evl{width:auto;min-width:0;min-height:22px;margin-top:0;align-items:center;gap:0;font-weight:500}
+.ali{position:relative;flex-shrink:0;display:inline-flex;margin-right:6px;color:var(--down)}
+.ali:has(i){margin-right:10px}
+.ali i{position:absolute;top:-5px;right:-6px;min-width:13px;height:13px;padding:0 3px;border-radius:7px;background:var(--down);color:var(--bg);font-size:9px;font-style:normal;font-weight:700;line-height:13px;text-align:center;box-shadow:0 0 0 1.5px var(--bg)}
+.als .evl b{font-weight:600;flex-shrink:0;max-width:62%}
+.als .evl span:last-child{flex-shrink:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
 .id{display:flex;flex-direction:column;gap:2px;min-width:0}
-.brand{font-family:var(--disp);font-size:22px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
-.sub{display:flex;align-items:center;min-width:0;font-size:13px;color:var(--meta);white-space:nowrap}
-.sub .l{overflow:hidden;text-overflow:ellipsis;min-width:0}
-.sub .c{flex-shrink:0;display:inline-flex;align-items:center;gap:6px}
+.brand{font-family:var(--disp);font-size:26px;font-weight:700;letter-spacing:-.012em;line-height:1}
+.ref{width:34px!important;height:34px!important;margin-top:2px;color:var(--meta)}
+.ref.busy svg,.ref.spinning svg{animation:spin .9s linear infinite}
+.sub{min-width:0;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--meta);white-space:nowrap;line-height:1.6}
 .hb{display:flex;gap:2px;flex-shrink:0}
 .ib{width:44px;height:44px;padding:0;border:0;border-radius:22px;background:transparent;color:var(--ink-2);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+@media (max-width:379px){.brand{font-size:23px}.hb .ib{width:36px}.ref{width:30px!important;height:30px!important}.wx{padding:0 9px 0 6px}.top{padding-left:16px;padding-right:10px}}
 .ib:active{background:var(--line)}
 .ib[aria-expanded="true"]{background:var(--line);color:var(--ink)}
 
@@ -91,57 +106,80 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 @keyframes spin{to{transform:rotate(1turn)}}
 
 /* The brief: a list of parts, one open at a time */
-.bh{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:16px 0 4px}
-.bh h2{margin:0;font-family:var(--disp);font-size:26px;font-weight:600;letter-spacing:-.02em;line-height:1.1}
+.bh{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:2px 12px;margin:16px 0 6px}
+.bh h2{margin:0;white-space:nowrap;font-family:var(--disp);font-size:28px;font-weight:600;letter-spacing:-.01em;line-height:1.1}
 .bh span{font-size:13px;color:var(--meta);white-space:nowrap}
 .part{position:relative}
 .part::before{content:"";position:absolute;left:14px;top:0;bottom:0;width:2px;background:var(--line-2)}
 .part:first-of-type::before{top:29px}
 .part:last-of-type:not(.open)::before{bottom:auto;height:29px}
+.part.open::before{bottom:auto;height:29px}
+.part.open:first-of-type::before{display:none}
 .part:only-of-type:not(.open)::before{display:none}
 .ph{position:relative;display:flex;align-items:center;gap:10px;width:100%;min-height:58px;padding:0 0 0 36px;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left;scroll-margin-top:calc(70px + env(safe-area-inset-top))}
-.ph .t{flex:1;min-width:0;font-size:17px;font-weight:500;line-height:1.25}
-.ph .n{font-size:13px;color:var(--meta);white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.ph .t{flex:1;min-width:min-content;font-size:17px;font-weight:500;line-height:1.25}
+.ph .n{flex:0 1 auto;min-width:0;max-width:55%;font-size:13px;color:var(--meta);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.part.open .ph .n{max-width:42%}
 .ph>svg{color:var(--meta);flex-shrink:0;transition:transform .2s}
 .part.open .ph{border-bottom-color:transparent}
-.part.open .ph .t{font-family:var(--disp);font-size:23px;font-weight:600;letter-spacing:-.015em}
+.part.open .ph .t{font-family:var(--disp);font-size:25px;font-weight:600;letter-spacing:-.01em;line-height:1.15}
 .part.open .ph>svg{transform:rotate(180deg);color:var(--ink)}
 .node{position:absolute;left:8px;top:50%;margin-top:-7px;width:14px;height:14px;border-radius:7px;border:2px solid var(--meta);background:var(--bg);z-index:1;display:flex;align-items:center;justify-content:center}
 .node.now{border:3px solid var(--ink)}
 .node.done{left:5px;width:20px;height:20px;margin-top:-10px;border:0;border-radius:10px;background:var(--ink);color:var(--bg)}
 .node.done svg{width:12px;height:12px}
-.pb{padding:0 0 24px 36px;border-bottom:1px solid var(--line);animation:open .24s cubic-bezier(.2,.8,.2,1)}
+.pb{padding:2px 0 26px;border-bottom:1px solid var(--line);animation:open .24s cubic-bezier(.2,.8,.2,1)}
 @keyframes open{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
-.chsub{margin:-8px 0 2px;font-size:13px;color:var(--meta)}
-.nextbtn{margin-top:22px}
+.chsub{margin:-10px 0 2px 36px;font-size:13px;color:var(--meta)}
+.nextbtn{margin-top:24px}
 .nextbtn svg{margin-left:2px}
-.foot{margin:22px 0 0;padding-left:36px}
-.foot .src{margin-top:12px}
+.foot{margin:24px 0 0}
+.foot .src{margin-top:8px}
+.pullhint{display:flex;align-items:center;gap:6px;margin:0;font-size:13px;color:var(--ink-2)}
+.ptr{position:fixed;z-index:9;left:50%;top:calc(env(safe-area-inset-top) + 58px);width:40px;height:40px;margin-left:-20px;border-radius:20px;background:var(--raise);box-shadow:var(--shadow);color:var(--ink);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(-30px);pointer-events:none}
+.ptr svg{transition:transform .15s}
+.ptr.armed svg{transform:rotate(180deg)}
+html,body{overscroll-behavior-y:contain}
 .ch-end{display:block;height:1px}
 .src{margin:12px 0 0;font-size:12px;line-height:1.5;color:var(--meta)}
-.empty{margin:0;padding:12px 0;font-size:15px;font-weight:300;line-height:1.5;color:var(--ink-2);display:flex;align-items:center;gap:8px}
+.empty{margin:0;padding:12px 0;font-size:15px;font-weight:400;line-height:1.5;color:var(--ink-2);display:flex;align-items:center;gap:8px}
 
 /* News tiers and items */
-.tier{margin-top:18px}
-.tierh{margin:0 0 2px;display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600}
-.tierh .tn{min-width:0;line-height:1.3}
-.tierh .n{font-size:13px;font-weight:400;color:var(--meta);white-space:nowrap}
-.item{display:flex;align-items:flex-start;gap:12px;width:100%;padding:14px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left}
+.tier{border-bottom:1px solid var(--line)}
+.tier:last-of-type{border-bottom:0}
+.tierh{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;margin:0;padding:6px 0;border:0;background:transparent;color:var(--ink);text-align:left}
+.tic{flex-shrink:0;width:36px;height:36px;border-radius:18px;background:var(--raise);color:var(--ink);display:flex;align-items:center;justify-content:center}
+.tier.open .tic{background:var(--ink);color:var(--bg)}
+.tierh .tn{flex:1;min-width:0;font-size:17px;font-weight:600;line-height:1.3}
+.tierh .n{font-size:13px;font-weight:400;color:var(--meta);white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+.tierh .n svg{color:var(--ink)}
+.tierh>svg{flex-shrink:0;color:var(--meta);transition:transform .2s}
+.tier.open .tierh>svg{transform:rotate(180deg);color:var(--ink)}
+.tierb{padding:0 0 8px;animation:open .22s cubic-bezier(.2,.8,.2,1)}
+.tierb .item:last-child{border-bottom:0}
+.item{display:flex;align-items:flex-start;gap:4px;border-bottom:1px solid var(--line)}
+.itm{flex:1;min-width:0;display:flex;padding:15px 0 16px;border:0;background:transparent;color:var(--ink);text-align:left}
+.like{flex-shrink:0;width:44px;height:44px;margin:8px -12px 0 0;padding:0;border:0;border-radius:22px;background:transparent;color:var(--meta);display:inline-flex;align-items:center;justify-content:center}
+.like[aria-pressed="true"]{color:var(--ink)}
+.like:active{background:var(--line)}
+.like.big{width:52px;height:52px;margin:0;border:1px solid var(--line-2);border-radius:26px;color:var(--ink)}
+.likerow{display:flex;gap:10px;margin-top:22px}
+.likerow .btn.dark{flex:1;width:auto;margin:0}
 .item:last-child{border-bottom:0}
-.item .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
-.item .hl{font-family:var(--disp);font-size:19px;font-weight:600;line-height:1.25;letter-spacing:-.01em}
-.item.lead .hl{font-size:22px;line-height:1.2;letter-spacing:-.015em}
-.item.small .hl{font-family:var(--sans);font-size:17px;font-weight:500;line-height:1.3;letter-spacing:0}
-.item .sum{font-size:15px;font-weight:300;line-height:1.5;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.item .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.item .hl{font-family:var(--disp);font-size:20px;font-weight:600;line-height:1.26;letter-spacing:-.003em}
+.item.lead .hl{font-size:24px;line-height:1.2;letter-spacing:-.008em}
+.item.small .hl{font-size:18px;line-height:1.28}
+.item .sum{font-size:15px;line-height:1.5;font-weight:400;line-height:1.5;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .item .meta{font-size:13px;color:var(--meta)}
-.item>svg{margin-top:4px;flex-shrink:0;color:var(--meta)}
 .newdot{display:inline-block;width:8px;height:8px;border-radius:4px;background:var(--ink);margin:0 8px 2px 0;vertical-align:middle}
 .topic{margin-top:16px}
 .topich{margin:0;display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink);background:var(--raise-2);border-radius:12px;padding:4px 10px}
 
 /* Markets */
-.prose{margin:12px 0 6px;font-size:18px;font-weight:300;line-height:1.55}
-.mk{display:grid;grid-template-columns:minmax(0,1fr) 92px 64px;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
+.prose{margin:12px 0 6px;font-size:18px;font-weight:400;line-height:1.55}
+.mk{display:grid;grid-template-columns:minmax(0,1fr) 84px 62px 14px;align-items:center;gap:10px;width:100%;min-height:58px;padding:10px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left}
+.mk>svg{color:var(--meta)}
 .mk:last-of-type{border-bottom:0}
 .mk .nm{display:flex;flex-direction:column;gap:2px;min-width:0}
 .mk .nm b{font-size:15px;font-weight:500}
@@ -157,17 +195,17 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 .edit{margin-top:14px}
 
 /* Looked up and on this day */
-.rk{display:grid;grid-template-columns:30px minmax(0,1fr);gap:4px;width:100%;padding:14px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left}
-.rk:last-of-type{border-bottom:0}
-.rk .no{font-family:var(--disp);font-size:18px;font-weight:600;color:var(--meta);font-variant-numeric:tabular-nums;line-height:1.3}
+.rowl{display:flex;align-items:flex-start;gap:4px;border-bottom:1px solid var(--line)}
+.rowl:last-of-type{border-bottom:0}
+.rk{flex:1;min-width:0;display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px;padding:15px 0;border:0;background:transparent;color:var(--ink);text-align:left}
+.rk .no{font-family:var(--sans);font-size:16px;font-weight:600;color:var(--meta);font-variant-numeric:tabular-nums;line-height:1.3}
 .rk .tx{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0}
-.rk .tt{font-size:17px;font-weight:500;line-height:1.3}
-.rk .ds{font-size:14px;font-weight:300;line-height:1.45;color:var(--ink-2)}
+.rk .tt{font-family:var(--disp);font-size:19px;font-weight:600;line-height:1.25}
+.rk .ds{font-size:14px;font-weight:400;line-height:1.45;color:var(--ink-2)}
 .tag{margin-top:4px;font-size:12px;font-weight:600;color:var(--tag);background:var(--raise-2);border-radius:10px;padding:3px 9px}
-.otd{display:grid;grid-template-columns:70px minmax(0,1fr);gap:10px;width:100%;padding:14px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left}
-.otd:last-of-type{border-bottom:0}
-.otd .yr{font-family:var(--disp);font-size:26px;font-weight:600;line-height:1.05;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.otd .tx{font-size:15px;font-weight:300;line-height:1.5}
+.otd{flex:1;min-width:0;display:grid;grid-template-columns:66px minmax(0,1fr);gap:10px;padding:15px 0;border:0;background:transparent;color:var(--ink);text-align:left}
+.otd .yr{font-family:var(--disp);font-size:26px;font-weight:600;line-height:1.05;letter-spacing:-.01em;font-variant-numeric:lining-nums tabular-nums}
+.otd .tx{font-size:15px;font-weight:400;line-height:1.5}
 
 /* Greenest hours */
 .chart{position:relative;padding-top:22px;margin-top:6px}
@@ -179,10 +217,10 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 .ticks span{grid-row:1;white-space:nowrap}
 
 /* The end */
-.end{position:relative;padding:34px 0 24px 36px}
-.end .tick{position:absolute;left:1px;top:34px;width:28px;height:28px;border-radius:14px;background:var(--raise-2);color:var(--ink);display:flex;align-items:center;justify-content:center}
-.end h2{margin:0;font-family:var(--disp);font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1.1}
-.end p{margin:10px 0 0;font-size:16px;font-weight:300;line-height:1.55;color:var(--ink-2)}
+.end{position:relative;padding:30px 0 6px 36px}
+.end .tick{position:absolute;left:1px;top:32px;width:28px;height:28px;border-radius:14px;background:var(--raise-2);color:var(--ink);display:flex;align-items:center;justify-content:center}
+.end h2{margin:0;font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.01em;line-height:1.1}
+.end p{margin:10px 0 0;font-size:16px;font-weight:400;line-height:1.55;color:var(--ink-2)}
 .end .src{font-size:12px;font-weight:400;color:var(--meta);margin-top:18px}
 .end .btn{margin-top:16px}
 
@@ -190,7 +228,7 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 .setup{padding-top:20px}
 .logo{display:flex;align-items:center;gap:12px}
 .logo h1{margin:0;font-family:var(--disp);font-size:40px;font-weight:700;letter-spacing:-.03em;line-height:1}
-.tagline{margin:10px 0 0;font-size:18px;font-weight:300;line-height:1.5;color:var(--ink-2)}
+.tagline{margin:10px 0 0;font-size:18px;font-weight:400;line-height:1.5;color:var(--ink-2)}
 .steps{list-style:none;margin:24px 0 0;padding:0;display:flex;flex-direction:column;gap:26px}
 .steps>li{display:grid;grid-template-columns:28px minmax(0,1fr);column-gap:12px}
 .num{width:26px;height:26px;border-radius:13px;background:var(--ink);color:var(--bg);font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center}
@@ -213,16 +251,15 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 .ev{display:flex;align-items:center;gap:14px;width:100%;padding:12px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left}
 .ev:last-of-type{border-bottom:0}
 .evd{flex-shrink:0;width:48px;height:52px;border-radius:12px;background:var(--raise-2);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
-.evd b{font-family:var(--disp);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums}
+.evd b{font-family:var(--sans);font-size:19px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
 .evd span{font-size:11px;color:var(--meta);margin-top:3px}
 .ev.today .evd{background:var(--ink);color:var(--bg)} .ev.today .evd span{color:var(--bg)}
 .evt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
 .evn{font-size:17px;font-weight:500;line-height:1.3}
 .evm{font-size:13px;color:var(--meta)}
 .ev>svg{color:var(--meta);flex-shrink:0}
-.vid{display:grid;grid-template-columns:128px minmax(0,1fr);gap:12px;align-items:start;width:100%;padding:12px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left}
-.vid:last-of-type{border-bottom:0}
-.vid img{width:128px;aspect-ratio:16/9;object-fit:cover;border-radius:10px;background:var(--raise-2);display:block}
+.vid{flex:1;min-width:0;display:grid;grid-template-columns:120px minmax(0,1fr);gap:12px;align-items:start;padding:13px 0;border:0;background:transparent;color:var(--ink);text-align:left}
+.vid img{width:120px;aspect-ratio:16/9;object-fit:cover;border-radius:10px;background:var(--raise-2);display:block}
 .vid .tx{display:flex;flex-direction:column;gap:5px;min-width:0}
 .vid .vt{font-size:16px;font-weight:500;line-height:1.3;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .vid .meta{font-size:13px;color:var(--meta)}
@@ -242,7 +279,7 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 .prog i{height:4px;border-radius:2px;background:var(--line-2)}
 .prog i.on{background:var(--ink)}
 .stepn{margin:14px 0 0;font-size:13px;color:var(--meta)}
-.steph{margin:6px 0 0;font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.02em;line-height:1.12;outline:none}
+.steph{margin:6px 0 0;font-family:var(--disp);font-size:32px;font-weight:600;letter-spacing:-.01em;line-height:1.12;outline:none}
 .stepbody{margin-top:18px}
 .stepnav{display:flex;gap:10px;margin-top:28px}
 .stepnav .btn.primary{flex:1;width:auto}
@@ -264,8 +301,8 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 .pv-dot{width:16px;height:16px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .pv-dot.done{background:var(--ink);color:var(--bg)} .pv-dot.done svg{width:10px;height:10px}
 .pv-dot.todo{border:2px solid var(--meta)}
-.intro h1{margin:22px 0 0;font-family:var(--disp);font-size:36px;font-weight:600;letter-spacing:-.03em;line-height:1.05}
-.lede{margin:12px 0 0;font-size:18px;font-weight:300;line-height:1.5;color:var(--ink-2)}
+.intro h1{margin:22px 0 0;font-family:var(--disp);font-size:38px;font-weight:600;letter-spacing:-.015em;line-height:1.05}
+.lede{margin:12px 0 0;font-size:18px;font-weight:400;line-height:1.5;color:var(--ink-2)}
 .what{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-direction:column;gap:14px}
 .what li{display:grid;grid-template-columns:42px minmax(0,1fr);gap:14px;align-items:start}
 .what .ic{width:42px;height:42px;border-radius:21px;background:var(--raise-2);display:flex;align-items:center;justify-content:center}
@@ -290,7 +327,7 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 .wxring{position:relative;width:min(250px,64vw);aspect-ratio:1;margin:10px auto 0}
 .wxring svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .mid{position:absolute;left:50%;top:50%;transform:translate(-50%,-46%);width:58%;display:flex;flex-direction:column;align-items:center;text-align:center}
-.temp{font-family:var(--disp);font-size:64px;font-weight:600;line-height:1;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.temp{font-family:var(--sans);font-size:60px;font-weight:600;line-height:1;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
 .temp.clock{font-size:40px;letter-spacing:-.03em}
 .cond{font-size:14px;font-weight:500;margin-top:8px}
 .tline{font-size:12px;color:var(--meta);margin-top:2px}
@@ -301,11 +338,11 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 .r-rain{fill:none;stroke:var(--rain);stroke-width:3.5;stroke-dasharray:.1 7;stroke-linecap:round}
 .r-lbl{font:11px var(--sans);fill:var(--meta)}
 .r-now{font:600 11px var(--sans);fill:var(--ink);font-variant-numeric:tabular-nums}
-.say{margin:12px 0 0;text-align:center;font-size:17px;font-weight:300;line-height:1.5}
+.say{margin:12px 0 0;text-align:center;font-size:17px;font-weight:400;line-height:1.5}
 .wxh{margin:26px 0 8px;font-size:13px;font-weight:600;color:var(--ink-2)}
-.hours{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;margin:0 -20px;padding:0 20px 2px;overscroll-behavior-x:contain}
+.hours{display:flex;gap:2px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;margin:0 -20px;padding:0 20px 2px;overscroll-behavior-x:contain;touch-action:pan-x pan-y;position:relative}
 .hours::-webkit-scrollbar{display:none}
-.hr{flex:0 0 54px;display:flex;flex-direction:column;align-items:center;gap:7px;padding:10px 0 9px;border-radius:16px;font-variant-numeric:tabular-nums}
+.hr{position:relative;flex:0 0 54px;display:flex;flex-direction:column;align-items:center;gap:7px;padding:10px 0 9px;border-radius:16px;font-variant-numeric:tabular-nums}
 .hr.now{background:var(--bg)}
 .hr .hl{font-size:12px;color:var(--meta);white-space:nowrap}
 .hr.now .hl{color:var(--ink);font-weight:600}
@@ -315,13 +352,13 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 .hr.mark .tp{font-size:13px}
 .hr.mark svg{color:var(--sun)}
 .wtiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.wt{display:flex;flex-direction:column;gap:3px;min-height:108px;padding:13px 14px;border-radius:18px;background:var(--bg);border:1px solid var(--line)}
+.wt{position:relative;min-width:0;overflow-wrap:anywhere;display:flex;flex-direction:column;gap:3px;min-height:108px;padding:13px 14px;border-radius:18px;background:var(--bg);border:1px solid var(--line)}
 .wt .wk{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-2)}
 .wt .wk svg{width:16px;height:16px}
-.wt .wv{display:flex;align-items:center;gap:6px;margin-top:2px;font-family:var(--disp);font-size:21px;font-weight:600;line-height:1.2;letter-spacing:-.01em}
+.wt .wv{display:flex;flex-wrap:wrap;align-items:center;gap:0 6px;margin-top:2px;font-size:19px;font-weight:600;line-height:1.25;letter-spacing:-.015em}
 .wt .wd{font-size:13px;line-height:1.4;color:var(--ink-2)}
 .days{list-style:none;margin:0;padding:0}
-.days li{display:grid;grid-template-columns:52px 24px 36px 30px minmax(0,1fr) 30px;align-items:center;column-gap:8px;min-height:48px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.days li{position:relative;display:grid;grid-template-columns:52px 24px 36px 30px minmax(0,1fr) 30px;align-items:center;column-gap:8px;min-height:48px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
 .days li:last-child{border-bottom:0}
 .days .dn{font-size:15px;font-weight:500}
 .days .rp{font-size:12px;font-weight:600;color:var(--rain)}
@@ -330,6 +367,58 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 .range{position:relative;height:6px;border-radius:3px;background:var(--line)}
 .range i{position:absolute;top:0;bottom:0;border-radius:3px;background:var(--ink)}
 .range b{position:absolute;top:-3px;width:12px;height:12px;margin-left:-6px;border-radius:6px;background:var(--bg);border:3px solid var(--ink)}
+
+/* Getting around */
+.trow{flex:1;min-width:0;display:flex;align-items:flex-start;gap:12px;padding:13px 0;border:0;background:transparent;color:var(--ink);text-align:left}
+.tdot{flex-shrink:0;width:18px;height:18px;margin-top:2px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:var(--line-2);color:var(--bg)}
+.tdot.ok{background:var(--ink)} .tdot.ok svg{width:11px;height:11px}
+.tdot.minor{background:var(--sun)} .tdot.major{background:var(--down)} .tdot.low{background:var(--line-2)}
+.trx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.trx b{font-size:16px;font-weight:600;line-height:1.3}
+.tst{font-size:14px;font-weight:600;color:var(--ink-2)} .tst.minor{color:var(--ink)} .tst.major{color:var(--down)} .tst.ok{font-weight:500;color:var(--ink-2)}
+.why{font-size:14px;line-height:1.45;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.dist{font-size:12px;color:var(--meta)}
+.sh-why{font-size:15px;line-height:1.5;color:var(--ink-2)}
+.subh{margin:16px 0 0;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--meta)}
+
+/* One market */
+.mkhead{display:flex;align-items:baseline;gap:12px;margin-top:10px}
+.mkp{font-size:34px;font-weight:600;letter-spacing:-.025em;font-variant-numeric:tabular-nums;line-height:1.1}
+.mkhead .pc{font-size:17px}
+.mksub{margin:4px 0 0;font-size:13px;color:var(--meta)}
+.mkseg{margin-top:18px}
+.chartbox{position:relative;height:200px;margin-top:14px;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.chartbox svg{position:absolute;left:0;top:0;width:100%;height:170px;overflow:visible}
+.chartbox .ln{fill:none;stroke:var(--ink);stroke-width:2;vector-effect:non-scaling-stroke;stroke-linejoin:round}
+.chartbox .ar{stroke:none}
+.chartbox .base{stroke:var(--line-2);stroke-width:1;stroke-dasharray:3 4;vector-effect:non-scaling-stroke}
+.cx{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;font-size:12px;color:var(--meta);font-variant-numeric:tabular-nums}
+.chartmsg{display:flex;align-items:center;justify-content:center;gap:8px;height:100%;padding:0 20px;text-align:center;font-size:14px;line-height:1.5;color:var(--ink-2);border-radius:16px;background:var(--bg)}
+.scr{position:absolute;top:0;height:170px;width:1px;background:var(--ink);pointer-events:none}
+.scr i{position:absolute;left:-5px;width:11px;height:11px;border-radius:6px;background:var(--ink);border:2px solid var(--raise)}
+.scrl{position:absolute;top:-30px;transform:translateX(-50%);padding:3px 9px;border-radius:10px;background:var(--ink);color:var(--bg);font-size:12px;font-weight:600;white-space:nowrap;pointer-events:none;font-variant-numeric:tabular-nums}
+.rangeline{margin:10px 0 0;font-size:14px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.rangeline b{font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;margin-top:20px;border-radius:16px;overflow:hidden;background:var(--line)}
+.st{display:flex;flex-direction:column;gap:3px;padding:12px 14px;background:var(--bg);min-width:0}
+.st span{font-size:12px;color:var(--meta)}
+.st b{font-size:16px;font-weight:600;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.st.wide{grid-column:1/-1}
+.rbar{position:relative;height:4px;margin:8px 0 2px;border-radius:2px;background:var(--line-2)}
+.rbar i{position:absolute;top:-4px;width:12px;height:12px;margin-left:-6px;border-radius:6px;background:var(--ink)}
+.rlab{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+
+/* Liked */
+.lkh{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.lkh span{font-size:13px;color:var(--meta)}
+.lkl{margin-top:8px}
+.lkl .itm{padding:14px 0}
+.lkl .hl{font-family:var(--disp);font-size:18px;font-weight:600;line-height:1.28}
+.lkl .meta{font-size:13px;color:var(--meta)}
+.lkempty{display:flex;flex-direction:column;align-items:center;gap:10px;padding:36px 12px 20px;text-align:center;color:var(--ink-2)}
+.lkempty svg{width:34px;height:34px;color:var(--meta)}
+.lkempty b{font-size:17px;color:var(--ink)}
+.lkempty p{margin:0;font-size:15px;line-height:1.5}
 
 /* Forms */
 .lbl{display:flex;flex-direction:column;gap:6px;margin-top:12px;font-size:13px;color:var(--ink-2)}
@@ -363,7 +452,7 @@ input.sw:checked::after{transform:translateX(18px);background:var(--bg)}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);font-weight:600}
 
 /* Sheets */
-dialog.sheet{position:fixed;inset:auto 0 0 0;margin:0 auto;width:100%;max-width:34rem;max-height:calc(100dvh - 36px - env(safe-area-inset-top));padding:0 20px calc(24px + env(safe-area-inset-bottom));border:0;border-radius:24px 24px 0 0;background:var(--raise);color:var(--ink);overflow:auto;overscroll-behavior:contain;box-shadow:var(--shadow)}
+dialog.sheet{position:fixed;inset:auto 0 0 0;margin:0 auto;width:100%;max-width:34rem;max-height:calc(100dvh - 36px - env(safe-area-inset-top));padding:0 20px calc(28px + env(safe-area-inset-bottom));border:0;border-radius:24px 24px 0 0;background:var(--raise);color:var(--ink);overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;box-shadow:var(--shadow)}
 dialog.sheet::backdrop{background:var(--scrim)}
 dialog.sheet[open]{animation:rise .26s cubic-bezier(.2,.8,.2,1)}
 dialog.sheet.closing{transition:transform .18s ease-in,opacity .18s;transform:translateY(40px);opacity:0}
@@ -372,10 +461,22 @@ dialog.sheet.closing{transition:transform .18s ease-in,opacity .18s;transform:tr
 .grab{display:block;width:36px;height:5px;margin:0 auto 2px;border-radius:3px;background:var(--line-2)}
 .shbar{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px}
 .shbar .lab{font-size:13px;font-weight:600;color:var(--ink-2)}
-.shbar .ib{margin-right:-10px}
-.sh-title{margin:2px 0 0;font-family:var(--disp);font-size:27px;font-weight:600;line-height:1.14;letter-spacing:-.02em}
+.shacts{display:flex;align-items:center;margin-right:-10px}
+.shacts .ib{color:var(--ink-2)}
+.sh-title{margin:2px 0 0;font-family:var(--disp);font-size:28px;font-weight:600;line-height:1.16;letter-spacing:-.01em}
 .sh-meta{margin:8px 0 0;font-size:13px;color:var(--meta)}
-.sh-text{margin:14px 0 0;font-size:18px;font-weight:300;line-height:1.55}
+.sh-text{margin:14px 0 0;font-size:17px;font-weight:400;line-height:1.6;color:var(--ink)}
+.pvm{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;margin:2px 0 16px;padding:0;border:0;border-radius:14px;background:var(--raise-2);overflow:hidden}
+.pvm.sk{animation:pulse 1.1s ease-in-out infinite alternate}
+@keyframes pulse{from{opacity:.45}to{opacity:1}}
+.pvyt{position:relative;cursor:pointer}
+.pvyt img{display:block;width:100%;height:100%;object-fit:cover}
+.pvplay{position:absolute;left:50%;top:50%;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:30px;background:rgba(0,0,0,.62);color:#fff;display:flex;align-items:center;justify-content:center;padding-left:3px}
+.pvsrc{display:flex;align-items:center;gap:8px;margin:0 0 6px;font-size:13px;font-weight:600;color:var(--ink);min-width:0}
+.pvsrc span:last-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pvlogo,.pvmono{flex-shrink:0;width:20px;height:20px;border-radius:5px;object-fit:contain;background:#fff;box-shadow:0 0 0 1px var(--line)}
+.pvmono{display:inline-flex;align-items:center;justify-content:center;background:var(--ink);color:var(--bg);font-size:11px;font-weight:700;box-shadow:none;text-transform:uppercase}
+.pvdek{margin:10px 0 0;font-family:var(--disp);font-size:19px;font-weight:500;line-height:1.4;color:var(--ink-2)}
 .sh-img{display:block;width:100%;max-height:220px;object-fit:cover;border-radius:14px;margin-top:14px;background:var(--raise-2)}
 .sh-h{margin:20px 0 4px;font-size:13px;font-weight:600;color:var(--ink-2)}
 .rel{list-style:none;margin:0;padding:0}
@@ -416,27 +517,29 @@ dialog.sheet.closing{transition:transform .18s ease-in,opacity .18s;transform:tr
 <div class="bar">
   <header class="top">
     <div class="id">
-      <div class="brand">Lowdown</div>
-      <div class="sub" id="sub"><span class="l"></span></div>
+      <div class="brandrow"><div class="brand">Lowdown</div><button class="ib ref" id="refBtn" data-act="refresh" aria-label="Refresh" title="Refresh" hidden></button></div>
+      <div class="sub" id="sub">Your daily brief</div>
     </div>
     <div class="hb">
       <button class="wx" id="wxBtn" data-act="weather" hidden></button>
+      <button class="ib lk" id="likedBtn" data-act="liked" aria-label="Liked" title="Liked" hidden></button>
       <button class="ib" id="modeBtn" data-act="mode"></button>
       <button class="ib" id="setBtn" data-act="settings" aria-label="Settings" title="Settings"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></button>
     </div>
     <button class="evl" id="evLine" data-act="nextEvent" hidden></button>
+    <div class="als" id="alLine" hidden></div>
   </header>
 </div>
 <main id="app" aria-live="off"></main>
 <div id="toast" popover="manual" role="status" aria-live="polite"></div>
 
-<script src="core.js?v=4"></script>
+<script src="core.js?v=5"></script>
 <script>
 'use strict';
 // Invite-only: the Apps Script address and the shared code arrive in an invite link and
 // stay on each phone, so neither is in this public repo.
-const EXPECT_BUILD = 3;    // the Apps Script release this page needs
-const RELEASE = 4;
+const EXPECT_BUILD = 4;    // the Apps Script release this page needs
+const RELEASE = 5;
 const SCRIPT_RE = /^https:\/\/script\.google\.com\/(?:a\/macros\/[^/]+|macros)\/s\/[\w-]+\/exec$/;
 const CODE_RE = /^[A-Za-z0-9-]{6,40}$/;
 const C = window.Core;
@@ -455,6 +558,9 @@ const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
 
 const svg = (d, s = 22, w = 1.6) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const ICON = {
+  playFill: '<svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>',
+  trainS: svg('<rect x="5.5" y="3" width="13" height="14" rx="3"/><path d="M5.5 10.5h13M9 21l1.5-4M15 21l-1.5-4"/><circle cx="9" cy="13.8" r=".9" fill="currentColor"/><circle cx="15" cy="13.8" r=".9" fill="currentColor"/>', 16, 1.9),
+  roadS: svg('<path d="M8.5 3 5 21M15.5 3 19 21M12 4v2.5M12 10v2.5M12 16v2.5"/>', 16, 1.9),
   chev: svg('<path d="m9 6 6 6-6 6"/>', 20),
   close: svg('<path d="M6 6l12 12M18 6 6 18"/>', 20, 1.8),
   x: svg('<path d="M7 7l10 10M17 7 7 17"/>', 16, 2),
@@ -479,10 +585,13 @@ const ICON = {
   tick: svg('<path d="m5 12.5 4.5 4.5L19 7.5"/>', 14, 2.4),
   chevd: svg('<path d="m6 9 6 6 6-6"/>', 18, 1.8),
   arrow: svg('<path d="M5 12h14M13 6l6 6-6 6"/>', 18, 1.8),
-  moonMode: svg('<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>', 21),
-  sunMode: svg('<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>', 21),
+  contrast: '<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" stroke="none"/></svg>',
+  down: svg('<path d="M12 5v14M6 13l6 6 6-6"/>', 20, 1.8),
+  down14: svg('<path d="M12 5v14M6 13l6 6 6-6"/>', 14, 2),
   globe: svg('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/>', 20),
   heart: svg('<path d="M12 20s-7.5-4.6-7.5-10.1A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z"/>', 20),
+  heartFill: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-10.1A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z"/></svg>',
+  heart22: svg('<path d="M12 20s-7.5-4.6-7.5-10.1A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z"/>', 22),
   done: svg('<circle cx="12" cy="12" r="9"/><path d="m8 12.3 2.8 2.8L16.2 9.6"/>', 20),
   sliders: svg('<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>', 16),
   play: svg('<rect x="3" y="5.5" width="18" height="13" rx="3.5"/><path d="m10.5 9.5 4 2.5-4 2.5z"/>', 20),
@@ -514,6 +623,31 @@ const WXI = {
 };
 const wxIcon = (k, s = 24) => svg(WXI[k] || WXI.cloud, s, 1.6);
 
+// Pictures for the news and politics sections: the world, the country, the region, your street, Parliament, your council.
+const GB_PATH = 'M9.5 1.5 12.5 1.8 12 3.5 13.6 5.2 12.4 7.6 13.8 9.4 15 11.6 16.2 13.6 19.2 15.2 19.4 17.2 18 18.4 19.3 19.6 16.5 20.3 12.6 20.6 9.8 21.6 6.8 22.6 8.4 20.7 11 19.6 8.9 18.6 9.4 17 8.6 15.6 9.6 14.2 11.2 13.6 10.6 11.6 9.4 10.6 7.2 10.6 8.4 8.6 6.4 7.4 7.4 5.6 6.6 3.8 8.2 2.4Z';
+const ENG_PATH = 'M13.8 9.4 15 11.6 16.2 13.6 19.2 15.2 19.4 17.2 18 18.4 19.3 19.6 16.5 20.3 12.6 20.6 9.8 21.6 6.8 22.6 8.4 20.7 11 19.6 11.6 17.6 11.4 15.4 11.2 13.6 10.6 11.6 9.4 10.6 11.6 10.2Z';
+const TIER_ICON = {
+  world: svg('<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.4 3.5 5.2 3.5 8.5s-1.1 6.1-3.5 8.5c-2.4-2.4-3.5-5.2-3.5-8.5S9.6 5.9 12 3.5z"/>', 20, 1.5),
+  gb: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="${GB_PATH}"/></svg>`,
+  england: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linejoin="round" aria-hidden="true"><g transform="translate(2.6 2.2) scale(1.48) translate(-6.8 -9.4)"><path d="${ENG_PATH}" stroke-width="1"/></g></svg>`,
+  flag: svg('<path d="M5 21V4M5 4h11l-2 3.5 2 3.5H5"/>', 20, 1.5),
+  region: svg('<path d="M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20z"/><path d="M9 4v13.5M15 6.5V20"/>', 20, 1.5),
+  pin: svg('<path d="M12 21s-6.5-6.2-6.5-11.2a6.5 6.5 0 0 1 13 0C18.5 14.8 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/>', 20, 1.5),
+  parliament: svg('<path d="M10 21V8.5L12 4l2 4.5V21M6 21v-6h4M14 15h4v6M4.5 21h15"/><circle cx="12" cy="11.2" r="1.3"/>', 20, 1.5),
+  council: svg('<path d="M3.5 9 12 4.5 20.5 9M5 9v9M9 9v9M15 9v9M19 9v9M3.5 20.5h17M3.5 18h17"/>', 20, 1.5),
+  transport: svg('<rect x="5.5" y="3" width="13" height="14" rx="3"/><path d="M5.5 10.5h13M9 21l1.5-4M15 21l-1.5-4"/><circle cx="9" cy="13.8" r=".9" fill="currentColor"/><circle cx="15" cy="13.8" r=".9" fill="currentColor"/>', 20, 1.5),
+  roads: svg('<path d="M8.5 3 5 21M15.5 3 19 21M12 4v2.5M12 10v2.5M12 16v2.5"/>', 20, 1.5)
+};
+function tierIcon(key) {
+  const pl = S.prefs.place;
+  if (key === 'world') return TIER_ICON.world;
+  if (key === 'country') return pl.cc === 'GB' ? TIER_ICON.gb : TIER_ICON.flag;
+  if (key === 'county') return pl.cc === 'GB' && /england/i.test(pl.region || 'England') ? TIER_ICON.england : TIER_ICON.region;
+  if (key === 'local') return TIER_ICON.pin;
+  if (key === 'politics') return pl.cc === 'GB' ? TIER_ICON.parliament : TIER_ICON.flag;
+  if (key === 'transport' || key === 'roads') return TIER_ICON[key];
+  return TIER_ICON.council;
+}
 // Concentric rings: which way out from your street a tier sits.
 function tierGlyph(level) {
   let s = '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">';
@@ -538,10 +672,10 @@ const S = {
   dismissed: get('dismissed', {}),
   mode: ['auto', 'light', 'dark'].includes(get('mode', 'auto')) ? get('mode', 'auto') : 'auto',
   scriptBuild: get('scriptBuild', null),
-  open: null, newKeys: {}, refreshing: false, errors: {}, installEvt: null, shareQuotes: {}, exPick: {},
+  open: null, newKeys: {}, tier: {}, refreshing: false, errors: {}, installEvt: null, shareQuotes: {}, exPick: {},
   draft: null, townResults: {}, mkTab: 'index', mkQuery: '', pendingRetry: false,
   invite: get('invite', null), inviteBad: false, inviteError: '', checkingInvite: false, iosFirst: false,
-  view: null, ytResults: [], whatsNew: get('whatsNew', 0)
+  view: null, ytResults: [], whatsNew: get('whatsNew', 0), liked: get('liked', [])
 };
 const hasApi = () => !!(S.invite && S.invite.u && S.invite.c);
 const ready = () => hasApi() && !!(S.prefs && S.prefs.setupDone && S.prefs.place);
@@ -574,7 +708,7 @@ function applyTheme() {
   if (document.documentElement.dataset.theme !== t) document.documentElement.dataset.theme = t;
   $('meta[name="theme-color"]').setAttribute('content', t === 'dark' ? '#000000' : '#FFFFFF');
   const b = $('#modeBtn'), next = t === 'dark' ? 'light' : 'dark', say = next === 'dark' ? 'Switch to black' : 'Switch to white';
-  if (b && b.dataset.mode !== next) { b.dataset.mode = next; b.innerHTML = t === 'dark' ? ICON.sunMode : ICON.moonMode; b.setAttribute('aria-label', say); b.title = say; }
+  if (b && b.dataset.mode !== next) { b.dataset.mode = next; b.innerHTML = ICON.contrast; b.setAttribute('aria-label', say); b.title = say; }
 }
 function setMode(m) {
   S.mode = m; put('mode', m); applyTheme();
@@ -690,6 +824,16 @@ function renderIosFirst() {
     <button class="linkbtn" style="margin-top:20px;padding-left:0" data-act="safariAnyway">Use it in Safari instead</button>
   </section>`;
 }
+// Share a story, video or page: the phone's own share sheet, or the link copied.
+async function shareThing(s) {
+  if (!s || !s.url) return;
+  if (navigator.share) {
+    try { await navigator.share({ title: s.title, text: s.title, url: s.url }); return; }
+    catch (e) { if (e.name === 'AbortError') return; }
+  }
+  try { await navigator.clipboard.writeText(`${s.title}\n${s.url}`); toast('Link copied.'); }
+  catch { toast('Couldn\u2019t share this one.'); }
+}
 async function copyInvite() {
   try { await navigator.clipboard.writeText(inviteLink()); toast('Invite link copied.'); }
   catch { toast('Couldn\u2019t copy. Try Share instead.'); }
@@ -783,7 +927,9 @@ async function loadBrief() {
       suppliers: on.suppliers ? supply : [],
       power: !!(on.suppliers && supplyChoice('electricity').network === 'ukpn'),
       calendars: { jewish: !!(p.calendars || {}).jewish, bank: (p.calendars || {}).bank ? bankDivision(p.place) : '', ics: p.ics || [] },
-      youtube: on.videos ? (p.channels || []).map((c) => c.id) : []
+      youtube: on.videos ? (p.channels || []).map((c) => c.id) : [],
+      point: on.transport || on.roads ? { lat: Math.round(p.place.lat * 100) / 100, lon: Math.round(p.place.lon * 100) / 100 } : null,
+      stations: on.transport ? (p.stations || []).map((s) => s.id) : []
     });
     S.cache.brief = { at: Date.now(), data: j };
     S.errors.brief = null;
@@ -945,6 +1091,27 @@ function partInfo(id) {
       return { title: 'Your interests', note: plural(p.topics.length, 'topic', 'topics'), keys: keysOf(items), n: items.length };
     }
     case 'markets': return on.markets && p.watch.length ? { title: 'Markets', note: [0, 6].includes(weekday()) ? 'Friday’s close' : 'Latest', n: 2 } : null;
+    case 'travel': {
+      if (!on.transport && !on.roads) return null;
+      const t = travelData(), L = travelLines(), tfl = t && t.source === 'tfl';
+      const roads = on.roads && t ? (tfl ? (t.roads || []).length : newsItems('roads').length) : 0;
+      const sts = on.transport ? myStations().filter((s) => s.problem) : [];
+      const keys = [...sts.map((s) => `st:${s.id}:${s.problem.sev}:${s.problem.word}`), ...(tfl ? [...(on.transport ? L.near.filter(lineBad).map((l) => `ln:${l.id}:${l.sev}`) : []), ...(on.roads ? (t.roads || []).map((r) => 'rd:' + r.id) : [])]
+        : [...(on.transport ? keysOf(newsItems('transport')) : []), ...(on.roads ? keysOf(newsItems('roads')) : [])])];
+      const news = !tfl && on.transport && t ? newsItems('transport').length : 0, total = transportProblems() + news + roads;
+      const note = !t ? (S.prefs.place.county === 'London' ? 'TfL and roads' : 'Trains, buses and roads') : total ? `${total} to check` : 'All clear';
+      return { title: 'Getting around', note, keys, n: Math.max(1, total) };
+    }
+    case 'trending': {
+      if (!on.trending) return null;
+      const t = trends();
+      return { title: 'Trending now', note: t.length ? t[0].term : 'What people are searching', keys: t.map((x) => 'tr:' + x.id), n: t.length };
+    }
+    case 'viral': {
+      if (!on.viral) return null;
+      const v = viralList();
+      return { title: 'Viral', note: v.length ? 'Most watched today' : 'On YouTube', keys: v.map((x) => 'vr:' + x.id), n: v.length };
+    }
     case 'looked': return on.looked ? { title: 'What people looked up', note: 'Top 5', n: 5 } : null;
     case 'onthisday': return on.onthisday ? { title: 'On this day', note: '3 moments', n: 3 } : null;
     case 'greenest': {
@@ -960,15 +1127,164 @@ function partList() {
   for (const id of S.prefs.order || C.PARTS) { const r = partInfo(id); if (r) out.push({ id, ...r }); }
   return out;
 }
-function tierHTML(t, empty) {
+// A section inside News or Politics: a row with its picture, opening to its stories.
+const tierSeen = (part, key) => S.read.day === today() && (S.read.tiers || []).includes(part + ':' + key);
+function subHTML(part, key, label, count, body) {
+  const open = S.tier[part] === key, seen = tierSeen(part, key);
+  return `<div class="tier${open ? ' open' : ''}" data-anchor="tier-${key}"><h3 style="margin:0"><button class="tierh" id="th-${part}-${key}" data-act="tier" data-part="${part}" data-k="${key}" aria-expanded="${open}">` +
+    `<span class="tic" aria-hidden="true">${tierIcon(key)}</span><span class="tn">${esc(label)}</span><span class="n">${esc(count)}${seen ? ICON.tick + '<span class="vh">, opened</span>' : ''}</span>${ICON.chevd}</button></h3>` +
+    (open ? `<div class="tierb">${typeof body === 'function' ? body() : body}</div>` : '') + '</div>';
+}
+function tierHTML(t, empty, part) {
   const items = newsItems(t.key);
-  return `<div class="tier" data-anchor="tier-${t.key}"><h3 class="tierh">${tierGlyph(t.level)}<span class="tn">${esc(t.label)}</span><span class="n">${items.length ? plural(items.length, 'story', 'stories') : ''}</span></h3>` +
-    (items.length ? items.map((it, i) => itemHTML(it, 'news:' + t.key, i, i === 0 && t.level === 0 ? 'lead' : '')).join('') : `<p class="empty">${esc(empty(t))}</p>`) + '</div>';
+  return subHTML(part, t.key, t.label, items.length ? plural(items.length, 'story', 'stories') : 'None today',
+    () => (items.length ? items.map((it, i) => itemHTML(it, 'news:' + t.key, i, i === 0 && t.level === 0 ? 'lead' : '')).join('') : `<p class="empty">${esc(empty(t))}</p>`));
+}
+
+/* ---------- Getting around: public transport and roads ---------- */
+const MODE_NAME = { tube: 'Tube', overground: 'Overground', 'elizabeth-line': 'Elizabeth line', dlr: 'DLR', tram: 'Tram', 'national-rail': 'National Rail' };
+const travelData = () => (briefData() && briefData().travel) || null;
+const lineBad = C.lineBad;
+const lineClass = (l) => (!lineBad(l) ? 'ok' : l.sev === 9 ? 'minor' : 'major');
+function travelLines() {
+  const t = travelData();
+  if (!t || t.source !== 'tfl') return { near: [], elsewhere: [] };
+  const near = new Set(t.near || []), byWorst = (a, b) => a.sev - b.sev || a.name.localeCompare(b.name);
+  const n = t.lines.filter((l) => near.has(l.id)).sort(byWorst);
+  const far = t.lines.filter((l) => !near.has(l.id) && lineBad(l) && l.mode !== 'national-rail').sort(byWorst);
+  return near.size ? { near: n, elsewhere: far } : { near: t.lines.filter(lineBad).sort(byWorst), elsewhere: [] };
+}
+const miles = (km) => (['GB', 'US'].includes(S.prefs.place.cc) ? `${(km / 1.609).toFixed(1)} mi` : `${km.toFixed(1)} km`);
+const lineRec = (l) => ({ id: `ln:${l.id}:${l.sev}`, kind: 'story', title: `${l.name}: ${l.status}`, source: 'TfL', link: 'https://tfl.gov.uk/tube-dlr-overground/status/',
+  summary: l.reason || (lineBad(l) ? '' : 'Good service.'), from: 'Getting around', noPreview: true, meta: `${MODE_NAME[l.mode] || l.mode} \u00b7 from TfL` });
+const roadRec = (r) => ({ id: 'rd:' + r.id, kind: 'story', title: r.loc, source: 'TfL', link: 'https://tfl.gov.uk/traffic/status/', summary: r.desc, from: 'Getting around', noPreview: true,
+  meta: [r.cat, r.closure ? 'road closed' : '', r.end ? 'until ' + fmtDay(r.end) : '', miles(r.km) + ' away'].filter(Boolean).join(' \u00b7 ') });
+function lineRow(l, i, group) {
+  const c = lineClass(l);
+  return `<div class="rowl" data-key="ln:${esc(l.id)}:${l.sev}"><button class="trow" data-act="line" data-g="${group}" data-i="${i}"><span class="tdot ${c}" aria-hidden="true">${c === 'ok' ? ICON.tick : ''}</span><span class="trx"><b>${esc(l.name)}</b><span class="tst ${c}">${esc(l.status)}</span>${l.reason ? `<span class="why">${esc(l.reason)}</span>` : ''}</span></button></div>`;
+}
+function roadRow(r, i) {
+  const c = r.sev === 'Serious' ? 'major' : r.sev === 'Moderate' ? 'minor' : 'ok';
+  return `<div class="rowl" data-key="rd:${esc(r.id)}"><button class="trow" data-act="road" data-i="${i}"><span class="tdot ${c === 'ok' ? 'low' : c}" aria-hidden="true"></span><span class="trx"><b>${esc(r.loc)}</b><span class="tst">${esc([r.cat, r.closure ? 'Road closed' : '', r.end ? 'until ' + fmtDay(r.end).replace(/^\w+ /, '') : ''].filter(Boolean).join(' \u00b7 '))}</span>${r.desc ? `<span class="why">${esc(r.desc)}</span>` : ''}<span class="dist">${esc(miles(r.km))} away</span></span></button></div>`;
+}
+// Your stations, with the status of every line that calls there and the station's own notices.
+function myStations() {
+  const t = travelData(), byId = new Map(((t && t.lines) || []).map((l) => [l.id, l]));
+  return (S.prefs.stations || []).map((s) => {
+    const d = ((t && t.stations) || []).find((x) => x.id === s.id);
+    const lines = d ? (d.lines || []).map((id) => byId.get(id)).filter(Boolean).sort((a, b) => a.sev - b.sev || a.name.localeCompare(b.name)) : [];
+    const st = { id: s.id, name: s.name, modes: s.modes || [], known: !!(d && !d.failed), lines, notices: (d && d.notices) || [] };
+    st.problem = st.known ? C.stationProblem(st) : null;
+    return st;
+  });
+}
+const modesWord = (m) => (m || []).map((x) => MODE_NAME[x]).filter(Boolean).join(' \u00b7 ');
+function stationRow(s, i) {
+  const pr = s.problem, c = !s.known ? 'low' : !pr ? 'ok' : pr.sev === 9 || pr.sev === 12 ? 'minor' : 'major';
+  const bad = s.lines.filter(lineBad);
+  const why = !s.known ? '' : pr ? (bad.length ? bad[0].reason || `${bad[0].name}: ${bad[0].status}` : s.notices[0].desc) : s.lines.map((l) => l.name).join(' \u00b7 ');
+  return `<div class="rowl" data-key="st:${esc(s.id)}"><button class="trow" data-act="station" data-i="${i}"><span class="tdot ${c}" aria-hidden="true">${c === 'ok' ? ICON.tick : ''}</span><span class="trx"><b>${esc(s.name)}</b>` +
+    `<span class="tst ${c === 'low' ? '' : c}">${esc(!s.known ? 'No update just now' : pr ? cap(pr.word) : 'Good service')}</span>${why ? `<span class="why">${esc(why)}</span>` : ''}</span></button></div>`;
+}
+function openStation(i) {
+  const s = myStations()[i];
+  if (!s) return;
+  const pr = s.problem, link = 'https://tfl.gov.uk/tube-dlr-overground/status/';
+  let h = `<h2 class="sh-title" id="station-t">${esc(s.name)}</h2><p class="sh-meta">${esc([modesWord(s.modes), 'from TfL'].filter(Boolean).join(' \u00b7 '))}</p>`;
+  h += `<p class="sh-text">${esc(!s.known ? 'No update for this station just now. Try again in a few minutes.' : pr ? `${cap(pr.word)}.` : 'Good service on every line, and no station notices.')}</p>`;
+  if (s.notices.length) h += `<h3 class="sh-h">At the station</h3>` + s.notices.map((n) => `<p class="sh-text" style="margin-top:6px">${esc(n.desc)}${n.to ? `<span class="sh-meta" style="display:block">Until ${esc(fmtDay(n.to))}</span>` : ''}</p>`).join('');
+  if (s.lines.length) h += `<h3 class="sh-h">Lines</h3>` + s.lines.map((l) => { const c = lineClass(l); return `<div class="trow"><span class="tdot ${c}" aria-hidden="true">${c === 'ok' ? ICON.tick : ''}</span><span class="trx"><b>${esc(l.name)}</b><span class="tst ${c}">${esc(l.status)}</span>${l.reason ? `<span class="sh-why">${esc(l.reason)}</span>` : ''}</span></div>`; }).join('');
+  h += `<a class="btn dark sh-go" href="${esc(outHref(link))}" target="_blank" rel="noopener">Read at TfL</a><p class="sh-note">Powered by TfL Open Data.</p>`;
+  openSheet('station', 'Getting around', h, { title: `${s.name}: ${pr ? pr.word : 'good service'}`, url: link });
+}
+function stationsHTML() {
+  const st = S.prefs.stations || [];
+  return `<h2 class="sh-title" id="stations-t">Your stations</h2>
+    <p class="hint" style="margin-top:6px">They show first in Getting around, and a line under the weather when there’s a problem.</p>
+    ${st.length ? `<ul class="mlist">${st.map((s) => `<li class="mrow"><span class="mn" style="margin-left:0"><b>${esc(s.name)}</b><span>${esc(modesWord(s.modes))}</span></span><button class="ib" data-act="unstation" data-id="${esc(s.id)}" aria-label="Remove ${esc(s.name)}" title="Remove">${ICON.x}</button></li>`).join('')}</ul>` : '<p class="empty">No stations yet.</p>'}
+    ${st.length < 4 ? `<h3 class="grp">Add a station</h3>
+    <form class="addrow" data-form="station"><label class="vh" for="stQ">Search for a station</label><input class="field" id="stQ" type="search" placeholder="Station name, such as Teddington" autocomplete="off" maxlength="60" enterkeyhint="search"><button class="btn small" type="submit">Search</button></form>
+    <p class="ferr" id="stErr" role="alert"></p>
+    <div class="res" id="stRes">${stResultsHTML()}</div>` : ''}
+    <p class="hint">Up to 4. Tube, Overground, Elizabeth line, DLR, tram and National Rail stations, from TfL. They stay on your phone.</p>`;
+}
+function stResultsHTML() {
+  const have = (S.prefs.stations || []).map((s) => s.id);
+  return (S.stResults || []).map((s, i) => {
+    const added = have.includes(s.id);
+    return `<div class="chrow"><span class="tic" aria-hidden="true">${TIER_ICON.transport}</span><span class="chx"><b>${esc(s.name)}</b><span>${esc(modesWord(s.modes))}</span></span>` +
+      `<button class="btn small" data-act="addStation" data-i="${i}"${added ? ' disabled' : ''}>${added ? 'Added' : 'Add'}</button></div>`;
+  }).join('');
+}
+async function searchStations(form) {
+  const q = $('#stQ').value.trim(), err = $('#stErr'), btn = $('button', form);
+  err.textContent = '';
+  if (q.length < 2) { err.textContent = 'Type a station name.'; return; }
+  await withBusy(btn, async () => {
+    try { const j = await api('stations', { q }); S.stResults = j.stations || []; $('#stRes').innerHTML = stResultsHTML(); }
+    catch (e) { S.stResults = []; $('#stRes').innerHTML = ''; err.textContent = e.message; }
+  });
+}
+function stationsChanged(msg) {
+  savePrefs();
+  const b = sheetBody('stations');
+  if (b) { const q = $('#stQ') ? $('#stQ').value : ''; b.innerHTML = stationsHTML(); if ($('#stQ')) $('#stQ').value = q; }
+  const pb = $('#partBox');
+  if (pb) pb.innerHTML = partOrderHTML();
+  toast(msg);
+  render();
+  refresh();
+}
+// Problems on public transport, each counted once: lines near you or at your stations that aren't running well, and notices at your stations.
+function transportProblems() {
+  const t = travelData();
+  if (!t || !S.prefs.sections.transport) return 0;
+  const ids = new Set(t.source === 'tfl' ? travelLines().near.filter(lineBad).map((l) => l.id) : []);
+  let notices = 0;
+  myStations().forEach((s) => { s.lines.filter(lineBad).forEach((l) => ids.add(l.id)); if (s.notices.length) notices++; });
+  return ids.size + notices;
+}
+function travelSubs() {
+  const on = S.prefs.sections, t = travelData(), tfl = t && t.source === 'tfl', out = [];
+  if (on.transport) {
+    const L = travelLines(), mine = myStations(), news = newsItems('transport'), probs = transportProblems();
+    const count = !t ? '' : probs ? plural(probs, 'problem', 'problems') : !tfl && news.length ? plural(news.length, 'report', 'reports') : !tfl && !mine.length ? 'No reports' : 'Good service';
+    out.push({ key: 'transport', label: 'Public transport', count, body: () => {
+      if (!t) return `<p class="empty">${esc(partError('travel') || 'Arrives with your next update.')}</p>`;
+      const edit = `<button class="btn ghost edit" data-act="stations">${ICON.pencil}${mine.length ? 'Edit your stations' : 'Add your stations'}</button>`;
+      let h = mine.length ? `<h4 class="subh">Your stations</h4>` + mine.map(stationRow).join('') : '';
+      if (!tfl) {
+        if (mine.length) h += `<h4 class="subh">In the local news</h4>`;
+        h += news.length ? news.map((x, i) => itemHTML(x, 'news:transport', i, 'small')).join('') : '<p class="empty">No train or bus problems in the local news today.</p>';
+        return h + edit + `<p class="src">${mine.length ? 'Your stations from TfL, powered by TfL Open Data. ' : ''}Local news from the last day.</p>`;
+      }
+      if (mine.length) h += `<h4 class="subh">Near you</h4>`;
+      h += L.near.length ? L.near.map((l, i) => lineRow(l, i, 'near')).join('') : '<p class="empty">Good service on every line.</p>';
+      if (L.elsewhere.length) h += `<h4 class="subh">Elsewhere in London</h4>` + L.elsewhere.slice(0, 6).map((l, i) => lineRow(l, i, 'far')).join('');
+      return h + edit + '<p class="src">Line status from TfL, for lines calling within 5 miles of you. Powered by TfL Open Data.</p>';
+    } });
+  }
+  if (on.roads) {
+    const roads = (t && t.roads) || [], news = newsItems('roads');
+    const count = !t ? '' : tfl ? (roads.length ? plural(roads.length, 'within 5 miles', 'within 5 miles') : 'All clear') : (news.length ? plural(news.length, 'report', 'reports') : 'No reports');
+    out.push({ key: 'roads', label: 'Roads', count, body: () => {
+      if (!t) return `<p class="empty">${esc(partError('travel') || 'Arrives with your next update.')}</p>`;
+      if (!tfl) return news.length ? news.map((x, i) => itemHTML(x, 'news:roads', i, 'small')).join('') + '<p class="src">From local news in the last day.</p>' : '<p class="empty">No road closures or incidents in the local news today.</p>';
+      return (roads.length ? roads.map(roadRow).join('') : '<p class="empty">No closures, works or incidents within 5 miles.</p>') + '<p class="src">Live from TfL: closures, works and incidents within 5 miles. Powered by TfL Open Data.</p>';
+    } });
+  }
+  return out;
+}
+function travelHTML(parts, p) {
+  const t = travelData();
+  let h = chOpen(parts, p, 'Getting around', t && t.source !== 'tfl' ? 'from local news' : 'within 5 miles of you');
+  if (!briefData()) return h + waiting('Getting around');
+  return h + travelSubs().map((x) => subHTML('travel', x.key, x.label, x.count, x.body)).join('');
 }
 function politicsHTML(parts, p) {
   let h = chOpen(parts, p, 'Politics', 'straight news, no opinion');
   if (!briefData()) return h + waiting('Politics') + chClose(p);
-  politicsTiers().forEach((t) => { h += tierHTML(t, (x) => `No new stories for ${x.label} ${x.key === 'council' ? 'this week' : 'today'}.`); });
+  politicsTiers().forEach((t) => { h += tierHTML(t, (x) => `No new stories for ${x.label} ${x.key === 'council' ? 'this week' : 'today'}.`, 'politics'); });
   return h + `<p class="src">${S.prefs.place.cc === 'GB' ? 'Westminster from BBC Politics; council' : 'Politics and council'} news from Google News.</p>` + chClose(p);
 }
 function moneyHTML(parts, p) {
@@ -1005,9 +1321,106 @@ function videosHTML(parts, p) {
   if (!ch.length) h += '<p class="empty">Add YouTube channels and their new uploads will show here.</p>';
   else if (!briefData()) h += waiting('Videos');
   else if (!v.length) h += '<p class="empty">No new videos this week from your channels.</p>';
-  else h += v.map((x, i) => `<button class="vid" data-act="video" data-i="${i}" data-key="${esc(x.id)}"><img src="${esc(x.thumb)}" alt="" loading="lazy"><span class="tx"><span class="vt">${isNew(x.id) ? '<span class="newdot" aria-hidden="true"></span><span class="vh">New: </span>' : ''}${esc(x.title)}</span><span class="meta">${esc(x.channel)}${x.at ? ' · ' + esc(C.timeAgo(x.at, Date.now())) : ''}</span></span></button>`).join('');
+  else h += v.map((x, i) => `<div class="rowl" data-key="${esc(x.id)}"><button class="vid" data-act="video" data-i="${i}"><img src="${esc(x.thumb)}" alt="" loading="lazy"><span class="tx"><span class="vt">${isNew(x.id) ? '<span class="newdot" aria-hidden="true"></span><span class="vh">New: </span>' : ''}${esc(x.title)}</span><span class="meta">${esc(x.channel)}${x.at ? ' \u00b7 ' + esc(C.timeAgo(x.at, Date.now())) : ''}</span></span></button>${likeBtn(videoRec(x))}</div>`).join('');
   return h + `<button class="btn ghost edit" data-act="channels">${ICON.pencil}${ch.length ? 'Edit your channels' : 'Add channels'}</button>` + chClose(p);
 }
+/* ---------- Liked: anything you keep, saved on this phone ---------- */
+// Every row drawn registers what it would keep, so a heart can save it without opening it.
+const REC = {};
+const isLiked = (id) => S.liked.some((x) => x.id === id);
+function likeBtn(rec, big) {
+  REC[rec.id] = rec;
+  const on = isLiked(rec.id);
+  return `<button class="like${big ? ' big' : ''}" data-act="like" data-id="${esc(rec.id)}" aria-pressed="${on}" aria-label="${on ? 'Remove from Liked' : 'Save to Liked'}: ${esc(rec.title)}" title="${on ? 'Liked' : 'Like'}">${on ? ICON.heartFill : ICON.heart}</button>`;
+}
+function toggleLike(id) {
+  const i = S.liked.findIndex((x) => x.id === id);
+  if (i >= 0) { S.liked.splice(i, 1); toast('Removed from Liked.'); }
+  else {
+    const r = REC[id];
+    if (!r) return;
+    S.liked.unshift({ id: r.id, kind: r.kind, title: r.title, source: r.source || '', link: r.link || '', summary: String(r.summary || '').slice(0, 700), at: r.at || null, thumb: r.thumb || '', from: r.from || '', saved: Date.now() });
+    if (S.liked.length > 300) S.liked.length = 300;
+    toast('Saved to Liked.');
+  }
+  put('liked', S.liked);
+  const on = isLiked(id);
+  $$('[data-act=like]').filter((b) => b.dataset.id === id).forEach((b) => {
+    b.setAttribute('aria-pressed', String(on));
+    b.setAttribute('aria-label', `${on ? 'Remove from Liked' : 'Save to Liked'}: ${(REC[id] || {}).title || ''}`);
+    b.title = on ? 'Liked' : 'Like';
+    b.innerHTML = on ? ICON.heartFill : ICON.heart;
+  });
+  renderHeader();
+}
+function likedHTML() {
+  const n = S.liked.length;
+  if (!n) return `<h2 class="sh-title" id="liked-t">Liked</h2><div class="lkempty">${ICON.heart22}<b>Nothing liked yet</b><p>Tap \u2661 on any story, video or page and it\u2019s kept here, even after it leaves your brief.</p></div>`;
+  return `<div class="lkh"><h2 class="sh-title" id="liked-t">Liked</h2><span>${plural(n, 'item', 'items')}</span></div><div class="lkl">${S.liked.map((r) => {
+    REC[r.id] = r;
+    return `<div class="item"><button class="itm" data-act="openLiked" data-id="${esc(r.id)}"><span class="tx"><span class="hl">${esc(r.title)}</span><span class="meta">${esc([r.from && r.from !== r.source ? r.from : '', r.source].filter(Boolean).join(' \u00b7 '))}${r.saved ? ' \u00b7 saved ' + esc(C.timeAgo(r.saved, Date.now())) : ''}</span></span></button>${likeBtn(r)}</div>`;
+  }).join('')}</div>`;
+}
+// One sheet for anything kept: a story, a video or a Wikipedia page.
+/* ---------- Story cards: the publisher's own preview, inside Lowdown ---------- */
+// Headline, standfirst, picture or video, name and logo, as the publisher shares them for link previews. The article stays on their site.
+function pvStore() { if (!S.pv) S.pv = get('pv', {}); return S.pv; }
+function pvGet(link) { const x = pvStore()[link]; return x && Date.now() - x.t < 6 * 3600000 ? x.d : null; }
+function pvPut(link, d) {
+  const m = pvStore(), keys = Object.keys(m);
+  m[link] = { t: Date.now(), d };
+  if (keys.length >= 80) keys.sort((a, b) => m[a].t - m[b].t).slice(0, keys.length - 79).forEach((k) => delete m[k]);
+  put('pv', m);
+}
+const plainText = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+const sameText = (a, b) => { const x = plainText(a), y = plainText(b); return !!x && !!y && (x === y || x.startsWith(y.slice(0, 60)) || y.startsWith(x.slice(0, 60))); };
+const httpsOnly = (u) => (/^https:\/\//i.test(u || '') ? u : '');
+function articleHTML(r, pv, loading) {
+  const ok = !!(pv && (pv.title || pv.image || pv.desc)), site = r.source || (ok && pv.site) || 'the source', link = (pv && httpsOnly(pv.url)) || r.link;
+  const at = r.at || (ok && pv.at) || null;
+  const when = at ? (C.localDayKey(at, off(at)) === today() ? fmtTime(at) : fmtDay(at) + ', ' + fmtTime(at)) : '';
+  const dek = ok && pv.desc && !sameText(pv.desc, r.title) ? pv.desc : '';
+  const sum = r.summary && !sameText(r.summary, dek) && !sameText(r.summary, r.title) ? r.summary : '';
+  const img = ok ? httpsOnly(pv.image) : '', v = ok ? pv.video : null;
+  let media = '';
+  if (loading) media = '<div class="pvm sk" aria-hidden="true"></div>';
+  else if (v && v.kind === 'yt' && /^[\w-]{11}$/.test(v.id)) media = `<button class="pvm pvyt" data-act="ytplay" data-id="${esc(v.id)}" aria-label="Play the video"><img src="${esc(img || `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`)}" alt=""><span class="pvplay">${ICON.playFill}</span></button>`;
+  else if (v && v.kind === 'mp4' && httpsOnly(v.src)) media = `<video class="pvm" data-scrub controls playsinline preload="none"${img ? ` poster="${esc(img)}"` : ''} src="${esc(v.src)}"></video>`;
+  else if (img) media = `<img class="pvm" src="${esc(img)}" alt="${esc(pv.alt || '')}" onerror="this.remove()">`;
+  const logo = ok && httpsOnly(pv.icon) ? `<img class="pvlogo" src="${esc(pv.icon)}" alt="" onerror="this.remove()">` : `<span class="pvmono" aria-hidden="true">${esc(site.replace(/^the /i, '')[0] || '?')}</span>`;
+  return `${media}<p class="pvsrc">${logo}<span>${esc(site)}</span></p><h2 class="sh-title" id="story-t">${esc(r.title)}</h2>
+    ${dek ? `<p class="pvdek">${esc(dek)}</p>` : ''}
+    <p class="sh-meta">${esc([ok && pv.author ? 'By ' + pv.author : '', when].filter(Boolean).join(' \u00b7 '))}</p>
+    ${sum ? `<p class="sh-text">${esc(sum)}</p>` : ''}
+    ${r.related && r.related.length ? `<h3 class="sh-h">${esc(r.relLabel || 'Also reported by')}</h3><ul class="rel">${r.related.map((x) => `<li><a href="${esc(outHref(x.link))}" target="_blank" rel="noopener">${esc(x.title)}<span>${esc(x.source)}</span></a></li>`).join('')}</ul>` : ''}
+    <div class="likerow"><a class="btn dark" href="${esc(outHref(link))}" target="_blank" rel="noopener">${esc('Read at ' + site)}</a>${likeBtn(r, true)}</div>
+    <p class="sh-note">${loading ? 'Getting the preview\u2026' : ok ? `Headline, summary and picture from ${esc(site)}\u2019s own preview. The full story opens in your browser.` : 'The full story opens in your browser.'}</p>`;
+}
+function openArticle(r, label) {
+  const link = r.link, have = pvGet(link), ask = !have && hasApi() && navigator.onLine !== false;
+  const d = openSheet('story', label || r.from || 'Liked', articleHTML(r, have, ask), { title: r.title, url: (have && httpsOnly(have.url)) || link });
+  if (!ask) return;
+  d._pv = link;
+  api('preview', { url: link, title: r.title }, 15000).then((j) => { pvPut(link, j); return j; }, () => null).then((j) => {
+    const b = d.isConnected && d._pv === link ? $('.sbody', d) : null;
+    if (!b) return;
+    b.innerHTML = articleHTML(r, j, false);
+    if (j && httpsOnly(j.url)) d._share = { title: r.title, url: j.url };
+  });
+}
+function openRecord(r, label) {
+  if (!r) return;
+  if (r.kind === 'story' && !r.noPreview && /^https?:\/\//i.test(r.link || '')) { openArticle(r, label); return; }
+  const when = r.at ? `${C.localDayKey(r.at, off(r.at)) === today() ? fmtTime(r.at) : fmtDay(r.at) + ', ' + fmtTime(r.at)}` : '';
+  const go = r.kind === 'video' ? 'Watch on YouTube' : r.kind === 'wiki' ? 'Read on Wikipedia' : `Read at ${r.source || 'the source'}`;
+  openSheet('story', label || r.from || 'Liked', `${r.thumb ? `<img class="sh-img" src="${esc(r.thumb)}" alt="" loading="lazy" style="margin:0 0 14px">` : ''}<h2 class="sh-title" id="story-t">${esc(r.title)}</h2>
+    <p class="sh-meta">${esc(r.meta || (r.source || '') + (when ? (r.source ? ' \u00b7 ' : '') + when : ''))}</p>
+    ${r.summary ? `<p class="sh-text">${esc(r.summary)}</p>` : ''}
+    ${r.related && r.related.length ? `<h3 class="sh-h">${esc(r.relLabel || 'Also reported by')}</h3><ul class="rel">${r.related.map((x) => `<li><a href="${esc(outHref(x.link))}" target="_blank" rel="noopener">${esc(x.title)}<span>${esc(x.source)}</span></a></li>`).join('')}</ul>` : ''}
+    <div class="likerow">${r.link ? `<a class="btn dark" href="${esc(outHref(r.link))}" target="_blank" rel="noopener">${esc(go)}</a>` : ''}${likeBtn(r, true)}</div>
+    <p class="sh-note">${r.kind === 'wiki' ? 'Text from Wikipedia, shared under CC BY-SA.' : 'Opens in your browser.'}</p>`, r.link ? { title: r.title, url: r.link } : null);
+}
+
 /* ---------- Supplier, event and video sheets ---------- */
 function openSupplier(cat) {
   if (!supplyIsSet(cat)) { openSettings('suppliers'); return; }
@@ -1031,7 +1444,8 @@ async function openEvent(i) {
   const longDate = new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' }).format(new Date(e.date + 'T12:00:00Z'));
   const d = openSheet('event', 'Coming up', `<h2 class="sh-title" id="event-t">${esc(e.title)}</h2><p class="sh-meta">${esc(longDate)} · ${esc(C.whenWord(e.away, e.date))}</p><p class="sh-meta">${esc(calLabel(e))}</p>
     ${e.expected ? '<p class="hint">An expected date: it can move by a day with the sighting of the moon.</p>' : ''}<div class="evbody">${e.wiki ? '<p class="empty"><span class="spinner" aria-hidden="true"></span>Finding out more…</p>' : ''}</div>
-    ${e.link ? `<a class="btn dark sh-go" href="${esc(outHref(e.link))}" target="_blank" rel="noopener">Read more</a>` : ''}`);
+    ${e.link ? `<a class="btn dark sh-go" href="${esc(outHref(e.link))}" target="_blank" rel="noopener">Read more</a>` : ''}`,
+    e.wiki || e.link ? { title: `${e.title}, ${C.eventLine(e).slice(e.title.length).trim()}`, url: e.link || 'https://en.wikipedia.org/wiki/' + encodeURIComponent(e.wiki.replace(/ /g, '_')) } : null);
   if (!e.wiki) return;
   const box = $('.evbody', d);
   try {
@@ -1041,13 +1455,14 @@ async function openEvent(i) {
       ${url ? `<a class="btn dark sh-go" href="${esc(outHref(url))}" target="_blank" rel="noopener">Read on Wikipedia</a><p class="sh-note">Text from Wikipedia, shared under CC BY-SA.</p>` : ''}`;
   } catch { box.innerHTML = '<p class="empty">Couldn’t reach Wikipedia just now.</p>'; }
 }
+const videoRec = (v) => ({ id: 'yt:' + v.id, kind: 'video', title: v.title, source: v.channel, link: v.link, summary: v.desc, at: v.at, thumb: v.thumb, from: 'Videos' });
 function openVideo(i) {
   const v = videoList()[i];
   if (!v) return;
   openSheet('video', 'Videos', `<img class="sh-img" src="${esc(v.thumb)}" alt="">
-    <h2 class="sh-title" id="video-t" style="margin-top:14px">${esc(v.title)}</h2><p class="sh-meta">${esc(v.channel)}${v.at ? ' · ' + esc(C.timeAgo(v.at, Date.now())) : ''}</p>
+    <h2 class="sh-title" id="video-t" style="margin-top:14px">${esc(v.title)}</h2><p class="sh-meta">${esc(v.channel)}${v.at ? ' \u00b7 ' + esc(C.timeAgo(v.at, Date.now())) : ''}</p>
     ${v.desc ? `<p class="sh-text">${esc(v.desc)}</p>` : ''}
-    <a class="btn dark sh-go" href="${esc(outHref(v.link))}" target="_blank" rel="noopener">Watch on YouTube</a>`);
+    <div class="likerow"><a class="btn dark" href="${esc(outHref(v.link))}" target="_blank" rel="noopener">Watch on YouTube</a>${likeBtn(videoRec(v), true)}</div>`, { title: v.title, url: v.link });
 }
 
 /* ---------- Your channels ---------- */
@@ -1142,16 +1557,32 @@ const unseen = (p) => (p.keys || []).filter((k) => !S.seen[k]).length;
 const isDone = (p) => isRead(p.id) && !unseen(p);
 
 /* ---------- Header ---------- */
+// Problems at your stations and on roads near you, for the line under the next event.
+function travelAlertList() {
+  const on = S.prefs.sections, t = travelData();
+  if (!t || (!on.transport && !on.roads)) return [];
+  return C.travelAlerts(on.transport ? myStations().filter((s) => s.known) : [], on.roads && t.source === 'tfl' ? t.roads || [] : []);
+}
+// From the alerts at the top straight to the right part of Getting around.
+function jumpTo(part, key) {
+  if (S.open !== part) openPart(part);
+  if (S.tier[part] !== key) openTier(part, key);
+  const h = $(`#th-${part}-${key}`);
+  if (h) window.scrollTo(0, Math.max(0, h.getBoundingClientRect().top + window.scrollY - headerH() - 4));
+}
 function nextEvent() {
   if (!ready() || !S.prefs.sections.comingup) return null;
   return events()[0] || null;
 }
 function renderHeader() {
-  const sub = $('#sub'), wx = $('#wxBtn'), ev = $('#evLine');
+  const wx = $('#wxBtn'), ev = $('#evLine'), ref = $('#refBtn');
   $('#setBtn').hidden = !ready();
-  if (!ready()) { wx.hidden = true; ev.hidden = true; }
-  if (!hasApi()) { sub.innerHTML = '<span class="l">Invite only</span>'; return; }
-  if (!ready()) { sub.innerHTML = '<span class="l">Set up your brief</span>'; return; }
+  $('#likedBtn').hidden = !ready();
+  ref.hidden = !ready();
+  if (!ref.innerHTML) ref.innerHTML = ICON.refresh;
+  ref.classList.toggle('spinning', !!S.refreshing);
+  if (S.refreshing) document.documentElement.dataset.busy = '1'; else delete document.documentElement.dataset.busy;
+  if (!ready()) { wx.hidden = true; ev.hidden = true; $('#alLine').hidden = true; return; }
   const m = heroModel();
   wx.hidden = false;
   wx.innerHTML = chipSVG(m) + `<span>${m.current ? Math.round(m.current.temp) + '\u00b0' : '\u2013'}</span>`;
@@ -1160,15 +1591,21 @@ function renderHeader() {
   ev.hidden = !e;
   if (e) {
     const line = C.eventLine(e);
-    ev.innerHTML = `<b>${esc(e.title)}</b> ${esc(line.slice(e.title.length).trim())}`;
+    ev.innerHTML = `<b>${esc(e.title)}</b> <span>${esc(line.slice(e.title.length).trim())}</span>`;
     ev.setAttribute('aria-label', line + '. Find out more.');
   }
-  const parts = partList(), done = parts.filter(isDone).length;
-  let right;
-  if (S.refreshing) right = '<span class="spinner" aria-hidden="true"></span>Updating';
-  else if (!navigator.onLine) right = 'Offline';
-  else right = parts.length && done >= parts.length ? 'All read' : `${done} of ${parts.length} read`;
-  sub.innerHTML = `<span class="l">${esc(C.briefLabel(nowH()))}</span><span class="c">&nbsp;\u00b7&nbsp;${right}</span>`;
+  const al = $('#alLine'), A = travelAlertList();
+  al.hidden = !A.length;
+  al.innerHTML = A.map((a) => {
+    const name = a.name.replace(/\s*\([^)]*\)$/, '') || a.name, say = `${a.name}: ${a.what}${a.more ? `, and ${a.more} more` : ''}`;
+    return `<button class="evl" data-act="alert" data-k="${a.kind === 'train' ? 'transport' : 'roads'}" aria-label="${esc((a.kind === 'train' ? 'Your stations. ' : 'Roads near you. ') + say + '. See Getting around.')}">` +
+      `<span class="ali">${a.kind === 'train' ? ICON.trainS : ICON.roadS}${a.more ? `<i>${a.more + 1}</i>` : ''}</span><b>${esc(name)}</b><span>${a.kind === 'train' ? ':' : ''}&nbsp;${esc(a.what)}</span></button>`;
+  }).join('');
+  const pg = $('#prog');
+  if (pg) pg.innerHTML = progHTML(partList());
+  const lb = $('#likedBtn'), n = S.liked.length;
+  lb.innerHTML = ICON.heart + (n ? `<span class="badge" aria-hidden="true">${n > 99 ? '99+' : n}</span>` : '');
+  lb.setAttribute('aria-label', n ? `Liked, ${plural(n, 'item', 'items')}` : 'Liked');
 }
 
 /* ---------- The day ring ---------- */
@@ -1318,7 +1755,7 @@ function wxTiles(m, w) {
   const a = S.cache.air && S.cache.air.data;
   if (a && a.current && isFinite(a.current.european_aqi)) {
     const pol = C.pollenLevel(pollenToday(a));
-    const d = pol ? (pol.none ? 'No pollen to speak of' : `${pol.name} pollen ${pol.word.toLowerCase()}`) : isFinite(a.current.pm2_5) ? `Fine particles ${Math.round(a.current.pm2_5)} \u00b5g/m\u00b3` : 'European air quality index';
+    const d = pol ? (pol.none ? 'No pollen today' : `${pol.name} pollen ${pol.word.toLowerCase()}`) : isFinite(a.current.pm2_5) ? `Fine particles ${Math.round(a.current.pm2_5)} \u00b5g/m\u00b3` : 'European air quality index';
     out.push(tile(ICON.leaf16, 'Air quality', `${esc(C.aqiWord(a.current.european_aqi))} \u00b7 ${Math.round(a.current.european_aqi)}`, d));
   } else out.push(tile(ICON.leaf16, 'Air quality', '\u2013', S.errors.air ? 'Unavailable just now' : 'Arrives with the next update'));
   // Moon
@@ -1371,14 +1808,25 @@ function noticesHTML() {
   }
   if ((S.whatsNew === 3 || S.whatsNew === 4) && !S.dismissed.new4) n.push(notice('new4', S.whatsNew === 3
     ? 'New in Lowdown: Politics, Money, Your suppliers, Coming up and Videos, and a cleaner look. Tap a part to open it; the weather sits top right.'
-    : 'New look: tap a part to open it, and you\u2019ll get a tick when you reach its end. The weather sits top right with what\u2019s coming up, and \u263e switches between white and black.'));
+    : 'New look: tap a part to open it, and you\u2019ll get a tick when you reach its end. The weather sits top right with what\u2019s coming up, and \u25d0 switches between white and black.'));
+  if (S.whatsNew === 5 && !S.dismissed.new5) n.push(notice('new5', 'New: stories open right here, \u2661 keeps any you like, and Getting around covers trains and roads near you (add your stations in Settings). Plus Trending now, Viral, market charts, and pull down to refresh.'));
   if (S.inviteBad) n.push(notice('invite', 'Your invite isn\u2019t valid any more, so news, interests and markets can\u2019t update. Ask whoever shared Lowdown for a new link.', '<button class="btn small" data-act="reinvite">Paste new link</button>', false));
   else if (S.scriptBuild != null && S.scriptBuild < EXPECT_BUILD) n.push(notice('script', `Your Apps Script is out of date (release ${S.scriptBuild}, this app needs ${EXPECT_BUILD}). In Apps Script, choose Deploy, Manage deployments, edit, New version, Deploy.`, '', false));
   return n.join('');
 }
+const newWord = (p, n) => (p.id === 'videos' || p.id === 'viral' ? plural(n, 'new video', 'new videos') : p.id === 'trending' ? plural(n, 'new trend', 'new trends') : p.id === 'travel' ? plural(n, 'new problem', 'new problems') : plural(n, 'new story', 'new stories'));
 function noteHTML(p) {
   const n = isRead(p.id) ? unseen(p) : 0;
-  return n ? `<span class="newdot" aria-hidden="true"></span>${n} new` : esc(p.note);
+  return n ? `<span class="newdot" aria-hidden="true"></span>${newWord(p, n)}` : esc(p.note);
+}
+// After Check for updates: what arrived in the parts you'd already read.
+function newSince() {
+  const out = partList().filter((p) => isRead(p.id)).map((p) => ({ p, n: unseen(p) })).filter((x) => x.n);
+  if (!out.length) return 'You\u2019re up to date. Nothing new since you read it.';
+  const list = out.map((x) => x.p.title), where = list.length === 1 ? list[0] : list.slice(0, -1).join(', ') + ' and ' + list[list.length - 1];
+  const kinds = new Set(out.map((x) => newWord(x.p, 2).replace(/^2 /, '')));
+  const total = out.reduce((a, x) => a + x.n, 0);
+  return kinds.size === 1 ? `${newWord(out[0].p, total)} in ${where}.` : `${total} new items in ${where}.`;
 }
 function phHTML(p) {
   const open = S.open === p.id, done = isDone(p);
@@ -1398,9 +1846,12 @@ function partHTML(parts, p, i) {
 // Each part's own content starts with a short line about where it comes from.
 const chOpen = (parts, p, title, sub) => (sub ? `<p class="chsub">${esc(sub)}</p>` : '');
 const chClose = () => '';
+function storyRec(it, g) {
+  return { id: it.id, kind: 'story', title: it.title, source: it.source, link: it.link, summary: it.summary, at: it.at, related: it.related, from: findLabel(g) };
+}
 function itemHTML(it, g, i, cls) {
   const fresh = isNew(it.id);
-  return `<button class="item${cls ? ' ' + cls : ''}" data-act="story" data-g="${esc(g)}" data-i="${i}" data-key="${esc(it.id)}"><span class="tx"><span class="hl">${fresh ? '<span class="newdot" aria-hidden="true"></span><span class="vh">New: </span>' : ''}${esc(it.title)}</span>${it.summary && cls !== 'small' ? `<span class="sum">${esc(it.summary)}</span>` : ''}<span class="meta">${esc(it.source || '')}${it.at ? (it.source ? ' · ' : '') + esc(C.timeAgo(it.at, Date.now())) : ''}</span></span>${ICON.chev}</button>`;
+  return `<div class="item${cls ? ' ' + cls : ''}" data-key="${esc(it.id)}"><button class="itm" data-act="story" data-g="${esc(g)}" data-i="${i}"><span class="tx"><span class="hl">${fresh ? '<span class="newdot" aria-hidden="true"></span><span class="vh">New: </span>' : ''}${esc(it.title)}</span>${it.summary && cls !== 'small' ? `<span class="sum">${esc(it.summary)}</span>` : ''}<span class="meta">${esc(it.source || '')}${it.at ? (it.source ? ' \u00b7 ' : '') + esc(C.timeAgo(it.at, Date.now())) : ''}</span></span></button>${likeBtn(storyRec(it, g))}</div>`;
 }
 function waiting(what) {
   if (S.refreshing) return `<p class="empty"><span class="spinner" aria-hidden="true"></span>Fetching ${esc(what.toLowerCase())}…</p>`;
@@ -1414,13 +1865,7 @@ function newsHTML(parts, p) {
   let h = chOpen(parts, p, 'News', 'from the world to your street');
   const b = briefData();
   if (!b) return h + waiting('The news') + chClose(p);
-  newsTiers().forEach((t) => {
-    const items = newsItems(t.key);
-    h += `<div class="tier" data-anchor="tier-${t.key}"><h3 class="tierh">${tierGlyph(t.level)}<span class="tn">${esc(t.label)}</span><span class="n">${items.length ? plural(items.length, 'story', 'stories') : ''}</span></h3>`;
-    h += items.length ? items.map((it, i) => itemHTML(it, 'news:' + t.key, i, i === 0 && t.level === 0 ? 'lead' : '')).join('')
-      : `<p class="empty">No new stories for ${esc(t.label)} in the last day or two.</p>`;
-    h += '</div>';
-  });
+  newsTiers().forEach((t) => { h += tierHTML(t, (x) => `No new stories for ${x.label} in the last day or two.`, 'news'); });
   return h + staleNote(S.cache.brief.at) + chClose(p);
 }
 function interestsHTML(parts, p) {
@@ -1465,13 +1910,13 @@ function marketsHTML(parts, p) {
     const w = r.w;
     if (r.status !== 'ok') {
       const why = { pending: 'Updating…', unavailable: 'Not available', noapi: 'Needs the Apps Script', missing: 'Updating…' }[r.status] || 'Not available';
-      return `<div class="mk"><span class="nm"><b>${esc(w.name)}</b><span>${why}</span></span><span class="bar" aria-hidden="true"></span><span class="pc flat"></span></div>`;
+      return `<button class="mk" data-act="mkt" data-id="${esc(w.id)}"><span class="nm"><b>${esc(w.name)}</b><span>${why}</span></span><span class="bar" aria-hidden="true"></span><span class="pc flat"></span>${ICON.chev}</button>`;
     }
     const has = isFinite(r.chg) && r.chg !== null, dir = !has || Math.abs(r.chg) < 0.05 ? 'flat' : r.chg > 0 ? 'up' : 'down';
     const width = has ? C.barWidth(r.chg) : 0;
-    return `<div class="mk"><span class="nm"><b>${esc(w.name)}</b><span>${esc(C.fmtValue({ ...w, cur: r.cur || w.cur }, r.price, home))}</span></span>` +
+    return `<button class="mk" data-act="mkt" data-id="${esc(w.id)}"><span class="nm"><b>${esc(w.name)}</b><span>${esc(C.fmtValue({ ...w, cur: r.cur || w.cur }, r.price, home))}</span></span>` +
       `<span class="bar" role="img" aria-label="${has ? (r.chg >= 0 ? 'Up ' : 'Down ') + Math.abs(r.chg).toFixed(1) + '%' : 'No change yet'}">${has && dir !== 'flat' ? `<i class="${dir}" style="width:${width}px"></i>` : ''}</span>` +
-      `<span class="pc ${dir}">${has ? esc(C.fmtPct(r.chg)) : '–'}</span></div>`;
+      `<span class="pc ${dir}">${has ? esc(C.fmtPct(r.chg)) : '–'}</span>${ICON.chev}</button>`;
   }).join('');
   h += `<p class="src">Prices from Google Finance, which can be up to 20 minutes behind, and crypto prices by CoinGecko. For information only.</p>`;
   return h + `<button class="btn ghost edit" data-act="markets">${ICON.pencil}Edit your markets</button>` + chClose(p);
@@ -1489,15 +1934,17 @@ function lookedHTML(parts, p) {
   let h = chOpen(parts, p, 'What people looked up', 'top 5 on Wikipedia yesterday');
   const list = trending();
   if (!list.length) return h + wikiWaiting() + chClose(p);
-  h += list.map((a, i) => `<button class="rk" data-act="wiki" data-src="looked" data-i="${i}"><span class="no">${i + 1}</span><span class="tx"><span class="tt">${esc(a.title)}</span>${a.desc ? `<span class="ds">${esc(cap(a.desc))}</span>` : ''}${a.tag ? `<span class="tag">${esc(a.tag)}</span>` : ''}</span></button>`).join('');
+  h += list.map((a, i) => `<div class="rowl"><button class="rk" data-act="wiki" data-src="looked" data-i="${i}"><span class="no">${i + 1}</span><span class="tx"><span class="tt">${esc(a.title)}</span>${a.desc ? `<span class="ds">${esc(cap(a.desc))}</span>` : ''}${a.tag ? `<span class="tag">${esc(a.tag)}</span>` : ''}</span></button>${likeBtn(wikiRec(a, 'What people looked up'))}</div>`).join('');
   return h + '<p class="src">From Wikipedia’s most-read pages</p>' + chClose(p);
 }
+const wikiRec = (a, from) => ({ id: 'wiki:' + a.title, kind: 'wiki', title: a.title, source: 'Wikipedia', link: a.url, summary: a.extract, thumb: a.thumb, from });
+const otdRec = (e) => { const pg = e.pages[0] || {}; return { id: 'otd:' + e.year + ':' + String(e.text).slice(0, 40), kind: 'wiki', title: `${e.year}: ${e.text}`, source: 'Wikipedia', link: pg.url, summary: pg.extract, thumb: pg.thumb, from: 'On this day' }; };
 function otdList() { const w = S.cache.wiki && S.cache.wiki.data; return w ? C.pickOnThisDay(w.onthisday, 3) : []; }
 function otdHTML(parts, p) {
   let h = chOpen(parts, p, 'On this day', fmtDay(Date.now()).replace(/^\w+ /, ''));
   const list = otdList();
   if (!list.length) return h + wikiWaiting() + chClose(p);
-  h += list.map((e, i) => `<button class="otd" data-act="wiki" data-src="otd" data-i="${i}"><span class="yr">${esc(e.year)}</span><span class="tx">${esc(e.text)}</span></button>`).join('');
+  h += list.map((e, i) => `<div class="rowl"><button class="otd" data-act="wiki" data-src="otd" data-i="${i}"><span class="yr">${esc(e.year)}</span><span class="tx">${esc(e.text)}</span></button>${likeBtn(otdRec(e))}</div>`).join('');
   return h + chClose(p);
 }
 function greenest() {
@@ -1533,11 +1980,44 @@ function endHTML(parts) {
 }
 function footHTML() {
   const at = S.cache.at;
-  return `<div class="foot"><button class="btn ghost" data-act="refresh">${ICON.refresh}Check for updates</button>
-    <p class="src">${at ? `Updated ${esc(fmtTime(at))}. ` : ''}News from BBC News, Google News and Bing News. Weather by Open-Meteo, trending and on this day from Wikipedia, prices from Google Finance and CoinGecko, grid data from the National Energy System Operator.</p></div>`;
+  return `<div class="foot"><p class="pullhint">${ICON.down14}Pull down to refresh${at ? ` \u00b7 updated ${esc(fmtTime(at))}` : ''}</p>
+    <p class="src">News from BBC News, Google News and Bing News. Weather by Open-Meteo, trending and on this day from Wikipedia, prices from Google Finance and CoinGecko, grid data from the National Energy System Operator.</p></div>`;
+}
+const trends = () => ((briefData() && briefData().trending) || []).slice(0, 8);
+const viralList = () => ((briefData() && briefData().viral) || []).slice(0, 8);
+const partError = (part) => { const e = briefData() && (briefData().errors || []).find((x) => x.part === part); return e ? e.message : ''; };
+const countryName = () => { const pl = S.prefs.place; return pl.cc === 'GB' ? 'the UK' : pl.cc === 'US' ? 'the US' : pl.country || 'your country'; };
+function trendRec(x) {
+  const top = x.news[0];
+  return { id: 'trend:' + x.id, kind: 'story', title: cap(x.term), source: top ? top.source : 'Google Trends', link: top ? top.link : 'https://trends.google.com/trending?geo=' + S.prefs.place.cc,
+    summary: top ? top.title : '', at: x.at, related: x.news.slice(1), relLabel: 'More on this', from: 'Trending now', noPreview: true, meta: `${x.traffic ? x.traffic + ' searches' : 'Trending'} in ${countryName()}` };
+}
+function trendingHTML(parts, p) {
+  let h = chOpen(parts, p, 'Trending now', `what ${countryName()} is searching for`);
+  if (!briefData()) return h + waiting('Trending now');
+  const t = trends();
+  if (!t.length) return h + `<p class="empty">${esc(partError('trending') || 'Nothing trending just now.')}</p>`;
+  h += t.map((x, i) => {
+    const top = x.news[0], fresh = isNew('tr:' + x.id);
+    return `<div class="rowl" data-key="tr:${esc(x.id)}"><button class="rk" data-act="trend" data-i="${i}"><span class="no">${i + 1}</span><span class="tx"><span class="tt">${fresh ? '<span class="newdot" aria-hidden="true"></span><span class="vh">New: </span>' : ''}${esc(cap(x.term))}</span>` +
+      `<span class="ds">${x.traffic ? esc(x.traffic) + ' searches' : 'Trending'}${x.at ? ' \u00b7 ' + esc(C.timeAgo(x.at, Date.now())) : ''}</span>${top ? `<span class="tn2">${esc(top.title)}<i> \u00b7 ${esc(top.source)}</i></span>` : ''}</span></button>${likeBtn(trendRec(x))}</div>`;
+  }).join('');
+  return h + '<p class="src">From Google Trends: the searches rising fastest over the last day, with the news behind them.</p>';
+}
+function viralRec(v) {
+  return { id: 'yt:' + v.id, kind: 'video', title: v.title, source: v.channel, link: v.link, summary: v.desc, at: v.at, thumb: v.thumb, from: 'Viral',
+    meta: [v.channel, v.views ? C.compactNum(v.views) + ' views' : '', v.at ? C.timeAgo(v.at, Date.now()) : ''].filter(Boolean).join(' \u00b7 ') };
+}
+function viralHTML(parts, p) {
+  let h = chOpen(parts, p, 'Viral', `most watched on YouTube in ${countryName()} today`);
+  if (!briefData()) return h + waiting('Viral');
+  const v = viralList();
+  if (!v.length) return h + `<p class="empty">${esc(partError('viral') || 'Nothing from YouTube just now.')}</p>`;
+  h += v.map((x, i) => `<div class="rowl" data-key="vr:${esc(x.id)}"><button class="vid" data-act="viralv" data-i="${i}"><img src="${esc(x.thumb)}" alt="" loading="lazy"><span class="tx"><span class="vt">${isNew('vr:' + x.id) ? '<span class="newdot" aria-hidden="true"></span><span class="vh">New: </span>' : ''}${esc(x.title)}</span><span class="meta">${esc(x.channel)}${x.views ? ' \u00b7 ' + esc(C.compactNum(x.views)) + ' views' : ''}</span></span></button>${likeBtn(viralRec(x))}</div>`).join('');
+  return h + '<p class="src">YouTube\u2019s most popular videos in your country right now.</p>';
 }
 const PART_HTML = { news: newsHTML, politics: politicsHTML, money: moneyHTML, suppliers: suppliersHTML, comingup: comingupHTML, videos: videosHTML,
-  interests: interestsHTML, markets: marketsHTML, looked: lookedHTML, onthisday: otdHTML, greenest: greenHTML };
+  interests: interestsHTML, markets: marketsHTML, trending: trendingHTML, travel: travelHTML, viral: viralHTML, looked: lookedHTML, onthisday: otdHTML, greenest: greenHTML };
 
 function keepAnchor() {
   if (window.scrollY < 120) return null;
@@ -1554,30 +2034,46 @@ function restoreAnchor(a) {
   if (el) window.scrollBy(0, el.getBoundingClientRect().top - a.top);
 }
 const headerH = () => ($('.bar') ? $('.bar').offsetHeight : 0);
+function progHTML(parts) {
+  const done = parts.filter(isDone).length, n = parts.reduce((x, p) => x + (p.n || 0), 0), mins = Math.max(1, Math.round((n * 8 + parts.length * 12) / 60));
+  const read = parts.length && done >= parts.length ? 'All read' : `${done} of ${parts.length} read`;
+  return `${navigator.onLine ? '' : 'Offline \u00b7 '}${read} \u00b7 about ${mins} min`;
+}
 // opt.scrollTo: bring that part's heading to the top. opt.hold: keep that heading where it is.
 function renderBrief(opt = {}) {
   const parts = partList();
   let held = null, a = null;
-  if (opt.hold) { const el = $(`#h-${opt.hold}`); if (el) held = el.getBoundingClientRect().top; }
+  const holdId = opt.holdEl || (opt.hold ? 'h-' + opt.hold : '');
+  if (holdId) { const el = document.getElementById(holdId); if (el) held = el.getBoundingClientRect().top; }
   else if (!opt.scrollTo) a = keepAnchor();
-  const n = parts.reduce((x, p) => x + (p.n || 0), 0), mins = Math.max(1, Math.round((n * 8 + parts.length * 12) / 60));
+  if (holdId) a = null;
   $('#app').innerHTML = noticesHTML() +
-    (parts.length ? `<div class="bh"><h2>In today\u2019s brief</h2><span>${plural(parts.length, 'part', 'parts')} \u00b7 about ${mins} min</span></div>`
+    (parts.length ? `<div class="bh"><h2>In today\u2019s brief</h2><span id="prog">${progHTML(parts)}</span></div>`
       : '<p class="empty" style="margin-top:16px">Every part is switched off. Turn some on in Settings.</p>') +
     `<div class="parts">${parts.map((p, i) => partHTML(parts, p, i)).join('')}</div><div id="endBox">${endHTML(parts)}</div>` + footHTML();
   if (opt.scrollTo) {
     const h = $(`#h-${opt.scrollTo}`);
     if (h) window.scrollTo(0, Math.max(0, h.getBoundingClientRect().top + window.scrollY - headerH()));
-  } else if (opt.hold && held != null) {
-    const el = $(`#h-${opt.hold}`);
+  } else if (holdId && held != null) {
+    const el = document.getElementById(holdId);
     if (el) window.scrollBy(0, el.getBoundingClientRect().top - held);
   } else restoreAnchor(a);
   observe();
+}
+function openTier(part, key) {
+  S.tier[part] = S.tier[part] === key ? null : key;
+  if (S.tier[part]) {
+    if (S.read.day !== today()) S.read = { day: today(), parts: [] };
+    S.read.tiers = S.read.tiers || [];
+    if (!S.read.tiers.includes(part + ':' + key)) { S.read.tiers.push(part + ':' + key); put('read', S.read); }
+  }
+  renderBrief({ holdEl: `th-${part}-${key}` });
 }
 function openPart(id) {
   if (S.open === id) { S.open = null; renderBrief({ hold: id }); return; }
   const info = partInfo(id);
   S.open = id;
+  S.tier = {};
   S.newKeys = { [id]: new Set(info && isRead(id) ? info.keys ? info.keys.filter((k) => !S.seen[k]) : [] : []) };
   renderBrief({ scrollTo: id });
 }
@@ -1615,8 +2111,10 @@ function observe() {
   });
   $$('.ch-end').forEach((el) => readIO.observe(el));
 }
+const tiersOf = (id) => (id === 'travel' ? travelSubs() : (id === 'news' ? newsTiers() : id === 'politics' ? politicsTiers() : []).filter((t) => newsItems(t.key).length));
 function finishPart(id) {
   if (S.open !== id) return;
+  if (tiersOf(id).some((t) => !tierSeen(id, t.key))) return;
   const info = partInfo(id), now = Date.now();
   let ch = false;
   if (!isRead(id)) { S.read.day = today(); S.read.parts.push(id); ch = true; }
@@ -1642,12 +2140,13 @@ function markRead() {
 
 /* ---------- Sheets ---------- */
 const stack = [];
-function openSheet(id, label, html) {
+function openSheet(id, label, html, share) {
   const d = document.createElement('dialog');
   d.className = 'sheet';
   d.id = id;
   d.setAttribute('aria-labelledby', id + '-t');
-  d.innerHTML = `<div class="shead" data-drag><span class="grab" aria-hidden="true"></span><div class="shbar"><span class="lab">${esc(label)}</span><button class="ib" data-act="close" aria-label="Close" title="Close">${ICON.close}</button></div></div><div class="sbody">${html}</div>`;
+  d.innerHTML = `<div class="shead" data-drag><span class="grab" aria-hidden="true"></span><div class="shbar"><span class="lab">${esc(label)}</span><span class="shacts">${share ? `<button class="ib" data-act="share" aria-label="Share" title="Share">${ICON.share}</button>` : ''}<button class="ib" data-act="close" aria-label="Close" title="Close">${ICON.close}</button></span></div></div><div class="sbody">${html}</div>`;
+  d._share = share || null;
   document.body.appendChild(d);
   d.addEventListener('cancel', (e) => { e.preventDefault(); closeTop(); });
   d.addEventListener('click', (e) => { if (e.target === d) { const r = d.getBoundingClientRect(); if (e.clientY < r.top) closeTop(); } });
@@ -1681,7 +2180,7 @@ function gestures(d) {
   d.addEventListener('touchstart', (e) => {
     if (e.touches.length !== 1) { mode = 'none'; return; }
     const t = e.target;
-    if (t.closest('input, textarea, select, [data-grip]') || scrollsSideways(t, d) || String(getSelection && getSelection()).length) { mode = 'none'; return; }
+    if (t.closest('input, textarea, select, [data-grip], [data-scrub]') || scrollsSideways(t, d) || String(getSelection && getSelection()).length) { mode = 'none'; return; }
     sx = e.touches[0].clientX; sy = e.touches[0].clientY; st = performance.now(); dx = dy = 0; mode = null;
     fromHead = !!t.closest('[data-drag]');
   }, { passive: true });
@@ -1689,8 +2188,8 @@ function gestures(d) {
     if (mode === 'none' || sx == null) return;
     dx = e.touches[0].clientX - sx; dy = e.touches[0].clientY - sy;
     if (!mode) {
-      if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
-      if (dx > 0 && Math.abs(dx) > Math.abs(dy)) mode = 'x';
+      if (Math.abs(dx) < 14 && Math.abs(dy) < 10) return;
+      if (dx > 14 && dx > Math.abs(dy) * 2 && !d.dataset.noswipe) mode = 'x';
       else if (dy > 0 && Math.abs(dy) > Math.abs(dx) && fromHead) mode = 'y';
       else { mode = 'none'; return; }
     }
@@ -1727,6 +2226,13 @@ function outHref(u) {
 }
 
 /* ---------- Story and Wikipedia sheets ---------- */
+function findLabel(g) {
+  const [kind, key] = [g.slice(0, g.indexOf(':')), g.slice(g.indexOf(':') + 1)];
+  if (kind === 'news') return ([...newsTiers(), ...politicsTiers()].find((t) => t.key === key) || {}).label || (key === 'money' ? 'Money' : 'News');
+  if (kind === 'supply') return C.SUPPLY[key] ? C.SUPPLY[key].name : 'Your suppliers';
+  if (kind === 'topic') return key;
+  return '';
+}
 function findItem(g, i) {
   const [kind, key] = [g.slice(0, g.indexOf(':')), g.slice(g.indexOf(':') + 1)];
   if (kind === 'news') return { item: newsItems(key)[i], label: ([...newsTiers(), ...politicsTiers()].find((t) => t.key === key) || {}).label || (key === 'money' ? 'Money' : 'News') };
@@ -1736,30 +2242,23 @@ function findItem(g, i) {
 }
 function openStory(g, i) {
   const { item: it, label } = findItem(g, i);
-  if (!it) return;
-  const when = it.at ? `${C.localDayKey(it.at, off(it.at)) === today() ? fmtTime(it.at) : fmtDay(it.at) + ', ' + fmtTime(it.at)}` : '';
-  openSheet('story', label, `<h2 class="sh-title" id="story-t">${esc(it.title)}</h2>
-    <p class="sh-meta">${esc(it.source || '')}${when ? (it.source ? ' · ' : '') + esc(when) : ''}</p>
-    ${it.summary ? `<p class="sh-text">${esc(it.summary)}</p>` : ''}
-    ${it.related && it.related.length ? `<h3 class="sh-h">Also reported by</h3><ul class="rel">${it.related.map((r) => `<li><a href="${esc(outHref(r.link))}" target="_blank" rel="noopener">${esc(r.title)}<span>${esc(r.source)}</span></a></li>`).join('')}</ul>` : ''}
-    <a class="btn dark sh-go" href="${esc(outHref(it.link))}" target="_blank" rel="noopener">Read at ${esc(it.source || 'the source')}</a>
-    <p class="sh-note">Opens in your browser.</p>`);
+  if (it) openRecord(storyRec(it, g), label);
 }
 function openWiki(src, i) {
   const img = (u) => (u ? `<img class="sh-img" src="${esc(u)}" alt="" loading="lazy">` : '');
-  const tail = (a) => `${img(a.thumb)}${a.extract ? `<p class="sh-text">${esc(a.extract)}</p>` : ''}
-    ${a.url ? `<a class="btn dark sh-go" href="${esc(outHref(a.url))}" target="_blank" rel="noopener">Read on Wikipedia</a>` : ''}
+  const tail = (a, rec) => `${img(a.thumb)}${a.extract ? `<p class="sh-text">${esc(a.extract)}</p>` : ''}
+    <div class="likerow">${a.url ? `<a class="btn dark" href="${esc(outHref(a.url))}" target="_blank" rel="noopener">Read on Wikipedia</a>` : ''}${likeBtn(rec, true)}</div>
     <p class="sh-note">Text from Wikipedia, shared under CC BY-SA.</p>`;
   if (src === 'looked') {
     const a = trending()[i];
     if (!a) return;
-    openSheet('wiki', 'What people looked up', `<h2 class="sh-title" id="wiki-t">${esc(a.title)}</h2>${a.desc ? `<p class="sh-meta">${esc(cap(a.desc))}</p>` : ''}${a.tag ? `<p class="sh-meta"><span class="tag">${esc(a.tag)}</span></p>` : ''}${tail(a)}`);
+    openSheet('wiki', 'What people looked up', `<h2 class="sh-title" id="wiki-t">${esc(a.title)}</h2>${a.desc ? `<p class="sh-meta">${esc(cap(a.desc))}</p>` : ''}${a.tag ? `<p class="sh-meta"><span class="tag">${esc(a.tag)}</span></p>` : ''}${tail(a, wikiRec(a, 'What people looked up'))}`, a.url ? { title: a.title, url: a.url } : null);
     return;
   }
   const e = otdList()[i];
   if (!e) return;
   const pg = e.pages[0] || {};
-  openSheet('wiki', 'On this day', `<h2 class="sh-title" id="wiki-t">${esc(e.year)}</h2><p class="sh-text">${esc(e.text)}</p>${pg.title ? `<h3 class="sh-h">${esc(pg.title)}</h3>` : ''}${tail(pg)}`);
+  openSheet('wiki', 'On this day', `<h2 class="sh-title" id="wiki-t">${esc(e.year)}</h2><p class="sh-text">${esc(e.text)}</p>${pg.title ? `<h3 class="sh-h">${esc(pg.title)}</h3>` : ''}${tail(pg, otdRec(e))}`, pg.url ? { title: `${e.year}: ${e.text}`, url: pg.url } : null);
 }
 
 /* ---------- Places ---------- */
@@ -1860,12 +2359,14 @@ function afterTopics(scope, msg) {
 function partName(k, pl) {
   return { world: 'World news', country: `${(pl && pl.country) || 'Country'} news`, county: `${(pl && pl.county) || 'County'} news`, local: `${(pl && pl.town) || 'Local'} news`,
     news: 'News', politics: 'Politics', money: 'Money', suppliers: 'Your suppliers', comingup: 'Coming up', videos: 'Videos', interests: 'Your interests',
-    markets: 'Markets', looked: 'What people looked up', onthisday: 'On this day', greenest: 'Greenest hours' }[k] || k;
+    markets: 'Markets', trending: 'Trending now', viral: 'Viral', travel: 'Getting around', transport: 'Public transport', roads: 'Roads', looked: 'What people looked up', onthisday: 'On this day', greenest: 'Greenest hours' }[k] || k;
 }
 function partHint(k, pl) {
   return { local: 'Matched by place name', politics: pl && pl.cc === 'GB' ? `Westminster${pl.council ? ` and ${pl.council} Council` : ''}` : 'Your country’s politics',
     money: 'MoneySavingExpert’s latest guides and warnings', suppliers: 'Problems with your broadband, power, water and more', comingup: 'Festivals and holidays from your calendars',
     videos: 'New uploads from YouTube channels you pick', interests: 'Updates on the topics you follow', markets: 'Indices, currencies, gold and crypto',
+    trending: 'What your country is searching for, from Google Trends', viral: 'The most watched YouTube videos in your country',
+    transport: pl && pl.county === 'London' ? 'Tube, rail, DLR and tram status from TfL' : 'Train and bus problems in the local news', roads: pl && pl.county === 'London' ? 'Closures, works and incidents within 5 miles, from TfL' : 'Road closures and incidents in the local news',
     looked: 'Wikipedia’s most-read pages', onthisday: 'Three moments from history', greenest: 'When to run the washing machine' }[k] || '';
 }
 const swRow = (k, on, pl, scope) => `<label class="swrow"><span>${esc(partName(k, pl))}${partHint(k, pl) ? `<small>${esc(partHint(k, pl))}</small>` : ''}</span><input type="checkbox" role="switch" class="sw" data-sec="${k}" data-scope="${scope}"${on ? ' checked' : ''}></label>`;
@@ -1879,9 +2380,11 @@ function partOrderHTML() {
   const p = S.prefs, pl = p.place;
   const ids = p.order.filter((k) => k !== 'greenest' || pl.cc === 'GB');
   return `<ul class="mlist" id="plist">${ids.map((k) => `<li class="mrow" data-id="${k}"><button class="ib grip" data-grip aria-label="Move ${esc(partName(k, pl))}. Use the arrow keys." title="Drag to reorder">${ICON.grip}</button>` +
-    (k === 'news' ? `<span class="mn"><b>News</b><span>Switch tiers below</span></span>`
+    (k === 'news' || k === 'travel' ? `<span class="mn"><b>${k === 'news' ? 'News' : 'Getting around'}</b><span>Switch below</span></span>`
       : `<label class="mn swmini"><b>${esc(partName(k, pl))}</b><input type="checkbox" role="switch" class="sw" data-sec="${k}" data-scope="set"${p.sections[k] ? ' checked' : ''}></label>`) + '</li>').join('')}</ul>
-    <h3 class="grp">News tiers</h3>${TIERS.map((k) => swRow(k, p.sections[k], pl, 'set')).join('')}`;
+    <h3 class="grp">News tiers</h3>${TIERS.map((k) => swRow(k, p.sections[k], pl, 'set')).join('')}
+    <h3 class="grp" id="grp-travel">Getting around</h3>${['transport', 'roads'].map((k) => swRow(k, p.sections[k], pl, 'set')).join('')}
+    <button class="btn ghost edit" id="stBtn" data-act="stations">${ICON.pencil}${(p.stations || []).length ? `Your stations (${p.stations.length})` : 'Add your stations'}</button>`;
 }
 function movePart(from, to) {
   const all = S.prefs.order, ids = $$('#plist .mrow').map((r) => r.dataset.id);
@@ -2085,6 +2588,118 @@ function openSettings(to) {
   if (g) d.scrollTop = g.offsetTop - 70;
 }
 
+/* ---------- One market, close up ---------- */
+const MK_RANGES = [['1M', '1 month', 30], ['6M', '6 months', 180], ['1Y', '1 year', 365], ['5Y', '5 years', 1825]];
+const marketLink = (w) => {
+  if (w.kind === 'crypto') return 'https://www.coingecko.com/en/coins/' + encodeURIComponent(w.cg);
+  const m = /^([A-Z]+):(.+)$/.exec(w.sym || '');
+  if (!m) return '';
+  return 'https://www.google.com/finance/quote/' + encodeURIComponent(m[1] === 'CURRENCY' ? m[2].slice(0, 3) + '-' + m[2].slice(3) : m[2] + ':' + m[1]);
+};
+function openMarket(id) {
+  const w = S.prefs.watch.find((x) => x.id === id);
+  if (!w) return;
+  const row = marketRows().find((r) => r.w.id === id) || {}, home = C.currencyFor(S.prefs.place.cc);
+  S.mk = { w, range: '1M', detail: null, req: 0 };
+  const ranges = w.kind === 'crypto' ? MK_RANGES.slice(0, 3) : MK_RANGES, link = marketLink(w);
+  const has = row.status === 'ok', dir = !has || !isFinite(row.chg) || row.chg === null || Math.abs(row.chg) < 0.05 ? 'flat' : row.chg > 0 ? 'up' : 'down';
+  const d = openSheet('market', 'Markets', `<h2 class="sh-title" id="market-t">${esc(w.name)}</h2><p class="mksub">${esc([...new Set([w.sym || w.ticker, w.note].filter(Boolean))].join(' \u00b7 '))}</p>
+    <div class="mkhead"><span class="mkp" id="mkPrice">${has ? esc(C.fmtValue({ ...w, cur: row.cur || w.cur }, row.price, home)) : '\u2013'}</span><span class="pc ${dir}" id="mkChg">${has && row.chg != null ? esc(C.fmtPct(row.chg)) + ' today' : ''}</span></div>
+    <div class="seg mkseg" role="group" aria-label="Chart period">${ranges.map(([k, n]) => `<button data-act="mkrange" data-k="${k}" aria-pressed="${k === '1M'}" aria-label="${n}">${k}</button>`).join('')}</div>
+    <div class="chartbox" id="mkChart" data-scrub><div class="chartmsg"><span class="spinner" aria-hidden="true"></span>Drawing the chart\u2026</div></div>
+    <p class="rangeline" id="mkRange"></p>
+    <div class="stats" id="mkStats"><div class="st wide"><span>Figures</span><b><span class="spinner" aria-hidden="true"></span></b></div></div>
+    ${link ? `<a class="btn ghost wide" style="margin-top:20px" href="${esc(outHref(link))}" target="_blank" rel="noopener">${w.kind === 'crypto' ? 'Open in CoinGecko' : 'Open in Google Finance'}</a>` : ''}
+    <p class="sh-note">${w.kind === 'crypto' ? 'Prices and chart by CoinGecko.' : 'Figures from Google Finance, up to 20 minutes behind. Chart from Stooq.'} For information only.</p>`,
+    link ? { title: w.name, url: link } : null);
+  d.dataset.noswipe = '1';
+  loadMarketChart();
+  loadMarketDetail();
+}
+async function loadMarketChart() {
+  const mk = S.mk, box = $('#mkChart');
+  if (!mk || !box) return;
+  const req = ++mk.req, range = mk.range, w = mk.w;
+  box.innerHTML = '<div class="chartmsg"><span class="spinner" aria-hidden="true"></span>Drawing the chart\u2026</div>';
+  $('#mkRange').textContent = '';
+  let pts = null, msg = '';
+  const key = w.id + ':' + range;
+  S.mkCache = S.mkCache || {};
+  try {
+    if (S.mkCache[key]) pts = S.mkCache[key];
+    else if (w.kind === 'crypto') {
+      const vs = C.currencyFor(S.prefs.place.cc).toLowerCase(), days = MK_RANGES.find((x) => x[0] === range)[2];
+      const j = await getJSON(`https://api.coingecko.com/api/v3/coins/${encodeURIComponent(w.cg)}/market_chart?vs_currency=${vs}&days=${days}${days > 90 ? '&interval=daily' : ''}`);
+      pts = (j.prices || []).filter((x) => isFinite(x[1]));
+    } else pts = (await api('history', { symbol: w.sym, range })).points;
+    if (pts && pts.length > 1) S.mkCache[key] = pts;
+  } catch (e) { msg = e.message || 'The chart is unavailable just now.'; }
+  if (req !== mk.req || !$('#mkChart')) return;
+  if (!pts || pts.length < 2) { box.innerHTML = `<div class="chartmsg">${esc(msg || 'No chart for this one just now.')}</div>`; return; }
+  drawChart(box, pts, w);
+}
+function drawChart(box, pts, w) {
+  const home = C.currencyFor(S.prefs.place.cc), fv = (v) => C.fmtValue({ ...w, cur: (S.mk.detail && S.mk.detail.cur) || w.cur }, v, home);
+  const t0 = pts[0][0], t1 = pts[pts.length - 1][0], ys = pts.map((p) => p[1]), lo = Math.min(...ys), hi = Math.max(...ys), sp = hi - lo || 1;
+  const W = 1000, H = 170, X = (t) => ((t - t0) / (t1 - t0 || 1)) * W, Y = (v) => 8 + (1 - (v - lo) / sp) * (H - 16);
+  const line = pts.map((p, i) => `${i ? 'L' : 'M'}${X(p[0]).toFixed(1)} ${Y(p[1]).toFixed(1)}`).join('');
+  const first = pts[0][1], last = pts[pts.length - 1][1], ch = (last / first - 1) * 100;
+  const day = (t) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: (t1 - t0) > 300 * 86400000 ? '2-digit' : undefined, timeZone: 'UTC' }).format(t);
+  box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="${esc(w.name)}: ${esc(fv(first))} to ${esc(fv(last))}, ${esc(C.fmtPct(ch))}, between ${esc(day(t0))} and ${esc(day(t1))}.">
+    <defs><linearGradient id="mkfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--ink);stop-opacity:.14"/><stop offset="1" style="stop-color:var(--ink);stop-opacity:0"/></linearGradient></defs>
+    <line class="base" x1="0" x2="${W}" y1="${Y(first).toFixed(1)}" y2="${Y(first).toFixed(1)}"/>
+    <path class="ar" fill="url(#mkfill)" d="${line}L${W} ${H}L0 ${H}Z"/><path class="ln" d="${line}"/></svg>
+    <div class="cx" aria-hidden="true"><span>${esc(day(t0))}</span><span>${esc(day(t1))}</span></div><div class="scr" hidden><i></i></div><span class="scrl" hidden></span>`;
+  const dir = Math.abs(ch) < 0.05 ? 'flat' : ch > 0 ? 'up' : 'down', period = MK_RANGES.find((x) => x[0] === S.mk.range)[1];
+  $('#mkRange').innerHTML = `<b class="pc ${dir}">${esc(C.fmtPct(ch))}</b> over ${esc(period)} \u00b7 high ${esc(fv(hi))} \u00b7 low ${esc(fv(lo))}`;
+  // Drag a finger along the chart to read any day.
+  const scr = $('.scr', box), lab = $('.scrl', box), dot = $('.scr i', box);
+  const at = (clientX) => {
+    const r = box.getBoundingClientRect(), f = Math.max(0, Math.min(1, (clientX - r.left) / r.width)), t = t0 + f * (t1 - t0);
+    let k = 0;
+    for (let i = 1; i < pts.length; i++) if (Math.abs(pts[i][0] - t) < Math.abs(pts[k][0] - t)) k = i;
+    const x = (X(pts[k][0]) / W) * r.width, y = (Y(pts[k][1]) / H) * 170;
+    scr.hidden = lab.hidden = false;
+    scr.style.left = x + 'px'; dot.style.top = (y - 5.5) + 'px';
+    lab.textContent = `${day(pts[k][0])} \u00b7 ${fv(pts[k][1])}`;
+    lab.style.left = Math.max(70, Math.min(r.width - 70, x)) + 'px';
+  };
+  const hide = () => { scr.hidden = lab.hidden = true; };
+  box.onpointerdown = (e) => { at(e.clientX); };
+  box.onpointermove = (e) => { if (e.pointerType === 'mouse' || e.buttons || e.pressure) at(e.clientX); };
+  box.onpointerup = box.onpointercancel = box.onpointerleave = hide;
+}
+async function loadMarketDetail() {
+  const mk = S.mk, w = mk && mk.w, home = C.currencyFor(S.prefs.place.cc);
+  if (!w) return;
+  let d = null;
+  try {
+    if (w.kind === 'crypto') {
+      const vs = home.toLowerCase(), j = await getJSON(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${vs}&ids=${encodeURIComponent(w.cg)}`);
+      const c = j && j[0];
+      if (c) d = { price: c.current_price, changepct: c.price_change_percentage_24h, high: c.high_24h, low: c.low_24h, marketcap: c.market_cap, volume: c.total_volume, high52: c.ath, crypto: true };
+    } else d = await api('detail', { symbol: w.sym });
+  } catch (e) { d = { error: e.message }; }
+  const box = $('#mkStats');
+  if (!box || S.mk !== mk) return;
+  mk.detail = d;
+  const fv = (v) => C.fmtValue({ ...w, cur: (d && d.cur) || w.cur }, v, home), sym = (C.CUR[(d && d.cur) || ''] || C.CUR[home] || [''])[0];
+  if (d && isFinite(d.price)) {
+    $('#mkPrice').textContent = fv(d.price);
+    if (isFinite(d.changepct)) { const c = $('#mkChg'); c.textContent = C.fmtPct(d.changepct) + (w.kind === 'crypto' ? ' in 24 hours' : ' today'); c.className = 'pc ' + (Math.abs(d.changepct) < 0.05 ? 'flat' : d.changepct > 0 ? 'up' : 'down'); }
+  }
+  if (!d || d.error) { box.innerHTML = `<div class="st wide"><span>Figures</span><b style="font-weight:400;font-size:14px">${esc((d && d.error) || 'Unavailable just now.')}</b></div>`; return; }
+  const rng = (lo, hi, label) => (isFinite(lo) && isFinite(hi) && hi > lo ? `<div class="st wide"><span>${label}</span><div class="rbar"><i style="left:${Math.max(0, Math.min(100, ((d.price - lo) / (hi - lo)) * 100)).toFixed(1)}%"></i></div><div class="rlab"><span>${esc(fv(lo))}</span><span>${esc(fv(hi))}</span></div></div>` : '');
+  const cell = (label, v) => (v ? `<div class="st"><span>${label}</span><b>${esc(v)}</b></div>` : '');
+  const money = (n) => (isFinite(n) && n > 0 ? (w.kind === 'stock' && ((d.cur || w.cur) === 'GBX' || (d.cur || w.cur) === 'GBP') ? '\u00a3' : sym) + C.compactNum(n) : '');
+  const html = rng(d.low, d.high, d.crypto ? 'Last 24 hours' : 'Today\u2019s range') + (d.crypto ? '' : rng(d.low52, d.high52, '52-week range')) +
+    cell('Open', isFinite(d.priceopen) ? fv(d.priceopen) : '') + cell('Previous close', isFinite(d.closeyest) ? fv(d.closeyest) : '') +
+    cell('Market value', money(d.marketcap)) + cell('P/E ratio', isFinite(d.pe) ? d.pe.toFixed(1) : '') + cell('Volume', isFinite(d.volume) && d.volume > 0 ? (d.crypto ? money(d.volume) : C.compactNum(d.volume)) : '') +
+    cell('All-time high', d.crypto && isFinite(d.high52) ? fv(d.high52) : '');
+  box.innerHTML = html || '<div class="st wide"><span>Figures</span><b style="font-weight:400;font-size:14px">Google Finance only shares the price for this one.</b></div>';
+  if (box.children.length % 2 && !box.lastElementChild.classList.contains('wide')) box.lastElementChild.classList.add('wide');
+}
+
 /* ---------- Your markets ---------- */
 const MK_TABS = [['index', 'Indices'], ['fx', 'Currencies'], ['metal', 'Commodities'], ['crypto', 'Crypto']];
 function marketsSheetHTML() {
@@ -2197,14 +2812,43 @@ document.addEventListener('click', (e) => {
   const act = el.dataset.act;
   switch (act) {
     case 'part': openPart(el.dataset.id); break;
+    case 'tier': openTier(el.dataset.part, el.dataset.k); break;
+    case 'line': { const L = travelLines(), l = (el.dataset.g === 'far' ? L.elsewhere : L.near)[+el.dataset.i]; if (l) openRecord(lineRec(l), 'Getting around'); break; }
+    case 'station': openStation(+el.dataset.i); break;
+    case 'ytplay': {
+      if (!/^[\w-]{11}$/.test(el.dataset.id)) break;
+      const f = document.createElement('iframe');
+      f.className = 'pvm'; f.dataset.scrub = ''; f.title = 'Video';
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen'; f.allowFullscreen = true;
+      f.src = `https://www.youtube-nocookie.com/embed/${el.dataset.id}?autoplay=1&playsinline=1&rel=0`;
+      el.replaceWith(f);
+      break;
+    }
+    case 'alert': jumpTo('travel', el.dataset.k); break;
+    case 'stations': S.stResults = []; openSheet('stations', 'Getting around', stationsHTML()); break;
+    case 'addStation': {
+      const s = (S.stResults || [])[+el.dataset.i], list = (S.prefs.stations = S.prefs.stations || []);
+      if (!s || list.some((x) => x.id === s.id)) break;
+      if (list.length >= 4) { toast('You can keep up to 4 stations. Remove one first.'); break; }
+      list.push({ id: s.id, name: s.name, modes: s.modes || [] });
+      if (!S.prefs.sections.transport) S.prefs.sections.transport = true;
+      stationsChanged(`${s.name} added.`);
+      break;
+    }
+    case 'unstation': {
+      const list = S.prefs.stations || [], i = list.findIndex((x) => x.id === el.dataset.id);
+      if (i >= 0) { const [s] = list.splice(i, 1); stationsChanged(`${s.name} removed.`); }
+      break;
+    }
+    case 'road': { const r = ((travelData() || {}).roads || [])[+el.dataset.i]; if (r) openRecord(roadRec(r), 'Getting around'); break; }
     case 'next': {
       const id = el.dataset.id, parts = partList(), i = parts.findIndex((p) => p.id === id), nx = parts[i + 1];
-      finishPart(id);
+      if (tiersOf(id).every((t) => tierSeen(id, t.key))) finishPart(id);
       if (nx) openPart(nx.id);
       else { S.open = null; renderBrief(); const eb = $('#endBox'); if (eb && eb.firstChild) eb.scrollIntoView({ block: 'center' }); else window.scrollTo(0, 0); }
       break;
     }
-    case 'weather': openSheet('weather', 'Weather', weatherHTML()); break;
+    case 'weather': openSheet('weather', 'Weather', weatherHTML()).dataset.noswipe = '1'; break;
     case 'nextEvent': openEvent(0); break;
     case 'mode': case 'setmode': setMode(el.dataset.mode); break;
     case 'introGo': put('welcomed', true); S.draft = newDraft(); S.view = ready() ? 'setup' : null; window.scrollTo(0, 0); render(); break;
@@ -2219,7 +2863,15 @@ document.addEventListener('click', (e) => {
     case 'close': closeTop(); break;
     case 'settings': if (topSheet()) { history.back(); setTimeout(() => openSettings(el.dataset.to), 220); } else openSettings(el.dataset.to); break;
     case 'markets': S.mkQuery = ''; openSheet('markets', 'Markets', marketsSheetHTML()); break;
-    case 'refresh': withBusy(el, () => refresh(true)).then(() => toast('Up to date.')); break;
+    case 'refresh': withBusy(el, () => refresh(true)).then(() => toast(newSince())); break;
+    case 'like': toggleLike(el.dataset.id); { const lb = sheetBody('liked'); if (lb && !isLiked(el.dataset.id)) { const t = $('#liked').scrollTop; lb.innerHTML = likedHTML(); $('#liked').scrollTop = t; } } break;
+    case 'liked': openSheet('liked', 'Liked', likedHTML()); break;
+    case 'mkt': openMarket(el.dataset.id); break;
+    case 'mkrange': if (S.mk) { S.mk.range = el.dataset.k; $$('[data-act=mkrange]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.k === S.mk.range))); loadMarketChart(); } break;
+    case 'trend': { const x = trends()[+el.dataset.i]; if (x) openRecord(trendRec(x), 'Trending now'); break; }
+    case 'viralv': { const x = viralList()[+el.dataset.i]; if (x) openRecord(viralRec(x), 'Viral'); break; }
+    case 'share': { const d = el.closest('dialog'); shareThing(d && d._share); break; }
+    case 'openLiked': openRecord(S.liked.find((x) => x.id === el.dataset.id), 'Liked'); break;
     case 'dismiss': S.dismissed[el.dataset.id] = Date.now(); put('dismissed', S.dismissed); el.closest('.notice').remove(); break;
     case 'install': if (S.installEvt) { S.installEvt.prompt(); S.installEvt.userChoice.finally(() => { S.installEvt = null; render(); }); } break;
     case 'locate': locate(el, el.dataset.scope); break;
@@ -2276,6 +2928,7 @@ document.addEventListener('submit', (e) => {
   } else if (f.dataset.form === 'share') addShare(f);
   else if (f.dataset.form === 'invite' || f.dataset.form === 'own') submitInvite(f);
   else if (f.dataset.form === 'yt') searchChannels(f);
+  else if (f.dataset.form === 'station') searchStations(f);
   else if (f.dataset.form === 'ics') addIcs(f);
 });
 document.addEventListener('input', (e) => {
@@ -2329,6 +2982,35 @@ document.addEventListener('change', (e) => {
   }
 });
 
+/* ---------- Pull down to refresh ---------- */
+(function pullToRefresh() {
+  const el = document.createElement('div');
+  el.id = 'ptr'; el.className = 'ptr'; el.setAttribute('aria-hidden', 'true'); el.innerHTML = ICON.down;
+  document.body.appendChild(el);
+  let y0 = null, armed = false;
+  const show = (d) => { el.style.transition = 'none'; el.style.transform = `translateY(${d - 30}px)`; el.style.opacity = String(Math.min(1, d / 36)); };
+  const reset = () => { el.style.transition = 'transform .2s, opacity .2s'; el.style.transform = ''; el.style.opacity = ''; el.classList.remove('armed'); el.innerHTML = ICON.down; armed = false; };
+  addEventListener('touchstart', (e) => {
+    y0 = !ready() || topSheet() || S.refreshing || window.scrollY > 2 || e.touches.length !== 1 ? null : e.touches[0].clientY;
+  }, { passive: true });
+  addEventListener('touchmove', (e) => {
+    if (y0 == null) return;
+    const dy = e.touches[0].clientY - y0;
+    if (dy <= 0 || window.scrollY > 2) { y0 = null; reset(); return; }
+    const d = Math.min(96, dy * 0.45);
+    show(d);
+    armed = d >= 64;
+    el.classList.toggle('armed', armed);
+  }, { passive: true });
+  addEventListener('touchend', () => {
+    if (y0 == null) return;
+    y0 = null;
+    if (!armed) return reset();
+    el.innerHTML = '<span class="spinner" aria-hidden="true"></span>';
+    refresh(true).then(() => { reset(); toast(newSince()); });
+  });
+})();
+
 /* ---------- Install, visibility, start ---------- */
 window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); S.installEvt = e; if (ready()) render(); });
 window.addEventListener('appinstalled', () => { S.installEvt = null; S.dismissed.install = Date.now(); put('dismissed', S.dismissed); });
@@ -2347,7 +3029,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 addEventListener('scroll', () => document.documentElement.classList.toggle('scrolled', window.scrollY > 4), { passive: true });
 beginOpen();
 // Someone already set up sees one short note about what changed.
-if (S.prefs && S.prefs.setupDone && get('release', 0) < RELEASE) { S.whatsNew = fromOld ? 3 : 4; put('whatsNew', S.whatsNew); }
+if (S.prefs && S.prefs.setupDone && get('release', 0) < RELEASE) { S.whatsNew = fromOld ? 3 : get('release', 0) >= 4 ? 5 : 4; put('whatsNew', S.whatsNew); }
 put('release', RELEASE);
 const fromLink = takeHashInvite();
 if (fromLink === 'bad') S.inviteError = 'That invite link is incomplete. Ask for it again, or paste it below.';
