@@ -2610,7 +2610,7 @@ function openMarket(id) {
     <p class="rangeline" id="mkRange"></p>
     <div class="stats" id="mkStats"><div class="st wide"><span>Figures</span><b><span class="spinner" aria-hidden="true"></span></b></div></div>
     ${link ? `<a class="btn ghost wide" style="margin-top:20px" href="${esc(outHref(link))}" target="_blank" rel="noopener">${w.kind === 'crypto' ? 'Open in CoinGecko' : 'Open in Google Finance'}</a>` : ''}
-    <p class="sh-note">${w.kind === 'crypto' ? 'Prices and chart by CoinGecko.' : 'Figures from Google Finance, up to 20 minutes behind. Chart from Stooq.'} For information only.</p>`,
+    <p class="sh-note">${w.kind === 'crypto' ? 'Prices and chart by CoinGecko.' : 'Figures from Google Finance, up to 20 minutes behind.'}<span id="mkSrc"></span> For information only.</p>`,
     link ? { title: w.name, url: link } : null);
   d.dataset.noswipe = '1';
   loadMarketChart();
@@ -2622,19 +2622,21 @@ async function loadMarketChart() {
   const req = ++mk.req, range = mk.range, w = mk.w;
   box.innerHTML = '<div class="chartmsg"><span class="spinner" aria-hidden="true"></span>Drawing the chart\u2026</div>';
   $('#mkRange').textContent = '';
-  let pts = null, msg = '';
+  let pts = null, msg = '', src = '';
   const key = w.id + ':' + range;
   S.mkCache = S.mkCache || {};
   try {
-    if (S.mkCache[key]) pts = S.mkCache[key];
+    if (S.mkCache[key]) ({ pts, src } = S.mkCache[key]);
     else if (w.kind === 'crypto') {
       const vs = C.currencyFor(S.prefs.place.cc).toLowerCase(), days = MK_RANGES.find((x) => x[0] === range)[2];
       const j = await getJSON(`https://api.coingecko.com/api/v3/coins/${encodeURIComponent(w.cg)}/market_chart?vs_currency=${vs}&days=${days}${days > 90 ? '&interval=daily' : ''}`);
       pts = (j.prices || []).filter((x) => isFinite(x[1]));
-    } else pts = (await api('history', { symbol: w.sym, range })).points;
-    if (pts && pts.length > 1) S.mkCache[key] = pts;
+    } else { const j = await api('history', { symbol: w.sym, range }); pts = j.points; src = j.source || ''; }
+    if (pts && pts.length > 1) S.mkCache[key] = { pts, src };
   } catch (e) { msg = e.message || 'The chart is unavailable just now.'; }
   if (req !== mk.req || !$('#mkChart')) return;
+  const sn = $('#mkSrc');
+  if (sn) sn.textContent = !pts || pts.length < 2 ? '' : { ecb: ' Chart from the European Central Bank\u2019s daily rates.', yahoo: ' Chart from Yahoo Finance.', own: ` Chart from Lowdown\u2019s nightly record of Google Finance prices, since ${fmtDay(pts[0][0])}.` }[src] || '';
   if (!pts || pts.length < 2) { box.innerHTML = `<div class="chartmsg">${esc(msg || 'No chart for this one just now.')}</div>`; return; }
   drawChart(box, pts, w);
 }

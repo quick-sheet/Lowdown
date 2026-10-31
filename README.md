@@ -57,20 +57,11 @@ Searching for channels by name needs a YouTube Data API key. Without one, people
 
 The free allowance covers about 100 searches a day, plenty for friends. New uploads come from YouTube's public feeds and use no allowance.
 
-### 3. Stooq key for market charts (optional, free)
-
-Market figures come from Google Finance through your sheet, but Google doesn't let Apps Script read its price history, so the charts come from Stooq. Without a key the close-up still shows every figure and says how to add one.
-
-1. Open **https://stooq.com/q/d/?s=spy.us&get_apikey**, solve the check, and copy the key it shows.
-2. In Apps Script, **Project Settings → Script Properties → Add script property**: name `STOOQ_KEY`, value the key. **Save.**
-
-Crypto charts come from CoinGecko and need no key.
-
-### 4. UK Power Networks key (only if power cuts don't show)
+### 3. UK Power Networks key (only if power cuts don't show)
 
 Live power cuts come from UK Power Networks' open data. If the electricity sheet says "Live power cuts are unavailable just now" day after day, register free at **ukpowernetworks.opendatasoft.com**, create an API key under your account, and add it as a Script Property named `UKPN_KEY`.
 
-### 5. GitHub Pages
+### 4. GitHub Pages
 
 Upload every file to the public repo `quick-sheet/Lowdown`, then **Settings → Pages**: Source **Deploy from a branch**, Branch **main**, folder **/ (root)**, **Save**. The `apps-script` folder can go in the repo too; it holds no secrets.
 
@@ -110,10 +101,10 @@ Every release bumps both markers together: `core.js?v=N` in `index.html` and `lo
 ## Good to know
 
 - **The invite is a shared code, not a login.** Anyone holding the link gets in, so share it only with friends, and change the code if it spreads. The page itself stays public on GitHub Pages; only the invite box shows without one.
-- **Sources.** News from BBC News, Google News and Bing News; story cards from each publisher's own link preview; money from MoneySavingExpert via Google News; weather from Open-Meteo; air quality and pollen from Copernicus via Open-Meteo (pollen is Europe only, in season); place names from OpenStreetMap; what people looked up, on this day and festival summaries from Wikipedia; trending from Google Trends; viral from YouTube; prices from Google Finance (up to 20 minutes behind) and CoinGecko; charts from Stooq and CoinGecko; travel from TfL Open Data (Powered by TfL Open Data); grid data from the National Energy System Operator; power cuts from UK Power Networks; Jewish dates from Hebcal; bank holidays from GOV.UK; videos from YouTube. All free, for personal use.
+- **Sources.** News from BBC News, Google News and Bing News; story cards from each publisher's own link preview; money from MoneySavingExpert via Google News; weather from Open-Meteo; air quality and pollen from Copernicus via Open-Meteo (pollen is Europe only, in season); place names from OpenStreetMap; what people looked up, on this day and festival summaries from Wikipedia; trending from Google Trends; viral from YouTube; prices from Google Finance (up to 20 minutes behind) and CoinGecko; charts from Yahoo Finance, the European Central Bank (through Frankfurter) and CoinGecko; travel from TfL Open Data (Powered by TfL Open Data); grid data from the National Energy System Operator; power cuts from UK Power Networks; Jewish dates from Hebcal; bank holidays from GOV.UK; videos from YouTube. All free, for personal use.
 - **Story cards depend on the publisher.** Most news sites publish a link preview; a few block requests or leave it out, and then the card shows the feed's headline and summary with the same Read link. Google News hides the publisher's address behind its own link: Lowdown unwraps it the way Google's own page does, or finds the story on Bing, and falls back to the feed card when neither works.
 - **Travel.** Live line status, station notices and road problems are TfL's, so they're London-wide; outside London, Getting around uses local news and your stations' lines where TfL lists them. Line status is for a whole line or train company, so "Severe delays" on South Western Railway may be on another branch: the reason underneath says where. The road alert at the top only counts closures and serious disruption, so it doesn't sit there every day for minor works.
-- **Market charts** cover the main indices, currencies and London, US, German, Japanese and Hong Kong shares. Other markets show the figures with "There's no chart for this market yet". Crypto charts go back a year.
+- **Market charts need no keys.** Google doesn't let scripts read Google Finance's price history, so currencies are drawn from the European Central Bank's daily rates and indices, shares and metals from Yahoo Finance's public chart feed (metals follow the futures price). Yahoo's feed is unofficial and sometimes turns scripts away; then the chart comes from Lowdown's own record, which the Apps Script adds to each night from Google Finance prices (in the sheet's History tab, kept five years), and the sheet says so. That record builds up night by night. Crypto charts come from CoinGecko and go back a year.
 - **Trending and viral.** Trending is Google Trends' public feed; viral is YouTube only, as TikTok, X and Instagram have no free open feed.
 - **Supplier status is what makes the news.** Small or very local faults won't show; each tile's sheet has a search for the provider's own status page, which can check your postcode. Live power cuts only cover UK Power Networks' area (London, the South East and the East); elsewhere it's news only.
 - **Festival dates.** Christian dates are worked out on the phone; Jewish dates and bank holidays come live. Hindu, Sikh, Buddhist, Islamic and Lunar New Year dates come from a table checked against published calendars, covering to the end of 2027, so it needs topping up in a release next year. Islamic dates are marked "expected": they can move by a day with the moon sighting, and some communities differ.
