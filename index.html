@@ -199,6 +199,8 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 .steps h2{margin:3px 0 10px;font-size:16px;font-weight:600}
 .fine{margin:12px 8px 0;text-align:center;font-size:12px;line-height:1.5;color:var(--meta)}
 .setup>.btn{margin-top:28px}
+.inv-h{margin:30px 0 0;font-size:16px;font-weight:600}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 
 /* Forms */
 .lbl{display:flex;flex-direction:column;gap:6px;margin-top:12px;font-size:13px;color:var(--ink-2)}
@@ -311,12 +313,15 @@ dialog.sheet.closing{transition:transform .18s ease-in,opacity .18s;transform:tr
 <main id="app" aria-live="off"></main>
 <div id="toast" popover="manual" role="status" aria-live="polite"></div>
 
-<script src="core.js?v=1"></script>
+<script src="core.js?v=2"></script>
 <script>
 'use strict';
-const API = '';            // Apps Script web app URL, filled in after deploying
-const EXPECT_BUILD = 1;    // the Apps Script release this page needs
-const RELEASE = 1;
+// Invite-only: the Apps Script address and the shared code arrive in an invite link and
+// stay on each phone, so neither is in this public repo.
+const EXPECT_BUILD = 2;    // the Apps Script release this page needs
+const RELEASE = 2;
+const SCRIPT_RE = /^https:\/\/script\.google\.com\/(?:a\/macros\/[^/]+|macros)\/s\/[\w-]+\/exec$/;
+const CODE_RE = /^[A-Za-z0-9-]{6,40}$/;
 const C = window.Core;
 const P = 'ldn.';
 const get = (k, d) => { try { const v = localStorage.getItem(P + k); return v == null ? d : JSON.parse(v); } catch { return d; } };
@@ -346,6 +351,8 @@ const ICON = {
   grip: '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>',
   pencil: svg('<path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="m13.5 6.5 4 4"/>', 18),
   refresh: svg('<path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/>', 18),
+  share: svg('<path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 12v7h14v-7"/>', 18),
+  copy: svg('<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>', 18),
   rain: '<svg width="22" height="8" viewBox="0 0 22 8" aria-hidden="true"><circle cx="3" cy="4" r="1.8" style="fill:var(--rain)"/><circle cx="11" cy="4" r="1.8" style="fill:var(--rain)"/><circle cx="19" cy="4" r="1.8" style="fill:var(--rain)"/></svg>'
 };
 // Concentric rings: which way out from your street a tier sits.
@@ -370,9 +377,11 @@ const S = {
   theme: get('theme', 'auto'),
   scriptBuild: get('scriptBuild', null),
   seenAtOpen: {}, showNew: false, refreshing: false, errors: {}, installEvt: null,
-  draft: null, townResults: {}, mkTab: 'index', mkQuery: '', pendingRetry: false
+  draft: null, townResults: {}, mkTab: 'index', mkQuery: '', pendingRetry: false,
+  invite: get('invite', null), inviteBad: false, inviteError: '', checkingInvite: false, iosFirst: false
 };
-const ready = () => !!(S.prefs && S.prefs.setupDone && S.prefs.place);
+const hasApi = () => !!(S.invite && S.invite.u && S.invite.c);
+const ready = () => hasApi() && !!(S.prefs && S.prefs.setupDone && S.prefs.place);
 const savePrefs = () => put('prefs', S.prefs);
 const saveCache = () => put('cache', S.cache);
 
@@ -441,18 +450,122 @@ async function getJSON(url, ms = 12000) {
     return await r.json();
   } finally { clearTimeout(timer); }
 }
-async function api(action, data = {}, ms = 30000) {
-  if (!API) throw new Error('The Apps Script isn’t connected yet.');
+// inv defaults to this phone's invite; checking a new one passes it in.
+async function api(action, data = {}, ms = 30000, inv = S.invite) {
+  if (!inv) throw new Error('Lowdown needs an invite.');
   const ac = new AbortController(), timer = setTimeout(() => ac.abort(), ms);
+  let j;
   try {
-    const r = await fetch(API, { method: 'POST', body: JSON.stringify({ action, ...data }), signal: ac.signal });   // text/plain, so no preflight
-    const j = await r.json();
-    if (j.build) { S.scriptBuild = j.build; put('scriptBuild', j.build); }
-    if (j.error) throw new Error(j.error);
-    return j;
+    const r = await fetch(inv.u, { method: 'POST', body: JSON.stringify({ action, code: inv.c, ...data }), signal: ac.signal });   // text/plain, so no preflight
+    j = await r.json();
   } catch (e) {
-    throw new Error(e.name === 'AbortError' ? 'The news service took too long to answer.' : e.message || 'Couldn’t reach the news service.');
+    throw new Error(e.name === 'AbortError' ? 'Lowdown\u2019s news service took too long to answer.' : 'Couldn\u2019t reach Lowdown\u2019s news service.');
   } finally { clearTimeout(timer); }
+  if (j.build && inv === S.invite) { S.scriptBuild = j.build; put('scriptBuild', j.build); }
+  if (inv === S.invite) S.inviteBad = !!j.invite;
+  if (j.error) { const e = new Error(j.error); e.invite = !!j.invite; throw e; }
+  return j;
+}
+
+/* ---------- Invites ---------- */
+const b64url = (s) => btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const unb64url = (s) => atob(s.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((s.length + 3) % 4));
+function parseInvite(raw) {
+  const m = /[#&?]invite=([A-Za-z0-9_-]+)/.exec(String(raw || '').trim());
+  if (!m) return null;
+  try {
+    const j = JSON.parse(unb64url(m[1]));
+    return j && SCRIPT_RE.test(j.u) && CODE_RE.test(j.c) ? { u: j.u, c: j.c } : null;
+  } catch { return null; }
+}
+function inviteLink(inv = S.invite) {
+  return location.origin + location.pathname.replace(/index\.html$/, '') + '#invite=' + b64url(JSON.stringify({ u: inv.u, c: inv.c }));
+}
+// Checks an invite with the script, then keeps it. A slow or missing connection keeps it too,
+// so the brief can try again later; only a code the script turns down is refused.
+async function acceptInvite(inv) {
+  try { await api('check', {}, 15000, inv); }
+  catch (e) { if (e.invite) return { ok: false, message: e.message }; }
+  const updating = !!S.invite;
+  S.invite = inv; S.inviteBad = false; S.inviteError = '';
+  put('invite', inv);
+  return { ok: true, message: updating ? 'Invite updated.' : 'You\u2019re in. Welcome to Lowdown.' };
+}
+function takeHashInvite() {
+  const m = /[#&]invite=([A-Za-z0-9_-]*)/.exec(location.hash);
+  if (!m) return null;
+  history.replaceState(history.state, '', location.pathname + location.search);
+  return parseInvite('#invite=' + m[1]) || 'bad';
+}
+function inviteFormHTML(scope) {
+  const own = S.invite || {};
+  return `<form class="addrow" data-form="invite" data-scope="${scope}"><label class="vh" for="invIn-${scope}">Invite link</label><input class="field" id="invIn-${scope}" placeholder="Paste your invite link" autocomplete="off" autocapitalize="off" spellcheck="false"><button class="btn small" type="submit">Join</button></form>
+    <p class="ferr" id="invErr-${scope}" role="alert">${scope === 'screen' ? esc(S.inviteError) : ''}</p>
+    <button class="linkbtn" style="padding-left:0;margin-top:6px" data-act="ownToggle" data-scope="${scope}" aria-expanded="false" aria-controls="own-${scope}">${scope === 'screen' ? 'Setting up your own Lowdown?' : 'Enter the address and code instead'}</button>
+    <form id="own-${scope}" data-form="own" data-scope="${scope}" hidden>
+      <label class="lbl">Apps Script web app address<input class="field" id="ownUrl-${scope}" type="url" placeholder="https://script.google.com/macros/s/\u2026/exec" value="${esc(own.u || '')}" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+      <label class="lbl">Invite code<input class="field" id="ownCode-${scope}" placeholder="From the Apps Script log, such as a1b2-c3d4-e5f6" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+      <button class="btn ghost wide" type="submit" style="margin-top:14px">Connect</button>
+      <p class="ferr" id="ownErr-${scope}" role="alert"></p>
+    </form>`;
+}
+const LOGO = '<svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="none" style="stroke:var(--ink);stroke-opacity:.15" stroke-width="4"/><path d="M6.5 23.5A15 15 0 0 1 33.6 13.5" fill="none" style="stroke:var(--sun)" stroke-width="4" stroke-linecap="round"/><circle cx="8.6" cy="15.7" r="3.4" style="fill:var(--sun)"/></svg>';
+function renderInvite() {
+  $('#app').innerHTML = `<section class="setup" aria-labelledby="inv-t">
+    <div class="logo">${LOGO}<h1 id="inv-t">Lowdown</h1></div>
+    <p class="tagline">Your day in two minutes, from the world to your street.</p>
+    <h2 class="inv-h">Lowdown is invite-only</h2>
+    ${S.checkingInvite ? '<p class="empty"><span class="spinner" aria-hidden="true"></span>Checking your invite\u2026</p>'
+      : `<p class="hint" style="margin-top:4px">Paste the invite link you were sent.${isIOS && !standalone ? ' On iPhone, add Lowdown to your Home Screen first, then open it there and paste your link.' : ''}</p>${inviteFormHTML('screen')}`}
+  </section>`;
+}
+// iPhone keeps Safari and the Home Screen app apart, so an invite opened in Safari is copied across by hand.
+function renderIosFirst() {
+  $('#app').innerHTML = `<section class="setup" aria-labelledby="ios-t">
+    <div class="logo">${LOGO}<h1 id="ios-t">Lowdown</h1></div>
+    <p class="tagline">Your invite works. On iPhone, Lowdown lives on your Home Screen.</p>
+    <ol class="steps">
+      <li><span class="num" aria-hidden="true">1</span><div><h2>Copy your invite link</h2><button class="btn ghost" data-act="copyInvite">${ICON.copy}Copy invite link</button></div></li>
+      <li><span class="num" aria-hidden="true">2</span><div><h2>Add Lowdown to your Home Screen</h2><p class="hint" style="margin-top:-4px">Tap Share (under \u22ef on iOS 26), then Add to Home Screen.</p></div></li>
+      <li><span class="num" aria-hidden="true">3</span><div><h2>Open it and paste the link</h2><p class="hint" style="margin-top:-4px">Open Lowdown from your Home Screen and paste the link when it asks.</p></div></li>
+    </ol>
+    <button class="linkbtn" style="margin-top:20px;padding-left:0" data-act="safariAnyway">Use it in Safari instead</button>
+  </section>`;
+}
+async function copyInvite() {
+  try { await navigator.clipboard.writeText(inviteLink()); toast('Invite link copied.'); }
+  catch { toast('Couldn\u2019t copy. Try Share instead.'); }
+}
+async function shareInvite() {
+  const url = inviteLink();
+  if (navigator.share) {
+    try { await navigator.share({ title: 'Lowdown', text: 'Your day in two minutes. Here\u2019s your invite to Lowdown:', url }); return; }
+    catch (e) { if (e.name === 'AbortError') return; }
+  }
+  copyInvite();
+}
+async function submitInvite(form) {
+  const scope = form.dataset.scope, own = form.dataset.form === 'own';
+  const err = $(own ? `#ownErr-${scope}` : `#invErr-${scope}`), btn = $('button[type=submit]', form);
+  err.textContent = '';
+  let inv;
+  if (own) {
+    const u = $(`#ownUrl-${scope}`).value.trim(), c = $(`#ownCode-${scope}`).value.trim();
+    if (!SCRIPT_RE.test(u)) { err.textContent = 'Use the web app address from Deploy in Apps Script. It ends in /exec.'; return; }
+    if (!CODE_RE.test(c)) { err.textContent = 'Type the invite code from the Apps Script log, such as a1b2-c3d4-e5f6.'; return; }
+    inv = { u, c };
+  } else {
+    inv = parseInvite($(`#invIn-${scope}`).value);
+    if (!inv) { err.textContent = 'That isn\u2019t a Lowdown invite link. Paste the whole link, including #invite=.'; return; }
+  }
+  await withBusy(btn, async () => {
+    const r = await acceptInvite(inv);
+    if (!r.ok) { err.textContent = r.message; return; }
+    if (scope === 'sheet') closeTop();
+    toast(r.message);
+    render();
+    if (ready()) refresh(true);
+  });
 }
 
 /* ---------- Loading ---------- */
@@ -492,7 +605,7 @@ async function loadWiki(force) {
   } catch (e) { S.errors.wiki = 'Couldn’t reach Wikipedia.'; }
 }
 async function loadBrief() {
-  if (!API) return;
+  if (!hasApi()) return;
   const p = S.prefs, on = p.sections;
   try {
     const j = await api('brief', {
@@ -597,6 +710,7 @@ function partState(parts, id) {
 function renderHeader() {
   const sub = $('#sub');
   $('#setBtn').hidden = !ready();
+  if (!hasApi()) { sub.innerHTML = '<span class="l">Invite only</span>'; return; }
   if (!ready()) { sub.innerHTML = '<span class="l">Set up your brief</span>'; return; }
   const parts = partList(), done = parts.filter((p) => isRead(p.id)).length;
   let right;
@@ -699,7 +813,7 @@ function noticesHTML() {
     if (S.installEvt) n.push(notice('install', 'Add Lowdown to your home screen for one-tap access.', '<button class="btn small" data-act="install">Install</button>'));
     else if (isIOS) n.push(notice('install', 'Add Lowdown to your Home Screen: tap Share (under ⋯ on iOS 26), then Add to Home Screen.'));
   }
-  if (!API) n.push(notice('noapi', 'News, interests and markets need the Apps Script. Put its web app address into <code>index.html</code>, as the README explains.', '', false));
+  if (S.inviteBad) n.push(notice('invite', 'Your invite isn\u2019t valid any more, so news, interests and markets can\u2019t update. Ask whoever shared Lowdown for a new link.', '<button class="btn small" data-act="reinvite">Paste new link</button>', false));
   else if (S.scriptBuild != null && S.scriptBuild < EXPECT_BUILD) n.push(notice('script', `Your Apps Script is out of date (release ${S.scriptBuild}, this app needs ${EXPECT_BUILD}). In Apps Script, choose Deploy, Manage deployments, edit, New version, Deploy.`, '', false));
   return n.join('');
 }
@@ -720,7 +834,6 @@ function itemHTML(it, g, i, cls) {
   return `<button class="item${cls ? ' ' + cls : ''}" data-act="story" data-g="${esc(g)}" data-i="${i}" data-key="${esc(it.id)}"><span class="tx"><span class="hl">${fresh ? '<span class="newdot" aria-hidden="true"></span><span class="vh">New: </span>' : ''}${esc(it.title)}</span>${it.summary && cls !== 'small' ? `<span class="sum">${esc(it.summary)}</span>` : ''}<span class="meta">${esc(it.source || '')}${it.at ? (it.source ? ' · ' : '') + esc(C.timeAgo(it.at, Date.now())) : ''}</span></span>${ICON.chev}</button>`;
 }
 function waiting(what) {
-  if (!API) return `<p class="empty">${esc(what)} arrive once the Apps Script is connected.</p>`;
   if (S.refreshing) return `<p class="empty"><span class="spinner" aria-hidden="true"></span>Fetching ${esc(what.toLowerCase())}…</p>`;
   return `<p class="empty">${esc(S.errors.brief || 'Couldn’t fetch this just now.')} It will try again next time you open Lowdown.</p>`;
 }
@@ -767,7 +880,6 @@ function marketRows() {
       return { w, status: S.errors.crypto || S.cache.crypto ? 'unavailable' : 'pending' };
     }
     const q = qs[w.sym];
-    if (!API) return { w, status: 'noapi' };
     if (!q) return { w, status: S.refreshing || !briefData() ? 'pending' : 'unavailable' };
     if (q.status !== 'ok') return { w, status: q.status };
     return { w, status: 'ok', price: q.price, chg: q.chg, cur: q.cur };
@@ -879,7 +991,10 @@ function renderHero() { const h = $('#hero'); if (h && ready()) h.innerHTML = he
 function render() {
   applyTheme();
   renderHeader();
-  if (ready()) renderBrief(); else renderSetup();
+  if (!hasApi()) renderInvite();
+  else if (S.iosFirst) renderIosFirst();
+  else if (ready()) renderBrief();
+  else renderSetup();
 }
 
 /* ---------- Seen and read, as you scroll ---------- */
@@ -1144,7 +1259,7 @@ function renderSetup() {
   if (!S.draft) S.draft = { place: null, sections: { ...DEF_SECTIONS }, topics: [] };
   const d = S.draft;
   $('#app').innerHTML = `<section class="setup" aria-labelledby="setup-t">
-    <div class="logo"><svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="none" style="stroke:var(--ink);stroke-opacity:.15" stroke-width="4"/><path d="M6.5 23.5A15 15 0 0 1 33.6 13.5" fill="none" style="stroke:var(--sun)" stroke-width="4" stroke-linecap="round"/><circle cx="8.6" cy="15.7" r="3.4" style="fill:var(--sun)"/></svg><h1 id="setup-t">Lowdown</h1></div>
+    <div class="logo">${LOGO}<h1 id="setup-t">Lowdown</h1></div>
     <p class="tagline">Your day in two minutes, from the world to your street. Set it up once.</p>
     <ol class="steps">
       <li><span class="num" aria-hidden="true">1</span><div><h2>Where are you?</h2>${d.place ? `<div class="placecard"><span>${ICON.pin}${esc(placeLine(d.place))}</span><button class="linkbtn" data-act="changePlace">Change</button></div>` : pickerHTML('setup')}</div></li>
@@ -1173,7 +1288,7 @@ function finishSetup() {
 /* ---------- Settings ---------- */
 function settingsHTML() {
   const p = S.prefs, pl = p.place;
-  const scriptLine = !API ? 'The Apps Script isn’t connected yet.' : S.scriptBuild == null ? 'Apps Script release: not checked yet.'
+  const scriptLine = S.scriptBuild == null ? 'Apps Script release: not checked yet.'
     : S.scriptBuild < EXPECT_BUILD ? `Apps Script release ${S.scriptBuild}: out of date (this app needs ${EXPECT_BUILD}).` : `Apps Script release ${S.scriptBuild}, up to date.`;
   return `<h2 class="sh-title" id="settings-t">Settings</h2>
     <h3 class="grp">Your place</h3>
@@ -1188,6 +1303,11 @@ function settingsHTML() {
     <div id="interestsBox">${interestsEditor(p.topics, 'set')}</div>
     <h3 class="grp">Markets</h3>
     <button class="btn ghost" data-act="markets">${ICON.pencil}Edit your markets</button>
+    <h3 class="grp">Invite a friend</h3>
+    <p class="about">Anyone with your link can set up their own Lowdown, with their own place and interests.</p>
+    <div class="btnrow"><button class="btn ghost" data-act="shareInvite">${ICON.share}Share invite link</button><button class="btn ghost" data-act="copyInvite">${ICON.copy}Copy</button></div>
+    <p class="hint">To shut out everyone with the current link, run <b>newInviteCode</b> in Apps Script, then enter the new code here and share a fresh link.</p>
+    <button class="linkbtn" style="padding-left:0" data-act="reinvite">Change invite code</button>
     <h3 class="grp">About</h3>
     <p class="about">Lowdown release ${RELEASE}. ${esc(scriptLine)}</p>
     <p class="about">News from BBC News, Google News and Bing News. Weather by Open-Meteo. Place names from OpenStreetMap. Trending and on this day from Wikipedia. Prices from Google Finance and CoinGecko. Grid data from the National Energy System Operator.</p>`;
@@ -1368,6 +1488,11 @@ document.addEventListener('click', (e) => {
     }
     case 'untopic': removeTopic(el.dataset.scope, el.dataset.t); break;
     case 'finish': finishSetup(); break;
+    case 'shareInvite': shareInvite(); break;
+    case 'copyInvite': copyInvite(); break;
+    case 'safariAnyway': S.iosFirst = false; render(); break;
+    case 'reinvite': openSheet('invite', 'Invite', `<h2 class="sh-title" id="invite-t">Your invite</h2><p class="hint" style="margin-top:6px">Paste the new invite link, or enter the new code below.</p>${inviteFormHTML('sheet')}`); break;
+    case 'ownToggle': { const f = document.getElementById('own-' + el.dataset.scope); f.hidden = !f.hidden; el.setAttribute('aria-expanded', String(!f.hidden)); if (!f.hidden) $('input', f).focus(); break; }
     case 'mktab': S.mkTab = el.dataset.k; S.mkQuery = ''; refreshMarketsSheet(); break;
     case 'addmarket': addMarket(el.dataset.id); break;
     case 'unmarket': removeMarket(el.dataset.id); break;
@@ -1381,6 +1506,7 @@ document.addEventListener('submit', (e) => {
     const inp = $('input', f);
     if (addTopic(f.dataset.scope, inp.value)) { const again = $(`#topicIn-${f.dataset.scope}`); if (again) { again.value = ''; again.focus(); } }
   } else if (f.dataset.form === 'code') addCode(f);
+  else if (f.dataset.form === 'invite' || f.dataset.form === 'own') submitInvite(f);
 });
 document.addEventListener('input', (e) => {
   const t = e.target;
@@ -1388,6 +1514,7 @@ document.addEventListener('input', (e) => {
   else if (t.id === 'mkQ') { S.mkQuery = t.value; $('#mkres').innerHTML = pickListHTML(); $$('.seg button', topSheet()).forEach((b) => b.setAttribute('aria-pressed', String(!S.mkQuery && b.dataset.k === S.mkTab))); }
   else if (t.id && t.id.startsWith('topicIn-')) { const err = $(`#topicErr-${t.id.slice(8)}`); if (err) err.textContent = ''; }
   else if (t.id === 'codeIn') $('#codeErr').textContent = '';
+  else if (t.id && /^(invIn|ownUrl|ownCode)-/.test(t.id)) { $$('.ferr', t.closest('section, dialog') || document).forEach((x) => { if (/^(invErr|ownErr)/.test(x.id)) x.textContent = ''; }); S.inviteError = ''; }
 });
 document.addEventListener('change', (e) => {
   const t = e.target;
@@ -1422,8 +1549,22 @@ setInterval(() => { if (document.visibilityState === 'visible' && ready()) { app
 
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 beginOpen();
-render();
-if (ready()) refresh();
+const fromLink = takeHashInvite();
+if (fromLink === 'bad') S.inviteError = 'That invite link is incomplete. Ask for it again, or paste it below.';
+if (fromLink && fromLink !== 'bad') {
+  S.checkingInvite = true;
+  render();
+  acceptInvite(fromLink).then((r) => {
+    S.checkingInvite = false;
+    if (!r.ok) S.inviteError = r.message;
+    else { if (isIOS && !standalone) S.iosFirst = true; toast(r.message); }
+    render();
+    if (ready()) refresh(true);
+  });
+} else {
+  render();
+  if (ready()) refresh();
+}
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
 </script>
 </body>
