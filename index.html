@@ -1,0 +1,1430 @@
+<!doctype html>
+<html lang="en-GB" data-theme="day">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lowdown</title>
+<meta name="description" content="Your day in two minutes: news from the world to your street, your interests and markets.">
+<meta name="theme-color" content="#E8EDF1">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Lowdown">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&family=Hanken+Grotesk:wght@300;400;500;600&display=swap">
+<style>
+/* Themes: Daylight follows the playbook's night set; Auto picks by the sun's height at your place. */
+:root{--bg:#E8EDF1;--raise:#F6F8F9;--raise-2:#DDE4EA;--line:rgba(19,32,44,.10);--line-2:rgba(19,32,44,.20);--ink:#13202C;--ink-2:#46525E;--ink-3:#5B6672;--meta:#5B6672;
+--sun:#F0B04F;--sun-soft:rgba(240,176,79,.28);--on-sun:#1A1205;--link:#A84F1C;--tag:#7A3E12;--up:#1F5FA8;--down:#B4521F;--rain:#3E76B8;
+--arc-a:#F0B04F;--arc-b:#F6D78E;--arc-c:#E7864A;--arc-o:1;--scrim:rgba(8,14,22,.48);--shadow:0 12px 32px rgba(19,32,44,.18);
+--sans:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--disp:"Bricolage Grotesque","Hanken Grotesk",system-ui,sans-serif;color-scheme:light}
+:root[data-theme="twilight"]{--bg:#0F1528;--raise:#161E37;--raise-2:#1D2645;--line:rgba(205,214,245,.09);--line-2:rgba(205,214,245,.17);--ink:#ECE8DF;--ink-2:#A3ABC2;--ink-3:#6E7794;--meta:#A3ABC2;--sun:#F2C063;--sun-soft:rgba(242,192,99,.17);--on-sun:#1D1505;--link:#F2C063;--tag:#F2C063;--up:#8FB8F0;--down:#F0A56B;--rain:#8FB8F0;--arc-a:#F2C063;--arc-b:#F6D78E;--arc-c:#E7A15C;--arc-o:.6;--scrim:rgba(0,0,0,.55);--shadow:0 12px 32px rgba(0,0,0,.5);color-scheme:dark}
+:root[data-theme="red"]{--bg:#0C0404;--raise:#160707;--raise-2:#1F0A0A;--line:rgba(255,90,70,.12);--line-2:rgba(255,90,70,.22);--ink:#E2573F;--ink-2:#A9412F;--ink-3:#74291F;--meta:#C04A35;--sun:#FF5B3D;--sun-soft:rgba(255,91,61,.18);--on-sun:#1A0503;--link:#FF5B3D;--tag:#FF7A5F;--up:#FF8A6B;--down:#B5452F;--rain:#C04A35;--arc-a:#FF5B3D;--arc-b:#FF7A5F;--arc-c:#E2573F;--arc-o:.6;--scrim:rgba(0,0,0,.6);--shadow:0 12px 32px rgba(0,0,0,.6);color-scheme:dark}
+:root[data-theme="amber"]{--bg:#0D0904;--raise:#171008;--raise-2:#20170C;--line:rgba(255,190,110,.10);--line-2:rgba(255,190,110,.20);--ink:#EBC48A;--ink-2:#A98A5C;--ink-3:#6F5A3B;--meta:#BC9A66;--sun:#FFB04A;--sun-soft:rgba(255,176,74,.18);--on-sun:#1A0F02;--link:#FFB04A;--tag:#FFC879;--up:#FFD08A;--down:#C9874A;--rain:#C9A06A;--arc-a:#FFB04A;--arc-b:#FFC879;--arc-c:#E8963A;--arc-o:.6;--scrim:rgba(0,0,0,.6);--shadow:0 12px 32px rgba(0,0,0,.6);color-scheme:dark}
+:root[data-theme="sea"]{--bg:#06121A;--raise:#0B1C26;--raise-2:#102632;--line:rgba(150,220,230,.09);--line-2:rgba(150,220,230,.18);--ink:#D6E9EC;--ink-2:#8EAEB4;--ink-3:#5A7880;--meta:#8EAEB4;--sun:#6FD9D0;--sun-soft:rgba(111,217,208,.16);--on-sun:#031513;--link:#6FD9D0;--tag:#6FD9D0;--up:#8FC8F0;--down:#E8A07A;--rain:#8FC8F0;--arc-a:#6FD9D0;--arc-b:#A6E8E1;--arc-c:#E8C07A;--arc-o:.6;--scrim:rgba(0,0,0,.55);--shadow:0 12px 32px rgba(0,0,0,.5);color-scheme:dark}
+:root[data-theme="aurora"]{--bg:#07110D;--raise:#0C1A14;--raise-2:#11241B;--line:rgba(150,235,190,.09);--line-2:rgba(150,235,190,.18);--ink:#D7EBDF;--ink-2:#8DAA9A;--ink-3:#5A7566;--meta:#8DAA9A;--sun:#86E3A8;--sun-soft:rgba(134,227,168,.16);--on-sun:#04140B;--link:#86E3A8;--tag:#86E3A8;--up:#8FD0E8;--down:#EBA27C;--rain:#8FD0E8;--arc-a:#86E3A8;--arc-b:#B8F0CB;--arc-c:#E8D07A;--arc-o:.6;--scrim:rgba(0,0,0,.55);--shadow:0 12px 32px rgba(0,0,0,.5);color-scheme:dark}
+:root[data-theme="dusk"]{--bg:#110D1A;--raise:#1A1426;--raise-2:#221A31;--line:rgba(210,190,255,.09);--line-2:rgba(210,190,255,.18);--ink:#E8E1F4;--ink-2:#A79CBD;--ink-3:#6E6485;--meta:#A79CBD;--sun:#F2A7C8;--sun-soft:rgba(242,167,200,.16);--on-sun:#1E0812;--link:#F2A7C8;--tag:#F2A7C8;--up:#8FB8F0;--down:#F0A56B;--rain:#8FB8F0;--arc-a:#B98AB0;--arc-b:#E7B9CF;--arc-c:#F2A7C8;--arc-o:.55;--scrim:rgba(0,0,0,.55);--shadow:0 12px 32px rgba(0,0,0,.5);color-scheme:dark}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;background:var(--bg)}
+body{margin:0;min-height:100dvh;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--link)}
+:focus-visible{outline:2px solid var(--sun);outline-offset:2px}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+[hidden]{display:none!important}
+
+/* Header */
+.bar{position:sticky;top:0;z-index:10;background:var(--bg);padding-top:env(safe-area-inset-top)}
+.top{max-width:34rem;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 10px 6px 20px}
+.id{display:flex;flex-direction:column;gap:2px;min-width:0}
+.brand{font-family:var(--disp);font-size:22px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.sub{display:flex;align-items:center;min-width:0;font-size:13px;color:var(--meta);white-space:nowrap}
+.sub .l{overflow:hidden;text-overflow:ellipsis;min-width:0}
+.sub .c{flex-shrink:0;display:inline-flex;align-items:center;gap:6px}
+.hb{display:flex;gap:2px;flex-shrink:0}
+.ib{width:44px;height:44px;padding:0;border:0;border-radius:22px;background:transparent;color:var(--ink-2);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.ib:active{background:var(--line)}
+.ib[aria-expanded="true"]{background:var(--line);color:var(--ink)}
+
+main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inset-bottom))}
+
+/* Notices */
+.notice{display:flex;align-items:flex-start;gap:10px;margin:10px 0 0;padding:12px 6px 12px 14px;border-radius:16px;background:var(--raise);border:1px solid var(--line);font-size:14px;line-height:1.45}
+.notice p{margin:0;flex:1;padding-top:2px}
+.notice .acts{display:flex;align-items:center;gap:4px;margin-top:-6px}
+.notice .ib{width:36px;height:36px}
+
+/* Hero: the day ring */
+.hero{position:relative;width:min(300px,78vw);aspect-ratio:1;margin:4px auto 0}
+.hero svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.mid{position:absolute;left:50%;top:50%;transform:translate(-50%,-46%);width:58%;display:flex;flex-direction:column;align-items:center;text-align:center}
+.temp{font-family:var(--disp);font-size:72px;font-weight:600;line-height:1;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.temp.clock{font-size:44px;letter-spacing:-.03em}
+.cond{font-size:15px;font-weight:500;margin-top:8px}
+.tline{font-size:13px;color:var(--meta);margin-top:2px}
+.r-base{fill:none;stroke:var(--ink);stroke-opacity:.1;stroke-width:1.5}
+.r-night{fill:none;stroke:var(--ink);stroke-opacity:.08;stroke-width:10}
+.r-day{fill:none;stroke:url(#dayArc);stroke-opacity:var(--arc-o);stroke-width:10;stroke-linecap:round}
+.r-tick{fill:none;stroke:var(--ink);stroke-opacity:.35;stroke-width:1.2;stroke-linecap:round}
+.r-rain{fill:none;stroke:var(--rain);stroke-width:3.5;stroke-dasharray:.1 7;stroke-linecap:round}
+.r-lbl{font:11px var(--sans);fill:var(--meta)}
+.r-now{font:600 11px var(--sans);fill:var(--ink);font-variant-numeric:tabular-nums}
+.say{margin:14px 4px 0;font-size:18px;font-weight:300;line-height:1.55}
+.facts{display:flex;flex-wrap:wrap;gap:6px 18px;margin:12px 4px 0;font-size:13px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.facts span{display:inline-flex;align-items:center;gap:6px}
+.go{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:22px}
+.cap{font-size:13px;color:var(--meta)}
+
+/* Buttons */
+.btn{height:52px;padding:0 24px;border:0;border-radius:26px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:17px;font-weight:600;text-decoration:none;white-space:nowrap}
+.btn.primary{width:100%;background:var(--sun);color:var(--on-sun)}
+.btn.dark{width:100%;background:var(--ink);color:var(--bg)}
+.btn.ghost{height:44px;padding:0 18px 0 14px;border:1px solid var(--line-2);background:transparent;color:var(--ink);font-size:15px;font-weight:500}
+.btn.small{height:40px;padding:0 16px;border-radius:20px;font-size:15px;background:var(--ink);color:var(--bg)}
+.btn.wide{width:100%}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.busy{pointer-events:none}
+.btn.busy::after{content:"";display:inline-block;width:13px;height:13px;flex-shrink:0}
+.linkbtn{border:0;background:transparent;color:var(--link);font-size:15px;font-weight:600;padding:0 8px;min-height:44px}
+
+/* Spinner: a comet */
+.spinner{display:inline-block;width:14px;height:14px;vertical-align:-2px;flex-shrink:0}
+.spinner,.btn.busy::after{border-radius:50%;background:conic-gradient(from 90deg,transparent 10%,currentColor 95%);
+-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2.2px),#000 calc(100% - 2px));mask:radial-gradient(farthest-side,transparent calc(100% - 2.2px),#000 calc(100% - 2px));animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(1turn)}}
+
+/* Contents and the reading line */
+.toc{margin-top:26px;display:flex;flex-direction:column}
+.toc h2{margin:0 0 4px 36px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.toc a{position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;padding-left:36px;text-decoration:none;color:var(--ink);border-bottom:1px solid var(--line)}
+.toc a:last-of-type{border-bottom:0}
+.toc a::before{content:"";position:absolute;left:14px;top:-1px;bottom:-1px;width:2px;background:var(--line-2)}
+.toc a:first-of-type::before{top:26px}
+.toc a:last-of-type::before{bottom:auto;height:27px}
+.toc .t{font-size:16px;font-weight:500}
+.toc .n{font-size:13px;color:var(--meta);white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.node{position:absolute;left:9px;top:50%;margin-top:-6px;width:12px;height:12px;border-radius:6px;border:2px solid var(--meta);background:var(--bg);z-index:1}
+.node.done{background:var(--ink);border-color:var(--ink)}
+.node.now{left:8px;width:14px;height:14px;margin-top:-7px;border:3px solid var(--sun);box-shadow:0 0 0 5px var(--sun-soft)}
+.ch{position:relative;padding:22px 0 18px 36px;scroll-margin-top:calc(72px + env(safe-area-inset-top))}
+.ch::before{content:"";position:absolute;left:14px;top:38px;bottom:-24px;width:2px;background:var(--line-2)}
+.ch.done::before{background:var(--ink);opacity:.5}
+.ch>.node{top:27px;margin-top:0}
+.ch>.node.now{top:26px}
+.chh{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;column-gap:8px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.chh span{font-weight:400;color:var(--meta);white-space:nowrap}
+.ch-end{display:block;height:1px}
+.src{margin:12px 0 0;font-size:12px;line-height:1.5;color:var(--meta)}
+.empty{margin:0;padding:12px 0;font-size:15px;font-weight:300;line-height:1.5;color:var(--ink-2);display:flex;align-items:center;gap:8px}
+
+/* News tiers and items */
+.tier{margin-top:18px}
+.tierh{margin:0 0 2px;display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600}
+.tierh .tn{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tierh .n{font-size:13px;font-weight:400;color:var(--meta);white-space:nowrap}
+.item{display:flex;align-items:flex-start;gap:12px;width:100%;padding:14px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left}
+.item:last-child{border-bottom:0}
+.item .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+.item .hl{font-family:var(--disp);font-size:19px;font-weight:600;line-height:1.25;letter-spacing:-.01em}
+.item.lead .hl{font-size:22px;line-height:1.2;letter-spacing:-.015em}
+.item.small .hl{font-family:var(--sans);font-size:17px;font-weight:500;line-height:1.3;letter-spacing:0}
+.item .sum{font-size:15px;font-weight:300;line-height:1.5;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.item .meta{font-size:13px;color:var(--meta)}
+.item>svg{margin-top:4px;flex-shrink:0;color:var(--meta)}
+.newdot{display:inline-block;width:8px;height:8px;border-radius:4px;background:var(--sun);margin:0 8px 2px 0;vertical-align:middle}
+.topic{margin-top:16px}
+.topich{margin:0;display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink);background:var(--raise-2);border-radius:12px;padding:4px 10px}
+
+/* Markets */
+.prose{margin:12px 0 6px;font-size:18px;font-weight:300;line-height:1.55}
+.mk{display:grid;grid-template-columns:minmax(0,1fr) 92px 64px;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
+.mk:last-of-type{border-bottom:0}
+.mk .nm{display:flex;flex-direction:column;gap:2px;min-width:0}
+.mk .nm b{font-size:15px;font-weight:500}
+.mk .nm span{font-size:13px;color:var(--meta);font-variant-numeric:tabular-nums;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mk .bar{position:relative;height:16px}
+.mk .bar::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--line-2)}
+.mk .bar i{position:absolute;top:5px;height:6px}
+.mk .bar i.up{left:50%;border-radius:0 3px 3px 0;background:var(--up)}
+.mk .bar i.down{right:50%;border-radius:3px 0 0 3px;background:var(--down)}
+.mk .pc{text-align:right;font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+.pc.up{color:var(--up)}.pc.down{color:var(--down)}.pc.flat{color:var(--meta)}
+.mknote{margin:10px 0 0;font-size:14px;color:var(--ink-2)}
+.edit{margin-top:14px}
+
+/* Looked up and on this day */
+.rk{display:grid;grid-template-columns:30px minmax(0,1fr);gap:4px;width:100%;padding:14px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left}
+.rk:last-of-type{border-bottom:0}
+.rk .no{font-family:var(--disp);font-size:18px;font-weight:600;color:var(--meta);font-variant-numeric:tabular-nums;line-height:1.3}
+.rk .tx{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0}
+.rk .tt{font-size:17px;font-weight:500;line-height:1.3}
+.rk .ds{font-size:14px;font-weight:300;line-height:1.45;color:var(--ink-2)}
+.tag{margin-top:4px;font-size:12px;font-weight:600;color:var(--tag);background:var(--sun-soft);border-radius:10px;padding:3px 9px}
+.otd{display:grid;grid-template-columns:70px minmax(0,1fr);gap:10px;width:100%;padding:14px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left}
+.otd:last-of-type{border-bottom:0}
+.otd .yr{font-family:var(--disp);font-size:26px;font-weight:600;line-height:1.05;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.otd .tx{font-size:15px;font-weight:300;line-height:1.5}
+
+/* Greenest hours */
+.chart{position:relative;padding-top:22px;margin-top:6px}
+.chart .win{position:absolute;top:0;font-size:12px;font-weight:600;white-space:nowrap;transform:translateX(-10%)}
+.bars{display:flex;align-items:flex-end;gap:3px;height:64px}
+.bars i{flex:1;border-radius:2px;background:var(--line-2)}
+.bars i.lo{background:var(--ink)}
+.ticks{display:grid;grid-template-columns:repeat(24,minmax(0,1fr));margin-top:6px;font-size:11px;color:var(--meta);font-variant-numeric:tabular-nums}
+.ticks span{grid-row:1;white-space:nowrap}
+
+/* The end */
+.end{position:relative;padding:34px 0 24px 36px}
+.end .tick{position:absolute;left:1px;top:34px;width:28px;height:28px;border-radius:14px;background:var(--raise-2);color:var(--ink);display:flex;align-items:center;justify-content:center}
+.end h2{margin:0;font-family:var(--disp);font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1.1}
+.end p{margin:10px 0 0;font-size:16px;font-weight:300;line-height:1.55;color:var(--ink-2)}
+.end .src{font-size:12px;font-weight:400;color:var(--meta);margin-top:18px}
+.end .btn{margin-top:16px}
+
+/* Setup */
+.setup{padding-top:20px}
+.logo{display:flex;align-items:center;gap:12px}
+.logo h1{margin:0;font-family:var(--disp);font-size:40px;font-weight:700;letter-spacing:-.03em;line-height:1}
+.tagline{margin:10px 0 0;font-size:18px;font-weight:300;line-height:1.5;color:var(--ink-2)}
+.steps{list-style:none;margin:24px 0 0;padding:0;display:flex;flex-direction:column;gap:26px}
+.steps>li{display:grid;grid-template-columns:28px minmax(0,1fr);column-gap:12px}
+.num{width:26px;height:26px;border-radius:13px;background:var(--ink);color:var(--bg);font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.steps h2{margin:3px 0 10px;font-size:16px;font-weight:600}
+.fine{margin:12px 8px 0;text-align:center;font-size:12px;line-height:1.5;color:var(--meta)}
+.setup>.btn{margin-top:28px}
+
+/* Forms */
+.lbl{display:flex;flex-direction:column;gap:6px;margin-top:12px;font-size:13px;color:var(--ink-2)}
+.field{width:100%;height:48px;padding:0 16px;border-radius:24px;border:1px solid var(--line-2);background:var(--raise);color:var(--ink);font-size:16px;outline:none;-webkit-appearance:none;appearance:none}
+.field:focus{border-color:var(--ink-2)}
+.hint{margin:8px 0 0;font-size:13px;line-height:1.45;color:var(--meta)}
+.ferr{margin:6px 0 0;font-size:14px;line-height:1.45;color:var(--down);min-height:0}
+.ferr:empty{display:none}
+.res{display:flex;flex-direction:column;margin-top:6px}
+.resrow{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-height:52px;padding:8px 4px;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left}
+.resrow b{font-size:16px;font-weight:500}
+.resrow span{font-size:13px;color:var(--meta)}
+.placecard{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 8px 10px 14px;border-radius:16px;background:var(--raise);border:1px solid var(--line)}
+.placecard span{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500;min-width:0}
+.swrow{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;border-bottom:1px solid var(--line);font-size:15px;font-weight:500;cursor:pointer}
+.swrow small{display:block;font-size:13px;font-weight:400;color:var(--meta)}
+input.sw{appearance:none;-webkit-appearance:none;width:46px;height:28px;margin:0;border-radius:14px;background:var(--line-2);position:relative;flex-shrink:0;cursor:pointer;transition:background .15s}
+input.sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:11px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+input.sw:checked{background:var(--ink)}
+input.sw:checked::after{transform:translateX(18px);background:var(--bg)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chip{height:40px;padding:0 14px;border-radius:20px;border:1px solid var(--line-2);background:transparent;color:var(--ink);display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:500}
+.chip.on{background:var(--ink);color:var(--bg);border-color:transparent;padding-right:10px}
+.addrow{display:flex;gap:8px;margin-top:10px}
+.addrow .field{flex:1;min-width:0}
+.addrow .btn{height:48px;border-radius:24px}
+
+/* Segmented switch */
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:2px;padding:3px;margin-top:12px;border-radius:22px;background:var(--raise-2)}
+.seg button{height:38px;border:0;border-radius:19px;background:transparent;color:var(--ink-2);font-size:13px;font-weight:500;padding:0 4px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);font-weight:600}
+
+/* Sheets */
+dialog.sheet{position:fixed;inset:auto 0 0 0;margin:0 auto;width:100%;max-width:34rem;max-height:calc(100dvh - 36px - env(safe-area-inset-top));padding:0 20px calc(24px + env(safe-area-inset-bottom));border:0;border-radius:24px 24px 0 0;background:var(--raise);color:var(--ink);overflow:auto;overscroll-behavior:contain;box-shadow:var(--shadow)}
+dialog.sheet::backdrop{background:var(--scrim)}
+dialog.sheet[open]{animation:rise .26s cubic-bezier(.2,.8,.2,1)}
+dialog.sheet.closing{transition:transform .18s ease-in,opacity .18s;transform:translateY(40px);opacity:0}
+@keyframes rise{from{transform:translateY(48px);opacity:.3}to{transform:none;opacity:1}}
+.shead{position:sticky;top:0;z-index:2;background:var(--raise);padding-top:8px;touch-action:none}
+.grab{display:block;width:36px;height:5px;margin:0 auto 2px;border-radius:3px;background:var(--line-2)}
+.shbar{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px}
+.shbar .lab{font-size:13px;font-weight:600;color:var(--ink-2)}
+.shbar .ib{margin-right:-10px}
+.sh-title{margin:2px 0 0;font-family:var(--disp);font-size:27px;font-weight:600;line-height:1.14;letter-spacing:-.02em}
+.sh-meta{margin:8px 0 0;font-size:13px;color:var(--meta)}
+.sh-text{margin:14px 0 0;font-size:18px;font-weight:300;line-height:1.55}
+.sh-img{display:block;width:100%;max-height:220px;object-fit:cover;border-radius:14px;margin-top:14px;background:var(--raise-2)}
+.sh-h{margin:20px 0 4px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.rel{list-style:none;margin:0;padding:0}
+.rel a{display:flex;flex-direction:column;gap:2px;padding:10px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);font-size:15px;line-height:1.4}
+.rel a span{font-size:13px;color:var(--meta)}
+.sh-go{margin-top:22px}
+.sh-note{margin:10px 0 0;text-align:center;font-size:12px;color:var(--meta)}
+.grp{margin:26px 0 6px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.grp:first-of-type{margin-top:18px}
+.about{margin:6px 0 0;font-size:14px;line-height:1.5;color:var(--ink-2)}
+
+/* Your markets sheet */
+.mlist{list-style:none;margin:4px 0 0;padding:0}
+.mrow{display:flex;align-items:center;min-height:50px;border-bottom:1px solid var(--line);background:var(--raise);position:relative}
+.mrow.dragging{z-index:3;box-shadow:var(--shadow);border-radius:12px}
+.mrow .grip{width:36px;margin-left:-8px;cursor:grab;touch-action:none;color:var(--meta)}
+.mrow .mn{flex:1;min-width:0;display:flex;align-items:baseline;gap:8px;margin-left:6px}
+.mrow .mn b{font-size:15px;font-weight:500;white-space:nowrap}
+.mrow .mn span{font-size:13px;color:var(--meta);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mrow .ib{margin-right:-12px}
+.pickgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.pick{height:44px;padding:0 10px 0 16px;border-radius:22px;border:1px solid var(--line-2);background:transparent;color:var(--ink);display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:15px;font-weight:500;text-align:left}
+.pick span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pick[aria-disabled="true"]{background:var(--raise-2);border-color:transparent;cursor:default}
+
+/* Header panels */
+.pop{position:fixed;z-index:20;top:calc(58px + env(safe-area-inset-top));right:max(12px,calc(50vw - 17rem + 12px));width:264px;padding:8px;border-radius:18px;background:var(--raise);border:1px solid var(--line-2);box-shadow:var(--shadow)}
+.pop h2{margin:6px 10px 4px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.trow{display:flex;align-items:center;gap:12px;width:100%;min-height:44px;padding:0 10px;border:0;border-radius:12px;background:transparent;color:var(--ink);font-size:15px;text-align:left}
+.trow[aria-pressed="true"]{background:var(--line);font-weight:600}
+.trow small{color:var(--meta);font-weight:400;margin-left:auto;font-size:12px}
+.sw8{width:22px;height:22px;border-radius:11px;flex-shrink:0;border:1px solid var(--line-2);position:relative;overflow:hidden}
+.sw8::after{content:"";position:absolute;right:3px;bottom:3px;width:8px;height:8px;border-radius:4px;background:var(--dot)}
+.pop p{margin:6px 10px 6px;font-size:12px;line-height:1.45;color:var(--meta)}
+
+/* Toast */
+#toast{position:fixed;inset:auto auto calc(24px + env(safe-area-inset-bottom)) 50%;transform:translateX(-50%);margin:0;border:0;width:max-content;max-width:calc(100vw - 40px);padding:12px 18px;border-radius:24px;background:var(--ink);color:var(--bg);font-size:15px;line-height:1.4;box-shadow:var(--shadow);display:none;align-items:center;gap:10px;z-index:50}
+#toast.show,#toast:popover-open{display:flex}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .spinner,.btn.busy::after{animation:spin 1.6s linear infinite!important}
+}
+</style>
+</head>
+<body>
+<div class="bar">
+  <header class="top">
+    <div class="id">
+      <div class="brand">Lowdown</div>
+      <div class="sub" id="sub"><span class="l"></span></div>
+    </div>
+    <div class="hb">
+      <button class="ib" id="themeBtn" aria-label="Choose a theme" title="Choose a theme" aria-expanded="false" aria-controls="themes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      <button class="ib" id="setBtn" data-act="settings" aria-label="Settings" title="Settings"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></button>
+    </div>
+  </header>
+</div>
+<div class="pop" id="themes" role="dialog" aria-label="Theme" hidden>
+  <h2>Theme</h2>
+  <div id="themeList"></div>
+  <p>Night red and Amber are gentlest on eyes adjusted to the dark.</p>
+</div>
+<main id="app" aria-live="off"></main>
+<div id="toast" popover="manual" role="status" aria-live="polite"></div>
+
+<script src="core.js?v=1"></script>
+<script>
+'use strict';
+const API = '';            // Apps Script web app URL, filled in after deploying
+const EXPECT_BUILD = 1;    // the Apps Script release this page needs
+const RELEASE = 1;
+const C = window.Core;
+const P = 'ldn.';
+const get = (k, d) => { try { const v = localStorage.getItem(P + k); return v == null ? d : JSON.parse(v); } catch { return d; } };
+const put = (k, v) => { try { localStorage.setItem(P + k, JSON.stringify(v)); } catch {} };
+const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const isAndroid = /Android/.test(navigator.userAgent);
+const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+const H12 = (() => { try { return new Intl.DateTimeFormat(undefined, { hour: 'numeric' }).resolvedOptions().hour12 === true; } catch { return false; } })();
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+
+const svg = (d, s = 22, w = 1.6) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+const ICON = {
+  chev: svg('<path d="m9 6 6 6-6 6"/>', 20),
+  close: svg('<path d="M6 6l12 12M18 6 6 18"/>', 20, 1.8),
+  x: svg('<path d="M7 7l10 10M17 7 7 17"/>', 16, 2),
+  sunrise: svg('<path d="M3 18h18M7 18a5 5 0 0 1 10 0M12 3v6M9 5.5 12 2.8l3 2.7"/>', 18),
+  sunset: svg('<path d="M3 18h18M7 18a5 5 0 0 1 10 0M12 2.8V9M9 6.3 12 9l3-2.7"/>', 18),
+  moon: svg('<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>', 18),
+  pin: svg('<path d="M12 21s-6.5-6.2-6.5-11.2a6.5 6.5 0 0 1 13 0C18.5 14.8 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/>', 18, 1.7),
+  search: svg('<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/>', 18, 1.8),
+  plus: svg('<path d="M12 5v14M5 12h14"/>', 18, 1.8),
+  check: svg('<path d="m5 12.5 4.5 4.5L19 7.5"/>', 18, 2),
+  grip: '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>',
+  pencil: svg('<path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="m13.5 6.5 4 4"/>', 18),
+  refresh: svg('<path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/>', 18),
+  rain: '<svg width="22" height="8" viewBox="0 0 22 8" aria-hidden="true"><circle cx="3" cy="4" r="1.8" style="fill:var(--rain)"/><circle cx="11" cy="4" r="1.8" style="fill:var(--rain)"/><circle cx="19" cy="4" r="1.8" style="fill:var(--rain)"/></svg>'
+};
+// Concentric rings: which way out from your street a tier sits.
+function tierGlyph(level) {
+  let s = '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">';
+  [10.5, 7.5, 4.5].forEach((r, i) => { s += `<circle cx="12" cy="12" r="${r}" fill="none" style="stroke:${i === level ? 'var(--ink)' : 'var(--line-2)'};stroke-width:${i === level ? 2 : 1.4}"/>`; });
+  return s + `<circle cx="12" cy="12" r="1.9" style="fill:${level === 3 ? 'var(--sun)' : 'var(--line-2)'}"/></svg>`;
+}
+
+const SECTIONS = ['world', 'country', 'county', 'local', 'interests', 'markets', 'looked', 'onthisday', 'greenest'];
+const DEF_SECTIONS = Object.fromEntries(SECTIONS.map((k) => [k, true]));
+const THEMES = [['auto', 'Auto', 'follows the sky', '#E8EDF1', '#F0B04F'], ['day', 'Daylight', '', '#E8EDF1', '#F0B04F'], ['twilight', 'Twilight', '', '#0F1528', '#F2C063'],
+  ['red', 'Night red', '', '#0C0404', '#FF5B3D'], ['amber', 'Amber', '', '#0D0904', '#FFB04A'], ['sea', 'Deep sea', '', '#06121A', '#6FD9D0'],
+  ['aurora', 'Aurora', '', '#07110D', '#86E3A8'], ['dusk', 'Dusk', '', '#110D1A', '#F2A7C8']];
+
+const S = {
+  prefs: get('prefs', null),
+  cache: get('cache', {}),
+  seen: get('seen', {}),
+  read: get('read', { day: '', parts: [] }),
+  dismissed: get('dismissed', {}),
+  theme: get('theme', 'auto'),
+  scriptBuild: get('scriptBuild', null),
+  seenAtOpen: {}, showNew: false, refreshing: false, errors: {}, installEvt: null,
+  draft: null, townResults: {}, mkTab: 'index', mkQuery: '', pendingRetry: false
+};
+const ready = () => !!(S.prefs && S.prefs.setupDone && S.prefs.place);
+const savePrefs = () => put('prefs', S.prefs);
+const saveCache = () => put('cache', S.cache);
+
+/* ---------- Clock at your place ---------- */
+function zone() {
+  const z = S.prefs && S.prefs.place && S.prefs.place.tz;
+  if (z) { try { new Intl.DateTimeFormat('en-GB', { timeZone: z }); return z; } catch {} }
+  try { return Intl.DateTimeFormat().resolvedOptions().timeZone || 'Europe/London'; } catch { return 'Europe/London'; }
+}
+const off = (ms = Date.now()) => C.tzOffsetSec(zone(), ms);
+const nowH = () => { const n = Date.now(); return C.localHours(n, off(n)); };
+const today = () => { const n = Date.now(); return C.localDayKey(n, off(n)); };
+function fmtTime(ms) {
+  try { return new Intl.DateTimeFormat('en-GB', { hour: H12 ? 'numeric' : '2-digit', minute: '2-digit', hour12: H12, timeZone: zone() }).format(ms); }
+  catch { return new Date(ms).toTimeString().slice(0, 5); }
+}
+function fmtDay(ms) {
+  try { return new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long', timeZone: zone() }).format(ms); }
+  catch { return ''; }
+}
+
+/* ---------- Theme ---------- */
+function currentTheme() {
+  if (S.theme !== 'auto') return S.theme;
+  const p = S.prefs && S.prefs.place;
+  if (p && isFinite(p.lat)) return C.skyTheme(C.sunAltitude(new Date(), p.lat, p.lon));
+  const h = new Date().getHours();
+  return h >= 7 && h < 18 ? 'day' : 'twilight';
+}
+function applyTheme() {
+  const t = currentTheme();
+  if (document.documentElement.dataset.theme !== t) document.documentElement.dataset.theme = t;
+  const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
+  $('meta[name="theme-color"]').setAttribute('content', bg || '#E8EDF1');
+}
+function renderThemes() {
+  $('#themeList').innerHTML = THEMES.map(([id, name, note, bg, dot]) => {
+    const bgStyle = id === 'auto' ? `background:linear-gradient(135deg,${bg} 50%,#0F1528 50%)` : `background:${bg}`;
+    return `<button class="trow" data-act="theme" data-id="${id}" aria-pressed="${S.theme === id}"><span class="sw8" style="${bgStyle};--dot:${dot}"></span>${esc(name)}${note ? `<small>${esc(note)}</small>` : ''}</button>`;
+  }).join('');
+}
+
+/* ---------- Toasts and busy buttons ---------- */
+let toastTimer;
+function toast(msg, opts = {}) {
+  const t = $('#toast');
+  t.innerHTML = (opts.busy ? '<span class="spinner" aria-hidden="true"></span>' : '') + `<span>${esc(msg)}</span>`;
+  try { if (t.matches(':popover-open')) t.hidePopover(); t.showPopover(); } catch { t.classList.add('show'); }
+  clearTimeout(toastTimer);
+  if (!opts.busy) toastTimer = setTimeout(hideToast, opts.ms || 2600);
+}
+function hideToast() { const t = $('#toast'); try { t.hidePopover(); } catch {} t.classList.remove('show'); }
+async function withBusy(btn, fn) {
+  if (!btn || btn.disabled) return;
+  btn.disabled = true; btn.classList.add('busy'); btn.setAttribute('aria-busy', 'true');
+  try { return await fn(); }
+  finally { btn.disabled = false; btn.classList.remove('busy'); btn.removeAttribute('aria-busy'); }
+}
+
+/* ---------- Network ---------- */
+async function getJSON(url, ms = 12000) {
+  const ac = new AbortController(), timer = setTimeout(() => ac.abort(), ms);
+  try {
+    const r = await fetch(url, { signal: ac.signal });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return await r.json();
+  } finally { clearTimeout(timer); }
+}
+async function api(action, data = {}, ms = 30000) {
+  if (!API) throw new Error('The Apps Script isn’t connected yet.');
+  const ac = new AbortController(), timer = setTimeout(() => ac.abort(), ms);
+  try {
+    const r = await fetch(API, { method: 'POST', body: JSON.stringify({ action, ...data }), signal: ac.signal });   // text/plain, so no preflight
+    const j = await r.json();
+    if (j.build) { S.scriptBuild = j.build; put('scriptBuild', j.build); }
+    if (j.error) throw new Error(j.error);
+    return j;
+  } catch (e) {
+    throw new Error(e.name === 'AbortError' ? 'The news service took too long to answer.' : e.message || 'Couldn’t reach the news service.');
+  } finally { clearTimeout(timer); }
+}
+
+/* ---------- Loading ---------- */
+async function loadWeather(force) {
+  const p = S.prefs.place, c = S.cache.weather;
+  if (!force && c && Date.now() - c.at < 15 * 60000 && c.lat === p.lat) return;
+  const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + p.lat.toFixed(2) + '&longitude=' + p.lon.toFixed(2) +
+    '&current=temperature_2m,weather_code,is_day&hourly=temperature_2m,precipitation_probability,precipitation,weather_code' +
+    '&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=2' + (p.cc === 'US' ? '&temperature_unit=fahrenheit' : '');
+  try {
+    const d = await getJSON(url);
+    S.cache.weather = { at: Date.now(), lat: p.lat, data: { current: d.current, hourly: d.hourly, daily: d.daily, timezone: d.timezone } };
+    if (d.timezone && d.timezone !== p.tz) { p.tz = d.timezone; savePrefs(); }
+    S.errors.weather = null;
+  } catch (e) { S.errors.weather = 'Couldn’t fetch the weather.'; }
+}
+function utcDay(d = new Date()) { return [d.getUTCFullYear(), String(d.getUTCMonth() + 1).padStart(2, '0'), String(d.getUTCDate()).padStart(2, '0')]; }
+async function loadWiki(force) {
+  const [y, m, d] = utcDay(), key = `${y}-${m}-${d}`, c = S.cache.wiki;
+  if (!force && c && c.day === key && Date.now() - c.at < 6 * 3600000) return;
+  try {
+    const j = await getJSON(`https://en.wikipedia.org/api/rest_v1/feed/featured/${y}/${m}/${d}`);
+    const page = (a) => ({
+      title: String(a.normalizedtitle || (a.titles && a.titles.normalized) || a.title || '').replace(/_/g, ' '),
+      description: a.description || '', extract: String(a.extract || '').slice(0, 900), thumb: (a.thumbnail && a.thumbnail.source) || '',
+      url: (a.content_urls && ((a.content_urls.mobile && a.content_urls.mobile.page) || (a.content_urls.desktop && a.content_urls.desktop.page))) || ('https://en.wikipedia.org/wiki/' + encodeURIComponent(a.title || ''))
+    });
+    S.cache.wiki = {
+      at: Date.now(), day: key,
+      data: {
+        mostreadDate: (j.mostread && j.mostread.date) || '',
+        mostread: ((j.mostread && j.mostread.articles) || []).slice(0, 30).map(page),
+        onthisday: (j.onthisday || []).slice(0, 25).map((e) => ({ text: e.text, year: e.year, pages: (e.pages || []).slice(0, 2).map(page) }))
+      }
+    };
+    S.errors.wiki = null;
+  } catch (e) { S.errors.wiki = 'Couldn’t reach Wikipedia.'; }
+}
+async function loadBrief() {
+  if (!API) return;
+  const p = S.prefs, on = p.sections;
+  try {
+    const j = await api('brief', {
+      place: { cc: p.place.cc, country: p.place.country, county: p.place.county, town: p.place.town },
+      sections: on,
+      topics: on.interests ? p.topics : [],
+      symbols: on.markets ? p.watch.filter((w) => w.sym).map((w) => w.sym) : []
+    });
+    S.cache.brief = { at: Date.now(), data: j };
+    S.errors.brief = null;
+  } catch (e) { S.errors.brief = e.message; }
+}
+async function loadCrypto() {
+  const p = S.prefs, coins = p.watch.filter((w) => w.kind === 'crypto');
+  if (!p.sections.markets || !coins.length) return;
+  const vs = C.currencyFor(p.place.cc).toLowerCase();
+  try {
+    const j = await getJSON('https://api.coingecko.com/api/v3/simple/price?ids=' + coins.map((c) => encodeURIComponent(c.cg)).join(',') + '&vs_currencies=' + vs + '&include_24hr_change=true');
+    S.cache.crypto = { at: Date.now(), vs, data: j };
+    S.errors.crypto = null;
+  } catch (e) { S.errors.crypto = 'Crypto prices are unavailable just now.'; }
+}
+let refreshing = null;
+function refresh(force) {
+  if (!ready()) return Promise.resolve();
+  if (refreshing) return refreshing;
+  S.refreshing = true;
+  renderHeader();
+  refreshing = Promise.allSettled([loadWeather(force), loadWiki(force), loadBrief(), loadCrypto()]).then(() => {
+    S.refreshing = false; refreshing = null;
+    S.cache.at = Date.now();
+    saveCache();
+    render();
+    // Codes just added to the Sheet can take a moment to price: look once more shortly.
+    const q = (S.cache.brief && S.cache.brief.data && S.cache.brief.data.quotes) || [];
+    if (q.some((x) => x.status === 'pending') && !S.pendingRetry) {
+      S.pendingRetry = true;
+      setTimeout(() => { loadBrief().then(() => { saveCache(); render(); }); }, 20000);
+    }
+  });
+  return refreshing;
+}
+
+/* ---------- Opening and reading ---------- */
+function beginOpen() {
+  const prev = get('lastOpen', 0), now = Date.now();
+  S.showNew = !!prev && C.localDayKey(prev, off(prev)) === today() && now - prev > 2 * 60000;
+  S.seenAtOpen = { ...S.seen };
+  put('lastOpen', now);
+  const cut = now - 3 * 86400000;
+  for (const k of Object.keys(S.seen)) if (S.seen[k] < cut) delete S.seen[k];
+  put('seen', S.seen);
+  if (S.read.day !== today()) { S.read = { day: today(), parts: [] }; put('read', S.read); }
+}
+const isNew = (key) => S.showNew && key && !S.seenAtOpen[key];
+
+/* ---------- What's in the brief ---------- */
+function newsTiers() {
+  const p = S.prefs, on = p.sections, pl = p.place;
+  return [
+    { key: 'world', label: 'World', level: 0 },
+    { key: 'country', label: pl.country, level: 1 },
+    { key: 'county', label: pl.county, level: 2 },
+    { key: 'local', label: pl.town, level: 3 }
+  ].filter((t) => on[t.key] && t.label);
+}
+const briefData = () => (S.cache.brief && S.cache.brief.data) || null;
+function newsItems(key) { const b = briefData(); return (b && b.news && b.news[key]) || []; }
+function topicItems(name) {
+  const b = briefData(), t = b && (b.topics || []).find((x) => x.name.toLowerCase() === name.toLowerCase());
+  return t ? t.items : null;
+}
+function weekday() { const n = Date.now(); return C.localWeekday(n, off(n)); }
+function partList() {
+  const p = S.prefs, on = p.sections, out = [];
+  const tiers = newsTiers();
+  if (tiers.length) {
+    const items = tiers.flatMap((t) => newsItems(t.key));
+    out.push({ id: 'news', title: 'News', note: items.length ? plural(items.length, 'story', 'stories') : 'World to local', fresh: items.filter((i) => isNew(i.id)).length, n: items.length });
+  }
+  if (on.interests && p.topics.length) {
+    const items = p.topics.flatMap((t) => topicItems(t) || []);
+    out.push({ id: 'interests', title: 'Your interests', note: plural(p.topics.length, 'topic', 'topics'), fresh: items.filter((i) => isNew(i.id)).length, n: items.length });
+  }
+  if (on.markets && p.watch.length) out.push({ id: 'markets', title: 'Markets', note: [0, 6].includes(weekday()) ? 'Friday’s close' : 'Latest', n: 2 });
+  if (on.looked) out.push({ id: 'looked', title: 'What people looked up', note: 'Top 5', n: 5 });
+  if (on.onthisday) out.push({ id: 'onthisday', title: 'On this day', note: '3 moments', n: 3 });
+  if (on.greenest && p.place.cc === 'GB') {
+    const w = greenest();
+    out.push({ id: 'greenest', title: 'Greenest hours', note: w ? `${C.hourWord(C.localHours(w.win.start, off(w.win.start)))} to ${C.hourWord(C.localHours(w.win.end, off(w.win.end)))}` : 'Britain’s grid', n: 1 });
+  }
+  return out;
+}
+const isRead = (id) => S.read.day === today() && S.read.parts.includes(id);
+function partState(parts, id) {
+  if (isRead(id)) return 'done';
+  const first = parts.find((p) => !isRead(p.id));
+  return first && first.id === id && S.read.parts.length ? 'now' : '';
+}
+
+/* ---------- Header ---------- */
+function renderHeader() {
+  const sub = $('#sub');
+  $('#setBtn').hidden = !ready();
+  if (!ready()) { sub.innerHTML = '<span class="l">Set up your brief</span>'; return; }
+  const parts = partList(), done = parts.filter((p) => isRead(p.id)).length;
+  let right;
+  if (S.refreshing) right = '<span class="spinner" aria-hidden="true"></span>Updating';
+  else if (!navigator.onLine) right = 'Offline';
+  else right = parts.length && done >= parts.length ? 'All read' : `${done} of ${parts.length} read`;
+  sub.innerHTML = `<span class="l">${esc(C.briefLabel(nowH()))}</span><span class="c">&nbsp;·&nbsp;${right}</span>`;
+}
+
+/* ---------- The day ring ---------- */
+function heroModel() {
+  const pl = S.prefs.place, now = Date.now(), o = off(now), day = C.localDayKey(now, o);
+  const sun = C.sunTimes(day, pl.lat, pl.lon);
+  const lh = (d) => (d ? C.localHours(+d, o) : null);
+  const m = { now, nowH: C.localHours(now, o), riseH: lh(sun.sunrise), setH: lh(sun.sunset), polar: sun.polar || null, hours: [], runs: [] };
+  const tomorrowKey = C.localDayKey(now + 86400000, o);
+  const sunT = C.sunTimes(tomorrowKey, pl.lat, pl.lon);
+  m.riseTomorrow = sunT.sunrise ? +sunT.sunrise : null;
+  const w = S.cache.weather && S.cache.weather.data;
+  if (w && w.hourly && w.hourly.time && w.daily) {
+    w.hourly.time.forEach((t, i) => {
+      if (t.slice(0, 10) !== day) return;
+      m.hours.push({ h: +t.slice(11, 13), prob: w.hourly.precipitation_probability ? w.hourly.precipitation_probability[i] : null,
+        mm: w.hourly.precipitation ? w.hourly.precipitation[i] : null, code: w.hourly.weather_code ? w.hourly.weather_code[i] : null });
+    });
+    m.runs = C.wetRuns(m.hours);
+    const di = w.daily.time.indexOf(day);
+    if (di >= 0) m.today = { max: w.daily.temperature_2m_max[di], min: w.daily.temperature_2m_min[di], code: w.daily.weather_code[di] };
+    if (di >= 0 && w.daily.time[di + 1]) m.tomorrow = { max: w.daily.temperature_2m_max[di + 1], min: w.daily.temperature_2m_min[di + 1], code: w.daily.weather_code[di + 1] };
+    if (w.current && isFinite(w.current.temperature_2m)) m.current = { temp: w.current.temperature_2m, code: w.current.weather_code, isDay: !!w.current.is_day };
+  }
+  m.daylight = m.polar === 'day' || (m.polar !== 'night' && m.nowH >= m.riseH && m.nowH < m.setH);
+  return m;
+}
+const TICKS = C.ticksPath(126, 130, 133);
+function ringSVG(m) {
+  const s = ['<defs><linearGradient id="dayArc" x1="0" y1="0" x2="1" y2="0"><stop offset="0" style="stop-color:var(--arc-a)"/><stop offset=".5" style="stop-color:var(--arc-b)"/><stop offset="1" style="stop-color:var(--arc-c)"/></linearGradient>',
+    '<clipPath id="moonClip"><circle cx="0" cy="0" r="8"/></clipPath></defs>',
+    '<circle cx="160" cy="160" r="118" class="r-base"/>'];
+  if (m.polar === 'day') s.push(`<path d="${C.arcPath(0, 24, 118)}" class="r-day"/>`);
+  else if (m.polar === 'night') s.push(`<path d="${C.arcPath(0, 24, 118)}" class="r-night"/>`);
+  else s.push(`<path d="${C.arcPath(m.setH, m.riseH, 118)}" class="r-night"/>`, `<path d="${C.arcPath(m.riseH, m.setH, 118)}" class="r-day"/>`);
+  s.push(`<path d="${TICKS}" class="r-tick"/>`);
+  for (const r of m.runs) s.push(`<path d="${C.arcPath(r.start, Math.min(r.end, 24), 139)}" class="r-rain"/>`);
+  // Hide an hour label the time would sit on: wider at the top and bottom, where the time runs across.
+  const near = (h) => Math.abs(((m.nowH - h + 36) % 24) - 12) < (h % 12 === 0 ? 1.6 : 1.1);
+  [[6, 57, 164], [12, 160, 64], [18, 263, 164], [0, 160, 264]].forEach(([h, x, y]) => {
+    if (!near(h)) s.push(`<text x="${x}" y="${y}" text-anchor="middle" class="r-lbl">${String(h).padStart(2, '0')}</text>`);
+  });
+  const [x, y] = C.ringPoint(m.nowH, 118);
+  if (m.daylight) {
+    s.push(`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="16" style="fill:var(--sun);fill-opacity:.25"/>`,
+      `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="8" style="fill:var(--sun);stroke:var(--bg);stroke-width:3"/>`);
+  } else {
+    const mp = C.moonPhase(new Date(m.now)), shift = (mp.phase < 0.5 ? -1 : 1) * 16 * mp.illum;
+    s.push(`<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)})"><circle r="16" style="fill:var(--ink);fill-opacity:.1"/><circle r="9.5" style="fill:var(--bg)"/>`,
+      `<circle r="8" style="fill:var(--ink)"/><circle cx="${shift.toFixed(1)}" r="8" clip-path="url(#moonClip)" style="fill:var(--bg);fill-opacity:.82"/></g>`);
+  }
+  const [lx, ly] = C.ringPoint(m.nowH, 96);
+  s.push(`<text x="${lx.toFixed(1)}" y="${(ly + 4).toFixed(1)}" text-anchor="${lx < 150 ? 'start' : lx > 170 ? 'end' : 'middle'}" class="r-now">${esc(fmtTime(m.now))}</text>`);
+  const label = `The day ring. ${m.polar === 'day' ? 'The sun is up all day.' : m.polar === 'night' ? 'The sun stays down today.' : `Light from ${fmtTime(sunMs(m.riseH))} to ${fmtTime(sunMs(m.setH))}.`}` +
+    (m.runs.length ? ' ' + m.runs.map((r) => `${cap(r.kind)} from ${C.hourWord(r.start)} to ${C.hourWord(r.end)}`).join(', ') + '.' : '') + ` The time now is ${fmtTime(m.now)}.`;
+  return `<svg viewBox="0 0 320 320" role="img" aria-label="${esc(label)}">${s.join('')}</svg>`;
+}
+// Local hours today back to a moment, for formatting sunrise and sunset.
+function sunMs(h) { const n = Date.now(), o = off(n); return C.localNoon(n, o) + (h - 12) * 3600000; }
+function heroHTML() {
+  const m = heroModel(), parts = partList();
+  let mid, say;
+  if (m.current) {
+    const tl = m.today ? C.tempLine({ nowH: m.nowH, current: m.current.temp, max: m.today.max, min: m.today.min, minTonight: m.tomorrow && m.tomorrow.min }) : '';
+    mid = `<span class="temp">${Math.round(m.current.temp)}°</span><span class="cond">${esc(C.conditionWord(m.current.code, m.current.isDay))}</span>${tl ? `<span class="tline">${esc(tl)}</span>` : ''}`;
+    say = C.weatherSentence({ hours: m.hours, nowH: m.nowH, sunsetH: m.setH, tomorrow: m.nowH >= 17 ? m.tomorrow : null });
+  } else {
+    mid = `<span class="temp clock">${esc(fmtTime(m.now))}</span><span class="cond">Weather unavailable</span><span class="tline">Daylight still shown</span>`;
+    say = m.polar ? '' : `Light from ${fmtTime(sunMs(m.riseH))} to ${fmtTime(sunMs(m.setH))}.`;
+  }
+  const facts = [];
+  if (!m.polar && m.nowH < m.setH) facts.push(`<span>${ICON.sunrise}<span class="vh">Sunrise </span>${esc(fmtTime(sunMs(m.riseH)))}</span>`, `<span>${ICON.sunset}<span class="vh">Sunset </span>${esc(fmtTime(sunMs(m.setH)))}</span>`);
+  else {
+    facts.push(`<span>${ICON.moon}${esc(C.moonPhase(new Date(m.now)).name)}</span>`);
+    if (m.riseTomorrow) facts.push(`<span>${ICON.sunrise}Sunrise ${esc(fmtTime(m.riseTomorrow))}</span>`);
+  }
+  const next = m.runs.find((r) => r.end > m.nowH);
+  if (next) facts.push(`<span>${ICON.rain}${esc(cap(next.kind))} ${esc(next.start <= m.nowH ? 'until ' + C.hourWord(next.end) : C.hourWord(next.start) + ' to ' + C.hourWord(next.end))}</span>`);
+  const n = parts.reduce((a, p) => a + (p.n || 0), 0), mins = Math.max(1, Math.round((n * 8 + parts.length * 12) / 60));
+  const label = C.briefLabel(m.nowH), verb = label === 'Evening wrap' ? 'Read the evening wrap' : label === 'Afternoon brief' ? 'Read the afternoon brief' : 'Read today’s brief';
+  return `<div class="hero">${ringSVG(m)}<div class="mid">${mid}</div></div>
+    ${say ? `<p class="say">${esc(say)}</p>` : ''}
+    <div class="facts">${facts.join('')}</div>
+    ${parts.length ? `<div class="go"><button class="btn primary" data-act="start">${verb}</button><span class="cap">${plural(parts.length, 'part', 'parts')}, about ${plural(mins, 'minute', 'minutes')}</span></div>` : ''}`;
+}
+const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : s);
+
+/* ---------- The brief ---------- */
+function noticesHTML() {
+  const n = [];
+  const notice = (id, text, action, dismissable = true) => `<div class="notice" role="note"><p>${text}</p><div class="acts">${action || ''}${dismissable ? `<button class="ib" data-act="dismiss" data-id="${id}" aria-label="Dismiss" title="Dismiss">${ICON.x}</button>` : ''}</div></div>`;
+  if (!standalone && !S.dismissed.install) {
+    if (S.installEvt) n.push(notice('install', 'Add Lowdown to your home screen for one-tap access.', '<button class="btn small" data-act="install">Install</button>'));
+    else if (isIOS) n.push(notice('install', 'Add Lowdown to your Home Screen: tap Share (under ⋯ on iOS 26), then Add to Home Screen.'));
+  }
+  if (!API) n.push(notice('noapi', 'News, interests and markets need the Apps Script. Put its web app address into <code>index.html</code>, as the README explains.', '', false));
+  else if (S.scriptBuild != null && S.scriptBuild < EXPECT_BUILD) n.push(notice('script', `Your Apps Script is out of date (release ${S.scriptBuild}, this app needs ${EXPECT_BUILD}). In Apps Script, choose Deploy, Manage deployments, edit, New version, Deploy.`, '', false));
+  return n.join('');
+}
+function tocHTML(parts) {
+  if (!parts.length) return '';
+  return `<nav class="toc" aria-label="In today's brief"><h2>In today’s brief</h2>${parts.map((p) => {
+    const st = partState(parts, p.id);
+    return `<a href="#ch-${p.id}" data-act="go" data-id="${p.id}"><span class="node ${st}" aria-hidden="true"></span><span class="t">${esc(p.title)}</span><span class="n">${p.fresh ? `<span class="newdot" aria-hidden="true"></span>${p.fresh} new` : esc(p.note)}${st === 'done' ? '<span class="vh">, read</span>' : ''}</span></a>`;
+  }).join('')}</nav>`;
+}
+const chOpen = (parts, p, title, sub) => {
+  const st = partState(parts, p.id);
+  return `<section class="ch ${st}" id="ch-${p.id}" data-part="${p.id}" data-anchor="ch-${p.id}" aria-labelledby="h-${p.id}"><span class="node ${st}" aria-hidden="true"></span><h2 class="chh" id="h-${p.id}">${esc(title)}${sub ? `<span>${esc(sub)}</span>` : ''}</h2>`;
+};
+const chClose = (p) => `<span class="ch-end" data-end="${p.id}" aria-hidden="true"></span></section>`;
+function itemHTML(it, g, i, cls) {
+  const fresh = isNew(it.id);
+  return `<button class="item${cls ? ' ' + cls : ''}" data-act="story" data-g="${esc(g)}" data-i="${i}" data-key="${esc(it.id)}"><span class="tx"><span class="hl">${fresh ? '<span class="newdot" aria-hidden="true"></span><span class="vh">New: </span>' : ''}${esc(it.title)}</span>${it.summary && cls !== 'small' ? `<span class="sum">${esc(it.summary)}</span>` : ''}<span class="meta">${esc(it.source || '')}${it.at ? (it.source ? ' · ' : '') + esc(C.timeAgo(it.at, Date.now())) : ''}</span></span>${ICON.chev}</button>`;
+}
+function waiting(what) {
+  if (!API) return `<p class="empty">${esc(what)} arrive once the Apps Script is connected.</p>`;
+  if (S.refreshing) return `<p class="empty"><span class="spinner" aria-hidden="true"></span>Fetching ${esc(what.toLowerCase())}…</p>`;
+  return `<p class="empty">${esc(S.errors.brief || 'Couldn’t fetch this just now.')} It will try again next time you open Lowdown.</p>`;
+}
+function staleNote(at) {
+  if (!at || Date.now() - at < 3 * 3600000) return '';
+  return `<p class="src">Saved ${esc(fmtTime(at))}${C.localDayKey(at, off(at)) !== today() ? ', ' + esc(fmtDay(at)) : ''}.</p>`;
+}
+function newsHTML(parts, p) {
+  let h = chOpen(parts, p, 'News', 'from the world to your street');
+  const b = briefData();
+  if (!b) return h + waiting('The news') + chClose(p);
+  newsTiers().forEach((t) => {
+    const items = newsItems(t.key);
+    h += `<div class="tier" data-anchor="tier-${t.key}"><h3 class="tierh">${tierGlyph(t.level)}<span class="tn">${esc(t.label)}</span><span class="n">${items.length ? plural(items.length, 'story', 'stories') : ''}</span></h3>`;
+    h += items.length ? items.map((it, i) => itemHTML(it, 'news:' + t.key, i, i === 0 && t.level === 0 ? 'lead' : '')).join('')
+      : `<p class="empty">No new stories for ${esc(t.label)} in the last day or two.</p>`;
+    h += '</div>';
+  });
+  return h + staleNote(S.cache.brief.at) + chClose(p);
+}
+function interestsHTML(parts, p) {
+  let h = chOpen(parts, p, 'Your interests', '');
+  const b = briefData();
+  if (!b) return h + waiting('Your interests') + chClose(p);
+  S.prefs.topics.forEach((name, ti) => {
+    const items = topicItems(name);
+    h += `<div class="topic" data-anchor="topic-${ti}"><h3 class="topich">${esc(name)}</h3>`;
+    h += items == null ? `<p class="empty">${S.refreshing ? '<span class="spinner" aria-hidden="true"></span>Fetching…' : 'Arrives with your next refresh.'}</p>`
+      : items.length ? items.map((it, i) => itemHTML(it, 'topic:' + name, i, 'small')).join('')
+      : `<p class="empty">Nothing new on ${esc(name)} in the last day.</p>`;
+    h += '</div>';
+  });
+  return h + `<button class="btn ghost edit" data-act="settings" data-to="interests">${ICON.pencil}Edit your interests</button>` + chClose(p);
+}
+function marketRows() {
+  const p = S.prefs, home = C.currencyFor(p.place.cc), vs = home.toLowerCase();
+  const qs = {};
+  ((briefData() && briefData().quotes) || []).forEach((q) => { qs[q.symbol] = q; });
+  const cg = (S.cache.crypto && S.cache.crypto.vs === vs && S.cache.crypto.data) || {};
+  return p.watch.map((w) => {
+    if (w.kind === 'crypto') {
+      const c = cg[w.cg];
+      if (c && isFinite(c[vs])) return { w, status: 'ok', price: c[vs], chg: c[vs + '_24h_change'] };
+      return { w, status: S.errors.crypto || S.cache.crypto ? 'unavailable' : 'pending' };
+    }
+    const q = qs[w.sym];
+    if (!API) return { w, status: 'noapi' };
+    if (!q) return { w, status: S.refreshing || !briefData() ? 'pending' : 'unavailable' };
+    if (q.status !== 'ok') return { w, status: q.status };
+    return { w, status: 'ok', price: q.price, chg: q.chg, cur: q.cur };
+  });
+}
+function marketsHTML(parts, p) {
+  let h = chOpen(parts, p, 'Markets', [0, 6].includes(weekday()) ? 'Friday’s close' : 'latest prices');
+  const rows = marketRows(), home = C.currencyFor(S.prefs.place.cc);
+  const sentence = C.marketSentence(rows.filter((r) => r.status === 'ok').map((r) => ({ kind: r.w.kind, name: r.w.name, say: r.w.say, chg: r.chg })), weekday());
+  if (sentence) h += `<p class="prose">${esc(sentence)}</p>`;
+  const err = briefData() && (briefData().errors || []).find((e) => e.part === 'markets');
+  if (err) h += `<p class="mknote">${esc(err.message)}</p>`;
+  h += rows.map((r) => {
+    const w = r.w;
+    if (r.status !== 'ok') {
+      const why = { pending: 'Updating…', unavailable: 'Not available', noapi: 'Needs the Apps Script', missing: 'Updating…' }[r.status] || 'Not available';
+      return `<div class="mk"><span class="nm"><b>${esc(w.name)}</b><span>${why}</span></span><span class="bar" aria-hidden="true"></span><span class="pc flat"></span></div>`;
+    }
+    const has = isFinite(r.chg) && r.chg !== null, dir = !has || Math.abs(r.chg) < 0.05 ? 'flat' : r.chg > 0 ? 'up' : 'down';
+    const width = has ? C.barWidth(r.chg) : 0;
+    return `<div class="mk"><span class="nm"><b>${esc(w.name)}</b><span>${esc(C.fmtValue({ ...w, cur: r.cur || w.cur }, r.price, home))}</span></span>` +
+      `<span class="bar" role="img" aria-label="${has ? (r.chg >= 0 ? 'Up ' : 'Down ') + Math.abs(r.chg).toFixed(1) + '%' : 'No change yet'}">${has && dir !== 'flat' ? `<i class="${dir}" style="width:${width}px"></i>` : ''}</span>` +
+      `<span class="pc ${dir}">${has ? esc(C.fmtPct(r.chg)) : '–'}</span></div>`;
+  }).join('');
+  h += `<p class="src">Prices from Google Finance, which can be up to 20 minutes behind, and crypto prices by CoinGecko. For information only.</p>`;
+  return h + `<button class="btn ghost edit" data-act="markets">${ICON.pencil}Edit your markets</button>` + chClose(p);
+}
+function trending() {
+  const w = S.cache.wiki && S.cache.wiki.data;
+  if (!w) return [];
+  return C.filterTrending(w.mostread, w.onthisday, 5, new Date().getFullYear());
+}
+function wikiWaiting() {
+  if (S.refreshing) return '<p class="empty"><span class="spinner" aria-hidden="true"></span>Fetching from Wikipedia…</p>';
+  return `<p class="empty">${esc(S.errors.wiki || 'Nothing from Wikipedia yet.')} It will try again next time you open Lowdown.</p>`;
+}
+function lookedHTML(parts, p) {
+  let h = chOpen(parts, p, 'What people looked up', 'top 5 on Wikipedia yesterday');
+  const list = trending();
+  if (!list.length) return h + wikiWaiting() + chClose(p);
+  h += list.map((a, i) => `<button class="rk" data-act="wiki" data-src="looked" data-i="${i}"><span class="no">${i + 1}</span><span class="tx"><span class="tt">${esc(a.title)}</span>${a.desc ? `<span class="ds">${esc(cap(a.desc))}</span>` : ''}${a.tag ? `<span class="tag">${esc(a.tag)}</span>` : ''}</span></button>`).join('');
+  return h + '<p class="src">From Wikipedia’s most-read pages</p>' + chClose(p);
+}
+function otdList() { const w = S.cache.wiki && S.cache.wiki.data; return w ? C.pickOnThisDay(w.onthisday, 3) : []; }
+function otdHTML(parts, p) {
+  let h = chOpen(parts, p, 'On this day', fmtDay(Date.now()).replace(/^\w+ /, ''));
+  const list = otdList();
+  if (!list.length) return h + wikiWaiting() + chClose(p);
+  h += list.map((e, i) => `<button class="otd" data-act="wiki" data-src="otd" data-i="${i}"><span class="yr">${esc(e.year)}</span><span class="tx">${esc(e.text)}</span></button>`).join('');
+  return h + chClose(p);
+}
+function greenest() {
+  const b = briefData();
+  if (!b || !b.carbon || !b.carbon.length) return null;
+  const now = Date.now(), o = off(now);
+  const win = C.greenestWindow(b.carbon, now, o);
+  if (!win) return null;
+  return { win, bars: C.hourlyBars(b.carbon.filter((s) => s.from >= now - 1800000), 24), o };
+}
+function greenHTML(parts, p) {
+  let h = chOpen(parts, p, 'Greenest hours', 'Britain’s grid');
+  const g = greenest();
+  if (!g) return h + (briefData() ? '<p class="empty">The grid forecast is unavailable just now.</p>' : waiting('The grid forecast')) + chClose(p);
+  h += `<p class="prose">${esc(C.greenSentence(g.win, Date.now(), g.o))}</p>`;
+  const i0 = g.bars.findIndex((b) => b.from >= g.win.start);
+  const max = Math.max(...g.bars.map((b) => b.f));
+  h += `<div class="chart" role="img" aria-label="Carbon intensity over the next ${g.bars.length} hours. Lowest from ${esc(fmtTime(g.win.start))} to ${esc(fmtTime(g.win.end))}.">`;
+  if (i0 >= 0) h += `<span class="win" style="left:${((i0 / g.bars.length) * 100).toFixed(1)}%">${esc(fmtTime(g.win.start))}</span>`;
+  h += `<div class="bars">${g.bars.map((b) => `<i class="${b.from >= g.win.start && b.from < g.win.end ? 'lo' : ''}" style="height:${Math.max(4, Math.round((b.f / max) * 64))}px"></i>`).join('')}</div><div class="ticks">`;
+  g.bars.forEach((b, i) => {
+    const hh = Math.round(C.localHours(b.from, g.o)) % 24;
+    if (hh % 6 === 0 && i < g.bars.length - 2) h += `<span style="grid-column:${i + 1} / span 3">${String(hh).padStart(2, '0')}</span>`;
+  });
+  h += '</div></div><p class="src">From the National Energy System Operator’s carbon forecast</p>';
+  return h + chClose(p);
+}
+function endHTML(parts) {
+  const label = C.briefLabel(nowH());
+  const next = label === 'Evening wrap' ? 'Tomorrow’s brief is waiting from 6am.' : 'Your evening wrap is ready from 5pm.';
+  const at = S.cache.at;
+  return `<section class="end" data-anchor="end"><span class="tick" aria-hidden="true">${ICON.check}</span><h2>You’re up to date.</h2><p>${esc(next)}</p>
+    <p class="src">${at ? `Updated ${esc(fmtTime(at))}. ` : ''}News from BBC News, Google News and Bing News. Weather by Open-Meteo, trending and on this day from Wikipedia, prices from Google Finance and CoinGecko, grid data from the National Energy System Operator.</p>
+    <button class="btn ghost" data-act="refresh">${ICON.refresh}Check for updates</button><span class="ch-end" data-end="__end" aria-hidden="true"></span></section>`;
+}
+const PART_HTML = { news: newsHTML, interests: interestsHTML, markets: marketsHTML, looked: lookedHTML, onthisday: otdHTML, greenest: greenHTML };
+
+function keepAnchor() {
+  if (window.scrollY < 120) return null;
+  let best = null;
+  for (const el of $$('[data-anchor]')) {
+    const top = el.getBoundingClientRect().top;
+    if (top <= 90 && (!best || top > best.top)) best = { id: el.dataset.anchor, top };
+  }
+  return best;
+}
+function restoreAnchor(a) {
+  if (!a) return;
+  const el = $(`[data-anchor="${a.id}"]`);
+  if (el) window.scrollBy(0, el.getBoundingClientRect().top - a.top);
+}
+function renderBrief() {
+  const parts = partList(), a = keepAnchor();
+  $('#app').innerHTML = noticesHTML() + `<section id="hero" aria-label="Today at a glance">${heroHTML()}</section>` + tocHTML(parts) +
+    parts.map((p) => PART_HTML[p.id](parts, p)).join('') + (parts.length ? endHTML(parts) : '');
+  restoreAnchor(a);
+  observe();
+}
+function renderHero() { const h = $('#hero'); if (h && ready()) h.innerHTML = heroHTML(); }
+function render() {
+  applyTheme();
+  renderHeader();
+  if (ready()) renderBrief(); else renderSetup();
+}
+
+/* ---------- Seen and read, as you scroll ---------- */
+let seenIO, readIO, seenTimer;
+function observe() {
+  if (!('IntersectionObserver' in window)) return;
+  if (seenIO) seenIO.disconnect();
+  if (readIO) readIO.disconnect();
+  seenIO = new IntersectionObserver((es) => {
+    let ch = false;
+    for (const e of es) if (e.isIntersecting) { const k = e.target.dataset.key; if (k && !S.seen[k]) { S.seen[k] = Date.now(); ch = true; } }
+    if (ch) { clearTimeout(seenTimer); seenTimer = setTimeout(() => put('seen', S.seen), 500); }
+  }, { threshold: 0.6 });
+  $$('.item[data-key]').forEach((el) => seenIO.observe(el));
+  readIO = new IntersectionObserver((es) => {
+    let ch = false;
+    for (const e of es) {
+      if (!(e.isIntersecting || e.boundingClientRect.top < 0)) continue;
+      const id = e.target.dataset.end;
+      if (id === '__end') { for (const p of partList()) if (!isRead(p.id)) { S.read.parts.push(p.id); ch = true; } }
+      else if (id && !isRead(id)) { S.read.parts.push(id); ch = true; }
+    }
+    if (ch) { S.read.day = today(); put('read', S.read); markRead(); }
+  });
+  $$('.ch-end').forEach((el) => readIO.observe(el));
+}
+function markRead() {
+  const parts = partList();
+  for (const p of parts) {
+    const st = partState(parts, p.id);
+    const sec = $(`#ch-${p.id}`);
+    if (sec) { sec.classList.toggle('done', st === 'done'); const n = $(':scope > .node', sec); if (n) n.className = 'node ' + st; }
+    const a = $(`.toc a[data-id="${p.id}"] .node`);
+    if (a) a.className = 'node ' + st;
+  }
+  renderHeader();
+}
+
+/* ---------- Sheets ---------- */
+const stack = [];
+function openSheet(id, label, html) {
+  const d = document.createElement('dialog');
+  d.className = 'sheet';
+  d.id = id;
+  d.setAttribute('aria-labelledby', id + '-t');
+  d.innerHTML = `<div class="shead" data-drag><span class="grab" aria-hidden="true"></span><div class="shbar"><span class="lab">${esc(label)}</span><button class="ib" data-act="close" aria-label="Close" title="Close">${ICON.close}</button></div></div><div class="sbody">${html}</div>`;
+  document.body.appendChild(d);
+  d.addEventListener('cancel', (e) => { e.preventDefault(); closeTop(); });
+  d.addEventListener('click', (e) => { if (e.target === d) { const r = d.getBoundingClientRect(); if (e.clientY < r.top) closeTop(); } });
+  d.showModal();
+  stack.push(d);
+  history.pushState({ sheet: id, depth: stack.length }, '');
+  gestures(d);
+  return d;
+}
+function closeTop() { if (stack.length) history.back(); }
+window.addEventListener('popstate', () => { const d = stack.pop(); if (d) dismiss(d); });
+function dismiss(d) {
+  const done = () => { try { d.close(); } catch {} d.remove(); };
+  if (reduced()) return done();
+  if (d.dataset.gone) return setTimeout(done, 180);
+  d.classList.add('closing');
+  setTimeout(done, 180);
+}
+const topSheet = () => stack[stack.length - 1] || null;
+function sheetBody(id) { const d = document.getElementById(id); return d ? $('.sbody', d) : null; }
+// Something that genuinely scrolls sideways keeps its own swipe.
+function scrollsSideways(el, root) {
+  for (let n = el; n && n !== root; n = n.parentElement) {
+    if (n.scrollWidth > n.clientWidth + 1 && /(auto|scroll)/.test(getComputedStyle(n).overflowX)) return true;
+  }
+  return false;
+}
+// Swipe right anywhere on a sheet, or drag its handle down, to close it.
+function gestures(d) {
+  let sx = null, sy = 0, st = 0, mode = null, dx = 0, dy = 0, fromHead = false;
+  d.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 1) { mode = 'none'; return; }
+    const t = e.target;
+    if (t.closest('input, textarea, select, [data-grip]') || scrollsSideways(t, d) || String(getSelection && getSelection()).length) { mode = 'none'; return; }
+    sx = e.touches[0].clientX; sy = e.touches[0].clientY; st = performance.now(); dx = dy = 0; mode = null;
+    fromHead = !!t.closest('[data-drag]');
+  }, { passive: true });
+  d.addEventListener('touchmove', (e) => {
+    if (mode === 'none' || sx == null) return;
+    dx = e.touches[0].clientX - sx; dy = e.touches[0].clientY - sy;
+    if (!mode) {
+      if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+      if (dx > 0 && Math.abs(dx) > Math.abs(dy)) mode = 'x';
+      else if (dy > 0 && Math.abs(dy) > Math.abs(dx) && fromHead) mode = 'y';
+      else { mode = 'none'; return; }
+    }
+    e.preventDefault();
+    if (reduced()) return;
+    d.style.transition = 'none';
+    d.style.transform = mode === 'x' ? `translateX(${Math.max(0, dx)}px)` : `translateY(${Math.max(0, dy)}px)`;
+  }, { passive: false });
+  const end = () => {
+    if (!mode || mode === 'none' || sx == null) { mode = null; sx = null; return; }
+    const dt = Math.max(1, performance.now() - st);
+    const go = mode === 'x' ? dx > d.offsetWidth / 3 || dx / dt > 0.5 : dy > d.offsetHeight / 4 || dy / dt > 0.5;
+    if (go) {
+      if (!reduced()) { d.style.transition = 'transform .18s ease-out'; d.style.transform = mode === 'x' ? 'translateX(110%)' : 'translateY(110%)'; }
+      d.dataset.gone = '1';
+      closeTop();
+    } else {
+      d.style.transition = reduced() ? 'none' : 'transform .22s cubic-bezier(.2,.8,.2,1)';
+      d.style.transform = '';
+    }
+    mode = null; sx = null;
+  };
+  d.addEventListener('touchend', end);
+  d.addEventListener('touchcancel', end);
+}
+// Links out of the installed Android app open in Chrome, not inside the app's window.
+function outHref(u) {
+  if (!/^https?:\/\//i.test(u || '')) return '#';
+  if (isAndroid && standalone) {
+    const x = new URL(u);
+    return `intent://${x.host}${x.pathname}${x.search}#Intent;scheme=${x.protocol.replace(':', '')};package=com.android.chrome;S.browser_fallback_url=${encodeURIComponent(u)};end`;
+  }
+  return u;
+}
+
+/* ---------- Story and Wikipedia sheets ---------- */
+function findItem(g, i) {
+  const [kind, key] = [g.slice(0, g.indexOf(':')), g.slice(g.indexOf(':') + 1)];
+  if (kind === 'news') return { item: newsItems(key)[i], label: (newsTiers().find((t) => t.key === key) || {}).label || 'News' };
+  if (kind === 'topic') return { item: (topicItems(key) || [])[i], label: key };
+  return {};
+}
+function openStory(g, i) {
+  const { item: it, label } = findItem(g, i);
+  if (!it) return;
+  const when = it.at ? `${C.localDayKey(it.at, off(it.at)) === today() ? fmtTime(it.at) : fmtDay(it.at) + ', ' + fmtTime(it.at)}` : '';
+  openSheet('story', label, `<h2 class="sh-title" id="story-t">${esc(it.title)}</h2>
+    <p class="sh-meta">${esc(it.source || '')}${when ? (it.source ? ' · ' : '') + esc(when) : ''}</p>
+    ${it.summary ? `<p class="sh-text">${esc(it.summary)}</p>` : ''}
+    ${it.related && it.related.length ? `<h3 class="sh-h">Also reported by</h3><ul class="rel">${it.related.map((r) => `<li><a href="${esc(outHref(r.link))}" target="_blank" rel="noopener">${esc(r.title)}<span>${esc(r.source)}</span></a></li>`).join('')}</ul>` : ''}
+    <a class="btn dark sh-go" href="${esc(outHref(it.link))}" target="_blank" rel="noopener">Read at ${esc(it.source || 'the source')}</a>
+    <p class="sh-note">Opens in your browser.</p>`);
+}
+function openWiki(src, i) {
+  const img = (u) => (u ? `<img class="sh-img" src="${esc(u)}" alt="" loading="lazy">` : '');
+  const tail = (a) => `${img(a.thumb)}${a.extract ? `<p class="sh-text">${esc(a.extract)}</p>` : ''}
+    ${a.url ? `<a class="btn dark sh-go" href="${esc(outHref(a.url))}" target="_blank" rel="noopener">Read on Wikipedia</a>` : ''}
+    <p class="sh-note">Text from Wikipedia, shared under CC BY-SA.</p>`;
+  if (src === 'looked') {
+    const a = trending()[i];
+    if (!a) return;
+    openSheet('wiki', 'What people looked up', `<h2 class="sh-title" id="wiki-t">${esc(a.title)}</h2>${a.desc ? `<p class="sh-meta">${esc(cap(a.desc))}</p>` : ''}${a.tag ? `<p class="sh-meta"><span class="tag">${esc(a.tag)}</span></p>` : ''}${tail(a)}`);
+    return;
+  }
+  const e = otdList()[i];
+  if (!e) return;
+  const pg = e.pages[0] || {};
+  openSheet('wiki', 'On this day', `<h2 class="sh-title" id="wiki-t">${esc(e.year)}</h2><p class="sh-text">${esc(e.text)}</p>${pg.title ? `<h3 class="sh-h">${esc(pg.title)}</h3>` : ''}${tail(pg)}`);
+}
+
+/* ---------- Places ---------- */
+function placeLine(p) { return [p.town, p.county, p.country].filter((x, i, a) => x && a.indexOf(x) === i).join(', ') || 'Your location'; }
+function pickerHTML(scope) {
+  return `<button class="btn ghost wide" data-act="locate" data-scope="${scope}">${ICON.pin}Use my location</button>
+    <label class="lbl">Or type a town<input class="field" id="townQ-${scope}" data-town="${scope}" type="search" placeholder="For example, Bath" autocomplete="off" enterkeyhint="search" maxlength="60"></label>
+    <div class="res" id="townRes-${scope}"></div><p class="ferr" id="placeErr-${scope}" role="alert"></p>`;
+}
+let townTimer;
+function searchTown(scope, q) {
+  clearTimeout(townTimer);
+  const box = $(`#townRes-${scope}`), err = $(`#placeErr-${scope}`);
+  if (err) err.textContent = '';
+  if (!box) return;
+  if (q.trim().length < 2) { box.innerHTML = ''; return; }
+  townTimer = setTimeout(async () => {
+    box.innerHTML = '<p class="empty"><span class="spinner" aria-hidden="true"></span>Searching…</p>';
+    try {
+      const j = await getJSON('https://geocoding-api.open-meteo.com/v1/search?name=' + encodeURIComponent(q.trim()) + '&count=6&language=en&format=json');
+      const rs = (j.results || []).filter((r) => isFinite(r.latitude));
+      S.townResults[scope] = rs;
+      box.innerHTML = rs.length ? rs.map((r, i) => `<button class="resrow" data-act="pickTown" data-scope="${scope}" data-i="${i}"><b>${esc(r.name)}</b><span>${esc([r.admin2 || r.admin1, r.country].filter(Boolean).join(', '))}</span></button>`).join('')
+        : `<p class="empty">No places called “${esc(q.trim())}”. Check the spelling, or try a nearby town.</p>`;
+    } catch (e) {
+      box.innerHTML = '<p class="empty">Couldn’t search just now. Check your connection and try again.</p>';
+    }
+  }, 350);
+}
+function locate(btn, scope) {
+  const err = $(`#placeErr-${scope}`);
+  if (err) err.textContent = '';
+  return withBusy(btn, () => new Promise((resolve) => {
+    if (!navigator.geolocation) { if (err) err.textContent = 'This browser can’t share your location. Type your town instead.'; return resolve(); }
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      const lat = Math.round(pos.coords.latitude * 100) / 100, lon = Math.round(pos.coords.longitude * 100) / 100;
+      let place = { lat, lon, cc: '', country: '', county: '', town: '', tz: Intl.DateTimeFormat().resolvedOptions().timeZone || '' };
+      try {
+        const j = await getJSON(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}&zoom=14&addressdetails=1&accept-language=en`);
+        place = { ...place, ...C.placeFromNominatim(j) };
+      } catch (e) {}
+      if (!place.town && !place.county) { if (err) err.textContent = 'Found you, but couldn’t name the place. Type your town instead.'; return resolve(); }
+      setPlace(scope, place);
+      resolve();
+    }, (e) => {
+      if (err) err.textContent = e.code === 1 ? 'Location is switched off for this site. Type your town instead.' : 'Couldn’t find your location. Type your town instead.';
+      resolve();
+    }, { enableHighAccuracy: false, timeout: 12000, maximumAge: 600000 });
+  }));
+}
+function setPlace(scope, place) {
+  place.cc = place.cc || 'GB';
+  if (scope === 'setup') { S.draft.place = place; renderSetup(); return; }
+  const old = S.prefs.place;
+  S.prefs.place = { ...old, ...place };
+  savePrefs();
+  const b = sheetBody('settings');
+  if (b) b.innerHTML = settingsHTML();
+  toast(`Place set to ${placeLine(S.prefs.place)}.`);
+  if (old.cc !== place.cc) delete S.cache.crypto;
+  delete S.cache.weather;
+  render();
+  refresh(true);
+}
+
+/* ---------- Interests editor ---------- */
+function interestsEditor(topics, scope) {
+  const left = C.TOPIC_PRESETS.filter((t) => !topics.some((x) => x.toLowerCase() === t.toLowerCase()));
+  return `${topics.length ? `<div class="chips">${topics.map((t) => `<button class="chip on" data-act="untopic" data-scope="${scope}" data-t="${esc(t)}" aria-label="Remove ${esc(t)}" title="Remove">${esc(t)}${ICON.x}</button>`).join('')}</div>` : ''}
+    <form class="addrow" data-form="topic" data-scope="${scope}"><label class="vh" for="topicIn-${scope}">Add your own interest</label><input class="field" id="topicIn-${scope}" placeholder="Add your own, such as snooker" maxlength="40" autocomplete="off" enterkeyhint="done"><button class="btn small" type="submit">Add</button></form>
+    <p class="ferr" id="topicErr-${scope}" role="alert"></p>
+    ${left.length ? `<div class="chips">${left.map((t) => `<button class="chip" data-act="topic" data-scope="${scope}" data-t="${esc(t)}">${ICON.plus}${esc(t)}</button>`).join('')}</div>` : ''}`;
+}
+function topicsFor(scope) { return scope === 'setup' ? S.draft.topics : S.prefs.topics; }
+function addTopic(scope, raw) {
+  const list = topicsFor(scope), r = C.cleanTopic(raw, list), err = $(`#topicErr-${scope}`);
+  if (r.error) { if (err) err.textContent = r.error; return false; }
+  list.push(r.topic);
+  afterTopics(scope, `${r.topic} added to your interests.`);
+  return true;
+}
+function removeTopic(scope, t) {
+  const list = topicsFor(scope), i = list.findIndex((x) => x === t);
+  if (i >= 0) list.splice(i, 1);
+  afterTopics(scope, `${t} removed.`);
+}
+function afterTopics(scope, msg) {
+  if (scope === 'setup') { renderSetup(); return; }
+  savePrefs();
+  const box = $('#interestsBox');
+  if (box) box.innerHTML = interestsEditor(S.prefs.topics, 'set');
+  toast(msg);
+  render();
+  refresh();
+}
+
+/* ---------- First run ---------- */
+const SECTION_NAME = (k, pl) => ({ world: 'World news', country: `${(pl && pl.country) || 'Country'} news`, county: `${(pl && pl.county) || 'County'} news`, local: `${(pl && pl.town) || 'Local'} news`,
+  interests: 'Your interests', markets: 'Markets', looked: 'What people looked up', onthisday: 'On this day', greenest: 'Greenest hours' }[k]);
+function switches(sections, pl, scope) {
+  return SECTIONS.filter((k) => k !== 'greenest' || !pl || pl.cc === 'GB')
+    .map((k) => `<label class="swrow"><span>${esc(SECTION_NAME(k, pl))}${k === 'greenest' ? '<small>When to run the washing machine</small>' : k === 'local' ? '<small>Matched by place name</small>' : ''}</span><input type="checkbox" role="switch" class="sw" data-sec="${k}" data-scope="${scope}"${sections[k] ? ' checked' : ''}></label>`).join('');
+}
+function renderSetup() {
+  if (!S.draft) S.draft = { place: null, sections: { ...DEF_SECTIONS }, topics: [] };
+  const d = S.draft;
+  $('#app').innerHTML = `<section class="setup" aria-labelledby="setup-t">
+    <div class="logo"><svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="none" style="stroke:var(--ink);stroke-opacity:.15" stroke-width="4"/><path d="M6.5 23.5A15 15 0 0 1 33.6 13.5" fill="none" style="stroke:var(--sun)" stroke-width="4" stroke-linecap="round"/><circle cx="8.6" cy="15.7" r="3.4" style="fill:var(--sun)"/></svg><h1 id="setup-t">Lowdown</h1></div>
+    <p class="tagline">Your day in two minutes, from the world to your street. Set it up once.</p>
+    <ol class="steps">
+      <li><span class="num" aria-hidden="true">1</span><div><h2>Where are you?</h2>${d.place ? `<div class="placecard"><span>${ICON.pin}${esc(placeLine(d.place))}</span><button class="linkbtn" data-act="changePlace">Change</button></div>` : pickerHTML('setup')}</div></li>
+      <li><span class="num" aria-hidden="true">2</span><div><h2>What would you like in it?</h2>${switches(d.sections, d.place, 'setup')}</div></li>
+      <li><span class="num" aria-hidden="true">3</span><div><h2>Your interests</h2><p class="hint" style="margin-top:-4px">Pick a few, or add your own. Each gets its own short update.</p>${interestsEditor(d.topics, 'setup')}</div></li>
+    </ol>
+    <button class="btn primary" data-act="finish"${d.place ? '' : ' disabled'}>Make my brief</button>
+    ${d.place ? '' : '<p class="fine">Choose your place first.</p>'}
+    <p class="fine">Your choices stay on this phone. To fetch your news, your place names and interests are sent to the news service, which keeps nothing.</p>
+  </section>`;
+}
+function finishSetup() {
+  const d = S.draft;
+  if (!d.place) return;
+  S.prefs = { v: 1, place: d.place, sections: d.sections, topics: d.topics, watch: C.defaultWatch(d.place.cc), setupDone: true, created: Date.now() };
+  savePrefs();
+  S.draft = null;
+  S.cache = {};
+  saveCache();
+  beginOpen();
+  window.scrollTo(0, 0);
+  render();
+  refresh(true);
+}
+
+/* ---------- Settings ---------- */
+function settingsHTML() {
+  const p = S.prefs, pl = p.place;
+  const scriptLine = !API ? 'The Apps Script isn’t connected yet.' : S.scriptBuild == null ? 'Apps Script release: not checked yet.'
+    : S.scriptBuild < EXPECT_BUILD ? `Apps Script release ${S.scriptBuild}: out of date (this app needs ${EXPECT_BUILD}).` : `Apps Script release ${S.scriptBuild}, up to date.`;
+  return `<h2 class="sh-title" id="settings-t">Settings</h2>
+    <h3 class="grp">Your place</h3>
+    <div class="placecard"><span>${ICON.pin}${esc(placeLine(pl))}</span></div>
+    <div style="margin-top:12px">${pickerHTML('set')}</div>
+    <label class="lbl">County, for county news<input class="field" data-field="county" value="${esc(pl.county)}" maxlength="60" autocomplete="off"></label>
+    <label class="lbl">Local area, for local news<input class="field" data-field="town" value="${esc(pl.town)}" maxlength="60" autocomplete="off"></label>
+    <p class="hint">Local news is matched by place name, so the odd stray story can slip in.</p>
+    <h3 class="grp">In your brief</h3>
+    ${switches(p.sections, pl, 'set')}
+    <h3 class="grp" id="grp-interests">Your interests</h3>
+    <div id="interestsBox">${interestsEditor(p.topics, 'set')}</div>
+    <h3 class="grp">Markets</h3>
+    <button class="btn ghost" data-act="markets">${ICON.pencil}Edit your markets</button>
+    <h3 class="grp">About</h3>
+    <p class="about">Lowdown release ${RELEASE}. ${esc(scriptLine)}</p>
+    <p class="about">News from BBC News, Google News and Bing News. Weather by Open-Meteo. Place names from OpenStreetMap. Trending and on this day from Wikipedia. Prices from Google Finance and CoinGecko. Grid data from the National Energy System Operator.</p>`;
+}
+function openSettings(to) {
+  if (topSheet() && topSheet().id === 'settings') return;
+  const d = openSheet('settings', 'Settings', settingsHTML());
+  if (to === 'interests') { const g = $('#grp-interests', d); if (g) d.scrollTop = g.offsetTop - 70; }
+}
+
+/* ---------- Your markets ---------- */
+const MK_TABS = [['index', 'Indices'], ['fx', 'Currencies'], ['metal', 'Commodities'], ['crypto', 'Crypto']];
+function marketsSheetHTML() {
+  const w = S.prefs.watch;
+  return `<h2 class="sh-title" id="markets-t">Your markets</h2>
+    <h3 class="grp">In your brief${w.length ? ` <span style="font-weight:400;color:var(--meta)">· ${w.length}, drag to reorder</span>` : ''}</h3>
+    ${w.length ? `<ul class="mlist" id="mlist">${w.map((m) => `<li class="mrow" data-id="${esc(m.id)}"><button class="ib grip" data-grip aria-label="Move ${esc(m.name)}. Use the arrow keys." title="Drag to reorder">${ICON.grip}</button><span class="mn"><b>${esc(m.name)}</b><span>${esc(m.note || '')}</span></span><button class="ib" data-act="unmarket" data-id="${esc(m.id)}" aria-label="Remove ${esc(m.name)}" title="Remove">${ICON.x}</button></li>`).join('')}</ul>`
+      : '<p class="empty">Nothing yet. Add a few below.</p>'}
+    <h3 class="grp">Add more</h3>
+    <label class="addrow" style="margin-top:0"><span class="vh">Search markets</span><input class="field" id="mkQ" type="search" placeholder="Search indices, currencies, coins" autocomplete="off" value="${esc(S.mkQuery)}"></label>
+    <div class="seg" role="group" aria-label="Kind of market">${MK_TABS.map(([k, n]) => `<button data-act="mktab" data-k="${k}" aria-pressed="${S.mkTab === k && !S.mkQuery}">${n}</button>`).join('')}</div>
+    <div class="pickgrid" id="mkres">${pickListHTML()}</div>
+    <h3 class="grp">Add a share by its code</h3>
+    <form class="addrow" data-form="code"><label class="vh" for="codeIn">Google Finance code</label><input class="field" id="codeIn" placeholder="For example, LON:BARC" maxlength="32" autocomplete="off" autocapitalize="characters"><button class="btn small" type="submit">Add</button></form>
+    <p class="ferr" id="codeErr" role="alert"></p>
+    <p class="hint">Codes are exchange then symbol, as on Google Finance: LON:BARC for Barclays, NASDAQ:AAPL for Apple.</p>`;
+}
+function allMarkets() { const c = C.catalogue(C.currencyFor(S.prefs.place.cc)); return [...c.index, ...c.fx, ...c.metal, ...c.crypto]; }
+function pickListHTML() {
+  const q = S.mkQuery.trim().toLowerCase();
+  const list = q ? allMarkets().filter((m) => (m.name + ' ' + (m.ticker || '') + ' ' + (m.note || '')).toLowerCase().includes(q)).slice(0, 12)
+    : C.catalogue(C.currencyFor(S.prefs.place.cc))[S.mkTab];
+  if (!list.length) return `<p class="empty" style="grid-column:1/-1">Nothing called “${esc(S.mkQuery)}”. For a share, add it by its code below.</p>`;
+  return list.map((m) => {
+    const have = S.prefs.watch.some((w) => w.id === m.id);
+    return `<button class="pick" data-act="${have ? 'noop' : 'addmarket'}" data-id="${esc(m.id)}" aria-disabled="${have}" aria-label="${have ? esc(m.name) + ', already in your brief' : 'Add ' + esc(m.name)}"><span>${esc(m.name)}</span>${have ? ICON.check : ICON.plus}</button>`;
+  }).join('');
+}
+function refreshMarketsSheet(keepFocus) {
+  const b = sheetBody('markets');
+  if (!b) return;
+  const top = $('#markets') && $('#markets').scrollTop;
+  b.innerHTML = marketsSheetHTML();
+  if (top) $('#markets').scrollTop = top;
+  if (keepFocus) { const q = $('#mkQ'); q.focus(); q.setSelectionRange(q.value.length, q.value.length); }
+}
+function marketsChanged(msg) {
+  savePrefs();
+  refreshMarketsSheet();
+  if (msg) toast(msg);
+  render();
+}
+function addMarket(id) {
+  const m = allMarkets().find((x) => x.id === id);
+  if (!m || S.prefs.watch.some((w) => w.id === id)) return;
+  if (S.prefs.watch.length >= 20) return toast('You can follow up to 20 markets. Remove one first.');
+  S.prefs.watch.push({ ...m });
+  marketsChanged(`${m.name} added.`);
+  refresh();
+}
+function removeMarket(id) {
+  const i = S.prefs.watch.findIndex((w) => w.id === id);
+  if (i < 0) return;
+  const [m] = S.prefs.watch.splice(i, 1);
+  marketsChanged(`${m.name} removed.`);
+}
+async function addCode(form) {
+  const inp = $('#codeIn'), err = $('#codeErr'), btn = $('button', form);
+  const code = inp.value.trim().toUpperCase();
+  err.textContent = '';
+  if (!/^[A-Z0-9][A-Z0-9.:_-]{0,31}$/.test(code) || !code.includes(':')) { err.textContent = `“${inp.value.trim() || ' '}” isn’t a code. Codes look like LON:BARC or NASDAQ:AAPL.`; return; }
+  if (S.prefs.watch.some((w) => w.sym === code)) { err.textContent = `${code} is already in your brief.`; return; }
+  await withBusy(btn, async () => {
+    try {
+      const j = await api('lookup', { symbol: code });
+      const name = (j.quote && j.quote.name) || code;
+      S.prefs.watch.push({ id: 'gf-' + code, name: name.length > 28 ? code : name, kind: 'stock', sym: code, cur: (j.quote && j.quote.cur) || '', note: code });
+      marketsChanged(`${name} added.`);
+      refresh();
+    } catch (e) { err.textContent = e.message; }
+  });
+}
+// Drag the handle to reorder; arrow keys do the same.
+function dragStart(e, grip) {
+  const li = grip.closest('.mrow'), list = li.parentElement, rows = [...list.children], from = rows.indexOf(li), h = li.offsetHeight;
+  let to = from;
+  const y0 = e.clientY;
+  grip.setPointerCapture(e.pointerId);
+  li.classList.add('dragging');
+  const move = (ev) => {
+    const dy = ev.clientY - y0;
+    to = Math.max(0, Math.min(rows.length - 1, from + Math.round(dy / h)));
+    li.style.transform = `translateY(${dy}px)`;
+    rows.forEach((r, i) => {
+      if (r === li) return;
+      const s = i > from && i <= to ? -h : i < from && i >= to ? h : 0;
+      r.style.transform = s ? `translateY(${s}px)` : '';
+      r.style.transition = reduced() ? 'none' : 'transform .15s';
+    });
+  };
+  const up = () => {
+    grip.removeEventListener('pointermove', move);
+    grip.removeEventListener('pointerup', up);
+    grip.removeEventListener('pointercancel', up);
+    rows.forEach((r) => { r.style.transform = ''; r.style.transition = ''; });
+    li.classList.remove('dragging');
+    if (to !== from) moveMarket(from, to);
+  };
+  grip.addEventListener('pointermove', move);
+  grip.addEventListener('pointerup', up);
+  grip.addEventListener('pointercancel', up);
+}
+function moveMarket(from, to) {
+  const w = S.prefs.watch, [m] = w.splice(from, 1);
+  w.splice(to, 0, m);
+  marketsChanged();
+  const g = $(`#mlist .mrow[data-id="${CSS.escape(m.id)}"] [data-grip]`);
+  if (g) g.focus();
+}
+
+/* ---------- Taps ---------- */
+const POPS = { themes: '#themeBtn' };
+function closePops() {
+  for (const [id, btn] of Object.entries(POPS)) { document.getElementById(id).hidden = true; $(btn).setAttribute('aria-expanded', 'false'); }
+}
+// A tap outside an open panel only closes it.
+document.addEventListener('click', (e) => {
+  const open = Object.keys(POPS).some((id) => !document.getElementById(id).hidden);
+  if (!open || e.target.closest('.pop, ' + Object.values(POPS).join(', '))) return;
+  e.preventDefault(); e.stopPropagation(); closePops();
+}, true);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closePops();
+  const g = e.target.closest && e.target.closest('[data-grip]');
+  if (g && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+    e.preventDefault();
+    const rows = [...$('#mlist').children], i = rows.indexOf(g.closest('.mrow')), j = i + (e.key === 'ArrowUp' ? -1 : 1);
+    if (j >= 0 && j < rows.length) moveMarket(i, j);
+  }
+});
+$('#themeBtn').addEventListener('click', () => {
+  const p = $('#themes'), show = p.hidden;
+  closePops();
+  if (show) { renderThemes(); p.hidden = false; $('#themeBtn').setAttribute('aria-expanded', 'true'); }
+});
+document.addEventListener('pointerdown', (e) => {
+  const g = e.target.closest('[data-grip]');
+  if (g && e.button === 0) { e.preventDefault(); dragStart(e, g); }
+});
+document.addEventListener('click', (e) => {
+  const el = e.target.closest('[data-act]');
+  if (!el) return;
+  const act = el.dataset.act;
+  switch (act) {
+    case 'start': case 'go': {
+      e.preventDefault();
+      const parts = partList(), id = act === 'go' ? el.dataset.id : (parts.find((p) => !isRead(p.id)) || parts[0] || {}).id;
+      const sec = id && document.getElementById('ch-' + id);
+      if (sec) sec.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
+      break;
+    }
+    case 'story': openStory(el.dataset.g, +el.dataset.i); break;
+    case 'wiki': openWiki(el.dataset.src, +el.dataset.i); break;
+    case 'close': closeTop(); break;
+    case 'settings': if (topSheet()) { history.back(); setTimeout(() => openSettings(el.dataset.to), 220); } else openSettings(el.dataset.to); break;
+    case 'markets': S.mkQuery = ''; openSheet('markets', 'Markets', marketsSheetHTML()); break;
+    case 'refresh': withBusy(el, () => refresh(true)).then(() => toast('Up to date.')); break;
+    case 'theme': S.theme = el.dataset.id; put('theme', S.theme); applyTheme(); renderThemes(); break;
+    case 'dismiss': S.dismissed[el.dataset.id] = Date.now(); put('dismissed', S.dismissed); el.closest('.notice').remove(); break;
+    case 'install': if (S.installEvt) { S.installEvt.prompt(); S.installEvt.userChoice.finally(() => { S.installEvt = null; render(); }); } break;
+    case 'locate': locate(el, el.dataset.scope); break;
+    case 'pickTown': { const r = (S.townResults[el.dataset.scope] || [])[+el.dataset.i]; if (r) setPlace(el.dataset.scope, C.placeFromSearch(r)); break; }
+    case 'changePlace': S.draft.place = null; renderSetup(); $('#townQ-setup') && $('#townQ-setup').focus(); break;
+    case 'topic': {
+      const scope = el.dataset.scope, r = C.cleanTopic(el.dataset.t, topicsFor(scope));
+      if (r.error) { const err = $(`#topicErr-${scope}`); if (err) err.textContent = r.error; } else { topicsFor(scope).push(r.topic); afterTopics(scope, `${r.topic} added to your interests.`); }
+      break;
+    }
+    case 'untopic': removeTopic(el.dataset.scope, el.dataset.t); break;
+    case 'finish': finishSetup(); break;
+    case 'mktab': S.mkTab = el.dataset.k; S.mkQuery = ''; refreshMarketsSheet(); break;
+    case 'addmarket': addMarket(el.dataset.id); break;
+    case 'unmarket': removeMarket(el.dataset.id); break;
+  }
+});
+document.addEventListener('submit', (e) => {
+  const f = e.target.closest('form[data-form]');
+  if (!f) return;
+  e.preventDefault();
+  if (f.dataset.form === 'topic') {
+    const inp = $('input', f);
+    if (addTopic(f.dataset.scope, inp.value)) { const again = $(`#topicIn-${f.dataset.scope}`); if (again) { again.value = ''; again.focus(); } }
+  } else if (f.dataset.form === 'code') addCode(f);
+});
+document.addEventListener('input', (e) => {
+  const t = e.target;
+  if (t.dataset.town) searchTown(t.dataset.town, t.value);
+  else if (t.id === 'mkQ') { S.mkQuery = t.value; $('#mkres').innerHTML = pickListHTML(); $$('.seg button', topSheet()).forEach((b) => b.setAttribute('aria-pressed', String(!S.mkQuery && b.dataset.k === S.mkTab))); }
+  else if (t.id && t.id.startsWith('topicIn-')) { const err = $(`#topicErr-${t.id.slice(8)}`); if (err) err.textContent = ''; }
+  else if (t.id === 'codeIn') $('#codeErr').textContent = '';
+});
+document.addEventListener('change', (e) => {
+  const t = e.target;
+  if (t.dataset.sec) {
+    const scope = t.dataset.scope, secs = scope === 'setup' ? S.draft.sections : S.prefs.sections;
+    secs[t.dataset.sec] = t.checked;
+    if (scope !== 'setup') { savePrefs(); render(); if (t.checked) refresh(); }
+  } else if (t.dataset.field) {
+    const v = t.value.replace(/["<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, 60);
+    if (v === S.prefs.place[t.dataset.field]) return;
+    S.prefs.place[t.dataset.field] = v;
+    savePrefs();
+    toast(v ? `${t.dataset.field === 'town' ? 'Local area' : 'County'} set to ${v}.` : `${t.dataset.field === 'town' ? 'Local' : 'County'} news is off until you add a name.`);
+    render();
+    refresh();
+  }
+});
+
+/* ---------- Install, visibility, start ---------- */
+window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); S.installEvt = e; if (ready()) render(); });
+window.addEventListener('appinstalled', () => { S.installEvt = null; S.dismissed.install = Date.now(); put('dismissed', S.dismissed); });
+let hiddenAt = 0;
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') { hiddenAt = Date.now(); return; }
+  if (hiddenAt && Date.now() - hiddenAt > 30 * 60000) beginOpen();
+  if (!ready()) return applyTheme();
+  if (!S.cache.at || Date.now() - S.cache.at > 10 * 60000) { render(); refresh(); } else render();
+});
+window.addEventListener('online', () => { if (ready()) { renderHeader(); refresh(); } });
+window.addEventListener('offline', renderHeader);
+setInterval(() => { if (document.visibilityState === 'visible' && ready()) { applyTheme(); renderHero(); renderHeader(); } }, 60000);
+
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+beginOpen();
+render();
+if (ready()) refresh();
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+</script>
+</body>
+</html>
