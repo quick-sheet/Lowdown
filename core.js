@@ -403,17 +403,198 @@
     return 'Evening wrap';
   }
   // Place names from a reverse lookup (OpenStreetMap Nominatim) or a search result (Open-Meteo).
+  // council: the local authority's short name, used for council politics ("Richmond upon Thames").
+  const cleanCouncil = (s) => String(s || '').replace(/^(London Borough of|Royal Borough of|Metropolitan Borough of|Borough of|City and County of|County Borough of)\s+/i, '')
+    .replace(/\s+(District|Borough|Council)$/i, '').trim();
   function placeFromNominatim(j) {
     const a = (j && j.address) || {};
     let county = a.county || a.state_district || a.state || '';
     if (/^Greater London$/i.test(county) || /^City of London$/i.test(county)) county = 'London';
     const town = a.suburb || a.town || a.village || a.hamlet || a.city_district || a.city || a.municipality || '';
-    return { cc: String(a.country_code || '').toUpperCase(), country: a.country || '', county, town };
+    const council = cleanCouncil(a.city_district || a.borough || a.municipality || (county !== 'London' ? county : ''));
+    return { cc: String(a.country_code || '').toUpperCase(), country: a.country || '', county, town, council, region: a.state || '' };
   }
   function placeFromSearch(r) {
     let county = r.admin2 || r.admin1 || '';
     if (/^Greater London$/i.test(county)) county = 'London';
-    return { lat: r.latitude, lon: r.longitude, cc: String(r.country_code || '').toUpperCase(), country: r.country || '', county, town: r.name || '', tz: r.timezone || '' };
+    const council = cleanCouncil(r.admin3 || (county !== 'London' ? county : ''));
+    return { lat: r.latitude, lon: r.longitude, cc: String(r.country_code || '').toUpperCase(), country: r.country || '', county, town: r.name || '', tz: r.timezone || '', council, region: r.admin1 || '' };
+  }
+
+  /* ---------- Parts of the brief ---------- */
+  const PARTS = ['news', 'politics', 'money', 'suppliers', 'comingup', 'videos', 'interests', 'markets', 'looked', 'onthisday', 'greenest'];
+  function defaultSections(cc) {
+    const uk = cc === 'GB';
+    return { world: true, country: true, county: true, local: true, politics: true, money: uk, suppliers: uk, comingup: true, videos: false,
+      interests: false, markets: false, looked: false, onthisday: false, greenest: false };
+  }
+  const defaultCalendars = (cc) => ({ christian: false, orthodox: false, jewish: false, islamic: false, hindu: false, sikh: false, buddhist: false, lunar: false, bank: cc === 'GB' });
+  // Release 3 adds parts, an order and calendars to older settings, keeping every choice already made.
+  function migratePrefs(p) {
+    if (!p) return p;
+    const out = { ...p };
+    if (!out.v || out.v < 3) {
+      const d = defaultSections(out.place && out.place.cc);
+      out.sections = { ...out.sections };
+      for (const k of ['politics', 'money', 'suppliers', 'comingup', 'videos']) if (!(k in out.sections)) out.sections[k] = d[k];
+      if (out.topics && out.topics.length && !('interests' in (p.sections || {}))) out.sections.interests = true;
+      out.order = PARTS.slice();
+      out.suppliers = out.suppliers || {};
+      out.calendars = out.calendars || defaultCalendars(out.place && out.place.cc);
+      out.ics = out.ics || [];
+      out.channels = out.channels || [];
+      out.ring = out.ring || 'full';
+      out.v = 3;
+    }
+    out.order = [...new Set([...(out.order || []).filter((k) => PARTS.includes(k)), ...PARTS])];
+    return out;
+  }
+
+  /* ---------- Calendars ---------- */
+  const pad2 = (n) => String(n).padStart(2, '0');
+  const addDays = (key, n) => { const d = new Date(key + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+  const daysBetween = (a, b) => Math.round((Date.parse(b + 'T12:00:00Z') - Date.parse(a + 'T12:00:00Z')) / DAY);
+  // Western Easter (Meeus/Jones/Butcher) and Orthodox Easter (Meeus, Julian, moved to the Gregorian calendar).
+  function easter(y) {
+    const a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3);
+    const h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
+    const n = h + l - 7 * m + 114;
+    return `${y}-${pad2(Math.floor(n / 31))}-${pad2((n % 31) + 1)}`;
+  }
+  function orthodoxEaster(y) {
+    const a = y % 4, b = y % 7, c = y % 19, d = (19 * c + 15) % 30, e = (2 * a + 4 * b - d + 34) % 7, n = d + e + 114;
+    return addDays(`${y}-${pad2(Math.floor(n / 31))}-${pad2((n % 31) + 1)}`, Math.floor(y / 100) - Math.floor(y / 400) - 2);
+  }
+  function adventSunday(y) {
+    const dow = new Date(Date.UTC(y, 11, 25)).getUTCDay();
+    return addDays(`${y}-12-25`, -((dow === 0 ? 7 : dow) + 21));
+  }
+  function christianEvents(y) {
+    const e = easter(y);
+    return [['Epiphany', `${y}-01-06`, 'Epiphany (holiday)'], ['Ash Wednesday', addDays(e, -46), 'Ash Wednesday'], ['Mothering Sunday', addDays(e, -21), 'Mothering Sunday'],
+      ['Palm Sunday', addDays(e, -7), 'Palm Sunday'], ['Good Friday', addDays(e, -2), 'Good Friday'], ['Easter Sunday', e, 'Easter'],
+      ['Ascension Day', addDays(e, 39), 'Feast of the Ascension'], ['Pentecost', addDays(e, 49), 'Pentecost'], ['All Saints’ Day', `${y}-11-01`, 'All Saints’ Day'],
+      ['Advent Sunday', adventSunday(y), 'Advent'], ['Christmas Eve', `${y}-12-24`, 'Christmas Eve'], ['Christmas Day', `${y}-12-25`, 'Christmas']]
+      .map(([title, date, wiki]) => ({ title, date, wiki, cal: 'christian' }));
+  }
+  function orthodoxEvents(y) {
+    return [['Orthodox Christmas', `${y}-01-07`, 'Christmas'], ['Orthodox Easter', orthodoxEaster(y), 'Easter']]
+      .map(([title, date, wiki]) => ({ title, date, wiki, cal: 'orthodox' }));
+  }
+  // Festivals that follow the moon, from checked published calendars (UK dates where they differ).
+  // Islamic dates are expected dates: the day can move by one with the moon sighting. Night
+  // observances are listed on the evening they begin. Covers Nov 2026 to Dec 2027; top up yearly.
+  const FAITH_TABLE = [
+    ['hindu', '2026-11-08', 'Diwali', 'Diwali'],
+    ['hindu', '2027-01-14', 'Makar Sankranti', 'Makar Sankranti'],
+    ['hindu', '2027-02-11', 'Vasant Panchami', 'Vasant Panchami'],
+    ['hindu', '2027-03-06', 'Maha Shivaratri', 'Maha Shivaratri'],
+    ['hindu', '2027-03-22', 'Holi', 'Holi'],
+    ['hindu', '2027-04-15', 'Ram Navami', 'Rama Navami'],
+    ['hindu', '2027-08-17', 'Raksha Bandhan', 'Raksha Bandhan'],
+    ['hindu', '2027-08-25', 'Krishna Janmashtami', 'Krishna Janmashtami'],
+    ['hindu', '2027-09-04', 'Ganesh Chaturthi', 'Ganesh Chaturthi'],
+    ['hindu', '2027-09-30', 'Navratri begins', 'Navaratri'],
+    ['hindu', '2027-10-09', 'Dussehra', 'Vijayadashami'],
+    ['hindu', '2027-10-29', 'Diwali', 'Diwali'],
+    ['sikh', '2026-11-08', 'Bandi Chhor Divas', 'Bandi Chhor Divas'],
+    ['sikh', '2026-11-24', 'Guru Nanak Gurpurab', 'Guru Nanak Gurpurab'],
+    ['sikh', '2027-01-15', 'Guru Gobind Singh Gurpurab', 'Guru Gobind Singh'],
+    ['sikh', '2027-03-23', 'Hola Mohalla', 'Hola Mohalla'],
+    ['sikh', '2027-04-14', 'Vaisakhi', 'Vaisakhi'],
+    ['sikh', '2027-10-29', 'Bandi Chhor Divas', 'Bandi Chhor Divas'],
+    ['sikh', '2027-11-14', 'Guru Nanak Gurpurab', 'Guru Nanak Gurpurab'],
+    ['islamic', '2027-01-04', 'Night of Isra and Mi’raj', 'Isra and Mi\'raj', 1],
+    ['islamic', '2027-02-08', 'First day of Ramadan', 'Ramadan', 1],
+    ['islamic', '2027-03-05', 'Laylat al-Qadr', 'Laylat al-Qadr', 1],
+    ['islamic', '2027-03-09', 'Eid al-Fitr', 'Eid al-Fitr', 1],
+    ['islamic', '2027-05-15', 'Day of Arafah', 'Day of Arafah', 1],
+    ['islamic', '2027-05-16', 'Eid al-Adha', 'Eid al-Adha', 1],
+    ['islamic', '2027-06-06', 'Islamic New Year', 'Islamic New Year', 1],
+    ['islamic', '2027-06-15', 'Ashura', 'Ashura', 1],
+    ['islamic', '2027-08-14', 'Mawlid, the Prophet’s birthday', 'Mawlid', 1],
+    ['buddhist', '2026-12-08', 'Bodhi Day', 'Bodhi Day'],
+    ['buddhist', '2027-02-15', 'Parinirvana Day', 'Parinirvana Day'],
+    ['buddhist', '2027-05-20', 'Vesak, Buddha Day', 'Vesak'],
+    ['buddhist', '2027-12-08', 'Bodhi Day', 'Bodhi Day'],
+    ['lunar', '2027-02-06', 'Lunar New Year, Year of the Goat', 'Chinese New Year']
+  ].map(([cal, date, title, wiki, expected]) => (expected ? { cal, date, title, wiki, expected: true } : { cal, date, title, wiki }));
+  const CALENDARS = [['christian', 'Christian'], ['orthodox', 'Orthodox Christian'], ['jewish', 'Jewish'], ['islamic', 'Islamic'], ['hindu', 'Hindu'],
+    ['sikh', 'Sikh'], ['buddhist', 'Buddhist'], ['lunar', 'Lunar New Year'], ['bank', 'UK bank holidays']];
+  // Events the phone can work out itself (computed or from the table), for the chosen calendars.
+  function localEvents(cals, fromKey, toKey) {
+    const out = [];
+    const y0 = +fromKey.slice(0, 4), y1 = +toKey.slice(0, 4);
+    for (let y = y0; y <= y1; y++) {
+      if (cals.christian) out.push(...christianEvents(y));
+      if (cals.orthodox) out.push(...orthodoxEvents(y));
+    }
+    for (const e of FAITH_TABLE) if (cals[e.cal]) out.push({ ...e });
+    return out.filter((e) => e.date >= fromKey && e.date <= toKey);
+  }
+  // Next events from every source, soonest first; the same day and name from two calendars shows once.
+  function upcoming(events, fromKey, days, max) {
+    const toKey = addDays(fromKey, days), seen = {}, out = [];
+    events.filter((e) => e.date >= fromKey && e.date <= toKey)
+      .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : a.title < b.title ? -1 : 1))
+      .forEach((e) => {
+        const k = e.date + '|' + e.title.toLowerCase().replace(/[^a-z]/g, '');
+        if (seen[k]) { if (!seen[k].cals.includes(e.cal)) seen[k].cals.push(e.cal); return; }
+        seen[k] = { ...e, cals: [e.cal], away: daysBetween(fromKey, e.date) };
+        out.push(seen[k]);
+      });
+    return out.slice(0, max || 6);
+  }
+  function whenWord(away, dateKey) {
+    if (away === 0) return 'Today';
+    if (away === 1) return 'Tomorrow';
+    const d = new Date(dateKey + 'T12:00:00Z');
+    if (away < 7) return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][d.getUTCDay()];
+    return `In ${away} days`;
+  }
+  const shortDate = (key) => { const d = new Date(key + 'T12:00:00Z'); return { day: d.getUTCDate(), mon: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getUTCMonth()] }; };
+
+  /* ---------- Your suppliers ---------- */
+  // [shown name, how the news search names it]
+  const SUPPLY = {
+    broadband: { name: 'Broadband', list: [['BT', '"BT broadband"'], ['Sky', '"Sky Broadband"'], ['Virgin Media', '"Virgin Media"'], ['TalkTalk', '"TalkTalk"'], ['Vodafone', '"Vodafone broadband"'],
+      ['EE', '"EE broadband"'], ['Plusnet', '"Plusnet"'], ['Hyperoptic', '"Hyperoptic"'], ['Community Fibre', '"Community Fibre"'], ['NOW', '"NOW Broadband"'], ['Zen Internet', '"Zen Internet"'], ['Utility Warehouse', '"Utility Warehouse"']] },
+    electricity: { name: 'Electricity', list: [['British Gas', '"British Gas"'], ['Octopus Energy', '"Octopus Energy"'], ['EDF', '"EDF"'], ['E.ON Next', '"E.ON"'], ['OVO', '"OVO"'], ['Scottish Power', '"Scottish Power"'],
+      ['Utility Warehouse', '"Utility Warehouse"'], ['So Energy', '"So Energy"'], ['Outfox the Market', '"Outfox the Market"'], ['Ecotricity', '"Ecotricity"'], ['Good Energy', '"Good Energy"'], ['Co-op Energy', '"Co-op Energy"']] },
+    gas: { name: 'Gas', list: [] },
+    water: { name: 'Water', list: ['Thames Water', 'Affinity Water', 'Anglian Water', 'Severn Trent', 'Southern Water', 'South East Water', 'SES Water', 'United Utilities', 'Yorkshire Water', 'Northumbrian Water',
+      'Welsh Water', 'Scottish Water', 'Wessex Water', 'South West Water', 'Bristol Water', 'Portsmouth Water', 'South Staffs Water', 'Essex & Suffolk Water', 'Northern Ireland Water'].map((n) => [n, `"${n}"`]) },
+    mobile: { name: 'Mobile', list: [['EE', '"EE" mobile'], ['O2', '"O2"'], ['Vodafone', '"Vodafone"'], ['Three', '"Three UK"'], ['giffgaff', '"giffgaff"'], ['Tesco Mobile', '"Tesco Mobile"'],
+      ['Sky Mobile', '"Sky Mobile"'], ['iD Mobile', '"iD Mobile"'], ['Lebara', '"Lebara"'], ['Lyca Mobile', '"Lyca Mobile"'], ['VOXI', '"VOXI"'], ['SMARTY', '"SMARTY"']] }
+  };
+  SUPPLY.gas.list = SUPPLY.electricity.list;
+  const SUPPLY_WORDS = { broadband: 'outage OR "not working" OR "down"', electricity: '"power cut" OR outage', gas: '"gas leak" OR "gas supply" OR outage',
+    water: '"no water" OR "burst main" OR "supply" OR outage', mobile: 'outage OR "not working" OR "no signal"' };
+  const NETWORKS = [['ukpn', 'UK Power Networks'], ['ssen', 'SSEN'], ['npg', 'Northern Powergrid'], ['nged', 'National Grid'], ['enwl', 'Electricity North West'], ['spen', 'SP Energy Networks']];
+  function guessNetwork(place) {
+    const c = String((place && place.county) || '').toLowerCase(), r = String((place && place.region) || '').toLowerCase();
+    if (/^(london|kent|east sussex|west sussex|surrey|essex|suffolk|norfolk|cambridgeshire|hertfordshire|bedfordshire|peterborough|southend|thurrock|medway|brighton)/.test(c)) return 'ukpn';
+    if (/^(berkshire|oxfordshire|hampshire|wiltshire|dorset|isle of wight|reading|portsmouth|southampton|highland|aberdeen|moray|argyll|perth)/.test(c)) return 'ssen';
+    if (/^(north yorkshire|south yorkshire|west yorkshire|east riding|county durham|durham|northumberland|tyne|tees|leeds|sheffield|bradford|hull|york|newcastle|sunderland)/.test(c)) return 'npg';
+    if (/^(greater manchester|manchester|lancashire|cumbria|bolton|stockport|wigan|blackpool)/.test(c)) return 'enwl';
+    if (/^(merseyside|liverpool|cheshire|wirral|flintshire|gwynedd|anglesey|denbighshire|conwy|wrexham|powys)/.test(c) || /scotland/.test(r) && /^(glasgow|edinburgh|fife|lanark|ayr|dumfries|borders|lothian|renfrew|stirling|falkirk)/.test(c)) return 'spen';
+    if (/^(west midlands|birmingham|warwickshire|worcestershire|staffordshire|shropshire|herefordshire|gloucestershire|somerset|devon|cornwall|bristol|derbyshire|nottinghamshire|leicestershire|lincolnshire|northamptonshire|cardiff|swansea|newport|monmouthshire|glamorgan|carmarthenshire|pembrokeshire|ceredigion)/.test(c)) return 'nged';
+    return '';
+  }
+  // A search query that finds reports of problems with one provider.
+  function supplyQuery(cat, name, network) {
+    const known = SUPPLY[cat] && SUPPLY[cat].list.find((x) => x[0] === name);
+    const who = cat === 'electricity' && network ? `"${(NETWORKS.find((n) => n[0] === network) || [])[1] || name}"` : known ? known[1] : `"${String(name).replace(/"/g, '')}"`;
+    return `${who} (${SUPPLY_WORDS[cat]})`;
+  }
+  function distanceKm(lat1, lon1, lat2, lon2) {
+    const p = Math.PI / 180, a = Math.sin(((lat2 - lat1) * p) / 2) ** 2 + Math.cos(lat1 * p) * Math.cos(lat2 * p) * Math.sin(((lon2 - lon1) * p) / 2) ** 2;
+    return 12742 * Math.asin(Math.sqrt(a));
+  }
+  // Power cuts within km of your place, nearest first.
+  function powerNear(faults, lat, lon, km) {
+    return (faults || []).filter((f) => isFinite(f.lat) && isFinite(f.lon))
+      .map((f) => ({ ...f, km: distanceKm(lat, lon, f.lat, f.lon) })).filter((f) => f.km <= (km || 3)).sort((a, b) => a.km - b.km);
   }
 
   const Core = {
@@ -421,7 +602,9 @@
     ringPoint, arcPath, ticksPath, wetRuns, wetKind, conditionWord, weatherSentence, tempLine,
     CUR, currencyFor, catalogue, defaultWatch, INDICES, METALS, COINS, fxList, fmtValue, fmtPct, barWidth, moveWords, marketSentence,
     greenestWindow, hourlyBars, greenSentence, filterTrending, pickOnThisDay, timeAgo, TOPIC_PRESETS, cleanTopic, briefLabel,
-    placeFromNominatim, placeFromSearch
+    placeFromNominatim, placeFromSearch, cleanCouncil, PARTS, defaultSections, defaultCalendars, migratePrefs,
+    addDays, daysBetween, easter, orthodoxEaster, adventSunday, christianEvents, orthodoxEvents, FAITH_TABLE, CALENDARS, localEvents, upcoming, whenWord, shortDate,
+    SUPPLY, NETWORKS, guessNetwork, supplyQuery, distanceKm, powerNear
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = Core;
   else root.Core = Core;

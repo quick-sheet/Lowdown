@@ -126,7 +126,7 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 /* News tiers and items */
 .tier{margin-top:18px}
 .tierh{margin:0 0 2px;display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600}
-.tierh .tn{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tierh .tn{min-width:0;line-height:1.3}
 .tierh .n{font-size:13px;font-weight:400;color:var(--meta);white-space:nowrap}
 .item{display:flex;align-items:flex-start;gap:12px;width:100%;padding:14px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left}
 .item:last-child{border-bottom:0}
@@ -199,6 +199,104 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 .steps h2{margin:3px 0 10px;font-size:16px;font-weight:600}
 .fine{margin:12px 8px 0;text-align:center;font-size:12px;line-height:1.5;color:var(--meta)}
 .setup>.btn{margin-top:28px}
+/* Release 3: suppliers, coming up, videos, welcome, steps, pointers */
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.tile{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-height:120px;padding:14px;border-radius:18px;border:1px solid var(--line);background:var(--raise);color:var(--ink);text-align:left}
+.tile:last-child:nth-child(odd){grid-column:1/-1;min-height:0}
+.tl-top{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.tl-name{font-size:16px;font-weight:600;line-height:1.25}
+.tl-state{display:flex;align-items:flex-start;gap:7px;font-size:13px;line-height:1.4;color:var(--ink-2)}
+.tl-state span{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.tl-state svg{flex-shrink:0;margin-top:2px;color:var(--ink)}
+.tl-state .dot{flex-shrink:0;width:8px;height:8px;border-radius:4px;margin-top:5px;background:var(--line-2)}
+.tile.reports .dot{background:var(--sun)}
+.tile.alert{border-color:var(--down)} .tile.alert .dot{background:var(--down)}
+.tile.unset .tl-name{color:var(--meta);font-weight:500}
+.ev{display:flex;align-items:center;gap:14px;width:100%;padding:12px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left}
+.ev:last-of-type{border-bottom:0}
+.evd{flex-shrink:0;width:48px;height:52px;border-radius:12px;background:var(--raise-2);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.evd b{font-family:var(--disp);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums}
+.evd span{font-size:11px;color:var(--meta);margin-top:3px}
+.ev.today .evd{background:var(--sun);color:var(--on-sun)} .ev.today .evd span{color:var(--on-sun)}
+.evt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.evn{font-size:17px;font-weight:500;line-height:1.3}
+.evm{font-size:13px;color:var(--meta)}
+.ev>svg{color:var(--meta);flex-shrink:0}
+.todayline{display:flex;align-items:center;gap:8px;width:100%;margin:14px 0 0;padding:11px 14px;border:0;border-radius:14px;background:var(--sun-soft);color:var(--ink);font-size:15px;font-weight:500;text-align:left}
+.vid{display:grid;grid-template-columns:128px minmax(0,1fr);gap:12px;align-items:start;width:100%;padding:12px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left}
+.vid:last-of-type{border-bottom:0}
+.vid img{width:128px;aspect-ratio:16/9;object-fit:cover;border-radius:10px;background:var(--raise-2);display:block}
+.vid .tx{display:flex;flex-direction:column;gap:5px;min-width:0}
+.vid .vt{font-size:16px;font-weight:500;line-height:1.3;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.vid .meta{font-size:13px;color:var(--meta)}
+.chrow{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.chrow img,.chph{width:40px;height:40px;border-radius:20px;flex-shrink:0;background:var(--raise-2);object-fit:cover}
+.chx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.chx b{font-size:15px;font-weight:600}
+.chx span{font-size:13px;color:var(--meta);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.relx{display:flex;flex-direction:column;gap:2px;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+.relx span{font-size:13px;color:var(--meta)}
+.mini{display:flex;align-items:center;gap:14px;margin-top:10px;padding:12px 14px;border-radius:18px;background:var(--raise)}
+.mini>svg{width:72px;height:72px;flex-shrink:0;overflow:visible}
+.mini .r-lbl,.mini .r-now,.mini .r-tick{display:none}
+.minitx{min-width:0}
+.mt{font-family:var(--disp);font-size:30px;font-weight:600;line-height:1;letter-spacing:-.03em}
+.minitx .cond{margin:0;font-size:15px}
+.minitx p{margin:6px 0 0;font-size:15px;font-weight:300;line-height:1.45}
+.sel{padding-right:40px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23778290' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+.suprow{padding-bottom:6px}
+.supl{display:inline-flex;align-items:center;gap:7px;font-weight:600;color:var(--ink)}
+.swmini{display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.welcome{padding-top:4px}
+.wtop{display:flex;justify-content:flex-end;margin-right:-8px}
+.cards{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -20px}
+.cards::-webkit-scrollbar{display:none}
+.card{flex:0 0 100%;scroll-snap-align:start;padding:0 20px}
+.art{height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;margin:4px 0 22px;border-radius:24px;background:var(--raise)}
+.minihero{width:190px;height:190px}
+.minihero svg{width:100%;height:100%;overflow:visible}
+.legend{display:flex;gap:16px;font-size:13px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.lg-day{width:16px;height:6px;border-radius:3px;background:var(--arc-a)}
+.lg-now{width:10px;height:10px;border-radius:5px;background:var(--sun)}
+.card h2{margin:0;font-family:var(--disp);font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1.15}
+.card p{margin:10px 0 0;font-size:18px;font-weight:300;line-height:1.55;color:var(--ink-2)}
+.dots{display:flex;justify-content:center;gap:8px;margin:24px 0 18px}
+.dots i{width:8px;height:8px;border-radius:4px;background:var(--line-2);transition:width .2s}
+.dots i.on{width:22px;background:var(--ink)}
+.spine{display:flex;flex-direction:column;gap:14px;font-size:16px;font-weight:500}
+.sp{position:relative;padding-left:30px}
+.sp .node{left:2px}
+.sp.end{font-family:var(--disp);font-size:20px;font-weight:600}
+.sp .tick{position:absolute;left:-4px;top:-2px;width:24px;height:24px;border-radius:12px;background:var(--raise-2);display:flex;align-items:center;justify-content:center}
+.demo{width:86%;display:flex;flex-direction:column;gap:12px;align-items:stretch}
+.demoitem{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-radius:14px;background:var(--bg);font-family:var(--disp);font-weight:600}
+.demosheet{display:flex;flex-direction:column;gap:4px;padding:10px 14px 14px;border-radius:18px 18px 6px 6px;background:var(--bg);box-shadow:var(--shadow);transform:translateX(18px)}
+.demosheet .grab{margin-bottom:6px}
+.demosheet span:not(.grab){font-size:13px;color:var(--meta)}
+.swipe{display:inline-flex;align-items:center;gap:6px;align-self:center;font-size:13px;color:var(--ink-2)}
+.demo-sw{background:var(--bg);border-radius:14px;padding:0 14px;border:0}
+.fake-sw{width:46px;height:28px;border-radius:14px;background:var(--line-2);position:relative}
+.fake-sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:11px;background:#fff}
+.fake-sw.on{background:var(--ink)} .fake-sw.on::after{transform:translateX(18px);background:var(--bg)}
+.step{padding-top:14px}
+.prog{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px}
+.prog i{height:4px;border-radius:2px;background:var(--line-2)}
+.prog i.on{background:var(--ink)}
+.stepn{margin:14px 0 0;font-size:13px;color:var(--meta)}
+.steph{margin:6px 0 0;font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.02em;line-height:1.12;outline:none}
+.stepbody{margin-top:18px}
+.stepnav{display:flex;gap:10px;margin-top:28px}
+.stepnav .btn.primary{flex:1;width:auto}
+.stepnav .back{height:52px;padding:0 22px;border-radius:26px;font-size:17px}
+.skip{display:block;margin:10px auto 0}
+.coach{position:fixed;z-index:30;left:16px;right:16px;max-width:30rem;margin:0 auto;padding:14px 12px 10px 16px;border-radius:18px;background:var(--ink);color:var(--bg);box-shadow:var(--shadow);font-size:15px;line-height:1.45}
+.coach p{margin:0;padding-right:4px}
+.coach .cbar{display:flex;align-items:center;gap:4px;margin-top:8px}
+.coach .cbar span{flex:1;font-size:13px;opacity:.75}
+.coach .linkbtn{color:var(--bg);opacity:.85}
+.coach .btn.small{background:var(--sun);color:var(--on-sun)}
+.coach .carrow{position:absolute;width:14px;height:14px;background:var(--ink);transform:rotate(45deg)}
 .inv-h{margin:30px 0 0;font-size:16px;font-weight:600}
 .btnrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 
@@ -313,13 +411,13 @@ dialog.sheet.closing{transition:transform .18s ease-in,opacity .18s;transform:tr
 <main id="app" aria-live="off"></main>
 <div id="toast" popover="manual" role="status" aria-live="polite"></div>
 
-<script src="core.js?v=2"></script>
+<script src="core.js?v=3"></script>
 <script>
 'use strict';
 // Invite-only: the Apps Script address and the shared code arrive in an invite link and
 // stay on each phone, so neither is in this public repo.
-const EXPECT_BUILD = 2;    // the Apps Script release this page needs
-const RELEASE = 2;
+const EXPECT_BUILD = 3;    // the Apps Script release this page needs
+const RELEASE = 3;
 const SCRIPT_RE = /^https:\/\/script\.google\.com\/(?:a\/macros\/[^/]+|macros)\/s\/[\w-]+\/exec$/;
 const CODE_RE = /^[A-Za-z0-9-]{6,40}$/;
 const C = window.Core;
@@ -353,6 +451,13 @@ const ICON = {
   refresh: svg('<path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/>', 18),
   share: svg('<path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 12v7h14v-7"/>', 18),
   copy: svg('<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>', 18),
+  broadband: svg('<path d="M2 9a15 15 0 0 1 20 0M5.5 12.5a10 10 0 0 1 13 0M9 16a5 5 0 0 1 6 0"/><circle cx="12" cy="19.5" r="1"/>', 18),
+  mobile: svg('<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/>', 18),
+  electricity: svg('<path d="M13 2 4.5 13.5H12L11 22l8.5-11.5H12z"/>', 18),
+  gas: svg('<path d="M12 22c4 0 7-2.7 7-6.6 0-3.9-3.2-6.3-4.3-10.4-2.4 1.6-3.4 3.8-3.4 5.8C10 9.9 9.1 8.9 8.6 7.6 6.6 9.6 5 12.3 5 15.4 5 19.3 8 22 12 22z"/>', 18),
+  water: svg('<path d="M12 3s6.5 7.2 6.5 11.5a6.5 6.5 0 0 1-13 0C5.5 10.2 12 3 12 3z"/>', 18),
+  spark: svg('<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/>', 18),
+  tick: svg('<path d="m5 12.5 4.5 4.5L19 7.5"/>', 14, 2.4),
   rain: '<svg width="22" height="8" viewBox="0 0 22 8" aria-hidden="true"><circle cx="3" cy="4" r="1.8" style="fill:var(--rain)"/><circle cx="11" cy="4" r="1.8" style="fill:var(--rain)"/><circle cx="19" cy="4" r="1.8" style="fill:var(--rain)"/></svg>'
 };
 // Concentric rings: which way out from your street a tier sits.
@@ -362,14 +467,15 @@ function tierGlyph(level) {
   return s + `<circle cx="12" cy="12" r="1.9" style="fill:${level === 3 ? 'var(--sun)' : 'var(--line-2)'}"/></svg>`;
 }
 
-const SECTIONS = ['world', 'country', 'county', 'local', 'interests', 'markets', 'looked', 'onthisday', 'greenest'];
-const DEF_SECTIONS = Object.fromEntries(SECTIONS.map((k) => [k, true]));
+const TIERS = ['world', 'country', 'county', 'local'];
+const SUPPLY_CATS = ['broadband', 'mobile', 'electricity', 'gas', 'water'];
 const THEMES = [['auto', 'Auto', 'follows the sky', '#E8EDF1', '#F0B04F'], ['day', 'Daylight', '', '#E8EDF1', '#F0B04F'], ['twilight', 'Twilight', '', '#0F1528', '#F2C063'],
   ['red', 'Night red', '', '#0C0404', '#FF5B3D'], ['amber', 'Amber', '', '#0D0904', '#FFB04A'], ['sea', 'Deep sea', '', '#06121A', '#6FD9D0'],
   ['aurora', 'Aurora', '', '#07110D', '#86E3A8'], ['dusk', 'Dusk', '', '#110D1A', '#F2A7C8']];
 
 const S = {
-  prefs: get('prefs', null),
+  // Older settings gain the release 3 parts, keeping every choice already made.
+  prefs: (() => { const p = get('prefs', null); if (!p) return null; const m = C.migratePrefs(p); if (m.v !== p.v) { put('prefs', m); if (p.setupDone) put('whatsNew', 3); } return m; })(),
   cache: get('cache', {}),
   seen: get('seen', {}),
   read: get('read', { day: '', parts: [] }),
@@ -378,7 +484,8 @@ const S = {
   scriptBuild: get('scriptBuild', null),
   seenAtOpen: {}, showNew: false, refreshing: false, errors: {}, installEvt: null,
   draft: null, townResults: {}, mkTab: 'index', mkQuery: '', pendingRetry: false,
-  invite: get('invite', null), inviteBad: false, inviteError: '', checkingInvite: false, iosFirst: false
+  invite: get('invite', null), inviteBad: false, inviteError: '', checkingInvite: false, iosFirst: false,
+  view: null, coach: 0, ytResults: [], whatsNew: get('whatsNew', 0)
 };
 const hasApi = () => !!(S.invite && S.invite.u && S.invite.c);
 const ready = () => hasApi() && !!(S.prefs && S.prefs.setupDone && S.prefs.place);
@@ -503,7 +610,7 @@ function inviteFormHTML(scope) {
     <p class="ferr" id="invErr-${scope}" role="alert">${scope === 'screen' ? esc(S.inviteError) : ''}</p>
     <button class="linkbtn" style="padding-left:0;margin-top:6px" data-act="ownToggle" data-scope="${scope}" aria-expanded="false" aria-controls="own-${scope}">${scope === 'screen' ? 'Setting up your own Lowdown?' : 'Enter the address and code instead'}</button>
     <form id="own-${scope}" data-form="own" data-scope="${scope}" hidden>
-      <label class="lbl">Apps Script web app address<input class="field" id="ownUrl-${scope}" type="url" placeholder="https://script.google.com/macros/s/\u2026/exec" value="${esc(own.u || '')}" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+      <label class="lbl">Apps Script web app address<input class="field" id="ownUrl-${scope}" type="text" inputmode="url" placeholder="https://script.google.com/macros/s/\u2026/exec" value="${esc(own.u || '')}" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
       <label class="lbl">Invite code<input class="field" id="ownCode-${scope}" placeholder="From the Apps Script log, such as a1b2-c3d4-e5f6" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
       <button class="btn ghost wide" type="submit" style="margin-top:14px">Connect</button>
       <p class="ferr" id="ownErr-${scope}" role="alert"></p>
@@ -608,11 +715,16 @@ async function loadBrief() {
   if (!hasApi()) return;
   const p = S.prefs, on = p.sections;
   try {
+    const supply = SUPPLY_CATS.filter(supplyIsSet).map((cat) => { const c = supplyChoice(cat), name = supplyName(cat); return { cat, name, q: C.supplyQuery(cat, c.name || name, cat === 'electricity' ? c.network : '') }; });
     const j = await api('brief', {
-      place: { cc: p.place.cc, country: p.place.country, county: p.place.county, town: p.place.town },
+      place: { cc: p.place.cc, country: p.place.country, county: p.place.county, town: p.place.town, council: p.place.council || '' },
       sections: on,
       topics: on.interests ? p.topics : [],
-      symbols: on.markets ? p.watch.filter((w) => w.sym).map((w) => w.sym) : []
+      symbols: on.markets ? p.watch.filter((w) => w.sym).map((w) => w.sym) : [],
+      suppliers: on.suppliers ? supply : [],
+      power: !!(on.suppliers && supplyChoice('electricity').network === 'ukpn'),
+      calendars: { jewish: !!(p.calendars || {}).jewish, bank: (p.calendars || {}).bank ? bankDivision(p.place) : '', ics: p.ics || [] },
+      youtube: on.videos ? (p.channels || []).map((c) => c.id) : []
     });
     S.cache.brief = { at: Date.now(), data: j };
     S.errors.brief = null;
@@ -679,26 +791,291 @@ function topicItems(name) {
   return t ? t.items : null;
 }
 function weekday() { const n = Date.now(); return C.localWeekday(n, off(n)); }
+/* ---------- Politics, money, suppliers, coming up, videos ---------- */
+const freshCount = (items) => items.filter((i) => isNew(i.id)).length;
+const whenLower = (w) => (/^(Today|Tomorrow|In )/.test(w) ? w[0].toLowerCase() + w.slice(1) : w);
+function politicsTiers() {
+  const pl = S.prefs.place;
+  const t = [{ key: 'politics', label: pl.cc === 'GB' ? 'Westminster' : `${pl.country} politics`, level: 1 }];
+  if (pl.council) t.push({ key: 'council', label: `${pl.council} Council`, level: 3 });
+  return t;
+}
+function bankDivision(pl) {
+  if (!pl || pl.cc !== 'GB') return '';
+  const r = String(pl.region || '').toLowerCase();
+  return r.includes('scotland') ? 'scotland' : r.includes('northern ireland') ? 'northern-ireland' : 'england-and-wales';
+}
+const supplyChoice = (cat) => ((S.prefs.suppliers || {})[cat]) || {};
+const supplyIsSet = (cat) => { const c = supplyChoice(cat); return !!(c.name || (cat === 'electricity' && c.network)); };
+const supplyName = (cat) => { const c = supplyChoice(cat); return c.name || (cat === 'electricity' && c.network ? (C.NETWORKS.find((n) => n[0] === c.network) || [])[1] : '') || ''; };
+function powerLine(f) {
+  return (f.planned ? 'Planned power cut nearby' : 'Power cut nearby') + (f.restore ? `, back by about ${fmtTime(f.restore)}` : '');
+}
+function dropName(title, name) {
+  const t = String(title || ''), n = String(name || '').trim();
+  if (!n || t.toLowerCase().indexOf(n.toLowerCase()) !== 0) return t;
+  const rest = t.slice(n.length).replace(/^['’]s\b/, '').replace(/^[\s:,–-]+/, '');
+  return rest.length > 8 ? rest.charAt(0).toUpperCase() + rest.slice(1) : t;
+}
+function supplyState(cat) {
+  if (!supplyIsSet(cat)) return { state: 'unset', line: 'Choose your provider', items: [], near: [] };
+  const b = briefData(), ch = supplyChoice(cat), pl = S.prefs.place;
+  if (!b) return { state: 'wait', line: S.refreshing ? 'Checking…' : 'Not checked yet', items: [], near: [] };
+  const rep = (b.suppliers || []).find((x) => x.cat === cat);
+  const items = rep ? rep.items : [];
+  const live = cat === 'electricity' && ch.network === 'ukpn' && Array.isArray(b.power);
+  const near = live ? C.powerNear(b.power, pl.lat, pl.lon, 3) : [];
+  if (near.length) return { state: 'alert', line: powerLine(near[0]), items, near, live };
+  if (items.length) return { state: 'reports', line: dropName(items[0].title, supplyName(cat)), items, near, live };
+  return { state: 'clear', line: live ? 'No power cuts nearby' : 'No reports today', items, near, live };
+}
+function events() {
+  const p = S.prefs, cal = p.calendars || {}, from = today(), to = C.addDays(from, 90);
+  const b = briefData();
+  const remote = ((b && b.calendar) || []).filter((e) => (e.cal === 'jewish' && cal.jewish) || (e.cal === 'bank' && cal.bank) || e.cal === 'ics');
+  return C.upcoming(C.localEvents(cal, from, to).concat(remote), from, 90, 6);
+}
+function calLabel(e) {
+  return e.cals.map((c) => (c === 'ics' ? e.calName || 'Your calendar' : (C.CALENDARS.find((x) => x[0] === c) || [])[1] || c)).join(', ');
+}
+function videoList() {
+  const ids = (S.prefs.channels || []).map((c) => c.id), b = briefData();
+  return ((b && b.videos) || []).filter((v) => ids.includes(v.channelId));
+}
+function partInfo(id) {
+  const p = S.prefs, on = p.sections;
+  switch (id) {
+    case 'news': {
+      const tiers = newsTiers();
+      if (!tiers.length) return null;
+      const items = tiers.flatMap((t) => newsItems(t.key));
+      return { title: 'News', note: items.length ? plural(items.length, 'story', 'stories') : 'World to local', fresh: freshCount(items), n: items.length };
+    }
+    case 'politics': {
+      if (!on.politics) return null;
+      const items = politicsTiers().flatMap((t) => newsItems(t.key));
+      return { title: 'Politics', note: items.length ? plural(items.length, 'story', 'stories') : 'Westminster and council', fresh: freshCount(items), n: items.length };
+    }
+    case 'money': {
+      if (!on.money) return null;
+      const items = newsItems('money');
+      return { title: 'Money', note: 'MoneySavingExpert', fresh: freshCount(items), n: items.length };
+    }
+    case 'suppliers': {
+      if (!on.suppliers) return null;
+      const st = SUPPLY_CATS.map(supplyState), bad = st.filter((x) => x.state === 'reports' || x.state === 'alert').length;
+      return { title: 'Your suppliers', note: st.every((x) => x.state === 'unset') ? 'Choose providers' : bad ? `${bad} to check` : 'All clear', n: 1 };
+    }
+    case 'comingup': {
+      if (!on.comingup) return null;
+      const ev = events();
+      return { title: 'Coming up', note: ev.length ? `${ev[0].title}, ${whenLower(C.whenWord(ev[0].away, ev[0].date))}` : 'Your calendars', n: Math.min(ev.length, 4) };
+    }
+    case 'videos': {
+      if (!on.videos) return null;
+      const v = videoList();
+      return { title: 'Videos', note: v.length ? plural(v.length, 'new video', 'new videos') : (p.channels || []).length ? 'Your channels' : 'Add channels', fresh: freshCount(v), n: v.length };
+    }
+    case 'interests': {
+      if (!on.interests || !p.topics.length) return null;
+      const items = p.topics.flatMap((t) => topicItems(t) || []);
+      return { title: 'Your interests', note: plural(p.topics.length, 'topic', 'topics'), fresh: freshCount(items), n: items.length };
+    }
+    case 'markets': return on.markets && p.watch.length ? { title: 'Markets', note: [0, 6].includes(weekday()) ? 'Friday’s close' : 'Latest', n: 2 } : null;
+    case 'looked': return on.looked ? { title: 'What people looked up', note: 'Top 5', n: 5 } : null;
+    case 'onthisday': return on.onthisday ? { title: 'On this day', note: '3 moments', n: 3 } : null;
+    case 'greenest': {
+      if (!on.greenest || p.place.cc !== 'GB') return null;
+      const w = greenest();
+      return { title: 'Greenest hours', note: w ? `${C.hourWord(C.localHours(w.win.start, off(w.win.start)))} to ${C.hourWord(C.localHours(w.win.end, off(w.win.end)))}` : 'Britain’s grid', n: 1 };
+    }
+  }
+  return null;
+}
 function partList() {
-  const p = S.prefs, on = p.sections, out = [];
-  const tiers = newsTiers();
-  if (tiers.length) {
-    const items = tiers.flatMap((t) => newsItems(t.key));
-    out.push({ id: 'news', title: 'News', note: items.length ? plural(items.length, 'story', 'stories') : 'World to local', fresh: items.filter((i) => isNew(i.id)).length, n: items.length });
-  }
-  if (on.interests && p.topics.length) {
-    const items = p.topics.flatMap((t) => topicItems(t) || []);
-    out.push({ id: 'interests', title: 'Your interests', note: plural(p.topics.length, 'topic', 'topics'), fresh: items.filter((i) => isNew(i.id)).length, n: items.length });
-  }
-  if (on.markets && p.watch.length) out.push({ id: 'markets', title: 'Markets', note: [0, 6].includes(weekday()) ? 'Friday’s close' : 'Latest', n: 2 });
-  if (on.looked) out.push({ id: 'looked', title: 'What people looked up', note: 'Top 5', n: 5 });
-  if (on.onthisday) out.push({ id: 'onthisday', title: 'On this day', note: '3 moments', n: 3 });
-  if (on.greenest && p.place.cc === 'GB') {
-    const w = greenest();
-    out.push({ id: 'greenest', title: 'Greenest hours', note: w ? `${C.hourWord(C.localHours(w.win.start, off(w.win.start)))} to ${C.hourWord(C.localHours(w.win.end, off(w.win.end)))}` : 'Britain’s grid', n: 1 });
-  }
+  const out = [];
+  for (const id of S.prefs.order || C.PARTS) { const r = partInfo(id); if (r) out.push({ id, ...r }); }
   return out;
 }
+function tierHTML(t, empty) {
+  const items = newsItems(t.key);
+  return `<div class="tier" data-anchor="tier-${t.key}"><h3 class="tierh">${tierGlyph(t.level)}<span class="tn">${esc(t.label)}</span><span class="n">${items.length ? plural(items.length, 'story', 'stories') : ''}</span></h3>` +
+    (items.length ? items.map((it, i) => itemHTML(it, 'news:' + t.key, i, i === 0 && t.level === 0 ? 'lead' : '')).join('') : `<p class="empty">${esc(empty(t))}</p>`) + '</div>';
+}
+function politicsHTML(parts, p) {
+  let h = chOpen(parts, p, 'Politics', 'straight news, no opinion');
+  if (!briefData()) return h + waiting('Politics') + chClose(p);
+  politicsTiers().forEach((t) => { h += tierHTML(t, (x) => `No new stories for ${x.label} ${x.key === 'council' ? 'this week' : 'today'}.`); });
+  return h + `<p class="src">${S.prefs.place.cc === 'GB' ? 'Westminster from BBC Politics; council' : 'Politics and council'} news from Google News.</p>` + chClose(p);
+}
+function moneyHTML(parts, p) {
+  let h = chOpen(parts, p, 'Money', 'from MoneySavingExpert');
+  if (!briefData()) return h + waiting('Money') + chClose(p);
+  const items = newsItems('money');
+  h += items.length ? items.map((it, i) => itemHTML(it, 'news:money', i, '')).join('') : '<p class="empty">Nothing new from MoneySavingExpert in the last few days.</p>';
+  return h + '<p class="src">Martin Lewis’s MoneySavingExpert, found through Google News. Tap a story to read it on MSE.</p>' + chClose(p);
+}
+function suppliersHTML(parts, p) {
+  let h = chOpen(parts, p, 'Your suppliers', 'reported problems');
+  h += '<div class="tiles">' + SUPPLY_CATS.map((cat) => {
+    const st = supplyState(cat);
+    return `<button class="tile ${st.state}" data-act="supplier" data-cat="${cat}"><span class="tl-top">${ICON[cat]}${esc(C.SUPPLY[cat].name)}</span><span class="tl-name">${esc(supplyName(cat) || 'Not set')}</span>` +
+      `<span class="tl-state">${st.state === 'clear' ? ICON.tick : '<i class="dot" aria-hidden="true"></i>'}<span>${esc(st.line)}</span></span></button>`;
+  }).join('') + '</div>';
+  return h + '<p class="src">Reports come from the news, so only bigger problems show up. Power cuts are live from UK Power Networks where they cover you.</p>' + chClose(p);
+}
+function comingupHTML(parts, p) {
+  let h = chOpen(parts, p, 'Coming up', 'from your calendars');
+  const cal = S.prefs.calendars || {}, any = C.CALENDARS.some(([k]) => cal[k]) || (S.prefs.ics || []).length;
+  const ev = events();
+  if (!any) h += `<p class="empty">Choose the calendars you’d like, such as Christian, Hindu or Jewish, in Settings.</p>`;
+  else if (!ev.length) h += '<p class="empty">Nothing from your calendars in the next three months.</p>';
+  else h += ev.map((e, i) => {
+    const d = C.shortDate(e.date);
+    return `<button class="ev${e.away === 0 ? ' today' : ''}" data-act="event" data-i="${i}"><span class="evd" aria-hidden="true"><b>${d.day}</b><span>${d.mon}</span></span><span class="evt"><span class="evn">${esc(e.title)}</span><span class="evm">${esc(calLabel(e))} · ${esc(C.whenWord(e.away, e.date))}${e.expected ? ', expected' : ''}</span></span>${ICON.chev}</button>`;
+  }).join('');
+  return h + `<button class="btn ghost edit" data-act="settings" data-to="calendars">${ICON.pencil}Edit your calendars</button>` + chClose(p);
+}
+function videosHTML(parts, p) {
+  let h = chOpen(parts, p, 'Videos', 'new on your channels');
+  const ch = S.prefs.channels || [], v = videoList();
+  if (!ch.length) h += '<p class="empty">Add YouTube channels and their new uploads will show here.</p>';
+  else if (!briefData()) h += waiting('Videos');
+  else if (!v.length) h += '<p class="empty">No new videos this week from your channels.</p>';
+  else h += v.map((x, i) => `<button class="vid" data-act="video" data-i="${i}" data-key="${esc(x.id)}"><img src="${esc(x.thumb)}" alt="" loading="lazy"><span class="tx"><span class="vt">${isNew(x.id) ? '<span class="newdot" aria-hidden="true"></span><span class="vh">New: </span>' : ''}${esc(x.title)}</span><span class="meta">${esc(x.channel)}${x.at ? ' · ' + esc(C.timeAgo(x.at, Date.now())) : ''}</span></span></button>`).join('');
+  return h + `<button class="btn ghost edit" data-act="channels">${ICON.pencil}${ch.length ? 'Edit your channels' : 'Add channels'}</button>` + chClose(p);
+}
+function todayLine() {
+  if (!S.prefs.sections.comingup) return '';
+  const t = events().filter((e) => e.away === 0);
+  return t.length ? `<button class="todayline" data-act="go" data-id="comingup">${ICON.spark}<span>Today: ${esc(t.map((e) => e.title).join(', '))}</span></button>` : '';
+}
+
+/* ---------- Supplier, event and video sheets ---------- */
+function openSupplier(cat) {
+  if (!supplyIsSet(cat)) { openSettings('suppliers'); return; }
+  const st = supplyState(cat), name = supplyName(cat), kind = C.SUPPLY[cat].name.toLowerCase();
+  const net = cat === 'electricity' && supplyChoice(cat).network ? (C.NETWORKS.find((n) => n[0] === supplyChoice(cat).network) || [])[1] : '';
+  const say = st.state === 'reports' ? `${plural(st.items.length, 'report', 'reports')} in the news today.` : st.state === 'clear' ? st.line + '.' : st.line;
+  let h = `<h2 class="sh-title" id="supplier-t">${esc(name)}</h2>${net && net !== name ? `<p class="sh-meta">Network: ${esc(net)}</p>` : ''}<p class="sh-text">${esc(say)}</p>`;
+  if (st.near && st.near.length) h += `<h3 class="sh-h">Power cuts within 3 km</h3><ul class="rel">${st.near.slice(0, 3).map((f) => `<li><span class="relx">${esc(f.planned ? 'Planned' : 'Unplanned')}${f.n ? `, about ${f.n} homes` : ''}${f.area ? ` near ${esc(f.area)}` : ''}<span>${f.restore ? 'Back by about ' + esc(fmtTime(f.restore)) : 'No restore time yet'}${f.desc ? ' · ' + esc(f.desc) : ''}</span></span></li>`).join('')}</ul>`;
+  if (st.items && st.items.length) h += `<h3 class="sh-h">In the news today</h3>` + st.items.map((it, i) => itemHTML(it, 'supply:' + cat, i, 'small')).join('');
+  const q = encodeURIComponent(`${name} ${cat === 'electricity' ? 'power cut' : 'service status'}`);
+  h += `<a class="btn dark sh-go" href="${esc(outHref('https://www.google.com/search?q=' + q))}" target="_blank" rel="noopener">Find their status page</a>`;
+  if (cat === 'electricity') h += `<div class="btnrow"><a class="btn ghost" href="tel:105">Power cut? Call 105</a><a class="btn ghost" href="${esc(outHref('https://www.powercut105.com/'))}" target="_blank" rel="noopener">powercut105.com</a></div>`;
+  if (cat === 'gas') h += `<div class="btnrow"><a class="btn ghost" href="tel:08001119999">Smell gas? Call 0800 111 999</a></div>`;
+  if (cat === 'electricity' && supplyChoice(cat).network === 'ukpn' && !st.live && briefData()) h += '<p class="hint">Live power cuts are unavailable just now, so this shows news reports only.</p>';
+  h += `<p class="sh-note">Lowdown only sees ${kind} problems that make the news${cat === 'electricity' && st.live ? ', plus live power cuts from UK Power Networks' : ''}. Their own page can check your postcode.</p>`;
+  openSheet('supplier', C.SUPPLY[cat].name, h);
+}
+async function openEvent(i) {
+  const e = events()[i];
+  if (!e) return;
+  const longDate = new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' }).format(new Date(e.date + 'T12:00:00Z'));
+  const d = openSheet('event', 'Coming up', `<h2 class="sh-title" id="event-t">${esc(e.title)}</h2><p class="sh-meta">${esc(longDate)} · ${esc(C.whenWord(e.away, e.date))}</p><p class="sh-meta">${esc(calLabel(e))}</p>
+    ${e.expected ? '<p class="hint">An expected date: it can move by a day with the sighting of the moon.</p>' : ''}<div class="evbody">${e.wiki ? '<p class="empty"><span class="spinner" aria-hidden="true"></span>Finding out more…</p>' : ''}</div>
+    ${e.link ? `<a class="btn dark sh-go" href="${esc(outHref(e.link))}" target="_blank" rel="noopener">Read more</a>` : ''}`);
+  if (!e.wiki) return;
+  const box = $('.evbody', d);
+  try {
+    const j = await getJSON('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(e.wiki.replace(/ /g, '_')));
+    const url = (j.content_urls && j.content_urls.mobile && j.content_urls.mobile.page) || '';
+    box.innerHTML = `${j.thumbnail ? `<img class="sh-img" src="${esc(j.thumbnail.source)}" alt="" loading="lazy">` : ''}<p class="sh-text">${esc(String(j.extract || '').slice(0, 700))}</p>
+      ${url ? `<a class="btn dark sh-go" href="${esc(outHref(url))}" target="_blank" rel="noopener">Read on Wikipedia</a><p class="sh-note">Text from Wikipedia, shared under CC BY-SA.</p>` : ''}`;
+  } catch { box.innerHTML = '<p class="empty">Couldn’t reach Wikipedia just now.</p>'; }
+}
+function openVideo(i) {
+  const v = videoList()[i];
+  if (!v) return;
+  openSheet('video', 'Videos', `<img class="sh-img" src="${esc(v.thumb)}" alt="">
+    <h2 class="sh-title" id="video-t" style="margin-top:14px">${esc(v.title)}</h2><p class="sh-meta">${esc(v.channel)}${v.at ? ' · ' + esc(C.timeAgo(v.at, Date.now())) : ''}</p>
+    ${v.desc ? `<p class="sh-text">${esc(v.desc)}</p>` : ''}
+    <a class="btn dark sh-go" href="${esc(outHref(v.link))}" target="_blank" rel="noopener">Watch on YouTube</a>`);
+}
+
+/* ---------- Your channels ---------- */
+function channelsHTML() {
+  const ch = S.prefs.channels || [];
+  return `<h2 class="sh-title" id="channels-t">Your channels</h2>
+    ${ch.length ? `<ul class="mlist">${ch.map((c) => `<li class="mrow"><span class="mn" style="margin-left:0"><b>${esc(c.title)}</b></span><button class="ib" data-act="unchannel" data-id="${esc(c.id)}" aria-label="Remove ${esc(c.title)}" title="Remove">${ICON.x}</button></li>`).join('')}</ul>` : '<p class="empty">No channels yet.</p>'}
+    <h3 class="grp">Add a channel</h3>
+    <form class="addrow" data-form="yt"><label class="vh" for="ytQ">Search YouTube</label><input class="field" id="ytQ" type="search" placeholder="Search YouTube, or paste a channel link" autocomplete="off" maxlength="120"><button class="btn small" type="submit">Search</button></form>
+    <p class="ferr" id="ytErr" role="alert"></p>
+    <div class="res" id="ytRes">${ytResultsHTML()}</div>
+    <p class="hint">Up to 12 channels. New uploads from the last week show in your brief.</p>`;
+}
+function ytResultsHTML() {
+  const have = (S.prefs.channels || []).map((c) => c.id);
+  return (S.ytResults || []).map((c, i) => {
+    const added = have.includes(c.id);
+    return `<div class="chrow">${c.thumb ? `<img src="${esc(c.thumb)}" alt="">` : '<span class="chph" aria-hidden="true"></span>'}<span class="chx"><b>${esc(c.title)}</b>${c.desc ? `<span>${esc(c.desc)}</span>` : ''}</span>` +
+      `<button class="btn small" data-act="addChannel" data-i="${i}"${added ? ' disabled' : ''}>${added ? 'Added' : 'Add'}</button></div>`;
+  }).join('');
+}
+async function searchChannels(form) {
+  const q = $('#ytQ').value.trim(), err = $('#ytErr'), btn = $('button', form);
+  err.textContent = '';
+  if (!q) { err.textContent = 'Type a channel name, or paste its link.'; return; }
+  await withBusy(btn, async () => {
+    try { const j = await api('ytsearch', { q }); S.ytResults = j.channels || []; $('#ytRes').innerHTML = ytResultsHTML(); }
+    catch (e) { err.textContent = e.message; }
+  });
+}
+function channelsChanged(msg) {
+  savePrefs();
+  const b = sheetBody('channels');
+  if (b) { const q = $('#ytQ') ? $('#ytQ').value : ''; b.innerHTML = channelsHTML(); if ($('#ytQ')) $('#ytQ').value = q; }
+  toast(msg);
+  render();
+  refresh();
+}
+
+/* ---------- Suppliers and calendars editors ---------- */
+function supplyEditor(sup, scope) {
+  return SUPPLY_CATS.map((cat) => {
+    const cur = sup[cat] || {}, list = C.SUPPLY[cat].list.map((x) => x[0]);
+    const other = cur.other || (cur.name && !list.includes(cur.name));
+    return `<div class="suprow"><label class="lbl"><span class="supl">${ICON[cat]}${esc(C.SUPPLY[cat].name)}</span><select class="field sel" data-supply="${cat}" data-scope="${scope}"><option value="">None</option>${list.map((n) => `<option${n === cur.name ? ' selected' : ''}>${esc(n)}</option>`).join('')}<option value="__other"${other ? ' selected' : ''}>Someone else…</option></select></label>` +
+      (other ? `<label class="lbl">Their name<input class="field" data-supply-other="${cat}" data-scope="${scope}" value="${esc(cur.name || '')}" maxlength="40" autocomplete="off" placeholder="For example, Shell Energy"></label>` : '') +
+      (cat === 'electricity' ? `<label class="lbl">Network operator, for power cuts<select class="field sel" data-network="1" data-scope="${scope}"><option value="">Not sure</option>${C.NETWORKS.map(([k, n]) => `<option value="${k}"${cur.network === k ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select></label><p class="hint">Not sure? <a href="${esc(outHref('https://www.powercut105.com/'))}" target="_blank" rel="noopener">powercut105.com</a> will tell you. Live power cuts show for UK Power Networks.</p>` : '') + '</div>';
+  }).join('');
+}
+function calendarEditor(cals, ics, place, scope) {
+  return C.CALENDARS.filter(([k]) => k !== 'bank' || !place || place.cc === 'GB').map(([k, n]) =>
+    `<label class="swrow"><span>${esc(n)}${k === 'islamic' ? '<small>Expected dates; they can move by a day with the moon</small>' : k === 'bank' ? '<small>For your part of the UK</small>' : ''}</span><input type="checkbox" role="switch" class="sw" data-cal="${k}" data-scope="${scope}"${cals[k] ? ' checked' : ''}></label>`).join('') +
+    `<h3 class="grp" style="margin-top:18px">Your own calendars</h3>${(ics || []).map((u, i) => `<div class="mrow"><span class="mn" style="margin-left:0"><span style="font-size:14px;color:var(--ink)">${esc(u.replace(/^https:\/\//, '').slice(0, 48))}</span></span><button class="ib" data-act="unics" data-i="${i}" data-scope="${scope}" aria-label="Remove this calendar" title="Remove">${ICON.x}</button></div>`).join('')}
+    <form class="addrow" data-form="ics" data-scope="${scope}"><label class="vh" for="icsIn-${scope}">Calendar link</label><input class="field" id="icsIn-${scope}" type="text" inputmode="url" placeholder="Paste a public calendar link (.ics)" autocomplete="off" autocapitalize="off" spellcheck="false"><button class="btn small" type="submit">Add</button></form>
+    <p class="ferr" id="icsErr-${scope}" role="alert"></p><p class="hint">For example a church, temple or gurdwara calendar, or a Google Calendar shared publicly.</p>`;
+}
+const draftOrPrefs = (scope) => (scope === 'setup' ? S.draft : S.prefs);
+function afterSupply(scope) {
+  if (scope === 'setup') { const b = $('#supplyBox'); if (b) b.innerHTML = supplyEditor(S.draft.suppliers, 'setup'); return; }
+  savePrefs();
+  const b = $('#supplyBox');
+  if (b) b.innerHTML = supplyEditor(S.prefs.suppliers, 'set');
+  render();
+  refresh();
+}
+function afterCalendars(scope, msg) {
+  if (scope === 'setup') { const b = $('#calBox'); if (b) b.innerHTML = calendarEditor(S.draft.calendars, S.draft.ics, S.draft.place, 'setup'); return; }
+  savePrefs();
+  const b = $('#calBox');
+  if (b) b.innerHTML = calendarEditor(S.prefs.calendars, S.prefs.ics, S.prefs.place, 'set');
+  if (msg) toast(msg);
+  render();
+  refresh();
+}
+function addIcs(form) {
+  const scope = form.dataset.scope, inp = $('input', form), err = $(`#icsErr-${scope}`), u = inp.value.trim().replace(/^webcal:\/\//i, 'https://');
+  const o = draftOrPrefs(scope);
+  o.ics = o.ics || [];
+  if (!/^https:\/\/[^\s"<>]{8,400}$/.test(u)) { err.textContent = 'Paste the calendar’s full public link. It starts with https:// or webcal://.'; return; }
+  if (o.ics.includes(u)) { err.textContent = 'That calendar is already added.'; return; }
+  if (o.ics.length >= 3) { err.textContent = 'You can add up to 3 of your own calendars. Remove one first.'; return; }
+  o.ics.push(u);
+  afterCalendars(scope, 'Calendar added. Its events arrive with your next update.');
+}
+
 const isRead = (id) => S.read.day === today() && S.read.parts.includes(id);
 function partState(parts, id) {
   if (isRead(id)) return 'done';
@@ -798,9 +1175,10 @@ function heroHTML() {
   if (next) facts.push(`<span>${ICON.rain}${esc(cap(next.kind))} ${esc(next.start <= m.nowH ? 'until ' + C.hourWord(next.end) : C.hourWord(next.start) + ' to ' + C.hourWord(next.end))}</span>`);
   const n = parts.reduce((a, p) => a + (p.n || 0), 0), mins = Math.max(1, Math.round((n * 8 + parts.length * 12) / 60));
   const label = C.briefLabel(m.nowH), verb = label === 'Evening wrap' ? 'Read the evening wrap' : label === 'Afternoon brief' ? 'Read the afternoon brief' : 'Read today’s brief';
-  return `<div class="hero">${ringSVG(m)}<div class="mid">${mid}</div></div>
-    ${say ? `<p class="say">${esc(say)}</p>` : ''}
-    <div class="facts">${facts.join('')}</div>
+  const top = S.prefs.ring === 'compact'
+    ? `<div class="mini">${ringSVG(m)}<div class="minitx"><span class="mt">${m.current ? Math.round(m.current.temp) + '\u00b0' : esc(fmtTime(m.now))}</span> <span class="cond">${esc(m.current ? C.conditionWord(m.current.code, m.current.isDay) : 'Weather unavailable')}</span>${say ? `<p>${esc(say)}</p>` : ''}</div></div>`
+    : `<div class="hero">${ringSVG(m)}<div class="mid">${mid}</div></div>${say ? `<p class="say">${esc(say)}</p>` : ''}<div class="facts">${facts.join('')}</div>`;
+  return `${top}${todayLine()}
     ${parts.length ? `<div class="go"><button class="btn primary" data-act="start">${verb}</button><span class="cap">${plural(parts.length, 'part', 'parts')}, about ${plural(mins, 'minute', 'minutes')}</span></div>` : ''}`;
 }
 const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : s);
@@ -813,6 +1191,7 @@ function noticesHTML() {
     if (S.installEvt) n.push(notice('install', 'Add Lowdown to your home screen for one-tap access.', '<button class="btn small" data-act="install">Install</button>'));
     else if (isIOS) n.push(notice('install', 'Add Lowdown to your Home Screen: tap Share (under ⋯ on iOS 26), then Add to Home Screen.'));
   }
+  if (S.whatsNew === 3 && !S.dismissed.new3) n.push(notice('new3', 'New in Lowdown: Politics, Money, Your suppliers, Coming up and Videos. Pick your suppliers, calendars and channels in Settings, and drag the parts into your own order.', '<button class="btn small" data-act="settings">Settings</button>'));
   if (S.inviteBad) n.push(notice('invite', 'Your invite isn\u2019t valid any more, so news, interests and markets can\u2019t update. Ask whoever shared Lowdown for a new link.', '<button class="btn small" data-act="reinvite">Paste new link</button>', false));
   else if (S.scriptBuild != null && S.scriptBuild < EXPECT_BUILD) n.push(notice('script', `Your Apps Script is out of date (release ${S.scriptBuild}, this app needs ${EXPECT_BUILD}). In Apps Script, choose Deploy, Manage deployments, edit, New version, Deploy.`, '', false));
   return n.join('');
@@ -964,7 +1343,8 @@ function endHTML(parts) {
     <p class="src">${at ? `Updated ${esc(fmtTime(at))}. ` : ''}News from BBC News, Google News and Bing News. Weather by Open-Meteo, trending and on this day from Wikipedia, prices from Google Finance and CoinGecko, grid data from the National Energy System Operator.</p>
     <button class="btn ghost" data-act="refresh">${ICON.refresh}Check for updates</button><span class="ch-end" data-end="__end" aria-hidden="true"></span></section>`;
 }
-const PART_HTML = { news: newsHTML, interests: interestsHTML, markets: marketsHTML, looked: lookedHTML, onthisday: otdHTML, greenest: greenHTML };
+const PART_HTML = { news: newsHTML, politics: politicsHTML, money: moneyHTML, suppliers: suppliersHTML, comingup: comingupHTML, videos: videosHTML,
+  interests: interestsHTML, markets: marketsHTML, looked: lookedHTML, onthisday: otdHTML, greenest: greenHTML };
 
 function keepAnchor() {
   if (window.scrollY < 120) return null;
@@ -986,6 +1366,7 @@ function renderBrief() {
     parts.map((p) => PART_HTML[p.id](parts, p)).join('') + (parts.length ? endHTML(parts) : '');
   restoreAnchor(a);
   observe();
+  showCoach();
 }
 function renderHero() { const h = $('#hero'); if (h && ready()) h.innerHTML = heroHTML(); }
 function render() {
@@ -993,8 +1374,10 @@ function render() {
   renderHeader();
   if (!hasApi()) renderInvite();
   else if (S.iosFirst) renderIosFirst();
+  else if (S.view === 'welcome' || (!ready() && !get('welcomed', false))) renderWelcome();
   else if (ready()) renderBrief();
   else renderSetup();
+  showCoach();
 }
 
 /* ---------- Seen and read, as you scroll ---------- */
@@ -1008,7 +1391,7 @@ function observe() {
     for (const e of es) if (e.isIntersecting) { const k = e.target.dataset.key; if (k && !S.seen[k]) { S.seen[k] = Date.now(); ch = true; } }
     if (ch) { clearTimeout(seenTimer); seenTimer = setTimeout(() => put('seen', S.seen), 500); }
   }, { threshold: 0.6 });
-  $$('.item[data-key]').forEach((el) => seenIO.observe(el));
+  $$('[data-key]').forEach((el) => seenIO.observe(el));
   readIO = new IntersectionObserver((es) => {
     let ch = false;
     for (const e of es) {
@@ -1122,7 +1505,8 @@ function outHref(u) {
 /* ---------- Story and Wikipedia sheets ---------- */
 function findItem(g, i) {
   const [kind, key] = [g.slice(0, g.indexOf(':')), g.slice(g.indexOf(':') + 1)];
-  if (kind === 'news') return { item: newsItems(key)[i], label: (newsTiers().find((t) => t.key === key) || {}).label || 'News' };
+  if (kind === 'news') return { item: newsItems(key)[i], label: ([...newsTiers(), ...politicsTiers()].find((t) => t.key === key) || {}).label || (key === 'money' ? 'Money' : 'News') };
+  if (kind === 'supply') { const st = supplyState(key); return { item: st.items[i], label: C.SUPPLY[key].name }; }
   if (kind === 'topic') return { item: (topicItems(key) || [])[i], label: key };
   return {};
 }
@@ -1204,7 +1588,16 @@ function locate(btn, scope) {
 }
 function setPlace(scope, place) {
   place.cc = place.cc || 'GB';
-  if (scope === 'setup') { S.draft.place = place; renderSetup(); return; }
+  if (scope === 'setup') {
+    const d = S.draft;
+    d.place = place;
+    d.sections = { ...C.defaultSections(place.cc), interests: d.sections.interests, markets: d.sections.markets };
+    d.calendars = { ...d.calendars, bank: place.cc === 'GB' };
+    const net = C.guessNetwork(place);
+    if (net) d.suppliers.electricity = { ...(d.suppliers.electricity || {}), network: net };
+    renderSetup();
+    return;
+  }
   const old = S.prefs.place;
   S.prefs.place = { ...old, ...place };
   savePrefs();
@@ -1248,42 +1641,185 @@ function afterTopics(scope, msg) {
   refresh();
 }
 
-/* ---------- First run ---------- */
-const SECTION_NAME = (k, pl) => ({ world: 'World news', country: `${(pl && pl.country) || 'Country'} news`, county: `${(pl && pl.county) || 'County'} news`, local: `${(pl && pl.town) || 'Local'} news`,
-  interests: 'Your interests', markets: 'Markets', looked: 'What people looked up', onthisday: 'On this day', greenest: 'Greenest hours' }[k]);
-function switches(sections, pl, scope) {
-  return SECTIONS.filter((k) => k !== 'greenest' || !pl || pl.cc === 'GB')
-    .map((k) => `<label class="swrow"><span>${esc(SECTION_NAME(k, pl))}${k === 'greenest' ? '<small>When to run the washing machine</small>' : k === 'local' ? '<small>Matched by place name</small>' : ''}</span><input type="checkbox" role="switch" class="sw" data-sec="${k}" data-scope="${scope}"${sections[k] ? ' checked' : ''}></label>`).join('');
+/* ---------- Parts: names, previews and switches ---------- */
+function partName(k, pl) {
+  return { world: 'World news', country: `${(pl && pl.country) || 'Country'} news`, county: `${(pl && pl.county) || 'County'} news`, local: `${(pl && pl.town) || 'Local'} news`,
+    news: 'News', politics: 'Politics', money: 'Money', suppliers: 'Your suppliers', comingup: 'Coming up', videos: 'Videos', interests: 'Your interests',
+    markets: 'Markets', looked: 'What people looked up', onthisday: 'On this day', greenest: 'Greenest hours' }[k] || k;
+}
+function partHint(k, pl) {
+  return { local: 'Matched by place name', politics: pl && pl.cc === 'GB' ? `Westminster${pl.council ? ` and ${pl.council} Council` : ''}` : 'Your country’s politics',
+    money: 'MoneySavingExpert’s latest guides and warnings', suppliers: 'Problems with your broadband, power, water and more', comingup: 'Festivals and holidays from your calendars',
+    videos: 'New uploads from YouTube channels you pick', interests: 'Updates on the topics you follow', markets: 'Indices, currencies, gold and crypto',
+    looked: 'Wikipedia’s most-read pages', onthisday: 'Three moments from history', greenest: 'When to run the washing machine' }[k] || '';
+}
+const swRow = (k, on, pl, scope) => `<label class="swrow"><span>${esc(partName(k, pl))}${partHint(k, pl) ? `<small>${esc(partHint(k, pl))}</small>` : ''}</span><input type="checkbox" role="switch" class="sw" data-sec="${k}" data-scope="${scope}"${on ? ' checked' : ''}></label>`;
+// Setup: a flat list, news tiers first.
+function partSwitches(sections, pl, scope) {
+  const parts = C.PARTS.filter((k) => k !== 'news' && (k !== 'greenest' || !pl || pl.cc === 'GB'));
+  return `<h3 class="grp" style="margin-top:4px">News</h3>${TIERS.map((k) => swRow(k, sections[k], pl, scope)).join('')}<h3 class="grp">More</h3>${parts.map((k) => swRow(k, sections[k], pl, scope)).join('')}`;
+}
+// Settings: parts can be dragged into your own order; news tiers sit under News.
+function partOrderHTML() {
+  const p = S.prefs, pl = p.place;
+  const ids = p.order.filter((k) => k !== 'greenest' || pl.cc === 'GB');
+  return `<ul class="mlist" id="plist">${ids.map((k) => `<li class="mrow" data-id="${k}"><button class="ib grip" data-grip aria-label="Move ${esc(partName(k, pl))}. Use the arrow keys." title="Drag to reorder">${ICON.grip}</button>` +
+    (k === 'news' ? `<span class="mn"><b>News</b><span>Switch tiers below</span></span>`
+      : `<label class="mn swmini"><b>${esc(partName(k, pl))}</b><input type="checkbox" role="switch" class="sw" data-sec="${k}" data-scope="set"${p.sections[k] ? ' checked' : ''}></label>`) + '</li>').join('')}</ul>
+    <h3 class="grp">News tiers</h3>${TIERS.map((k) => swRow(k, p.sections[k], pl, 'set')).join('')}`;
+}
+function movePart(from, to) {
+  const all = S.prefs.order, ids = $$('#plist .mrow').map((r) => r.dataset.id);
+  const [m] = ids.splice(from, 1);
+  ids.splice(to, 0, m);
+  S.prefs.order = [...ids, ...all.filter((k) => !ids.includes(k))];
+  savePrefs();
+  const b = $('#partBox');
+  if (b) b.innerHTML = partOrderHTML();
+  render();
+  const g = $(`#plist .mrow[data-id="${m}"] [data-grip]`);
+  if (g) g.focus();
+}
+
+/* ---------- Welcome: four cards ---------- */
+function welcomeArt(i) {
+  if (i === 0) {
+    const m = { now: sunMs(9.5), nowH: 9.5, riseH: 7, setH: 16.6, polar: null, runs: [{ start: 16, end: 21, kind: 'showers' }], daylight: true };
+    return `<div class="art"><div class="minihero">${ringSVG(m)}</div><div class="legend"><span><i class="lg-day"></i>Daylight</span><span>${ICON.rain}Rain</span><span><i class="lg-now"></i>Now</span></div></div>`;
+  }
+  if (i === 1) return `<div class="art"><div class="spine">${['News', 'Politics', 'Coming up'].map((t, k) => `<div class="sp"><span class="node ${k < 2 ? 'done' : 'now'}"></span>${t}</div>`).join('')}<div class="sp end"><span class="tick">${ICON.check}</span>You’re up to date.</div></div></div>`;
+  if (i === 2) return `<div class="art"><div class="demo"><div class="demoitem"><span>Council approves new cycle lanes</span>${ICON.chev}</div><div class="demosheet"><span class="grab"></span><b>Council approves new cycle lanes</b><span>Richmond and Twickenham Times</span></div><span class="swipe">${svg('<path d="M5 12h14M13 6l6 6-6 6"/>', 22)}Swipe right to close</span></div></div>`;
+  return `<div class="art"><div class="demo"><div class="chips" style="justify-content:center"><span class="chip on">Snooker${ICON.x}</span><span class="chip">${ICON.plus}Hip hop</span></div><div class="swrow demo-sw"><span>Politics</span><span class="fake-sw on"></span></div><div class="swrow demo-sw"><span>Videos</span><span class="fake-sw"></span></div></div></div>`;
+}
+const CARDS = [
+  ['Your day at a glance', 'Gold is daylight, dots are rain, and the marker is now. One sentence tells you what to expect.'],
+  ['A brief that ends', 'The line fills as you read, from the world to your street, until you’re up to date. Come back later and anything new is marked.'],
+  ['Tap for more', 'Tap any story for the short version and a link to the full article. Swipe right, or drag the handle down, to close it.'],
+  ['Make it yours', 'Choose your parts, add interests like snooker or hip hop, pick your suppliers and calendars, and reorder it all in Settings.']
+];
+function renderWelcome() {
+  $('#app').innerHTML = `<section class="welcome" aria-label="Welcome to Lowdown"><div class="wtop"><button class="linkbtn" data-act="welcomeDone">Skip</button></div>
+    <div class="cards" id="cards">${CARDS.map(([t, d], i) => `<div class="card" role="group" aria-roledescription="slide" aria-label="${i + 1} of ${CARDS.length}">${welcomeArt(i)}<h2>${esc(t)}</h2><p>${esc(d)}</p></div>`).join('')}</div>
+    <div class="dots" aria-hidden="true">${CARDS.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div>
+    <button class="btn primary" data-act="welcomeNext" id="wNext">Next</button></section>`;
+  const track = $('#cards');
+  track.addEventListener('scroll', () => {
+    const i = Math.round(track.scrollLeft / track.clientWidth);
+    $$('.dots i').forEach((d, k) => d.classList.toggle('on', k === i));
+    $('#wNext').textContent = i >= CARDS.length - 1 ? (ready() ? 'Back to my brief' : 'Set up my brief') : 'Next';
+  }, { passive: true });
+}
+function welcomeNext() {
+  const track = $('#cards'), i = Math.round(track.scrollLeft / track.clientWidth);
+  if (i >= CARDS.length - 1) return welcomeDone();
+  track.scrollTo({ left: (i + 1) * track.clientWidth, behavior: reduced() ? 'auto' : 'smooth' });
+}
+function welcomeDone() {
+  put('welcomed', true);
+  S.view = null;
+  if (ready() && !get('coached', false)) S.coach = 1;
+  window.scrollTo(0, 0);
+  render();
+}
+
+/* ---------- Setup, one step at a time ---------- */
+const STEPS = [
+  ['Where are you?', 'For your weather, local news and council.'],
+  ['What would you like in your brief?', 'Switch parts on or off. You can change this any time.'],
+  ['Anything you follow?', 'Pick a few interests, or add your own. Each gets its own short update.'],
+  ['Who are your suppliers?', 'Pick the ones you use, and Lowdown will flag problems.'],
+  ['Which calendars?', 'Festivals and holidays from the calendars you choose.'],
+  ['Markets?', 'A quick line on the markets, if you like.']
+];
+function newDraft() {
+  return { place: null, step: 0, sections: C.defaultSections('GB'), topics: [], suppliers: {}, calendars: C.defaultCalendars('GB'), ics: [], touched: false };
 }
 function renderSetup() {
-  if (!S.draft) S.draft = { place: null, sections: { ...DEF_SECTIONS }, topics: [] };
-  const d = S.draft;
-  $('#app').innerHTML = `<section class="setup" aria-labelledby="setup-t">
-    <div class="logo">${LOGO}<h1 id="setup-t">Lowdown</h1></div>
-    <p class="tagline">Your day in two minutes, from the world to your street. Set it up once.</p>
-    <ol class="steps">
-      <li><span class="num" aria-hidden="true">1</span><div><h2>Where are you?</h2>${d.place ? `<div class="placecard"><span>${ICON.pin}${esc(placeLine(d.place))}</span><button class="linkbtn" data-act="changePlace">Change</button></div>` : pickerHTML('setup')}</div></li>
-      <li><span class="num" aria-hidden="true">2</span><div><h2>What would you like in it?</h2>${switches(d.sections, d.place, 'setup')}</div></li>
-      <li><span class="num" aria-hidden="true">3</span><div><h2>Your interests</h2><p class="hint" style="margin-top:-4px">Pick a few, or add your own. Each gets its own short update.</p>${interestsEditor(d.topics, 'setup')}</div></li>
-    </ol>
-    <button class="btn primary" data-act="finish"${d.place ? '' : ' disabled'}>Make my brief</button>
-    ${d.place ? '' : '<p class="fine">Choose your place first.</p>'}
-    <p class="fine">Your choices stay on this phone. To fetch your news, your place names and interests are sent to the news service, which keeps nothing.</p>
+  if (!S.draft) S.draft = newDraft();
+  const d = S.draft, n = d.step, [title, help] = STEPS[n];
+  let body = '';
+  if (n === 0) body = d.place ? `<div class="placecard"><span>${ICON.pin}${esc(placeLine(d.place))}</span><button class="linkbtn" data-act="changePlace">Change</button></div>` : pickerHTML('setup');
+  else if (n === 1) body = partSwitches(d.sections, d.place, 'setup');
+  else if (n === 2) body = interestsEditor(d.topics, 'setup');
+  else if (n === 3) body = `<div id="supplyBox">${supplyEditor(d.suppliers, 'setup')}</div>`;
+  else if (n === 4) body = `<div id="calBox">${calendarEditor(d.calendars, d.ics, d.place, 'setup')}</div>`;
+  else body = `${swRow('markets', d.sections.markets, d.place, 'setup')}<div class="chips" style="margin-top:14px">${C.defaultWatch((d.place && d.place.cc) || 'GB').map((m) => `<span class="chip">${esc(m.name)}</span>`).join('')}</div><p class="hint">Change these any time in Settings, or add shares by their code.</p>`;
+  const last = n === STEPS.length - 1;
+  $('#app').innerHTML = `<section class="setup step" aria-labelledby="setup-t">
+    <div class="prog" aria-hidden="true">${STEPS.map((_, i) => `<i class="${i <= n ? 'on' : ''}"></i>`).join('')}</div>
+    <p class="stepn">Step ${n + 1} of ${STEPS.length}</p>
+    <h1 id="setup-t" class="steph">${esc(title)}</h1><p class="tagline" style="margin-top:6px">${esc(help)}</p>
+    <div class="stepbody">${body}</div>
+    <div class="stepnav">${n ? '<button class="btn ghost back" data-act="setupBack">Back</button>' : ''}<button class="btn primary" data-act="${last ? 'finish' : 'setupNext'}"${n === 0 && !d.place ? ' disabled' : ''}>${last ? 'Make my brief' : 'Next'}</button></div>
+    ${n ? `<button class="linkbtn skip" data-act="${last ? 'finish' : 'setupNext'}">${last ? 'Skip and make my brief' : 'Skip for now'}</button>` : d.place ? '' : '<p class="fine">Choose your place to carry on.</p>'}
+    ${n === 0 ? '<p class="fine">Your choices stay on this phone. To fetch your news, place names, interests and suppliers are sent to the news service, which keeps nothing.</p>' : ''}
   </section>`;
+}
+function setupStep(dir) {
+  const d = S.draft;
+  if (d.step === 0 && !d.place) return;
+  d.step = Math.max(0, Math.min(STEPS.length - 1, d.step + dir));
+  window.scrollTo(0, 0);
+  renderSetup();
+  const h = $('#setup-t');
+  if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
 }
 function finishSetup() {
   const d = S.draft;
-  if (!d.place) return;
-  S.prefs = { v: 1, place: d.place, sections: d.sections, topics: d.topics, watch: C.defaultWatch(d.place.cc), setupDone: true, created: Date.now() };
+  if (!d || !d.place) return;
+  if (d.topics.length && !d.touched) d.sections.interests = true;
+  S.prefs = C.migratePrefs({ v: 3, place: d.place, sections: d.sections, topics: d.topics, watch: C.defaultWatch(d.place.cc), suppliers: d.suppliers,
+    calendars: d.calendars, ics: d.ics, channels: [], order: C.PARTS.slice(), ring: 'full', setupDone: true, created: Date.now() });
   savePrefs();
   S.draft = null;
   S.cache = {};
   saveCache();
+  if (!get('coached', false)) S.coach = 1;
   beginOpen();
   window.scrollTo(0, 0);
   render();
   refresh(true);
 }
+
+/* ---------- First-brief pointers ---------- */
+const COACH = [
+  ['.hero, .mini', 'Your day at a glance: gold is daylight, dots are rain, and the marker is now.'],
+  ['[data-act=start]', 'Your brief has an end. Start here, or tap a part below to jump straight to it.'],
+  ['#setBtn', 'Switch parts on or off, reorder them, set your suppliers and invite friends here.']
+];
+function showCoach() {
+  let c = $('#coach');
+  if (!S.coach || !ready() || S.view) { if (c) c.remove(); return; }
+  const [sel, text] = COACH[S.coach - 1], target = $(sel);
+  if (!target) { S.coach = 0; put('coached', true); if (c) c.remove(); return; }
+  if (!c) { c = document.createElement('div'); c.id = 'coach'; c.className = 'coach'; c.setAttribute('role', 'dialog'); document.body.appendChild(c); }
+  c.setAttribute('aria-label', `Tip ${S.coach} of ${COACH.length}`);
+  const lastTip = S.coach === COACH.length;
+  c.innerHTML = `<i class="carrow" aria-hidden="true"></i><p>${esc(text)}</p><div class="cbar"><span>${S.coach} of ${COACH.length}</span>${lastTip ? '' : '<button class="linkbtn" data-act="coachSkip">Skip</button>'}<button class="btn small" data-act="coachNext">${lastTip ? 'Done' : 'Next'}</button></div>`;
+  placeCoach();
+  $('[data-act=coachNext]', c).focus({ preventScroll: true });
+}
+function placeCoach() {
+  const c = $('#coach');
+  if (!c || !S.coach) return;
+  const target = $(COACH[S.coach - 1][0]);
+  if (!target) return;
+  const r = target.getBoundingClientRect(), h = c.offsetHeight, vh = innerHeight;
+  const below = r.bottom + 14 + h < vh - 10 || r.top < h + 24;
+  const top = below ? Math.min(r.bottom + 12, vh - h - 10) : Math.max(10, r.top - h - 12);
+  c.style.top = top + 'px';
+  const cr = c.getBoundingClientRect(), a = $('.carrow', c);
+  a.style.left = Math.max(16, Math.min(cr.width - 30, r.left + r.width / 2 - cr.left - 7)) + 'px';
+  a.style.top = below ? '-6px' : '';
+  a.style.bottom = below ? '' : '-6px';
+}
+function coachNext(skip) {
+  if (skip || S.coach >= COACH.length) { S.coach = 0; put('coached', true); showCoach(); return; }
+  S.coach++;
+  showCoach();
+}
+addEventListener('resize', placeCoach);
+addEventListener('scroll', placeCoach, { passive: true });
 
 /* ---------- Settings ---------- */
 function settingsHTML() {
@@ -1296,11 +1832,20 @@ function settingsHTML() {
     <div style="margin-top:12px">${pickerHTML('set')}</div>
     <label class="lbl">County, for county news<input class="field" data-field="county" value="${esc(pl.county)}" maxlength="60" autocomplete="off"></label>
     <label class="lbl">Local area, for local news<input class="field" data-field="town" value="${esc(pl.town)}" maxlength="60" autocomplete="off"></label>
+    <label class="lbl">Council, for local politics<input class="field" data-field="council" value="${esc(pl.council || '')}" maxlength="60" autocomplete="off" placeholder="For example, Richmond upon Thames"></label>
     <p class="hint">Local news is matched by place name, so the odd stray story can slip in.</p>
-    <h3 class="grp">In your brief</h3>
-    ${switches(p.sections, pl, 'set')}
+    <h3 class="grp" id="grp-parts">In your brief</h3>
+    <p class="hint" style="margin-top:0">Drag to put the parts in your own order.</p>
+    <div id="partBox">${partOrderHTML()}</div>
+    <label class="swrow" style="margin-top:6px"><span>Full day ring<small>Off shows a single line instead</small></span><input type="checkbox" role="switch" class="sw" data-ring="1"${p.ring !== 'compact' ? ' checked' : ''}></label>
     <h3 class="grp" id="grp-interests">Your interests</h3>
     <div id="interestsBox">${interestsEditor(p.topics, 'set')}</div>
+    <h3 class="grp" id="grp-suppliers">Your suppliers</h3>
+    <div id="supplyBox">${supplyEditor(p.suppliers || {}, 'set')}</div>
+    <h3 class="grp" id="grp-calendars">Calendars</h3>
+    <div id="calBox">${calendarEditor(p.calendars || {}, p.ics || [], pl, 'set')}</div>
+    <h3 class="grp">Videos</h3>
+    <button class="btn ghost" data-act="channels">${ICON.pencil}${(p.channels || []).length ? `Your channels (${p.channels.length})` : 'Add YouTube channels'}</button>
     <h3 class="grp">Markets</h3>
     <button class="btn ghost" data-act="markets">${ICON.pencil}Edit your markets</button>
     <h3 class="grp">Invite a friend</h3>
@@ -1308,14 +1853,17 @@ function settingsHTML() {
     <div class="btnrow"><button class="btn ghost" data-act="shareInvite">${ICON.share}Share invite link</button><button class="btn ghost" data-act="copyInvite">${ICON.copy}Copy</button></div>
     <p class="hint">To shut out everyone with the current link, run <b>newInviteCode</b> in Apps Script, then enter the new code here and share a fresh link.</p>
     <button class="linkbtn" style="padding-left:0" data-act="reinvite">Change invite code</button>
+    <h3 class="grp">Help</h3>
+    <button class="btn ghost" data-act="tour">Show me around again</button>
     <h3 class="grp">About</h3>
     <p class="about">Lowdown release ${RELEASE}. ${esc(scriptLine)}</p>
-    <p class="about">News from BBC News, Google News and Bing News. Weather by Open-Meteo. Place names from OpenStreetMap. Trending and on this day from Wikipedia. Prices from Google Finance and CoinGecko. Grid data from the National Energy System Operator.</p>`;
+    <p class="about">News from BBC News, Google News and Bing News. Money from MoneySavingExpert. Weather by Open-Meteo. Place names from OpenStreetMap. Trending and on this day from Wikipedia. Calendars from Hebcal and GOV.UK. Power cuts from UK Power Networks. Videos from YouTube. Prices from Google Finance and CoinGecko. Grid data from the National Energy System Operator.</p>`;
 }
 function openSettings(to) {
   if (topSheet() && topSheet().id === 'settings') return;
   const d = openSheet('settings', 'Settings', settingsHTML());
-  if (to === 'interests') { const g = $('#grp-interests', d); if (g) d.scrollTop = g.offsetTop - 70; }
+  const g = to && $('#grp-' + to, d);
+  if (g) d.scrollTop = g.offsetTop - 70;
 }
 
 /* ---------- Your markets ---------- */
@@ -1414,7 +1962,7 @@ function dragStart(e, grip) {
     grip.removeEventListener('pointercancel', up);
     rows.forEach((r) => { r.style.transform = ''; r.style.transition = ''; });
     li.classList.remove('dragging');
-    if (to !== from) moveMarket(from, to);
+    if (to !== from) (list.id === 'plist' ? movePart : moveMarket)(from, to);
   };
   grip.addEventListener('pointermove', move);
   grip.addEventListener('pointerup', up);
@@ -1444,8 +1992,8 @@ document.addEventListener('keydown', (e) => {
   const g = e.target.closest && e.target.closest('[data-grip]');
   if (g && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
     e.preventDefault();
-    const rows = [...$('#mlist').children], i = rows.indexOf(g.closest('.mrow')), j = i + (e.key === 'ArrowUp' ? -1 : 1);
-    if (j >= 0 && j < rows.length) moveMarket(i, j);
+    const list = g.closest('ul'), rows = [...list.children], i = rows.indexOf(g.closest('.mrow')), j = i + (e.key === 'ArrowUp' ? -1 : 1);
+    if (j >= 0 && j < rows.length) (list.id === 'plist' ? movePart : moveMarket)(i, j);
   }
 });
 $('#themeBtn').addEventListener('click', () => {
@@ -1488,6 +2036,28 @@ document.addEventListener('click', (e) => {
     }
     case 'untopic': removeTopic(el.dataset.scope, el.dataset.t); break;
     case 'finish': finishSetup(); break;
+    case 'setupNext': setupStep(1); break;
+    case 'setupBack': setupStep(-1); break;
+    case 'welcomeNext': welcomeNext(); break;
+    case 'welcomeDone': welcomeDone(); break;
+    case 'coachNext': coachNext(false); break;
+    case 'coachSkip': coachNext(true); break;
+    case 'tour': put('welcomed', false); put('coached', false); S.coach = 0; if (topSheet()) history.back(); setTimeout(() => { S.view = 'welcome'; window.scrollTo(0, 0); render(); }, topSheet() ? 220 : 0); break;
+    case 'supplier': openSupplier(el.dataset.cat); break;
+    case 'event': openEvent(+el.dataset.i); break;
+    case 'video': openVideo(+el.dataset.i); break;
+    case 'channels': S.ytResults = []; openSheet('channels', 'Videos', channelsHTML()); break;
+    case 'addChannel': {
+      const c = S.ytResults[+el.dataset.i], list = S.prefs.channels = S.prefs.channels || [];
+      if (!c || list.some((x) => x.id === c.id)) break;
+      if (list.length >= 12) { toast('You can follow up to 12 channels. Remove one first.'); break; }
+      list.push({ id: c.id, title: c.title });
+      if (!S.prefs.sections.videos) S.prefs.sections.videos = true;
+      channelsChanged(`${c.title} added.`);
+      break;
+    }
+    case 'unchannel': { const list = S.prefs.channels || [], i = list.findIndex((x) => x.id === el.dataset.id); if (i >= 0) { const [c] = list.splice(i, 1); channelsChanged(`${c.title} removed.`); } break; }
+    case 'unics': { const o = draftOrPrefs(el.dataset.scope); o.ics.splice(+el.dataset.i, 1); afterCalendars(el.dataset.scope, 'Calendar removed.'); break; }
     case 'shareInvite': shareInvite(); break;
     case 'copyInvite': copyInvite(); break;
     case 'safariAnyway': S.iosFirst = false; render(); break;
@@ -1507,6 +2077,8 @@ document.addEventListener('submit', (e) => {
     if (addTopic(f.dataset.scope, inp.value)) { const again = $(`#topicIn-${f.dataset.scope}`); if (again) { again.value = ''; again.focus(); } }
   } else if (f.dataset.form === 'code') addCode(f);
   else if (f.dataset.form === 'invite' || f.dataset.form === 'own') submitInvite(f);
+  else if (f.dataset.form === 'yt') searchChannels(f);
+  else if (f.dataset.form === 'ics') addIcs(f);
 });
 document.addEventListener('input', (e) => {
   const t = e.target;
@@ -1514,6 +2086,8 @@ document.addEventListener('input', (e) => {
   else if (t.id === 'mkQ') { S.mkQuery = t.value; $('#mkres').innerHTML = pickListHTML(); $$('.seg button', topSheet()).forEach((b) => b.setAttribute('aria-pressed', String(!S.mkQuery && b.dataset.k === S.mkTab))); }
   else if (t.id && t.id.startsWith('topicIn-')) { const err = $(`#topicErr-${t.id.slice(8)}`); if (err) err.textContent = ''; }
   else if (t.id === 'codeIn') $('#codeErr').textContent = '';
+  else if (t.id === 'ytQ') $('#ytErr').textContent = '';
+  else if (t.id && t.id.startsWith('icsIn-')) { const e2 = $(`#icsErr-${t.id.slice(6)}`); if (e2) e2.textContent = ''; }
   else if (t.id && /^(invIn|ownUrl|ownCode)-/.test(t.id)) { $$('.ferr', t.closest('section, dialog') || document).forEach((x) => { if (/^(invErr|ownErr)/.test(x.id)) x.textContent = ''; }); S.inviteError = ''; }
 });
 document.addEventListener('change', (e) => {
@@ -1521,13 +2095,36 @@ document.addEventListener('change', (e) => {
   if (t.dataset.sec) {
     const scope = t.dataset.scope, secs = scope === 'setup' ? S.draft.sections : S.prefs.sections;
     secs[t.dataset.sec] = t.checked;
+    if (scope === 'setup' && t.dataset.sec === 'interests') S.draft.touched = true;
     if (scope !== 'setup') { savePrefs(); render(); if (t.checked) refresh(); }
+  } else if (t.dataset.ring) {
+    S.prefs.ring = t.checked ? 'full' : 'compact';
+    savePrefs(); render();
+  } else if (t.dataset.cal) {
+    const o = draftOrPrefs(t.dataset.scope);
+    o.calendars = { ...(o.calendars || {}), [t.dataset.cal]: t.checked };
+    if (t.dataset.scope !== 'setup') { savePrefs(); render(); refresh(); }
+  } else if (t.dataset.supply) {
+    const o = draftOrPrefs(t.dataset.scope), cat = t.dataset.supply, cur = (o.suppliers = o.suppliers || {})[cat] || {};
+    o.suppliers[cat] = t.value === '__other' ? { ...cur, name: '', other: true } : { ...cur, name: t.value, other: false };
+    afterSupply(t.dataset.scope);
+    if (t.value === '__other') { const inp = $(`[data-supply-other="${cat}"]`); if (inp) inp.focus(); }
+  } else if (t.dataset.supplyOther) {
+    const o = draftOrPrefs(t.dataset.scope), cat = t.dataset.supplyOther;
+    o.suppliers[cat] = { ...(o.suppliers[cat] || {}), name: t.value.replace(/["<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, 40), other: true };
+    afterSupply(t.dataset.scope);
+  } else if (t.dataset.network) {
+    const o = draftOrPrefs(t.dataset.scope);
+    o.suppliers = o.suppliers || {};
+    o.suppliers.electricity = { ...(o.suppliers.electricity || {}), network: t.value };
+    afterSupply(t.dataset.scope);
   } else if (t.dataset.field) {
     const v = t.value.replace(/["<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, 60);
     if (v === S.prefs.place[t.dataset.field]) return;
     S.prefs.place[t.dataset.field] = v;
     savePrefs();
-    toast(v ? `${t.dataset.field === 'town' ? 'Local area' : 'County'} set to ${v}.` : `${t.dataset.field === 'town' ? 'Local' : 'County'} news is off until you add a name.`);
+    const what = { town: ['Local area', 'Local news'], county: ['County', 'County news'], council: ['Council', 'Council news'] }[t.dataset.field];
+    toast(v ? `${what[0]} set to ${v}.` : `${what[1]} is off until you add a name.`);
     render();
     refresh();
   }
