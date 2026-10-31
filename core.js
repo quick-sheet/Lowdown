@@ -516,11 +516,11 @@
   }
 
   /* ---------- Parts of the brief ---------- */
-  const PARTS = ['news', 'politics', 'money', 'suppliers', 'travel', 'comingup', 'videos', 'interests', 'markets', 'trending', 'viral', 'looked', 'onthisday', 'greenest'];
+  const PARTS = ['news', 'politics', 'money', 'suppliers', 'travel', 'comingup', 'videos', 'interests', 'markets', 'looked', 'onthisday', 'greenest'];
   function defaultSections(cc) {
     const uk = cc === 'GB';
     return { world: true, country: true, county: true, local: true, politics: true, money: uk, suppliers: uk, comingup: true, videos: false,
-      interests: false, markets: false, trending: true, viral: true, looked: false, onthisday: false, greenest: false, transport: uk, roads: uk };
+      interests: false, markets: false, looked: false, onthisday: false, greenest: false, transport: uk, roads: uk };
   }
   const defaultCalendars = (cc) => ({ christian: false, orthodox: false, jewish: false, islamic: false, hindu: false, sikh: false, buddhist: false, lunar: false, bank: cc === 'GB' });
   // Release 3 adds parts, an order and calendars to older settings, keeping every choice already made.
@@ -540,10 +540,11 @@
       out.ring = out.ring || 'full';
       out.v = 3;
     }
-    // Release 5 adds Trending now and Viral, switched on, and Getting around (public transport and roads, in the UK), each in its place.
+    // Release 5 adds Getting around (public transport and roads, in the UK) in its place.
     out.sections = { ...out.sections };
     const d5 = defaultSections(out.place && out.place.cc);
-    for (const k of ['trending', 'viral', 'transport', 'roads']) if (!(k in out.sections)) out.sections[k] = d5[k];
+    for (const k of ['transport', 'roads']) if (!(k in out.sections)) out.sections[k] = d5[k];
+    delete out.sections.trending; delete out.sections.viral;
     if (!Array.isArray(out.stations)) out.stations = [];
     const order = [...new Set((out.order || []).filter((k) => PARTS.includes(k)))];
     // A missing part goes straight after the part that comes before it, so a chosen order is kept.

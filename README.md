@@ -6,14 +6,16 @@ Live at **https://quick-sheet.github.io/Lowdown/**
 
 ## What it does
 
-- **The brief is a list you tick off.** Tap a part to open it (one at a time); reach its end and it gets a tick. **Next** at the bottom of each part carries you through. When a new story arrives later, that part loses its tick and says "1 new story".
-- **Pull down to refresh**, or tap ↻ beside the name. The bottom of the brief says when it last updated.
+- **The brief is a list you tick off.** Tap a part to open it (one at a time); reach its end and it gets a tick, then tap the next one. When a new story arrives later, that part loses its tick and says "1 new story".
+- **At the top:** the name with "Your daily brief" beneath it, ↻ to refresh (or pull down), and buttons for Saved, black or white, and Settings.
 - **Stories open inside Lowdown** as a card: the publisher's logo and name, the headline, their standfirst, the lead picture or video, the byline and time. **Read at …** opens the full story in your browser. The card is built from the preview each publisher makes for link sharing (what WhatsApp or iMessage show for a pasted link); the article itself is never copied.
-- **Liked.** Tap ♡ on any story, video or page to keep it; the heart at the top opens your list. Liked items stay on your phone only.
-- **Share** any open story, video, trend or market with the share icon at the top of its sheet.
-- **Weather, top right.** A small day ring and the temperature. Tap it for the full forecast: the day ring (gold daylight, rain dots, the sun or moon at now) and one plain sentence, the next 24 hours with sunrise and sunset, tiles for daylight, rain, wind, UV, air quality and pollen, and the moon, then the next 7 days.
-- **What's next, under the weather.** The next event from your calendars: "Diwali in 8 days", "Diwali tomorrow". Tap it to read about it.
-- **Travel alerts, under that**, only when something is wrong: a train icon when one of your stations has a problem ("Teddington: severe delays"), a road icon for a closure or serious disruption within 5 miles. A small number on the icon means more than one. Tap to jump to the details.
+- **Saved.** Tap the bookmark on any story, video or page to keep it; the bookmark at the top opens your list. Saved items stay on your phone only.
+- **Share** any open story, video or market with the share icon at the top of its sheet.
+- **Today, in one card under the name:**
+  - **The weather:** a small day ring and the temperature. Tap it for the full forecast: the day ring (gold daylight, rain dots, the sun or moon at now) and one plain sentence, the next 24 hours with sunrise and sunset, tiles for daylight, rain, wind, UV, air quality and pollen, and the moon, then the next 7 days.
+  - **What's next:** the next event from your calendars ("Diwali in 8 days", "Diwali tomorrow"). Tap it to read about it.
+  - **Travel alerts**, only when something is wrong: a train icon when one of your stations has a problem ("Teddington: severe delays"), a road icon for a closure or serious disruption within 5 miles, and "+2" when there are more. Tap to jump to the details.
+  - On a quiet day with nothing coming up, a word on the weather instead.
 - **News in four tiers**, world, country, county and local, based on where you are, each a section you open (one at a time). The most local tier claims a story first, so nothing repeats. A part only gets its tick once you've opened each section.
 - **Politics.** Westminster and your own council, straight news with no opinion, in sections the same way.
 - **Money.** The latest from Martin Lewis's MoneySavingExpert.
@@ -23,7 +25,6 @@ Live at **https://quick-sheet.github.io/Lowdown/**
 - **Videos.** Search YouTube for channels; their new uploads from the past week show in your brief.
 - **Your interests.** Pick from a list or add your own ("snooker", "hip hop"); each gets a short update.
 - **Markets.** Indices, currencies, gold and crypto, plus any share: pick its market, type its code (LIDR on NASDAQ, BARC on London) and Lowdown checks it. Tap any of them for a close-up: today's price and change, a chart over 1 month, 6 months, 1 year or 5 years (drag along it to read a day), and the figures: today's and the 52-week range, open, previous close, market value, P/E and volume.
-- **Trending now** (what your country is searching for on Google, with the news behind it) and **Viral** (YouTube's most watched in your country today).
 - **What people looked up** (Wikipedia's most-read), **On this day**, and, in Britain, **the greenest hours** to run the washing machine.
 - **Every part can be switched off and put in your own order** in Settings.
 - **It ends.** Tick every part and it says "You're up to date."
@@ -36,7 +37,7 @@ No notifications and no accounts. It's invite-only: without an invite, the site 
 
 ### 1. The Apps Script (a computer is easiest)
 
-It fetches what a browser can't: the news feeds and story previews, Google Finance prices and charts, Google Trends, TfL, the grid forecast, power cuts, calendars and YouTube.
+It fetches what a browser can't: the news feeds and story previews, Google Finance prices, market charts, TfL, the grid forecast, power cuts, calendars and YouTube.
 
 1. Go to script.google.com, choose **New project** and rename it **Lowdown**.
 2. Paste `apps-script/Code.gs` over the default file. In **Project Settings**, tick **Show "appsscript.json" manifest file in editor**, then paste `apps-script/appsscript.json` into it.
@@ -101,11 +102,10 @@ Every release bumps both markers together: `core.js?v=N` in `index.html` and `lo
 ## Good to know
 
 - **The invite is a shared code, not a login.** Anyone holding the link gets in, so share it only with friends, and change the code if it spreads. The page itself stays public on GitHub Pages; only the invite box shows without one.
-- **Sources.** News from BBC News, Google News and Bing News; story cards from each publisher's own link preview; money from MoneySavingExpert via Google News; weather from Open-Meteo; air quality and pollen from Copernicus via Open-Meteo (pollen is Europe only, in season); place names from OpenStreetMap; what people looked up, on this day and festival summaries from Wikipedia; trending from Google Trends; viral from YouTube; prices from Google Finance (up to 20 minutes behind) and CoinGecko; charts from Yahoo Finance, the European Central Bank (through Frankfurter) and CoinGecko; travel from TfL Open Data (Powered by TfL Open Data); grid data from the National Energy System Operator; power cuts from UK Power Networks; Jewish dates from Hebcal; bank holidays from GOV.UK; videos from YouTube. All free, for personal use.
+- **Sources** (also listed in **Settings → Sources**). News from BBC News, Google News and Bing News; story cards from each publisher's own link preview; money from MoneySavingExpert via Google News; weather from Open-Meteo; air quality and pollen from Copernicus via Open-Meteo (pollen is Europe only, in season); place names from OpenStreetMap; what people looked up, on this day and festival summaries from Wikipedia; prices from Google Finance (up to 20 minutes behind) and CoinGecko; charts from Yahoo Finance, the European Central Bank (through Frankfurter) and CoinGecko; travel from TfL Open Data (Powered by TfL Open Data); grid data from the National Energy System Operator; power cuts from UK Power Networks; Jewish dates from Hebcal; bank holidays from GOV.UK; videos from YouTube. All free, for personal use.
 - **Story cards depend on the publisher.** Most news sites publish a link preview; a few block requests or leave it out, and then the card shows the feed's headline and summary with the same Read link. Google News hides the publisher's address behind its own link: Lowdown unwraps it the way Google's own page does, or finds the story on Bing, and falls back to the feed card when neither works.
 - **Travel.** Live line status, station notices and road problems are TfL's, so they're London-wide; outside London, Getting around uses local news and your stations' lines where TfL lists them. Line status is for a whole line or train company, so "Severe delays" on South Western Railway may be on another branch: the reason underneath says where. The road alert at the top only counts closures and serious disruption, so it doesn't sit there every day for minor works.
 - **Market charts need no keys.** Google doesn't let scripts read Google Finance's price history, so currencies are drawn from the European Central Bank's daily rates and indices, shares and metals from Yahoo Finance's public chart feed (metals follow the futures price). Yahoo's feed is unofficial and sometimes turns scripts away; then the chart comes from Lowdown's own record, which the Apps Script adds to each night from Google Finance prices (in the sheet's History tab, kept five years), and the sheet says so. That record builds up night by night. Crypto charts come from CoinGecko and go back a year.
-- **Trending and viral.** Trending is Google Trends' public feed; viral is YouTube only, as TikTok, X and Instagram have no free open feed.
 - **Supplier status is what makes the news.** Small or very local faults won't show; each tile's sheet has a search for the provider's own status page, which can check your postcode. Live power cuts only cover UK Power Networks' area (London, the South East and the East); elsewhere it's news only.
 - **Festival dates.** Christian dates are worked out on the phone; Jewish dates and bank holidays come live. Hindu, Sikh, Buddhist, Islamic and Lunar New Year dates come from a table checked against published calendars, covering to the end of 2027, so it needs topping up in a release next year. Islamic dates are marked "expected": they can move by a day with the moon sighting, and some communities differ.
 - **Local and council news are matched by place name**, so the odd stray story can slip in. Settings lets you change the county, local and council names used.

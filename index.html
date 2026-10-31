@@ -45,36 +45,38 @@ a{color:var(--link)}
 /* Header */
 .bar{position:sticky;top:0;z-index:10;background:var(--bg);padding-top:env(safe-area-inset-top);transition:box-shadow .2s}
 .scrolled .bar{box-shadow:0 1px 0 var(--line)}
-.top{max-width:34rem;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:6px;padding:8px 12px 10px 20px}
-.top .id{display:contents}
-.brandrow{grid-column:1;grid-row:1;display:flex;align-items:center;gap:2px;min-width:0}
-.top .sub{grid-column:1;grid-row:2;margin-top:1px}
-.hb{grid-column:2;grid-row:1;align-items:center;gap:0}
+.top{max-width:34rem;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 10px 9px 20px}
+.id{display:flex;flex-direction:column;min-width:0}
+.brandrow{display:flex;align-items:center;gap:2px;min-width:0}
+.brand{font-family:var(--disp);font-size:27px;font-weight:700;letter-spacing:-.012em;line-height:1}
+.ref{width:30px!important;height:28px!important;border-radius:14px!important;color:var(--meta)}
+.ref.busy svg,.ref.spinning svg{animation:spin .9s linear infinite}
+.sub{margin-top:3px;min-width:0;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--meta);white-space:nowrap;line-height:1.2}
+.hb{display:flex;align-items:center;gap:2px;flex-shrink:0}
 .hb .ib{width:40px;height:40px}
 .lk{position:relative}
 .badge{position:absolute;top:3px;right:1px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--ink);color:var(--bg);font-size:11px;font-weight:700;line-height:17px;text-align:center;font-variant-numeric:tabular-nums;box-shadow:0 0 0 2px var(--bg)}
-.wx{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 11px 0 7px;margin-right:4px;border:1px solid var(--line-2);border-radius:19px;background:transparent;color:var(--ink);font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
-.wx svg{width:24px;height:24px;flex-shrink:0;overflow:visible}
+/* Today: the weather, the next event and any travel alerts, together under the masthead */
+.today{max-width:34rem;margin:0 auto;padding:2px 20px 0}
+.tcard{display:flex;align-items:center;gap:12px;padding:6px 14px 6px 6px;border-radius:18px;background:var(--raise)}
+.wx{flex-shrink:0;display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 10px 0 8px;border:0;border-radius:14px;background:transparent;color:var(--ink);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.wx svg{width:28px;height:28px;flex-shrink:0;overflow:visible}
 .wx:active{background:var(--line)}
-.evl{grid-column:2;grid-row:2;justify-self:start;display:flex;gap:4px;width:0;min-width:100%;min-height:24px;margin:2px 0 0 2px;padding:0;border:0;background:transparent;color:var(--ink-2);font-size:13px;font-weight:500;text-align:left;white-space:nowrap}
-.evl b{min-width:0;overflow:hidden;text-overflow:ellipsis;font-weight:600;color:var(--ink)}
-.evl span{flex-shrink:0}
-.als{grid-column:2;grid-row:3;display:flex;flex-direction:column;width:0;min-width:100%}
-.evl[hidden]+.als{grid-row:2}
-.als .evl{width:auto;min-width:0;min-height:22px;margin-top:0;align-items:center;gap:0;font-weight:500}
-.ali{position:relative;flex-shrink:0;display:inline-flex;margin-right:6px;color:var(--down)}
-.ali:has(i){margin-right:10px}
-.ali i{position:absolute;top:-5px;right:-6px;min-width:13px;height:13px;padding:0 3px;border-radius:7px;background:var(--down);color:var(--bg);font-size:9px;font-style:normal;font-weight:700;line-height:13px;text-align:center;box-shadow:0 0 0 1.5px var(--bg)}
-.als .evl b{font-weight:600;flex-shrink:0;max-width:62%}
-.als .evl span:last-child{flex-shrink:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
-.id{display:flex;flex-direction:column;gap:2px;min-width:0}
-.brand{font-family:var(--disp);font-size:26px;font-weight:700;letter-spacing:-.012em;line-height:1}
-.ref{width:34px!important;height:34px!important;margin-top:2px;color:var(--meta)}
-.ref.busy svg,.ref.spinning svg{animation:spin .9s linear infinite}
-.sub{min-width:0;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--meta);white-space:nowrap;line-height:1.6}
-.hb{display:flex;gap:2px;flex-shrink:0}
+.tlines{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;padding:3px 0 3px 12px;border-left:1px solid var(--line-2)}
+.als{display:flex;flex-direction:column}
+.evl{display:flex;align-items:center;width:100%;min-height:27px;padding:0;border:0;background:transparent;color:var(--ink-2);font-size:14px;font-weight:500;text-align:left;white-space:nowrap}
+.evl:active{opacity:.6}
+.evl b{font-weight:600;color:var(--ink)}
+.evl>b,.evl>span:last-child{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.ev1>span:last-child{flex-shrink:0}
+.al1>b{flex-shrink:0;max-width:62%}
+.ali{position:relative;flex-shrink:0;width:18px;margin-right:8px;display:inline-flex;justify-content:center;color:var(--ink-2)}
+.ali svg{width:16px;height:16px}
+.al1 .ali{color:var(--down)}
+.evl>.more{flex-shrink:0;margin-left:6px;padding:0 6px;border-radius:9px;background:var(--line);color:var(--ink-2);font-size:12px;font-style:normal;font-weight:600;line-height:18px}
+.al1>span:nth-last-child(2){min-width:0;overflow:hidden;text-overflow:ellipsis}
 .ib{width:44px;height:44px;padding:0;border:0;border-radius:22px;background:transparent;color:var(--ink-2);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
-@media (max-width:379px){.brand{font-size:23px}.hb .ib{width:36px}.ref{width:30px!important;height:30px!important}.wx{padding:0 9px 0 6px}.top{padding-left:16px;padding-right:10px}}
+@media (max-width:379px){.top{padding-left:16px}.today{padding:2px 16px 0}.tcard{gap:10px;padding-right:12px}.wx{padding:0 8px 0 6px}.tlines{padding-left:10px}}
 .ib:active{background:var(--line)}
 .ib[aria-expanded="true"]{background:var(--line);color:var(--ink)}
 
@@ -131,8 +133,6 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 .pb{padding:2px 0 26px;border-bottom:1px solid var(--line);animation:open .24s cubic-bezier(.2,.8,.2,1)}
 @keyframes open{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 .chsub{margin:-10px 0 2px 36px;font-size:13px;color:var(--meta)}
-.nextbtn{margin-top:24px}
-.nextbtn svg{margin-left:2px}
 .foot{margin:24px 0 0}
 .foot .src{margin-top:8px}
 .pullhint{display:flex;align-items:center;gap:6px;margin:0;font-size:13px;color:var(--ink-2)}
@@ -217,8 +217,8 @@ html,body{overscroll-behavior-y:contain}
 .ticks span{grid-row:1;white-space:nowrap}
 
 /* The end */
-.end{position:relative;padding:30px 0 6px 36px}
-.end .tick{position:absolute;left:1px;top:32px;width:28px;height:28px;border-radius:14px;background:var(--raise-2);color:var(--ink);display:flex;align-items:center;justify-content:center}
+.end{padding:34px 0 6px;text-align:center}
+.end .tick{width:36px;height:36px;margin:0 auto 12px;border-radius:18px;background:var(--raise-2);color:var(--ink);display:flex;align-items:center;justify-content:center}
 .end h2{margin:0;font-family:var(--disp);font-size:30px;font-weight:600;letter-spacing:-.01em;line-height:1.1}
 .end p{margin:10px 0 0;font-size:16px;font-weight:400;line-height:1.55;color:var(--ink-2)}
 .end .src{font-size:12px;font-weight:400;color:var(--meta);margin-top:18px}
@@ -408,7 +408,7 @@ html,body{overscroll-behavior-y:contain}
 .rbar i{position:absolute;top:-4px;width:12px;height:12px;margin-left:-6px;border-radius:6px;background:var(--ink)}
 .rlab{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums}
 
-/* Liked */
+/* Saved */
 .lkh{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
 .lkh span{font-size:13px;color:var(--meta)}
 .lkl{margin-top:8px}
@@ -521,25 +521,28 @@ dialog.sheet.closing{transition:transform .18s ease-in,opacity .18s;transform:tr
       <div class="sub" id="sub">Your daily brief</div>
     </div>
     <div class="hb">
-      <button class="wx" id="wxBtn" data-act="weather" hidden></button>
-      <button class="ib lk" id="likedBtn" data-act="liked" aria-label="Liked" title="Liked" hidden></button>
+      <button class="ib lk" id="likedBtn" data-act="liked" aria-label="Saved" title="Saved" hidden></button>
       <button class="ib" id="modeBtn" data-act="mode"></button>
       <button class="ib" id="setBtn" data-act="settings" aria-label="Settings" title="Settings"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></button>
     </div>
-    <button class="evl" id="evLine" data-act="nextEvent" hidden></button>
-    <div class="als" id="alLine" hidden></div>
   </header>
+</div>
+<div class="today" id="today" hidden>
+  <div class="tcard">
+    <button class="wx" id="wxBtn" data-act="weather"></button>
+    <div class="tlines"><button class="evl ev1" id="evLine" data-act="nextEvent" hidden></button><div class="als" id="alLine" hidden></div><button class="evl" id="wxSay" data-act="weather" hidden></button></div>
+  </div>
 </div>
 <main id="app" aria-live="off"></main>
 <div id="toast" popover="manual" role="status" aria-live="polite"></div>
 
-<script src="core.js?v=5"></script>
+<script src="core.js?v=6"></script>
 <script>
 'use strict';
 // Invite-only: the Apps Script address and the shared code arrive in an invite link and
 // stay on each phone, so neither is in this public repo.
-const EXPECT_BUILD = 4;    // the Apps Script release this page needs
-const RELEASE = 5;
+const EXPECT_BUILD = 5;    // the Apps Script release this page needs
+const RELEASE = 6;
 const SCRIPT_RE = /^https:\/\/script\.google\.com\/(?:a\/macros\/[^/]+|macros)\/s\/[\w-]+\/exec$/;
 const CODE_RE = /^[A-Za-z0-9-]{6,40}$/;
 const C = window.Core;
@@ -558,6 +561,10 @@ const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
 
 const svg = (d, s = 22, w = 1.6) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const ICON = {
+  save: svg('<path d="M6.5 3.5h11a1 1 0 0 1 1 1v16.2l-6.5-4.7-6.5 4.7V4.5a1 1 0 0 1 1-1z"/>', 20, 1.7),
+  saveFill: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.5h11a1 1 0 0 1 1 1v16.2l-6.5-4.7-6.5 4.7V4.5a1 1 0 0 1 1-1z"/></svg>',
+  save22: svg('<path d="M6.5 3.5h11a1 1 0 0 1 1 1v16.2l-6.5-4.7-6.5 4.7V4.5a1 1 0 0 1 1-1z"/>', 22, 1.6),
+  calS: svg('<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/>', 16, 1.8),
   playFill: '<svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>',
   trainS: svg('<rect x="5.5" y="3" width="13" height="14" rx="3"/><path d="M5.5 10.5h13M9 21l1.5-4M15 21l-1.5-4"/><circle cx="9" cy="13.8" r=".9" fill="currentColor"/><circle cx="15" cy="13.8" r=".9" fill="currentColor"/>', 16, 1.9),
   roadS: svg('<path d="M8.5 3 5 21M15.5 3 19 21M12 4v2.5M12 10v2.5M12 16v2.5"/>', 16, 1.9),
@@ -590,8 +597,6 @@ const ICON = {
   down14: svg('<path d="M12 5v14M6 13l6 6 6-6"/>', 14, 2),
   globe: svg('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/>', 20),
   heart: svg('<path d="M12 20s-7.5-4.6-7.5-10.1A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z"/>', 20),
-  heartFill: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-10.1A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z"/></svg>',
-  heart22: svg('<path d="M12 20s-7.5-4.6-7.5-10.1A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z"/>', 22),
   done: svg('<circle cx="12" cy="12" r="9"/><path d="m8 12.3 2.8 2.8L16.2 9.6"/>', 20),
   sliders: svg('<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>', 16),
   play: svg('<rect x="3" y="5.5" width="18" height="13" rx="3.5"/><path d="m10.5 9.5 4 2.5-4 2.5z"/>', 20),
@@ -1102,16 +1107,6 @@ function partInfo(id) {
       const note = !t ? (S.prefs.place.county === 'London' ? 'TfL and roads' : 'Trains, buses and roads') : total ? `${total} to check` : 'All clear';
       return { title: 'Getting around', note, keys, n: Math.max(1, total) };
     }
-    case 'trending': {
-      if (!on.trending) return null;
-      const t = trends();
-      return { title: 'Trending now', note: t.length ? t[0].term : 'What people are searching', keys: t.map((x) => 'tr:' + x.id), n: t.length };
-    }
-    case 'viral': {
-      if (!on.viral) return null;
-      const v = viralList();
-      return { title: 'Viral', note: v.length ? 'Most watched today' : 'On YouTube', keys: v.map((x) => 'vr:' + x.id), n: v.length };
-    }
     case 'looked': return on.looked ? { title: 'What people looked up', note: 'Top 5', n: 5 } : null;
     case 'onthisday': return on.onthisday ? { title: 'On this day', note: '3 moments', n: 3 } : null;
     case 'greenest': {
@@ -1324,39 +1319,39 @@ function videosHTML(parts, p) {
   else h += v.map((x, i) => `<div class="rowl" data-key="${esc(x.id)}"><button class="vid" data-act="video" data-i="${i}"><img src="${esc(x.thumb)}" alt="" loading="lazy"><span class="tx"><span class="vt">${isNew(x.id) ? '<span class="newdot" aria-hidden="true"></span><span class="vh">New: </span>' : ''}${esc(x.title)}</span><span class="meta">${esc(x.channel)}${x.at ? ' \u00b7 ' + esc(C.timeAgo(x.at, Date.now())) : ''}</span></span></button>${likeBtn(videoRec(x))}</div>`).join('');
   return h + `<button class="btn ghost edit" data-act="channels">${ICON.pencil}${ch.length ? 'Edit your channels' : 'Add channels'}</button>` + chClose(p);
 }
-/* ---------- Liked: anything you keep, saved on this phone ---------- */
-// Every row drawn registers what it would keep, so a heart can save it without opening it.
+/* ---------- Saved: anything you keep, on this phone ---------- */
+// Every row drawn registers what it would keep, so its bookmark can save it without opening it.
 const REC = {};
 const isLiked = (id) => S.liked.some((x) => x.id === id);
 function likeBtn(rec, big) {
   REC[rec.id] = rec;
   const on = isLiked(rec.id);
-  return `<button class="like${big ? ' big' : ''}" data-act="like" data-id="${esc(rec.id)}" aria-pressed="${on}" aria-label="${on ? 'Remove from Liked' : 'Save to Liked'}: ${esc(rec.title)}" title="${on ? 'Liked' : 'Like'}">${on ? ICON.heartFill : ICON.heart}</button>`;
+  return `<button class="like${big ? ' big' : ''}" data-act="like" data-id="${esc(rec.id)}" aria-pressed="${on}" aria-label="${on ? 'Remove from Saved' : 'Save'}: ${esc(rec.title)}" title="${on ? 'Saved' : 'Save'}">${on ? ICON.saveFill : ICON.save}</button>`;
 }
 function toggleLike(id) {
   const i = S.liked.findIndex((x) => x.id === id);
-  if (i >= 0) { S.liked.splice(i, 1); toast('Removed from Liked.'); }
+  if (i >= 0) { S.liked.splice(i, 1); toast('Removed from Saved.'); }
   else {
     const r = REC[id];
     if (!r) return;
     S.liked.unshift({ id: r.id, kind: r.kind, title: r.title, source: r.source || '', link: r.link || '', summary: String(r.summary || '').slice(0, 700), at: r.at || null, thumb: r.thumb || '', from: r.from || '', saved: Date.now() });
     if (S.liked.length > 300) S.liked.length = 300;
-    toast('Saved to Liked.');
+    toast('Saved.');
   }
   put('liked', S.liked);
   const on = isLiked(id);
   $$('[data-act=like]').filter((b) => b.dataset.id === id).forEach((b) => {
     b.setAttribute('aria-pressed', String(on));
-    b.setAttribute('aria-label', `${on ? 'Remove from Liked' : 'Save to Liked'}: ${(REC[id] || {}).title || ''}`);
-    b.title = on ? 'Liked' : 'Like';
-    b.innerHTML = on ? ICON.heartFill : ICON.heart;
+    b.setAttribute('aria-label', `${on ? 'Remove from Saved' : 'Save'}: ${(REC[id] || {}).title || ''}`);
+    b.title = on ? 'Saved' : 'Save';
+    b.innerHTML = on ? ICON.saveFill : ICON.save;
   });
   renderHeader();
 }
 function likedHTML() {
   const n = S.liked.length;
-  if (!n) return `<h2 class="sh-title" id="liked-t">Liked</h2><div class="lkempty">${ICON.heart22}<b>Nothing liked yet</b><p>Tap \u2661 on any story, video or page and it\u2019s kept here, even after it leaves your brief.</p></div>`;
-  return `<div class="lkh"><h2 class="sh-title" id="liked-t">Liked</h2><span>${plural(n, 'item', 'items')}</span></div><div class="lkl">${S.liked.map((r) => {
+  if (!n) return `<h2 class="sh-title" id="liked-t">Saved</h2><div class="lkempty">${ICON.save22}<b>Nothing saved yet</b><p>Tap the bookmark on any story, video or page and it\u2019s kept here, on this phone, even after it leaves your brief.</p></div>`;
+  return `<div class="lkh"><h2 class="sh-title" id="liked-t">Saved</h2><span>${plural(n, 'item', 'items')}</span></div><div class="lkl">${S.liked.map((r) => {
     REC[r.id] = r;
     return `<div class="item"><button class="itm" data-act="openLiked" data-id="${esc(r.id)}"><span class="tx"><span class="hl">${esc(r.title)}</span><span class="meta">${esc([r.from && r.from !== r.source ? r.from : '', r.source].filter(Boolean).join(' \u00b7 '))}${r.saved ? ' \u00b7 saved ' + esc(C.timeAgo(r.saved, Date.now())) : ''}</span></span></button>${likeBtn(r)}</div>`;
   }).join('')}</div>`;
@@ -1398,7 +1393,7 @@ function articleHTML(r, pv, loading) {
 }
 function openArticle(r, label) {
   const link = r.link, have = pvGet(link), ask = !have && hasApi() && navigator.onLine !== false;
-  const d = openSheet('story', label || r.from || 'Liked', articleHTML(r, have, ask), { title: r.title, url: (have && httpsOnly(have.url)) || link });
+  const d = openSheet('story', label || r.from || 'Saved', articleHTML(r, have, ask), { title: r.title, url: (have && httpsOnly(have.url)) || link });
   if (!ask) return;
   d._pv = link;
   api('preview', { url: link, title: r.title }, 15000).then((j) => { pvPut(link, j); return j; }, () => null).then((j) => {
@@ -1413,7 +1408,7 @@ function openRecord(r, label) {
   if (r.kind === 'story' && !r.noPreview && /^https?:\/\//i.test(r.link || '')) { openArticle(r, label); return; }
   const when = r.at ? `${C.localDayKey(r.at, off(r.at)) === today() ? fmtTime(r.at) : fmtDay(r.at) + ', ' + fmtTime(r.at)}` : '';
   const go = r.kind === 'video' ? 'Watch on YouTube' : r.kind === 'wiki' ? 'Read on Wikipedia' : `Read at ${r.source || 'the source'}`;
-  openSheet('story', label || r.from || 'Liked', `${r.thumb ? `<img class="sh-img" src="${esc(r.thumb)}" alt="" loading="lazy" style="margin:0 0 14px">` : ''}<h2 class="sh-title" id="story-t">${esc(r.title)}</h2>
+  openSheet('story', label || r.from || 'Saved', `${r.thumb ? `<img class="sh-img" src="${esc(r.thumb)}" alt="" loading="lazy" style="margin:0 0 14px">` : ''}<h2 class="sh-title" id="story-t">${esc(r.title)}</h2>
     <p class="sh-meta">${esc(r.meta || (r.source || '') + (when ? (r.source ? ' \u00b7 ' : '') + when : ''))}</p>
     ${r.summary ? `<p class="sh-text">${esc(r.summary)}</p>` : ''}
     ${r.related && r.related.length ? `<h3 class="sh-h">${esc(r.relLabel || 'Also reported by')}</h3><ul class="rel">${r.related.map((x) => `<li><a href="${esc(outHref(x.link))}" target="_blank" rel="noopener">${esc(x.title)}<span>${esc(x.source)}</span></a></li>`).join('')}</ul>` : ''}
@@ -1582,30 +1577,35 @@ function renderHeader() {
   if (!ref.innerHTML) ref.innerHTML = ICON.refresh;
   ref.classList.toggle('spinning', !!S.refreshing);
   if (S.refreshing) document.documentElement.dataset.busy = '1'; else delete document.documentElement.dataset.busy;
-  if (!ready()) { wx.hidden = true; ev.hidden = true; $('#alLine').hidden = true; return; }
+  const shown = hasApi() && !S.iosFirst && S.view !== 'intro' && S.view !== 'setup' && ready();
+  $('#today').hidden = !shown;
+  if (!shown) return;
   const m = heroModel();
-  wx.hidden = false;
   wx.innerHTML = chipSVG(m) + `<span>${m.current ? Math.round(m.current.temp) + '\u00b0' : '\u2013'}</span>`;
   wx.setAttribute('aria-label', m.current ? `Weather: ${Math.round(m.current.temp)}\u00b0, ${C.conditionWord(m.current.code, m.current.isDay).toLowerCase()}. Open the forecast.` : 'Weather. Open the forecast.');
   const e = nextEvent();
   ev.hidden = !e;
   if (e) {
     const line = C.eventLine(e);
-    ev.innerHTML = `<b>${esc(e.title)}</b> <span>${esc(line.slice(e.title.length).trim())}</span>`;
+    ev.innerHTML = `<span class="ali">${ICON.calS}</span><b>${esc(e.title)}</b><span>&nbsp;${esc(line.slice(e.title.length).trim())}</span>`;
     ev.setAttribute('aria-label', line + '. Find out more.');
   }
   const al = $('#alLine'), A = travelAlertList();
   al.hidden = !A.length;
   al.innerHTML = A.map((a) => {
     const name = a.name.replace(/\s*\([^)]*\)$/, '') || a.name, say = `${a.name}: ${a.what}${a.more ? `, and ${a.more} more` : ''}`;
-    return `<button class="evl" data-act="alert" data-k="${a.kind === 'train' ? 'transport' : 'roads'}" aria-label="${esc((a.kind === 'train' ? 'Your stations. ' : 'Roads near you. ') + say + '. See Getting around.')}">` +
-      `<span class="ali">${a.kind === 'train' ? ICON.trainS : ICON.roadS}${a.more ? `<i>${a.more + 1}</i>` : ''}</span><b>${esc(name)}</b><span>${a.kind === 'train' ? ':' : ''}&nbsp;${esc(a.what)}</span></button>`;
+    return `<button class="evl al1" data-act="alert" data-k="${a.kind === 'train' ? 'transport' : 'roads'}" aria-label="${esc((a.kind === 'train' ? 'Your stations. ' : 'Roads near you. ') + say + '. See Getting around.')}">` +
+      `<span class="ali">${a.kind === 'train' ? ICON.trainS : ICON.roadS}</span><b>${esc(name)}</b><span>${a.kind === 'train' ? ':' : ''}&nbsp;${esc(a.what)}</span>${a.more ? `<i class="more">+${a.more}</i>` : ''}</button>`;
   }).join('');
+  // Nothing else to say today: a word on the weather instead.
+  const say = $('#wxSay'), lone = !e && !A.length && m.current;
+  say.hidden = !lone;
+  if (lone) say.innerHTML = `<b>${esc(C.conditionWord(m.current.code, m.current.isDay))}</b><span>${m.today ? `&nbsp;\u00b7 high ${Math.round(m.today.max)}\u00b0, low ${Math.round(m.today.min)}\u00b0` : ''}</span>`;
   const pg = $('#prog');
   if (pg) pg.innerHTML = progHTML(partList());
   const lb = $('#likedBtn'), n = S.liked.length;
-  lb.innerHTML = ICON.heart + (n ? `<span class="badge" aria-hidden="true">${n > 99 ? '99+' : n}</span>` : '');
-  lb.setAttribute('aria-label', n ? `Liked, ${plural(n, 'item', 'items')}` : 'Liked');
+  lb.innerHTML = ICON.save + (n ? `<span class="badge" aria-hidden="true">${n > 99 ? '99+' : n}</span>` : '');
+  lb.setAttribute('aria-label', n ? `Saved, ${plural(n, 'item', 'items')}` : 'Saved');
 }
 
 /* ---------- The day ring ---------- */
@@ -1808,13 +1808,13 @@ function noticesHTML() {
   }
   if ((S.whatsNew === 3 || S.whatsNew === 4) && !S.dismissed.new4) n.push(notice('new4', S.whatsNew === 3
     ? 'New in Lowdown: Politics, Money, Your suppliers, Coming up and Videos, and a cleaner look. Tap a part to open it; the weather sits top right.'
-    : 'New look: tap a part to open it, and you\u2019ll get a tick when you reach its end. The weather sits top right with what\u2019s coming up, and \u25d0 switches between white and black.'));
-  if (S.whatsNew === 5 && !S.dismissed.new5) n.push(notice('new5', 'New: stories open right here, \u2661 keeps any you like, and Getting around covers trains and roads near you (add your stations in Settings). Plus Trending now, Viral, market charts, and pull down to refresh.'));
+    : 'New look: tap a part to open it, and you\u2019ll get a tick when you reach its end. The weather sits at the top with what\u2019s coming up, and \u25d0 switches between white and black.'));
+  if (S.whatsNew === 5 && !S.dismissed.new5) n.push(notice('new5', 'New: stories open right here, the bookmark saves any you want to keep, and Getting around covers trains and roads near you (add your stations in Settings). Plus market charts, and pull down to refresh.'));
   if (S.inviteBad) n.push(notice('invite', 'Your invite isn\u2019t valid any more, so news, interests and markets can\u2019t update. Ask whoever shared Lowdown for a new link.', '<button class="btn small" data-act="reinvite">Paste new link</button>', false));
   else if (S.scriptBuild != null && S.scriptBuild < EXPECT_BUILD) n.push(notice('script', `Your Apps Script is out of date (release ${S.scriptBuild}, this app needs ${EXPECT_BUILD}). In Apps Script, choose Deploy, Manage deployments, edit, New version, Deploy.`, '', false));
   return n.join('');
 }
-const newWord = (p, n) => (p.id === 'videos' || p.id === 'viral' ? plural(n, 'new video', 'new videos') : p.id === 'trending' ? plural(n, 'new trend', 'new trends') : p.id === 'travel' ? plural(n, 'new problem', 'new problems') : plural(n, 'new story', 'new stories'));
+const newWord = (p, n) => (p.id === 'videos' ? plural(n, 'new video', 'new videos') : p.id === 'travel' ? plural(n, 'new problem', 'new problems') : plural(n, 'new story', 'new stories'));
 function noteHTML(p) {
   const n = isRead(p.id) ? unseen(p) : 0;
   return n ? `<span class="newdot" aria-hidden="true"></span>${newWord(p, n)}` : esc(p.note);
@@ -1834,14 +1834,10 @@ function phHTML(p) {
     `<span class="node${done ? ' done' : open ? ' now' : ''}" aria-hidden="true">${done ? ICON.tick : ''}</span><span class="t">${esc(p.title)}</span>` +
     `<span class="n">${noteHTML(p)}${done ? '<span class="vh">, read</span>' : ''}</span>${ICON.chevd}</button>`;
 }
-function nextHTML(parts, i) {
-  const nx = parts[i + 1];
-  return `<button class="btn dark nextbtn" data-act="next" data-id="${parts[i].id}">${nx ? `Next: ${esc(nx.title)}${ICON.arrow}` : `Finish${ICON.check}`}</button>`;
-}
 function partHTML(parts, p, i) {
   const open = S.open === p.id;
   return `<section class="part${open ? ' open' : ''}${isDone(p) ? ' done' : ''}" id="ch-${p.id}" data-part="${p.id}" data-anchor="ch-${p.id}">${phHTML(p)}` +
-    (open ? `<div class="pb" id="pb-${p.id}" role="region" aria-labelledby="h-${p.id}">${PART_HTML[p.id](parts, p)}${nextHTML(parts, i)}<span class="ch-end" data-end="${p.id}" aria-hidden="true"></span></div>` : '') + '</section>';
+    (open ? `<div class="pb" id="pb-${p.id}" role="region" aria-labelledby="h-${p.id}">${PART_HTML[p.id](parts, p)}<span class="ch-end" data-end="${p.id}" aria-hidden="true"></span></div>` : '') + '</section>';
 }
 // Each part's own content starts with a short line about where it comes from.
 const chOpen = (parts, p, title, sub) => (sub ? `<p class="chsub">${esc(sub)}</p>` : '');
@@ -1978,46 +1974,10 @@ function endHTML(parts) {
   const next = label === 'Evening wrap' ? 'Tomorrow\u2019s brief is waiting from 6am.' : 'Your evening wrap is ready from 5pm.';
   return `<section class="end" data-anchor="end"><span class="tick" aria-hidden="true">${ICON.check}</span><h2>You\u2019re up to date.</h2><p>${esc(next)}</p></section>`;
 }
-function footHTML() {
-  const at = S.cache.at;
-  return `<div class="foot"><p class="pullhint">${ICON.down14}Pull down to refresh${at ? ` \u00b7 updated ${esc(fmtTime(at))}` : ''}</p>
-    <p class="src">News from BBC News, Google News and Bing News. Weather by Open-Meteo, trending and on this day from Wikipedia, prices from Google Finance and CoinGecko, grid data from the National Energy System Operator.</p></div>`;
-}
-const trends = () => ((briefData() && briefData().trending) || []).slice(0, 8);
-const viralList = () => ((briefData() && briefData().viral) || []).slice(0, 8);
+function footHTML() { return '<div class="foot"></div>'; }
 const partError = (part) => { const e = briefData() && (briefData().errors || []).find((x) => x.part === part); return e ? e.message : ''; };
-const countryName = () => { const pl = S.prefs.place; return pl.cc === 'GB' ? 'the UK' : pl.cc === 'US' ? 'the US' : pl.country || 'your country'; };
-function trendRec(x) {
-  const top = x.news[0];
-  return { id: 'trend:' + x.id, kind: 'story', title: cap(x.term), source: top ? top.source : 'Google Trends', link: top ? top.link : 'https://trends.google.com/trending?geo=' + S.prefs.place.cc,
-    summary: top ? top.title : '', at: x.at, related: x.news.slice(1), relLabel: 'More on this', from: 'Trending now', noPreview: true, meta: `${x.traffic ? x.traffic + ' searches' : 'Trending'} in ${countryName()}` };
-}
-function trendingHTML(parts, p) {
-  let h = chOpen(parts, p, 'Trending now', `what ${countryName()} is searching for`);
-  if (!briefData()) return h + waiting('Trending now');
-  const t = trends();
-  if (!t.length) return h + `<p class="empty">${esc(partError('trending') || 'Nothing trending just now.')}</p>`;
-  h += t.map((x, i) => {
-    const top = x.news[0], fresh = isNew('tr:' + x.id);
-    return `<div class="rowl" data-key="tr:${esc(x.id)}"><button class="rk" data-act="trend" data-i="${i}"><span class="no">${i + 1}</span><span class="tx"><span class="tt">${fresh ? '<span class="newdot" aria-hidden="true"></span><span class="vh">New: </span>' : ''}${esc(cap(x.term))}</span>` +
-      `<span class="ds">${x.traffic ? esc(x.traffic) + ' searches' : 'Trending'}${x.at ? ' \u00b7 ' + esc(C.timeAgo(x.at, Date.now())) : ''}</span>${top ? `<span class="tn2">${esc(top.title)}<i> \u00b7 ${esc(top.source)}</i></span>` : ''}</span></button>${likeBtn(trendRec(x))}</div>`;
-  }).join('');
-  return h + '<p class="src">From Google Trends: the searches rising fastest over the last day, with the news behind them.</p>';
-}
-function viralRec(v) {
-  return { id: 'yt:' + v.id, kind: 'video', title: v.title, source: v.channel, link: v.link, summary: v.desc, at: v.at, thumb: v.thumb, from: 'Viral',
-    meta: [v.channel, v.views ? C.compactNum(v.views) + ' views' : '', v.at ? C.timeAgo(v.at, Date.now()) : ''].filter(Boolean).join(' \u00b7 ') };
-}
-function viralHTML(parts, p) {
-  let h = chOpen(parts, p, 'Viral', `most watched on YouTube in ${countryName()} today`);
-  if (!briefData()) return h + waiting('Viral');
-  const v = viralList();
-  if (!v.length) return h + `<p class="empty">${esc(partError('viral') || 'Nothing from YouTube just now.')}</p>`;
-  h += v.map((x, i) => `<div class="rowl" data-key="vr:${esc(x.id)}"><button class="vid" data-act="viralv" data-i="${i}"><img src="${esc(x.thumb)}" alt="" loading="lazy"><span class="tx"><span class="vt">${isNew('vr:' + x.id) ? '<span class="newdot" aria-hidden="true"></span><span class="vh">New: </span>' : ''}${esc(x.title)}</span><span class="meta">${esc(x.channel)}${x.views ? ' \u00b7 ' + esc(C.compactNum(x.views)) + ' views' : ''}</span></span></button>${likeBtn(viralRec(x))}</div>`).join('');
-  return h + '<p class="src">YouTube\u2019s most popular videos in your country right now.</p>';
-}
 const PART_HTML = { news: newsHTML, politics: politicsHTML, money: moneyHTML, suppliers: suppliersHTML, comingup: comingupHTML, videos: videosHTML,
-  interests: interestsHTML, markets: marketsHTML, trending: trendingHTML, travel: travelHTML, viral: viralHTML, looked: lookedHTML, onthisday: otdHTML, greenest: greenHTML };
+  interests: interestsHTML, markets: marketsHTML, travel: travelHTML, looked: lookedHTML, onthisday: otdHTML, greenest: greenHTML };
 
 function keepAnchor() {
   if (window.scrollY < 120) return null;
@@ -2359,13 +2319,12 @@ function afterTopics(scope, msg) {
 function partName(k, pl) {
   return { world: 'World news', country: `${(pl && pl.country) || 'Country'} news`, county: `${(pl && pl.county) || 'County'} news`, local: `${(pl && pl.town) || 'Local'} news`,
     news: 'News', politics: 'Politics', money: 'Money', suppliers: 'Your suppliers', comingup: 'Coming up', videos: 'Videos', interests: 'Your interests',
-    markets: 'Markets', trending: 'Trending now', viral: 'Viral', travel: 'Getting around', transport: 'Public transport', roads: 'Roads', looked: 'What people looked up', onthisday: 'On this day', greenest: 'Greenest hours' }[k] || k;
+    markets: 'Markets', travel: 'Getting around', transport: 'Public transport', roads: 'Roads', looked: 'What people looked up', onthisday: 'On this day', greenest: 'Greenest hours' }[k] || k;
 }
 function partHint(k, pl) {
   return { local: 'Matched by place name', politics: pl && pl.cc === 'GB' ? `Westminster${pl.council ? ` and ${pl.council} Council` : ''}` : 'Your country’s politics',
     money: 'MoneySavingExpert’s latest guides and warnings', suppliers: 'Problems with your broadband, power, water and more', comingup: 'Festivals and holidays from your calendars',
     videos: 'New uploads from YouTube channels you pick', interests: 'Updates on the topics you follow', markets: 'Indices, currencies, gold and crypto',
-    trending: 'What your country is searching for, from Google Trends', viral: 'The most watched YouTube videos in your country',
     transport: pl && pl.county === 'London' ? 'Tube, rail, DLR and tram status from TfL' : 'Train and bus problems in the local news', roads: pl && pl.county === 'London' ? 'Closures, works and incidents within 5 miles, from TfL' : 'Road closures and incidents in the local news',
     looked: 'Wikipedia’s most-read pages', onthisday: 'Three moments from history', greenest: 'When to run the washing machine' }[k] || '';
 }
@@ -2579,7 +2538,8 @@ function settingsHTML() {
     <button class="btn ghost" data-act="tour">Show me around again</button>
     <h3 class="grp">About</h3>
     <p class="about">Lowdown release ${RELEASE}. ${esc(scriptLine)}</p>
-    <p class="about">News from BBC News, Google News and Bing News. Money from MoneySavingExpert. Weather by Open-Meteo, air quality and pollen from Copernicus. Place names from OpenStreetMap. Trending and on this day from Wikipedia. Calendars from Hebcal and GOV.UK. Power cuts from UK Power Networks. Videos from YouTube. Prices from Google Finance and CoinGecko. Grid data from the National Energy System Operator.</p>`;
+    <h3 class="grp" id="grp-sources">Sources</h3>
+    <p class="about">News from BBC News, Google News and Bing News; story cards from each publisher\u2019s own link preview. Money from MoneySavingExpert. Weather by Open-Meteo, air quality and pollen from Copernicus. Place names from OpenStreetMap. What people looked up and on this day from Wikipedia. Calendars from Hebcal and GOV.UK. Travel from TfL Open Data (Powered by TfL Open Data). Power cuts from UK Power Networks. Videos from YouTube. Prices from Google Finance and CoinGecko; charts from Yahoo Finance, the European Central Bank and CoinGecko. Grid data from the National Energy System Operator.</p>`;
 }
 function openSettings(to) {
   if (topSheet() && topSheet().id === 'settings') return;
@@ -2843,13 +2803,6 @@ document.addEventListener('click', (e) => {
       break;
     }
     case 'road': { const r = ((travelData() || {}).roads || [])[+el.dataset.i]; if (r) openRecord(roadRec(r), 'Getting around'); break; }
-    case 'next': {
-      const id = el.dataset.id, parts = partList(), i = parts.findIndex((p) => p.id === id), nx = parts[i + 1];
-      if (tiersOf(id).every((t) => tierSeen(id, t.key))) finishPart(id);
-      if (nx) openPart(nx.id);
-      else { S.open = null; renderBrief(); const eb = $('#endBox'); if (eb && eb.firstChild) eb.scrollIntoView({ block: 'center' }); else window.scrollTo(0, 0); }
-      break;
-    }
     case 'weather': openSheet('weather', 'Weather', weatherHTML()).dataset.noswipe = '1'; break;
     case 'nextEvent': openEvent(0); break;
     case 'mode': case 'setmode': setMode(el.dataset.mode); break;
@@ -2867,13 +2820,11 @@ document.addEventListener('click', (e) => {
     case 'markets': S.mkQuery = ''; openSheet('markets', 'Markets', marketsSheetHTML()); break;
     case 'refresh': withBusy(el, () => refresh(true)).then(() => toast(newSince())); break;
     case 'like': toggleLike(el.dataset.id); { const lb = sheetBody('liked'); if (lb && !isLiked(el.dataset.id)) { const t = $('#liked').scrollTop; lb.innerHTML = likedHTML(); $('#liked').scrollTop = t; } } break;
-    case 'liked': openSheet('liked', 'Liked', likedHTML()); break;
+    case 'liked': openSheet('liked', 'Saved', likedHTML()); break;
     case 'mkt': openMarket(el.dataset.id); break;
     case 'mkrange': if (S.mk) { S.mk.range = el.dataset.k; $$('[data-act=mkrange]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.k === S.mk.range))); loadMarketChart(); } break;
-    case 'trend': { const x = trends()[+el.dataset.i]; if (x) openRecord(trendRec(x), 'Trending now'); break; }
-    case 'viralv': { const x = viralList()[+el.dataset.i]; if (x) openRecord(viralRec(x), 'Viral'); break; }
     case 'share': { const d = el.closest('dialog'); shareThing(d && d._share); break; }
-    case 'openLiked': openRecord(S.liked.find((x) => x.id === el.dataset.id), 'Liked'); break;
+    case 'openLiked': openRecord(S.liked.find((x) => x.id === el.dataset.id), 'Saved'); break;
     case 'dismiss': S.dismissed[el.dataset.id] = Date.now(); put('dismissed', S.dismissed); el.closest('.notice').remove(); break;
     case 'install': if (S.installEvt) { S.installEvt.prompt(); S.installEvt.userChoice.finally(() => { S.installEvt = null; render(); }); } break;
     case 'locate': locate(el, el.dataset.scope); break;
