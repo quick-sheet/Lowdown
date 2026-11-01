@@ -15,7 +15,7 @@
 <meta name="apple-mobile-web-app-title" content="Lowdown">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&family=Newsreader:opsz,wght@6..72,500..700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,500..700,50,0&family=Plus+Jakarta+Sans:wght@400..700&display=swap">
 <script>
 // White or black before the first paint: the phone's own setting, unless this phone chose one.
 (function () { var m = 'auto'; try { m = JSON.parse(localStorage.getItem('ldn.mode')) || 'auto'; } catch (e) {}
@@ -27,14 +27,14 @@
 :root{--bg:#FFFFFF;--raise:#F4F4F3;--raise-2:#E9E9E7;--line:rgba(0,0,0,.09);--line-2:rgba(0,0,0,.18);--ink:#0B0B0B;--ink-2:#444444;--ink-3:#666666;--meta:#666666;
 --sun:#EDA23A;--sun-soft:rgba(237,162,58,.22);--on-sun:#1A1205;--link:#0B0B0B;--tag:#0B0B0B;--up:#1F5FA8;--down:#B4521F;--rain:#2F6DB5;
 --arc-a:#EDA23A;--arc-b:#F4CF7E;--arc-c:#E5823F;--arc-o:1;--scrim:rgba(0,0,0,.42);--shadow:0 12px 32px rgba(0,0,0,.16);
---sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--disp:"Newsreader","Iowan Old Style",Georgia,serif;color-scheme:light}
+--sans:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--disp:"Fraunces","Iowan Old Style",Georgia,serif;color-scheme:light}
 :root[data-theme="dark"]{--bg:#000000;--raise:#121212;--raise-2:#1E1E1E;--line:rgba(255,255,255,.11);--line-2:rgba(255,255,255,.22);--ink:#F4F4F4;--ink-2:#B8B8B8;--ink-3:#8C8C8C;--meta:#9C9C9C;
 --sun:#F0B04F;--sun-soft:rgba(240,176,79,.2);--on-sun:#1A1205;--link:#F4F4F4;--tag:#F4F4F4;--up:#82B4F0;--down:#F0A06B;--rain:#82B4F0;
 --arc-a:#F0B04F;--arc-b:#F6D78E;--arc-c:#E7A15C;--arc-o:.9;--scrim:rgba(0,0,0,.6);--shadow:0 12px 32px rgba(0,0,0,.6);color-scheme:dark}
 
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;background:var(--bg)}
-body{margin:0;min-height:100dvh;overflow-x:clip;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;font-optical-sizing:auto;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;text-rendering:optimizeLegibility}
+body{margin:0;min-height:100dvh;overflow-x:clip;font-variation-settings:"SOFT" 50,"WONK" 0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;font-optical-sizing:auto;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;text-rendering:optimizeLegibility}
 button,input{font:inherit;color:inherit}
 button{cursor:pointer}
 a{color:var(--link)}
@@ -118,21 +118,23 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 .part.open::before{bottom:auto;height:29px}
 .part.open:first-of-type::before{display:none}
 .part:only-of-type:not(.open)::before{display:none}
-.ph{position:relative;display:flex;align-items:center;gap:10px;width:100%;min-height:58px;padding:0 0 0 36px;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left;scroll-margin-top:calc(70px + env(safe-area-inset-top))}
-.ph .t{flex:1;min-width:min-content;font-size:17px;font-weight:500;line-height:1.25}
-.ph .n{flex:0 1 auto;min-width:0;max-width:55%;font-size:13px;color:var(--meta);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ph{position:relative;display:flex;align-items:center;gap:10px;width:100%;min-height:60px;padding:0 0 0 42px;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left;scroll-margin-top:calc(70px + env(safe-area-inset-top))}
+.ph .t{flex:1;min-width:min-content;text-wrap:balance;font-family:var(--disp);font-size:20px;font-weight:600;letter-spacing:-.005em;line-height:1.2}
+.ph .n{flex:0 1 auto;min-width:0;max-width:44%;display:inline-flex;align-items:center;font-size:13px;color:var(--meta);white-space:nowrap}
+.ph .nt{min-width:0;overflow:hidden;text-overflow:ellipsis}
 .part.open .ph .n{max-width:42%}
 .ph>svg{color:var(--meta);flex-shrink:0;transition:transform .2s}
 .part.open .ph{border-bottom-color:transparent}
-.part.open .ph .t{font-family:var(--disp);font-size:25px;font-weight:600;letter-spacing:-.01em;line-height:1.15}
+.part.open .ph .t{font-size:26px;letter-spacing:-.012em;line-height:1.15}
 .part.open .ph>svg{transform:rotate(180deg);color:var(--ink)}
-.node{position:absolute;left:8px;top:50%;margin-top:-7px;width:14px;height:14px;border-radius:7px;border:2px solid var(--meta);background:var(--bg);z-index:1;display:flex;align-items:center;justify-content:center}
-.node.now{border:3px solid var(--ink)}
-.node.done{left:5px;width:20px;height:20px;margin-top:-10px;border:0;border-radius:10px;background:var(--ink);color:var(--bg)}
-.node.done svg{width:12px;height:12px}
-.pb{padding:2px 0 26px;border-bottom:1px solid var(--line);animation:open .24s cubic-bezier(.2,.8,.2,1)}
+.node{position:absolute;left:1px;top:50%;margin-top:-14px;width:28px;height:28px;background:var(--bg);color:var(--meta);z-index:1;display:flex;align-items:center;justify-content:center;transition:color .3s}
+.node>svg{width:22px;height:22px}
+.node.now,.node.done{color:var(--ink)}
+.node.now>svg{stroke-width:1.9}
+.ph .n>svg{flex-shrink:0;width:13px;height:13px;margin-left:6px;color:var(--ink);stroke-width:2.8}
+.pb{padding:2px 0 26px;border-bottom:1px solid var(--line)}
 @keyframes open{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
-.chsub{margin:-10px 0 2px 36px;font-size:13px;color:var(--meta)}
+.chsub{margin:-10px 0 2px 42px;font-size:13px;color:var(--meta)}
 .foot{margin:24px 0 0}
 .foot .src{margin-top:8px}
 .pullhint{display:flex;align-items:center;gap:6px;margin:0;font-size:13px;color:var(--ink-2)}
@@ -148,14 +150,15 @@ html,body{overscroll-behavior-y:contain}
 .tier{border-bottom:1px solid var(--line)}
 .tier:last-of-type{border-bottom:0}
 .tierh{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;margin:0;padding:6px 0;border:0;background:transparent;color:var(--ink);text-align:left}
-.tic{flex-shrink:0;width:36px;height:36px;border-radius:18px;background:var(--raise);color:var(--ink);display:flex;align-items:center;justify-content:center}
-.tier.open .tic{background:var(--ink);color:var(--bg)}
+.tic{flex-shrink:0;width:28px;height:36px;color:var(--ink-2);display:flex;align-items:center;justify-content:center}
+.tier.open .tic{color:var(--ink)}
+.tier.open .tic svg{stroke-width:1.9}
 .tierh .tn{flex:1;min-width:0;font-size:17px;font-weight:600;line-height:1.3}
 .tierh .n{font-size:13px;font-weight:400;color:var(--meta);white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
 .tierh .n svg{color:var(--ink)}
 .tierh>svg{flex-shrink:0;color:var(--meta);transition:transform .2s}
 .tier.open .tierh>svg{transform:rotate(180deg);color:var(--ink)}
-.tierb{padding:0 0 8px;animation:open .22s cubic-bezier(.2,.8,.2,1)}
+.tierb{padding:0 0 8px}
 .tierb .item:last-child{border-bottom:0}
 .item{display:flex;align-items:flex-start;gap:4px;border-bottom:1px solid var(--line)}
 .itm{flex:1;min-width:0;display:flex;padding:15px 0 16px;border:0;background:transparent;color:var(--ink);text-align:left}
@@ -257,6 +260,11 @@ html,body{overscroll-behavior-y:contain}
 .evt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
 .evn{font-size:17px;font-weight:500;line-height:1.3}
 .evm{font-size:13px;color:var(--meta)}
+.uphero{display:flex;align-items:center;gap:16px;width:100%;margin:18px 0 6px;padding:16px;border:0;border-radius:20px;background:var(--raise);color:var(--ink);text-align:left}
+.evd.big{width:64px;height:70px;border-radius:16px;background:var(--ink);color:var(--bg)}.evd.big b{font-size:28px}.evd.big span{color:var(--bg);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.uplab{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.upn{font-family:var(--disp);font-size:24px;font-weight:600;line-height:1.15;letter-spacing:-.01em}
+.upm{margin-top:22px}
 .ev>svg{color:var(--meta);flex-shrink:0}
 .vid{flex:1;min-width:0;display:grid;grid-template-columns:120px minmax(0,1fr);gap:12px;align-items:start;padding:13px 0;border:0;background:transparent;color:var(--ink);text-align:left}
 .vid img{width:120px;aspect-ratio:16/9;object-fit:cover;border-radius:10px;background:var(--raise-2);display:block}
@@ -442,6 +450,7 @@ input.sw:checked::after{transform:translateX(18px);background:var(--bg)}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 .chip{height:40px;padding:0 14px;border-radius:20px;border:1px solid var(--line-2);background:transparent;color:var(--ink);display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:500}
 .chip.on{background:var(--ink);color:var(--bg);border-color:transparent;padding-right:10px}
+.chip.src{height:36px;padding:0 12px 0 10px;font-size:14px}.chip.src svg{width:16px;height:16px}
 .addrow{display:flex;gap:8px;margin-top:10px}
 .addrow .field{flex:1;min-width:0}
 .addrow .btn{height:48px;border-radius:24px}
@@ -536,13 +545,13 @@ dialog.sheet.closing{transition:transform .18s ease-in,opacity .18s;transform:tr
 <main id="app" aria-live="off"></main>
 <div id="toast" popover="manual" role="status" aria-live="polite"></div>
 
-<script src="core.js?v=6"></script>
+<script src="core.js?v=7"></script>
 <script>
 'use strict';
 // Invite-only: the Apps Script address and the shared code arrive in an invite link and
 // stay on each phone, so neither is in this public repo.
-const EXPECT_BUILD = 5;    // the Apps Script release this page needs
-const RELEASE = 6;
+const EXPECT_BUILD = 6;    // the Apps Script release this page needs
+const RELEASE = 7;
 const SCRIPT_RE = /^https:\/\/script\.google\.com\/(?:a\/macros\/[^/]+|macros)\/s\/[\w-]+\/exec$/;
 const CODE_RE = /^[A-Za-z0-9-]{6,40}$/;
 const C = window.Core;
@@ -631,6 +640,21 @@ const wxIcon = (k, s = 24) => svg(WXI[k] || WXI.cloud, s, 1.6);
 // Pictures for the news and politics sections: the world, the country, the region, your street, Parliament, your council.
 const GB_PATH = 'M9.5 1.5 12.5 1.8 12 3.5 13.6 5.2 12.4 7.6 13.8 9.4 15 11.6 16.2 13.6 19.2 15.2 19.4 17.2 18 18.4 19.3 19.6 16.5 20.3 12.6 20.6 9.8 21.6 6.8 22.6 8.4 20.7 11 19.6 8.9 18.6 9.4 17 8.6 15.6 9.6 14.2 11.2 13.6 10.6 11.6 9.4 10.6 7.2 10.6 8.4 8.6 6.4 7.4 7.4 5.6 6.6 3.8 8.2 2.4Z';
 const ENG_PATH = 'M13.8 9.4 15 11.6 16.2 13.6 19.2 15.2 19.4 17.2 18 18.4 19.3 19.6 16.5 20.3 12.6 20.6 9.8 21.6 6.8 22.6 8.4 20.7 11 19.6 11.6 17.6 11.4 15.4 11.2 13.6 10.6 11.6 9.4 10.6 11.6 10.2Z';
+// One plain icon per part, on the timeline beside its name.
+const PART_ICON = {
+  news: svg('<path d="M4 5.5h11.5v13.5H6.5a2.5 2.5 0 0 1-2.5-2.5z"/><path d="M15.5 9H19a1 1 0 0 1 1 1v6.5a2.5 2.5 0 0 1-2.5 2.5h-2"/><path d="M7.5 9h4.5M7.5 12.5h4.5M7.5 16h2.5"/>', 22, 1.6),
+  politics: svg('<path d="M3.5 9.5 12 4.5l8.5 5"/><path d="M5.5 10v7.5M9.5 10v7.5M14.5 10v7.5M18.5 10v7.5M3.5 20h17"/>', 22, 1.6),
+  money: svg('<circle cx="12" cy="12" r="8.5"/><path d="M14.6 8.7a2.5 2.5 0 0 0-4.4 1.6v5.4M8.6 12.6h4.6M8.6 15.7h6.8"/>', 22, 1.6),
+  suppliers: svg('<path d="M13 3 6 13.5h5.5L11 21l7-10.5h-5.5z"/>', 22, 1.6),
+  travel: svg('<rect x="5.5" y="3" width="13" height="14" rx="3"/><path d="M5.5 10.5h13M9 21l1.5-4M15 21l-1.5-4"/><circle cx="9" cy="13.8" r=".9" fill="currentColor"/><circle cx="15" cy="13.8" r=".9" fill="currentColor"/>', 22, 1.6),
+  comingup: svg('<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/><circle cx="12" cy="15" r="1.2" fill="currentColor"/>', 22, 1.6),
+  videos: svg('<rect x="3" y="5.5" width="18" height="13" rx="3.5"/><path d="m10.5 9.5 4 2.5-4 2.5z"/>', 22, 1.6),
+  interests: svg('<path d="M11 4.5 12.6 9l4.4 1.6-4.4 1.6L11 16.7l-1.6-4.5L5 10.6 9.4 9z"/><path d="M18 15l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/>', 22, 1.6),
+  markets: svg('<path d="M4 17l5-5 3.5 3.5L20 8"/><path d="M15 8h5v5"/>', 22, 1.6),
+  looked: svg('<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.4-4.4"/>', 22, 1.6),
+  onthisday: svg('<path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4.5 4.5v3.8h3.8M12 8v4.2l2.8 1.8"/>', 22, 1.6),
+  greenest: svg('<path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14z"/><path d="M5 19c3-4 6-6 9-7"/>', 22, 1.6)
+};
 const TIER_ICON = {
   world: svg('<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.4 3.5 5.2 3.5 8.5s-1.1 6.1-3.5 8.5c-2.4-2.4-3.5-5.2-3.5-8.5S9.6 5.9 12 3.5z"/>', 20, 1.5),
   gb: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="${GB_PATH}"/></svg>`,
@@ -934,7 +958,8 @@ async function loadBrief() {
       calendars: { jewish: !!(p.calendars || {}).jewish, bank: (p.calendars || {}).bank ? bankDivision(p.place) : '', ics: p.ics || [] },
       youtube: on.videos ? (p.channels || []).map((c) => c.id) : [],
       point: on.transport || on.roads ? { lat: Math.round(p.place.lat * 100) / 100, lon: Math.round(p.place.lon * 100) / 100 } : null,
-      stations: on.transport ? (p.stations || []).map((s) => s.id) : []
+      stations: on.transport ? (p.stations || []).map((s) => s.id) : [],
+      sources: mySources()
     });
     S.cache.brief = { at: Date.now(), data: j };
     S.errors.brief = null;
@@ -1048,6 +1073,13 @@ function events() {
   const b = briefData();
   const remote = ((b && b.calendar) || []).filter((e) => (e.cal === 'jewish' && cal.jewish) || (e.cal === 'bank' && cal.bank) || e.cal === 'ics');
   return C.upcoming(C.localEvents(cal, from, to).concat(remote), from, 90, 6);
+}
+// Everything from your calendars over the next six months, for the Coming up sheet.
+function allEvents() {
+  const p = S.prefs, cal = p.calendars || {}, from = today(), to = C.addDays(from, 183);
+  const b = briefData();
+  const remote = ((b && b.calendar) || []).filter((e) => (e.cal === 'jewish' && cal.jewish) || (e.cal === 'bank' && cal.bank) || e.cal === 'ics');
+  return C.upcoming(C.localEvents(cal, from, to).concat(remote), from, 183, 80);
 }
 function calLabel(e) {
   return e.cals.map((c) => (c === 'ics' ? e.calName || 'Your calendar' : (C.CALENDARS.find((x) => x[0] === c) || [])[1] || c)).join(', ');
@@ -1280,7 +1312,7 @@ function politicsHTML(parts, p) {
   let h = chOpen(parts, p, 'Politics', 'straight news, no opinion');
   if (!briefData()) return h + waiting('Politics') + chClose(p);
   politicsTiers().forEach((t) => { h += tierHTML(t, (x) => `No new stories for ${x.label} ${x.key === 'council' ? 'this week' : 'today'}.`, 'politics'); });
-  return h + `<p class="src">${S.prefs.place.cc === 'GB' ? 'Westminster from BBC Politics; council' : 'Politics and council'} news from Google News.</p>` + chClose(p);
+  return h + `<p class="src">${S.prefs.place.cc === 'GB' ? `Westminster from ${esc(C.sourceList(mySources()))}; council news from Google News.` : 'Politics and council news from Google News.'}</p>` + chClose(p);
 }
 function moneyHTML(parts, p) {
   let h = chOpen(parts, p, 'Money', 'from MoneySavingExpert');
@@ -1310,6 +1342,26 @@ function comingupHTML(parts, p) {
   }).join('');
   return h + `<button class="btn ghost edit" data-act="settings" data-to="calendars">${ICON.pencil}Edit your calendars</button>` + chClose(p);
 }
+// The Coming up sheet: the next event large, then everything by month.
+function upcomingHTML() {
+  const cal = S.prefs.calendars || {}, ev = allEvents();
+  const names = C.CALENDARS.filter(([k]) => cal[k]).map((x) => x[1]).concat((S.prefs.ics || []).length ? ['your own calendars'] : []);
+  const longDate = (k) => new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' }).format(new Date(k + 'T12:00:00Z'));
+  let h = `<h2 class="sh-title" id="upcoming-t">Coming up</h2><p class="sh-meta">${esc(names.length ? 'The next six months from ' + names.join(', ') : 'No calendars chosen yet')}</p>`;
+  if (!ev.length) return h + `<p class="empty" style="margin-top:18px">${names.length ? 'Nothing from your calendars in the next six months.' : 'Choose calendars such as Christian, Hindu, Jewish or UK bank holidays in Settings.'}</p>` +
+    `<button class="btn ghost edit" data-act="settings" data-to="calendars">${ICON.pencil}Choose calendars</button>`;
+  const first = ev[0], d0 = C.shortDate(first.date);
+  h += `<button class="uphero" data-act="event" data-all="1" data-i="0"><span class="evd big" aria-hidden="true"><b>${d0.day}</b><span>${d0.mon}</span></span><span class="evt">` +
+    `<span class="uplab">${esc(C.whenWord(first.away, first.date))}${first.expected ? ', expected' : ''}</span><span class="upn">${esc(first.title)}</span><span class="evm">${esc(longDate(first.date))} \u00b7 ${esc(calLabel(first))}</span></span>${ICON.chev}</button>`;
+  let month = '';
+  ev.slice(1).forEach((e, j) => {
+    const i = j + 1, m = new Intl.DateTimeFormat('en-GB', { month: 'long', year: e.date.slice(0, 4) !== today().slice(0, 4) ? 'numeric' : undefined, timeZone: 'UTC' }).format(new Date(e.date + 'T12:00:00Z')), d = C.shortDate(e.date);
+    if (m !== month) { month = m; h += `<h3 class="sh-h upm">${esc(m)}</h3>`; }
+    h += `<button class="ev${e.away <= 1 ? ' today' : ''}" data-act="event" data-all="1" data-i="${i}"><span class="evd" aria-hidden="true"><b>${d.day}</b><span>${d.mon}</span></span><span class="evt"><span class="evn">${esc(e.title)}</span><span class="evm">${esc(calLabel(e))} \u00b7 ${esc(C.whenWord(e.away, e.date))}${e.expected ? ', expected' : ''}</span></span>${ICON.chev}</button>`;
+  });
+  return h + `<button class="btn ghost edit" data-act="settings" data-to="calendars">${ICON.pencil}Edit your calendars</button>`;
+}
+function openUpcoming() { openSheet('upcoming', 'Coming up', upcomingHTML()); }
 function videosHTML(parts, p) {
   let h = chOpen(parts, p, 'Videos', 'new on your channels');
   const ch = S.prefs.channels || [], v = videoList();
@@ -1433,8 +1485,8 @@ function openSupplier(cat) {
   h += `<p class="sh-note">Lowdown only sees ${kind} problems that make the news${cat === 'electricity' && st.live ? ', plus live power cuts from UK Power Networks' : ''}. Their own page can check your postcode.</p>`;
   openSheet('supplier', C.SUPPLY[cat].name, h);
 }
-async function openEvent(i) {
-  const e = events()[i];
+async function openEvent(i, all) {
+  const e = (all ? allEvents() : events())[i];
   if (!e) return;
   const longDate = new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' }).format(new Date(e.date + 'T12:00:00Z'));
   const d = openSheet('event', 'Coming up', `<h2 class="sh-title" id="event-t">${esc(e.title)}</h2><p class="sh-meta">${esc(longDate)} · ${esc(C.whenWord(e.away, e.date))}</p><p class="sh-meta">${esc(calLabel(e))}</p>
@@ -1560,8 +1612,15 @@ function travelAlertList() {
 }
 // From the alerts at the top straight to the right part of Getting around.
 function jumpTo(part, key) {
-  if (S.open !== part) openPart(part);
-  if (S.tier[part] !== key) openTier(part, key);
+  if (S.folding) return;
+  if (S.open !== part) {
+    const info = partInfo(part);
+    S.open = part;
+    S.tier = {};
+    S.newKeys = { [part]: new Set(info && isRead(part) && info.keys ? info.keys.filter((k) => !S.seen[k]) : []) };
+    renderBrief({ scrollTo: part });
+  }
+  if (S.tier[part] !== key) setTier(part, key);
   const h = $(`#th-${part}-${key}`);
   if (h) window.scrollTo(0, Math.max(0, h.getBoundingClientRect().top + window.scrollY - headerH() - 4));
 }
@@ -1831,8 +1890,8 @@ function newSince() {
 function phHTML(p) {
   const open = S.open === p.id, done = isDone(p);
   return `<button class="ph" id="h-${p.id}" data-act="part" data-id="${p.id}" aria-expanded="${open}" aria-controls="pb-${p.id}">` +
-    `<span class="node${done ? ' done' : open ? ' now' : ''}" aria-hidden="true">${done ? ICON.tick : ''}</span><span class="t">${esc(p.title)}</span>` +
-    `<span class="n">${noteHTML(p)}${done ? '<span class="vh">, read</span>' : ''}</span>${ICON.chevd}</button>`;
+    `<span class="node${done ? ' done' : open ? ' now' : ''}" aria-hidden="true">${PART_ICON[p.id] || ''}</span><span class="t">${esc(p.title)}</span>` +
+    `<span class="n"><span class="nt">${noteHTML(p)}</span>${done ? ICON.tick + '<span class="vh">, read</span>' : ''}</span>${ICON.chevd}</button>`;
 }
 function partHTML(parts, p, i) {
   const open = S.open === p.id;
@@ -1862,6 +1921,8 @@ function newsHTML(parts, p) {
   const b = briefData();
   if (!b) return h + waiting('The news') + chClose(p);
   newsTiers().forEach((t) => { h += tierHTML(t, (x) => `No new stories for ${x.label} in the last day or two.`, 'news'); });
+  const pl = S.prefs.place, local = [pl.county, pl.town].filter(Boolean).join(' and ');
+  h += `<p class="src">${esc(pl.cc === 'GB' ? 'World and UK' : 'World')} news from ${esc(C.sourceList(mySources()))}${local ? `; ${esc(local)} from local news` : ''}. <button class="linkbtn" data-act="settings" data-to="sources">Change sources</button></p>`;
   return h + staleNote(S.cache.brief.at) + chClose(p);
 }
 function interestsHTML(parts, p) {
@@ -2020,7 +2081,61 @@ function renderBrief(opt = {}) {
   } else restoreAnchor(a);
   observe();
 }
+/* ---------- Motion ---------- */
+// Sections grow open and fold shut, what's inside settles in one after another, and a finished part's tick draws itself.
+// Only transform, opacity and the box's own height move; nothing moves at all with Reduce Motion on.
+const EASE = 'cubic-bezier(.2,.8,.2,1)', SPRING = 'cubic-bezier(.34,1.56,.64,1)';
+const moving = () => !reduced() && typeof Element !== 'undefined' && !!Element.prototype.animate;
+const kidsOf = (box) => (box ? [...box.children].filter((el) => !el.classList.contains('ch-end')) : []);
+function revealIn(box) {
+  if (!box || !moving()) return;
+  const h = box.scrollHeight, body = document.body, pad = body.style.paddingBottom;
+  box.style.overflow = 'hidden';
+  // Hold the page's full length while the box grows, so the scroll position it was opened at still fits.
+  body.style.paddingBottom = h + 'px';
+  const a = box.animate([{ height: '0px', opacity: 0.3 }, { height: h + 'px', opacity: 1 }], { duration: Math.round(Math.min(460, 240 + h / 8)), easing: EASE });
+  a.onfinish = a.oncancel = () => { box.style.overflow = ''; body.style.paddingBottom = pad; };
+  kidsOf(box).slice(0, 10).forEach((el, i) => el.animate([{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'none' }],
+    { duration: 380, delay: 60 + i * 45, easing: EASE, fill: 'backwards' }));
+}
+function foldAway(box, done) {
+  if (!box || !moving()) { done(); return; }
+  box.style.overflow = 'hidden';
+  const a = box.animate([{ height: box.offsetHeight + 'px', opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 210, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' });
+  let called = false;
+  const fin = () => { if (!called) { called = true; done(); } };
+  a.onfinish = fin; a.oncancel = fin;
+  setTimeout(fin, 400);   // never stuck if the animation is dropped
+}
+function turn(chev, open) {
+  if (chev && moving()) chev.animate([{ transform: `rotate(${open ? 0 : 180}deg)` }, { transform: `rotate(${open ? 180 : 0}deg)` }], { duration: 420, easing: SPRING });
+}
+function popIcon(node) {
+  if (node && moving()) node.animate([{ transform: 'scale(.82)' }, { transform: 'scale(1.12)' }, { transform: 'scale(1)' }], { duration: 420, easing: EASE });
+}
+function tickPop(tick, node) {
+  const path = tick && $('path', tick);
+  if (!tick || !moving()) return;
+  tick.animate([{ transform: 'scale(0)' }, { transform: 'scale(1.3)' }, { transform: 'scale(1)' }], { duration: 460, easing: EASE });
+  if (path && path.getTotalLength) {
+    const len = path.getTotalLength();
+    path.style.strokeDasharray = len;
+    path.animate([{ strokeDashoffset: len }, { strokeDashoffset: 0 }], { duration: 380, delay: 140, easing: EASE, fill: 'backwards' });
+  }
+  popIcon(node);
+}
 function openTier(part, key) {
+  if (S.folding) return;
+  const cur = S.tier[part], th = (k) => $(`#th-${part}-${k}`), body = (k) => { const h = th(k); return h && h.closest('.tier') && $('.tierb', h.closest('.tier')); };
+  if (cur) {
+    S.folding = true;
+    foldAway(body(cur), () => { S.folding = false; setTier(part, key); });
+    return;
+  }
+  setTier(part, key);
+}
+function setTier(part, key) {
+  const was = S.tier[part];
   S.tier[part] = S.tier[part] === key ? null : key;
   if (S.tier[part]) {
     if (S.read.day !== today()) S.read = { day: today(), parts: [] };
@@ -2028,14 +2143,30 @@ function openTier(part, key) {
     if (!S.read.tiers.includes(part + ':' + key)) { S.read.tiers.push(part + ':' + key); put('read', S.read); }
   }
   renderBrief({ holdEl: `th-${part}-${key}` });
+  const h = $(`#th-${part}-${key}`), t = h && h.closest('.tier');
+  if (S.tier[part] === key) { revealIn(t && $('.tierb', t)); turn(h && $(':scope > svg', h), true); popIcon(h && $('.tic', h)); }
+  else turn(h && $(':scope > svg', h), false);
+  if (was && was !== key) { const o = $(`#th-${part}-${was}`); turn(o && $(':scope > svg', o), false); }
 }
 function openPart(id) {
-  if (S.open === id) { S.open = null; renderBrief({ hold: id }); return; }
-  const info = partInfo(id);
-  S.open = id;
-  S.tier = {};
-  S.newKeys = { [id]: new Set(info && isRead(id) ? info.keys ? info.keys.filter((k) => !S.seen[k]) : [] : []) };
-  renderBrief({ scrollTo: id });
+  if (S.folding) return;
+  if (S.open === id) {
+    S.folding = true;
+    foldAway($('#pb-' + id), () => { S.folding = false; S.open = null; renderBrief({ hold: id }); turn($(`#h-${id} > svg`), false); });
+    return;
+  }
+  const go = () => {
+    const info = partInfo(id);
+    S.open = id;
+    S.tier = {};
+    S.newKeys = { [id]: new Set(info && isRead(id) ? info.keys ? info.keys.filter((k) => !S.seen[k]) : [] : []) };
+    renderBrief({ scrollTo: id });
+    revealIn($('#pb-' + id));
+    turn($(`#h-${id} > svg`), true);
+    popIcon($(`#h-${id} .node`));
+  };
+  const old = S.open && $('#pb-' + S.open);
+  if (old) { S.folding = true; foldAway(old, () => { S.folding = false; go(); }); } else go();
 }
 function render() {
   applyTheme();
@@ -2088,10 +2219,10 @@ function markRead() {
     const sec = $(`#ch-${p.id}`), h = $(`#h-${p.id}`);
     if (!sec || !h) continue;
     sec.classList.toggle('done', isDone(p));
-    const node = $('.node', h), done = isDone(p), open = S.open === p.id;
+    const node = $('.node', h), done = isDone(p), open = S.open === p.id, was = node.classList.contains('done');
     node.className = 'node' + (done ? ' done' : open ? ' now' : '');
-    node.innerHTML = done ? ICON.tick : '';
-    $('.n', h).innerHTML = noteHTML(p) + (done ? '<span class="vh">, read</span>' : '');
+    $('.n', h).innerHTML = `<span class="nt">${noteHTML(p)}</span>` + (done ? ICON.tick + '<span class="vh">, read</span>' : '');
+    if (done && !was) tickPop($('.n svg', h), node);
   }
   const eb = $('#endBox');
   if (eb) eb.innerHTML = endHTML(parts);
@@ -2114,6 +2245,9 @@ function openSheet(id, label, html, share) {
   stack.push(d);
   history.pushState({ sheet: id, depth: stack.length }, '');
   gestures(d);
+  // The sheet rises; what's in it follows a beat behind, one piece after another.
+  if (moving()) kidsOf($('.sbody', d)).slice(0, 8).forEach((el, i) => el.animate([{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'none' }],
+    { duration: 360, delay: 90 + i * 40, easing: EASE, fill: 'backwards' }));
   return d;
 }
 function closeTop() { if (stack.length) history.back(); }
@@ -2342,8 +2476,34 @@ function partOrderHTML() {
     (k === 'news' || k === 'travel' ? `<span class="mn"><b>${k === 'news' ? 'News' : 'Getting around'}</b><span>Switch below</span></span>`
       : `<label class="mn swmini"><b>${esc(partName(k, pl))}</b><input type="checkbox" role="switch" class="sw" data-sec="${k}" data-scope="set"${p.sections[k] ? ' checked' : ''}></label>`) + '</li>').join('')}</ul>
     <h3 class="grp">News tiers</h3>${TIERS.map((k) => swRow(k, p.sections[k], pl, 'set')).join('')}
+    <h3 class="grp" id="grp-sources">News sources</h3>
+    <p class="hint" style="margin-top:2px">${pl.cc === 'GB' ? 'World, UK and Westminster news' : 'World news'} come from the ones you pick, taking turns, with the same story shown once. Your county and town use local news. Up to ${C.MAX_SOURCES}.</p>
+    <div class="chips" id="srcBox">${sourceChips()}</div>
     <h3 class="grp" id="grp-travel">Getting around</h3>${['transport', 'roads'].map((k) => swRow(k, p.sections[k], pl, 'set')).join('')}
     <button class="btn ghost edit" id="stBtn" data-act="stations">${ICON.pencil}${(p.stations || []).length ? `Your stations (${p.stations.length})` : 'Add your stations'}</button>`;
+}
+const mySources = () => (S.prefs.sources && S.prefs.sources.length ? S.prefs.sources : C.DEFAULT_SOURCES);
+function sourceChips() {
+  const on = mySources();
+  return C.NEWS_SOURCES.map(([id, name]) => { const sel = on.includes(id); return `<button class="chip src${sel ? ' on' : ''}" data-act="src" data-id="${id}" aria-pressed="${sel}">${sel ? ICON.tick : ICON.plus}${esc(name)}</button>`; }).join('');
+}
+function toggleSource(id) {
+  const on = mySources().slice(), i = on.indexOf(id), name = (C.NEWS_SOURCES.find((x) => x[0] === id) || [])[1];
+  if (!name) return;
+  if (i >= 0) {
+    if (on.length === 1) { toast('Keep at least one news source.'); return; }
+    on.splice(i, 1);
+  } else {
+    if (on.length >= C.MAX_SOURCES) { toast(`Pick up to ${C.MAX_SOURCES} sources.`); return; }
+    on.push(id);
+  }
+  S.prefs.sources = on;
+  savePrefs();
+  const b = $('#srcBox');
+  if (b) b.innerHTML = sourceChips();
+  toast(i >= 0 ? `${name} removed.` : `${name} added. Its stories arrive in a moment.`);
+  render();
+  refresh();
 }
 function movePart(from, to) {
   const all = S.prefs.order, ids = $$('#plist .mrow').map((r) => r.dataset.id);
@@ -2538,8 +2698,8 @@ function settingsHTML() {
     <button class="btn ghost" data-act="tour">Show me around again</button>
     <h3 class="grp">About</h3>
     <p class="about">Lowdown release ${RELEASE}. ${esc(scriptLine)}</p>
-    <h3 class="grp" id="grp-sources">Sources</h3>
-    <p class="about">News from BBC News, Google News and Bing News; story cards from each publisher\u2019s own link preview. Money from MoneySavingExpert. Weather by Open-Meteo, air quality and pollen from Copernicus. Place names from OpenStreetMap. What people looked up and on this day from Wikipedia. Calendars from Hebcal and GOV.UK. Travel from TfL Open Data (Powered by TfL Open Data). Power cuts from UK Power Networks. Videos from YouTube. Prices from Google Finance and CoinGecko; charts from Yahoo Finance, the European Central Bank and CoinGecko. Grid data from the National Energy System Operator.</p>`;
+    <h3 class="grp" id="grp-credits">Sources</h3>
+    <p class="about">News from the papers you pick in News sources, and local news from Google News and Bing News; story cards from each publisher\u2019s own link preview. Money from MoneySavingExpert. Weather by Open-Meteo, air quality and pollen from Copernicus. Place names from OpenStreetMap. What people looked up and on this day from Wikipedia. Calendars from Hebcal and GOV.UK. Travel from TfL Open Data (Powered by TfL Open Data). Power cuts from UK Power Networks. Videos from YouTube. Prices from Google Finance and CoinGecko; charts from Yahoo Finance, the European Central Bank and CoinGecko. Grid data from the National Energy System Operator.</p>`;
 }
 function openSettings(to) {
   if (topSheet() && topSheet().id === 'settings') return;
@@ -2804,7 +2964,7 @@ document.addEventListener('click', (e) => {
     }
     case 'road': { const r = ((travelData() || {}).roads || [])[+el.dataset.i]; if (r) openRecord(roadRec(r), 'Getting around'); break; }
     case 'weather': openSheet('weather', 'Weather', weatherHTML()).dataset.noswipe = '1'; break;
-    case 'nextEvent': openEvent(0); break;
+    case 'nextEvent': openUpcoming(); break;
     case 'mode': case 'setmode': setMode(el.dataset.mode); break;
     case 'introGo': put('welcomed', true); S.draft = newDraft(); S.view = ready() ? 'setup' : null; window.scrollTo(0, 0); render(); break;
     case 'introBack': S.view = null; S.draft = null; S.ytResults = []; window.scrollTo(0, 0); render(); break;
@@ -2836,12 +2996,13 @@ document.addEventListener('click', (e) => {
       break;
     }
     case 'untopic': removeTopic(el.dataset.scope, el.dataset.t); break;
+    case 'src': toggleSource(el.dataset.id); break;
     case 'finish': finishSetup(); break;
     case 'setupNext': setupStep(1); break;
     case 'setupBack': setupStep(-1); break;
     case 'tour': { const t = topSheet() ? 220 : 0; if (t) history.back(); setTimeout(() => { S.view = 'intro'; S.draft = null; window.scrollTo(0, 0); render(); }, t); break; }
     case 'supplier': openSupplier(el.dataset.cat); break;
-    case 'event': openEvent(+el.dataset.i); break;
+    case 'event': openEvent(+el.dataset.i, el.dataset.all === '1'); break;
     case 'video': openVideo(+el.dataset.i); break;
     case 'channels': S.ytResults = []; openSheet('channels', 'Videos', channelsHTML()); break;
     case 'addChannel': {

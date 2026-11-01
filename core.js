@@ -279,6 +279,20 @@
     return e.away <= 0 ? `${e.title} today` : e.away === 1 ? `${e.title} tomorrow` : `${e.title} in ${e.away} days`;
   }
 
+  /* ---------- News sources ---------- */
+  // [id, name]: the same ids as the Apps Script's SOURCES. Up to 8 at once.
+  const NEWS_SOURCES = [['bbc', 'BBC News'], ['sky', 'Sky News'], ['itv', 'ITV News'], ['guardian', 'The Guardian'], ['independent', 'The Independent'],
+    ['telegraph', 'The Telegraph'], ['times', 'The Times'], ['dailymail', 'Daily Mail'], ['express', 'Daily Express'], ['sun', 'The Sun'], ['mirror', 'Daily Mirror'],
+    ['metro', 'Metro'], ['standard', 'Evening Standard'], ['gbnews', 'GB News'], ['inews', 'The i Paper'], ['reuters', 'Reuters'], ['aljazeera', 'Al Jazeera'], ['google', 'Google News']];
+  const DEFAULT_SOURCES = ['bbc', 'google'];
+  const MAX_SOURCES = 8;
+  // "BBC News and Google News", "The Guardian, Sky News and the Daily Mail".
+  function sourceList(ids) {
+    const n = (ids || []).map((id) => (NEWS_SOURCES.find((x) => x[0] === id) || [])[1]).filter(Boolean)
+      .map((x, i) => (i && /^(Daily|Evening)/.test(x) ? 'the ' + x : x));
+    return n.length <= 1 ? n.join('') : n.slice(0, -1).join(', ') + ' and ' + n[n.length - 1];
+  }
+
   /* ---------- Getting around ---------- */
   // TfL status codes that mean all's well: good service, no issues, information, closed for the night.
   const lineBad = (l) => !!l && ![10, 18, 19, 20].includes(Number(l.sev));
@@ -546,6 +560,10 @@
     for (const k of ['transport', 'roads']) if (!(k in out.sections)) out.sections[k] = d5[k];
     delete out.sections.trending; delete out.sections.viral;
     if (!Array.isArray(out.stations)) out.stations = [];
+    // Release 7: the papers for World, UK and Westminster news. Unknown names drop out; none means the defaults.
+    const ids = NEWS_SOURCES.map((x) => x[0]);
+    out.sources = Array.isArray(out.sources) ? [...new Set(out.sources.filter((x) => ids.includes(x)))].slice(0, 8) : [];
+    if (!out.sources.length) out.sources = DEFAULT_SOURCES.slice();
     const order = [...new Set((out.order || []).filter((k) => PARTS.includes(k)))];
     // A missing part goes straight after the part that comes before it, so a chosen order is kept.
     PARTS.forEach((k, i) => {
@@ -712,7 +730,8 @@
     greenestWindow, hourlyBars, greenSentence, filterTrending, pickOnThisDay, timeAgo, TOPIC_PRESETS, cleanTopic, briefLabel,
     placeFromNominatim, placeFromSearch, cleanCouncil, PARTS, defaultSections, defaultCalendars, migratePrefs,
     addDays, daysBetween, easter, orthodoxEaster, adventSunday, christianEvents, orthodoxEvents, FAITH_TABLE, CALENDARS, localEvents, upcoming, whenWord, shortDate,
-    SUPPLY, NETWORKS, guessNetwork, supplyQuery, distanceKm, powerNear, lineBad, shortRoad, stationProblem, travelAlerts
+    SUPPLY, NETWORKS, guessNetwork, supplyQuery, distanceKm, powerNear, lineBad, shortRoad, stationProblem, travelAlerts,
+    NEWS_SOURCES, DEFAULT_SOURCES, MAX_SOURCES, sourceList
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = Core;
   else root.Core = Core;
