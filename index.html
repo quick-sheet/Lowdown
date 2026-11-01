@@ -388,6 +388,24 @@ html,body{overscroll-behavior-y:contain}
 .dist{font-size:12px;color:var(--meta)}
 .sh-why{font-size:15px;line-height:1.5;color:var(--ink-2)}
 .subh{margin:16px 0 0;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--meta)}
+/* Your journeys */
+.jp{padding:12px 0 4px;border-bottom:1px solid var(--line)}
+.jph{display:flex;align-items:baseline;gap:8px;min-width:0}
+.jph b{flex-shrink:0;font-size:17px;font-weight:600}
+.jph span{min-width:0;font-size:13px;color:var(--meta);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jl{display:flex;align-items:flex-start;gap:12px;padding:9px 0;color:var(--ink);text-decoration:none}
+.jl .jic{flex-shrink:0;width:22px;padding-top:2px;color:var(--ink-2);display:flex;justify-content:center}
+.jl .jx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.jl .jt{font-size:20px;font-weight:600;line-height:1.2;font-variant-numeric:tabular-nums}
+.jl .jt small{margin-left:6px;font-size:14px;font-weight:500;color:var(--ink-2)}
+.jl .jm{font-size:14px;line-height:1.4;color:var(--ink-2)}
+.jl .late{color:var(--down);font-weight:600}
+.jl .why{font-size:13px}
+.jedit{padding:12px 0;border-bottom:1px solid var(--line)}
+.jeh{display:flex;align-items:center;gap:8px}
+.jeh .field{flex:1;min-width:0;height:44px;font-weight:600}
+.jen{display:block;margin:6px 0 8px;font-size:13px;color:var(--meta)}
+.jlist{list-style:none;margin:8px 0 0;padding:0}
 
 /* One market */
 .mkhead{display:flex;align-items:baseline;gap:12px;margin-top:10px}
@@ -545,13 +563,13 @@ dialog.sheet.closing{transition:transform .18s ease-in,opacity .18s;transform:tr
 <main id="app" aria-live="off"></main>
 <div id="toast" popover="manual" role="status" aria-live="polite"></div>
 
-<script src="core.js?v=9"></script>
+<script src="core.js?v=10"></script>
 <script>
 'use strict';
 // Invite-only: the Apps Script address and the shared code arrive in an invite link and
 // stay on each phone, so neither is in this public repo.
-const EXPECT_BUILD = 8;    // the Apps Script release this page needs
-const RELEASE = 9;
+const EXPECT_BUILD = 9;    // the Apps Script release this page needs
+const RELEASE = 10;
 const SCRIPT_RE = /^https:\/\/script\.google\.com\/(?:a\/macros\/[^/]+|macros)\/s\/[\w-]+\/exec$/;
 const CODE_RE = /^[A-Za-z0-9-]{6,40}$/;
 const C = window.Core;
@@ -577,6 +595,8 @@ const ICON = {
   playFill: '<svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>',
   trainS: svg('<rect x="5.5" y="3" width="13" height="14" rx="3"/><path d="M5.5 10.5h13M9 21l1.5-4M15 21l-1.5-4"/><circle cx="9" cy="13.8" r=".9" fill="currentColor"/><circle cx="15" cy="13.8" r=".9" fill="currentColor"/>', 16, 1.9),
   roadS: svg('<path d="M8.5 3 5 21M15.5 3 19 21M12 4v2.5M12 10v2.5M12 16v2.5"/>', 16, 1.9),
+  carS: svg('<path d="M6.5 7.5h11l2 5h-15z"/><rect x="3.5" y="12.5" width="17" height="5" rx="1.5"/><path d="M6.5 17.5v2M17.5 17.5v2"/>', 16, 1.9),
+  car: svg('<path d="M6.5 7.5h11l2 5h-15z"/><rect x="3.5" y="12.5" width="17" height="5" rx="1.5"/><path d="M6.5 17.5v2M17.5 17.5v2"/><circle cx="7.5" cy="15" r=".9" fill="currentColor"/><circle cx="16.5" cy="15" r=".9" fill="currentColor"/>', 20, 1.6),
   chev: svg('<path d="m9 6 6 6-6 6"/>', 20),
   close: svg('<path d="M6 6l12 12M18 6 6 18"/>', 20, 1.8),
   x: svg('<path d="M7 7l10 10M17 7 7 17"/>', 16, 2),
@@ -646,6 +666,7 @@ const PART_ICON = {
   politics: svg('<path d="M3.5 9.5 12 4.5l8.5 5"/><path d="M5.5 10v7.5M9.5 10v7.5M14.5 10v7.5M18.5 10v7.5M3.5 20h17"/>', 22, 1.6),
   money: svg('<circle cx="12" cy="12" r="8.5"/><path d="M14.6 8.7a2.5 2.5 0 0 0-4.4 1.6v5.4M8.6 12.6h4.6M8.6 15.7h6.8"/>', 22, 1.6),
   suppliers: svg('<path d="M13 3 6 13.5h5.5L11 21l7-10.5h-5.5z"/>', 22, 1.6),
+  journeys: svg('<circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="6" r="2.2"/><path d="M8.2 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.8"/>', 22, 1.6),
   travel: svg('<rect x="5.5" y="3" width="13" height="14" rx="3"/><path d="M5.5 10.5h13M9 21l1.5-4M15 21l-1.5-4"/><circle cx="9" cy="13.8" r=".9" fill="currentColor"/><circle cx="15" cy="13.8" r=".9" fill="currentColor"/>', 22, 1.6),
   comingup: svg('<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/><circle cx="12" cy="15" r="1.2" fill="currentColor"/>', 22, 1.6),
   videos: svg('<rect x="3" y="5.5" width="18" height="13" rx="3.5"/><path d="m10.5 9.5 4 2.5-4 2.5z"/>', 22, 1.6),
@@ -989,8 +1010,9 @@ function refresh(force) {
   S.refreshing = true;
   renderHeader();
   // TfL answers the phone in a second or two; show it straight away rather than waiting for the rest of the brief.
-  const travel = loadTravel(force).then(() => { if (refreshing && !S.folding && S.cache.brief && onBrief()) render(); });
-  refreshing = Promise.allSettled([loadWeather(force), loadWiki(force), loadBrief(), loadCrypto(), travel]).then(() => {
+  const early = () => { if (refreshing && !S.folding && S.cache.brief && onBrief()) render(); };
+  const travel = loadTravel(force).then(early), journeys = loadJourneys(force).then(early);
+  refreshing = Promise.allSettled([loadWeather(force), loadWiki(force), loadBrief(), loadCrypto(), travel, journeys]).then(() => {
     S.refreshing = false; refreshing = null; S.travel = undefined;
     S.cache.at = Date.now();
     saveCache();
@@ -1144,8 +1166,14 @@ function partInfo(id) {
       const keys = [...sts.map((s) => `st:${s.id}:${s.problem.sev}:${s.problem.word}`), ...(tfl ? [...(on.transport ? L.near.filter(lineBad).map((l) => `ln:${l.id}:${l.sev}`) : []), ...(on.roads ? (t.roads || []).map((r) => 'rd:' + r.id) : [])]
         : [...(on.transport ? keysOf(newsItems('transport')) : []), ...(on.roads ? keysOf(newsItems('roads')) : [])])];
       const news = !tfl && on.transport && t ? newsItems('transport').length : 0, total = transportProblems() + news + roads;
-      const note = !t ? (S.prefs.place.county === 'London' ? 'TfL and roads' : 'Trains, buses and roads') : total ? `${total} to check` : 'All clear';
+      const note = !t ? (C.inLondon(S.prefs.place) ? 'TfL and roads' : 'Trains, buses and roads') : total ? `${total} to check` : 'All clear';
       return { title: 'Getting around', note, keys, n: Math.max(1, total) };
+    }
+    case 'journeys': {
+      const L = journeyList();
+      if (!on.journeys || !L.length) return null;
+      const slow = L.filter((j) => C.carSlow(j.car) || (j.pt && j.pt.disrupted)).length, f = L[0], m = f.car ? f.car.mins : f.pt ? f.pt.mins : null;
+      return { title: 'Your journeys', note: slow ? `${slow} running slow` : m != null ? `${f.label} ${m} min` : plural(L.length, 'place', 'places'), n: L.length };
     }
     case 'looked': return on.looked ? { title: 'What people looked up', note: 'Top 5', n: 5 } : null;
     case 'onthisday': return on.onthisday ? { title: 'On this day', note: '3 moments', n: 3 } : null;
@@ -1663,6 +1691,162 @@ const unseen = (p) => (p.keys || []).filter((k) => !S.seen[k]).length;
 // A part is ticked once you reach its end, until a story you haven't seen arrives in it.
 const isDone = (p) => isRead(p.id) && !unseen(p);
 
+/* ---------- Your journeys ---------- */
+// How long it takes to get to up to three places: driving with live traffic from TomTom (through the Apps Script,
+// which holds the key) and public transport from TfL, asked by the phone. Times are from where you are when you've
+// allowed it (to about 100 m), otherwise from your place. Nothing about where you are is kept anywhere else.
+function jnyStore() { if (!S.jny) S.jny = get('jny', {}); return S.jny; }
+const myJourneys = () => (S.prefs.journeys || []).slice(0, C.MAX_JOURNEYS);
+const r3 = (x) => Math.round(Number(x) * 1000) / 1000;
+const ptKey = (pt) => `${r3(pt.lat)},${r3(pt.lon)}`;
+async function hereAllowed() {
+  try { return (await navigator.permissions.query({ name: 'geolocation' })).state === 'granted'; } catch (e) { return false; }
+}
+// Where journeys start: here, if you've switched that on and location is already allowed (never a prompt on refresh).
+async function journeyOrigin() {
+  const p = S.prefs, pl = p.place;
+  if (p.journeyHere && navigator.geolocation && (await hereAllowed())) {
+    try {
+      const pos = await new Promise((res, rej) => navigator.geolocation.getCurrentPosition(res, rej, { maximumAge: 300000, timeout: 8000 }));
+      return { lat: r3(pos.coords.latitude), lon: r3(pos.coords.longitude), here: true };
+    } catch (e) { /* your place instead */ }
+  }
+  return { lat: r3(pl.lat), lon: r3(pl.lon), here: false, name: pl.town || pl.county || '' };
+}
+async function loadJourneys(force) {
+  const list = myJourneys();
+  if (!S.prefs.sections.journeys || !list.length) return;
+  const T = jnyStore(), now = Date.now(), from = await journeyOrigin(), fk = ptKey(from), jobs = [];
+  T.from = from; T.car = T.car || {}; T.pt = T.pt || {};
+  const due = (x) => !x || x.from !== fk || now - x.at > 300000 || (force && now - x.at > 60000);
+  const fail = (m, k, err) => { const x = T[m][k]; T[m][k] = x && x.from === fk ? { ...x, failed: Date.now(), err } : { from: fk, at: 0, d: null, failed: Date.now(), err }; };
+  list.forEach((j) => {
+    const k = ptKey(j);
+    if (!j.pt || !due(T.pt[k])) return;
+    jobs.push(getJSON(`${TFL_API}Journey/JourneyResults/${fk}/to/${k}`, 15000).then((r) => {
+      const d = C.tflJourney(r);
+      T.pt[k] = d ? { from: fk, at: Date.now(), d } : { from: fk, at: Date.now(), d: null, none: true };
+    }, (e) => (/HTTP (300|404)/.test(e.message) ? (T.pt[k] = { from: fk, at: Date.now(), d: null, none: true }) : fail('pt', k))));
+  });
+  const cars = list.filter((j) => j.car && due(T.car[ptKey(j)]));
+  if (cars.length && hasApi()) {
+    jobs.push(api('journeys', { from: { lat: from.lat, lon: from.lon }, to: cars.map((j) => ({ lat: j.lat, lon: j.lon })) }, 25000).then((r) => {
+      T.nokey = !!r.nokey;
+      cars.forEach((j, i) => { const c = (r.cars || [])[i], k = ptKey(j); if (c && !c.error) T.car[k] = { from: fk, at: Date.now(), d: c }; else if (!r.nokey) fail('car', k, c && c.error); });
+    }, () => cars.forEach((j) => fail('car', ptKey(j)))));
+  }
+  await Promise.allSettled(jobs);
+  const keep = new Set(list.map(ptKey));
+  for (const m of ['car', 'pt']) for (const k of Object.keys(T[m])) if (!keep.has(k)) delete T[m][k];
+  put('jny', T);
+}
+// Each place with what's known now; answers from another starting point don't count.
+function journeyList() {
+  const T = jnyStore(), fk = T.from ? ptKey(T.from) : '';
+  const now = (x) => (x && x.from === fk ? x : null);
+  return myJourneys().map((j, i) => {
+    const c = now((T.car || {})[ptKey(j)]), t = now((T.pt || {})[ptKey(j)]);
+    return { i, label: j.label, name: j.name, lat: j.lat, lon: j.lon, wantCar: !!j.car, wantPt: !!j.pt,
+      car: j.car && c && c.d ? c.d : null, carAt: c ? c.at : 0, carStale: !!(c && c.d && c.failed > c.at), carErr: c && !c.d ? c.err || 'busy' : '',
+      pt: j.pt && t && t.d ? t.d : null, ptAt: t ? t.at : 0, ptStale: !!(t && t.d && t.failed > t.at), ptNone: !!(t && t.none), ptFailed: !!(t && !t.d && !t.none) };
+  });
+}
+const journeyAlertList = () => (S.prefs.sections.journeys ? C.journeyAlerts(journeyList()) : []);
+const distWord = (km) => (['GB', 'US'].includes(S.prefs.place.cc) ? `${(km / 1.609).toFixed(1)} mi` : `${km.toFixed(1)} km`);
+function carLine(j, href) {
+  const T = jnyStore();
+  let x;
+  if (j.car) {
+    const d = j.car.mins - (j.car.usual || j.car.mins), slow = C.carSlow(j.car);
+    const vs = j.car.usual == null ? '' : slow ? `<span class="late">${C.slowBy(j.car)} min slower than usual</span>` : d >= 5 ? `${d} min slower than usual` : d <= -5 ? `${-d} min quicker than usual` : 'About as usual';
+    x = `<span class="jt">${j.car.mins} min</span><span class="jm">${[vs, j.car.km ? esc(distWord(j.car.km)) : '', j.carStale ? `from ${esc(fmtTime(j.carAt))}` : ''].filter(Boolean).join(' · ')}</span>`;
+  } else {
+    const why = T.nokey ? 'Driving times need a TomTom key in the Apps Script (Script Properties, TOMTOM_KEY).'
+      : j.carErr === 'key' ? 'TomTom didn’t accept the key. Check TOMTOM_KEY in the Apps Script.'
+      : j.carErr === 'route' ? 'TomTom has no driving route for this one.'
+      : S.refreshing ? 'Asking TomTom…' : j.carErr ? 'TomTom didn’t answer just now. Pull down to try again.' : 'Arrives with your next update.';
+    x = `<span class="jm">${esc(why)}</span>`;
+  }
+  return `<a class="jl" href="${esc(href)}" target="_blank" rel="noopener" aria-label="By car to ${esc(j.label)}. Directions in Google Maps."><span class="jic" aria-hidden="true">${ICON.car}</span><span class="jx">${x}</span></a>`;
+}
+function ptLine(j, href) {
+  let x;
+  if (j.pt) {
+    const meta = [j.pt.leave ? `Leave ${esc(j.pt.leave)}` : '', esc(j.pt.lines.slice(0, 3).join(', ')), j.ptStale ? `from ${esc(fmtTime(j.ptAt))}` : ''].filter(Boolean).join(' · ');
+    x = `<span class="jt">${j.pt.mins} min${j.pt.arrive ? `<small>arrive ${esc(j.pt.arrive)}</small>` : ''}</span><span class="jm">${j.pt.disrupted ? '<span class="late">Delays on the way</span> · ' : ''}${meta}</span>${j.pt.disrupted && j.pt.why ? `<span class="why">${esc(j.pt.why)}</span>` : ''}`;
+  } else {
+    x = `<span class="jm">${esc(j.ptNone ? 'TfL has no public transport route for this one.' : S.refreshing ? 'Asking TfL…' : j.ptFailed ? 'TfL didn’t answer just now. Pull down to try again.' : 'Arrives with your next update.')}</span>`;
+  }
+  return `<a class="jl" href="${esc(href)}" target="_blank" rel="noopener" aria-label="By public transport to ${esc(j.label)}. Directions in Google Maps."><span class="jic" aria-hidden="true">${TIER_ICON.transport}</span><span class="jx">${x}</span></a>`;
+}
+function journeysHTML(parts, p) {
+  const T = jnyStore(), from = T.from, L = journeyList();
+  let h = chOpen(parts, p, 'Your journeys', from ? (from.here ? 'from where you are' : `from ${from.name || 'your place'}`) : 'by car and public transport');
+  h += L.map((j) => {
+    const dir = (mode) => outHref(`https://www.google.com/maps/dir/?api=1${from ? `&origin=${from.lat},${from.lon}` : ''}&destination=${j.lat},${j.lon}&travelmode=${mode}`);
+    const also = j.name && j.name.toLowerCase() !== String(j.label).toLowerCase() ? `<span>${esc(j.name)}</span>` : '';
+    return `<div class="jp" data-key="jn:${j.i}"><div class="jph"><b>${esc(j.label)}</b>${also}</div>` +
+      (j.wantCar ? carLine(j, dir('driving')) : '') + (j.wantPt ? ptLine(j, dir('transit')) : '') + '</div>';
+  }).join('');
+  return h + `<button class="btn ghost edit" data-act="journeys">${ICON.pencil}Edit your places</button>` +
+    '<p class="src">Driving times with live traffic from TomTom; public transport from TfL, powered by TfL Open Data. Tap a time for directions in Google Maps.</p>';
+}
+// Settings: your places, how you'd travel to each, and adding one.
+const modeChip = (i, m, label, on) => `<button class="chip${on ? ' on' : ''}" data-act="jmode" data-i="${i}" data-m="${m}" aria-pressed="${!!on}">${on ? ICON.tick : ICON.plus}${label}</button>`;
+function journeysSheetHTML() {
+  const L = myJourneys();
+  return `<h2 class="sh-title" id="journeys-t">Your journeys</h2>
+    <p class="hint" style="margin-top:6px">Up to ${C.MAX_JOURNEYS} places. Each refresh shows how long they take by car, with live traffic, and by public transport, and the line at the top says when one is running slow.</p>
+    ${L.length ? `<ul class="jlist">${L.map((j, i) => `<li class="jedit"><div class="jeh"><label class="vh" for="jl-${i}">Name for ${esc(j.name)}</label><input class="field" id="jl-${i}" data-jlabel="${i}" value="${esc(j.label)}" maxlength="24" autocomplete="off">` +
+      `<button class="ib" data-act="unjourney" data-i="${i}" aria-label="Remove ${esc(j.label)}" title="Remove">${ICON.x}</button></div><span class="jen">${esc([j.name, j.sub].filter(Boolean).join(', '))}</span>` +
+      `<div class="chips">${modeChip(i, 'car', 'By car', j.car)}${modeChip(i, 'pt', 'Public transport', j.pt)}</div></li>`).join('')}</ul>` : '<p class="empty">No places yet.</p>'}
+    ${L.length < C.MAX_JOURNEYS ? `<h3 class="grp">Add a place</h3>
+    <form class="addrow" data-form="jplace"><label class="vh" for="jpQ">Search for a place</label><input class="field" id="jpQ" type="search" placeholder="Postcode, address or place" autocomplete="off" maxlength="80" enterkeyhint="search"><button class="btn small" type="submit">Search</button></form>
+    <p class="ferr" id="jpErr" role="alert"></p>
+    <div class="res" id="jpRes">${jpResultsHTML()}</div>` : ''}
+    <p class="hint">Your places stay on your phone. Driving times come from TomTom; public transport from TfL, which covers London and the railways around it.</p>`;
+}
+function jpResultsHTML() {
+  return (S.jpResults || []).map((r, i) => `<div class="chrow"><span class="tic" aria-hidden="true">${TIER_ICON.pin}</span><span class="chx"><b>${esc(r.name)}</b><span>${esc(r.sub)}</span></span>` +
+    `<button class="btn small" data-act="addJourney" data-i="${i}">Add</button></div>`).join('');
+}
+async function searchJPlaces(form) {
+  const q = $('#jpQ').value.trim(), err = $('#jpErr'), btn = $('button', form);
+  err.textContent = '';
+  if (q.length < 2) { err.textContent = 'Type a postcode, address or place.'; return; }
+  await withBusy(btn, async () => {
+    const cc = String(S.prefs.place.cc || 'gb').toLowerCase();
+    try {
+      if (C.isPostcode(q) && cc === 'gb') {
+        try { S.jpResults = C.postcodeHit(await getJSON(`https://api.postcodes.io/postcodes/${encodeURIComponent(q.replace(/\s+/g, ''))}`, 10000)); }
+        catch (e) { if (/HTTP 404/.test(e.message)) S.jpResults = []; else throw e; }
+      } else S.jpResults = C.placeHits(await getJSON(`https://nominatim.openstreetmap.org/search?format=jsonv2&limit=6&accept-language=en-GB&countrycodes=${cc}&q=${encodeURIComponent(q)}`, 10000));
+      $('#jpRes').innerHTML = jpResultsHTML();
+      if (!S.jpResults.length) err.textContent = `Nothing found for “${q}”. Try a postcode.`;
+    } catch (e) { S.jpResults = []; $('#jpRes').innerHTML = ''; err.textContent = 'Couldn’t search just now. Try again in a moment.'; }
+  });
+}
+const showJourneys = () => { if (onBrief() && !S.folding) render(); };
+function journeysChanged(msg) {
+  savePrefs();
+  const b = sheetBody('journeys');
+  if (b) { const q = $('#jpQ') ? $('#jpQ').value : ''; b.innerHTML = journeysSheetHTML(); if ($('#jpQ')) $('#jpQ').value = q; }
+  const pb = $('#partBox');
+  if (pb) pb.innerHTML = partOrderHTML();
+  if (msg) toast(msg);
+  render();
+  loadJourneys(true).then(showJourneys);
+}
+// The switch for starting from where you are: asks for location once, here, never on a refresh.
+function setJourneyHere(box) {
+  const town = S.prefs.place.town || 'your place';
+  const set = (on, msg) => { box.checked = on; S.prefs.journeyHere = on; savePrefs(); toast(msg); loadJourneys(true).then(showJourneys); };
+  if (!box.checked) return set(false, `Journey times will be from ${town}.`);
+  if (!navigator.geolocation) return set(false, 'This phone can’t share its location with Lowdown.');
+  navigator.geolocation.getCurrentPosition(() => set(true, 'Journey times will be from where you are.'),
+    () => set(false, `Location is off for Lowdown, so journey times stay from ${town}.`), { timeout: 15000, maximumAge: 300000 });
+}
+
 /* ---------- Header ---------- */
 // Problems at your stations and on roads near you, for the line under the next event.
 function travelAlertList() {
@@ -1685,6 +1869,22 @@ function jumpTo(part, key) {
   const h = $(`#th-${part}-${key}`);
   if (h) window.scrollTo(0, Math.max(0, h.getBoundingClientRect().top + window.scrollY - headerH() - 4));
   if (opening) revealIn(tierBody(part, key));
+}
+// From the alert at the top straight to a part, opened and brought up under the bar.
+function showPart(id) {
+  settleMotion();
+  if (S.open !== id) {
+    const info = partInfo(id);
+    if (!info) return;
+    S.open = id;
+    S.tier = {};
+    S.newKeys = { [id]: new Set(isRead(id) && info.keys ? info.keys.filter((k) => !S.seen[k]) : []) };
+    renderBrief({ scrollTo: id });
+    revealIn($('#pb-' + id));
+  } else {
+    const h = $(`#h-${id}`);
+    if (h) window.scrollTo(0, Math.max(0, h.getBoundingClientRect().top + window.scrollY - headerH()));
+  }
 }
 function nextEvent() {
   if (!ready() || !S.prefs.sections.comingup) return null;
@@ -1711,12 +1911,14 @@ function renderHeader() {
     ev.innerHTML = `<span class="ali">${ICON.calS}</span><b>${esc(e.title)}</b><span>&nbsp;${esc(line.slice(e.title.length).trim())}</span>`;
     ev.setAttribute('aria-label', line + '. Find out more.');
   }
-  const al = $('#alLine'), A = travelAlertList();
+  const al = $('#alLine'), A = [...journeyAlertList(), ...travelAlertList()];
   al.hidden = !A.length;
   al.innerHTML = A.map((a) => {
     const name = a.name.replace(/\s*\([^)]*\)$/, '') || a.name, say = `${a.name}: ${a.what}${a.more ? `, and ${a.more} more` : ''}`;
-    return `<button class="evl al1" data-act="alert" data-k="${a.kind === 'train' ? 'transport' : 'roads'}" aria-label="${esc((a.kind === 'train' ? 'Your stations. ' : 'Roads near you. ') + say + '. See Getting around.')}">` +
-      `<span class="ali">${a.kind === 'train' ? ICON.trainS : ICON.roadS}</span><b>${esc(name)}</b><span>${a.kind === 'train' ? ':' : ''}&nbsp;${esc(a.what)}</span>${a.more ? `<i class="more">+${a.more}</i>` : ''}</button>`;
+    const k = { car: 'journeys', pt: 'journeys', train: 'transport', road: 'roads' }[a.kind], icon = { car: ICON.carS, pt: ICON.trainS, train: ICON.trainS, road: ICON.roadS }[a.kind];
+    const lead = { journeys: 'Your journeys. ', transport: 'Your stations. ', roads: 'Roads near you. ' }[k], see = k === 'journeys' ? 'See Your journeys.' : 'See Getting around.';
+    return `<button class="evl al1" data-act="alert" data-k="${k}" aria-label="${esc(lead + say + '. ' + see)}">` +
+      `<span class="ali">${icon}</span><b>${esc(name)}</b><span>${a.kind === 'road' ? '' : ':'}&nbsp;${esc(a.what)}</span>${a.more ? `<i class="more">+${a.more}</i>` : ''}</button>`;
   }).join('');
   // Nothing else to say today: a word on the weather instead.
   const say = $('#wxSay'), lone = !e && !A.length && m.current;
@@ -1930,6 +2132,7 @@ function noticesHTML() {
   if ((S.whatsNew === 3 || S.whatsNew === 4) && !S.dismissed.new4) n.push(notice('new4', S.whatsNew === 3
     ? 'New in Lowdown: Politics, Money, Your suppliers, Coming up and Videos, and a cleaner look. Tap a part to open it; the weather sits top right.'
     : 'New look: tap a part to open it, and you\u2019ll get a tick when you reach its end. The weather sits at the top with what\u2019s coming up, and \u25d0 switches between white and black.'));
+  if (S.whatsNew === 10 && !S.dismissed.new10) n.push(notice('new10', 'New: journey times. Add up to 3 places to see how long they take by car, with live traffic, and by public transport, with a line at the top when one is running slow.', `<button class="btn small" data-act="journeys">Add places</button>`));
   if (S.whatsNew === 5 && !S.dismissed.new5) n.push(notice('new5', 'New: stories open right here, the bookmark saves any you want to keep, and Getting around covers trains and roads near you (add your stations in Settings). Plus market charts, and pull down to refresh.'));
   if (S.errors.brief && !S.inviteBad && navigator.onLine !== false) {
     const at = S.cache.brief && S.cache.brief.at;
@@ -2104,7 +2307,7 @@ function endHTML(parts) {
 function footHTML() { return '<div class="foot"></div>'; }
 const partError = (part) => { const e = briefData() && (briefData().errors || []).find((x) => x.part === part); return e ? e.message : ''; };
 const PART_HTML = { news: newsHTML, politics: politicsHTML, money: moneyHTML, suppliers: suppliersHTML, comingup: comingupHTML, videos: videosHTML,
-  interests: interestsHTML, markets: marketsHTML, travel: travelHTML, looked: lookedHTML, onthisday: otdHTML, greenest: greenHTML };
+  interests: interestsHTML, markets: marketsHTML, travel: travelHTML, journeys: journeysHTML, looked: lookedHTML, onthisday: otdHTML, greenest: greenHTML };
 
 function keepAnchor() {
   if (window.scrollY < 120) return null;
@@ -2635,13 +2838,14 @@ function afterTopics(scope, msg) {
 function partName(k, pl) {
   return { world: 'World news', country: `${(pl && pl.country) || 'Country'} news`, county: `${(pl && pl.county) || 'County'} news`, local: `${(pl && pl.town) || 'Local'} news`,
     news: 'News', politics: 'Politics', money: 'Money', suppliers: 'Your suppliers', comingup: 'Coming up', videos: 'Videos', interests: 'Your interests',
-    markets: 'Markets', travel: 'Getting around', transport: 'Public transport', roads: 'Roads', looked: 'What people looked up', onthisday: 'On this day', greenest: 'Greenest hours' }[k] || k;
+    markets: 'Markets', travel: 'Getting around', journeys: 'Your journeys', transport: 'Public transport', roads: 'Roads', looked: 'What people looked up', onthisday: 'On this day', greenest: 'Greenest hours' }[k] || k;
 }
 function partHint(k, pl) {
   return { local: 'Matched by place name', politics: pl && pl.cc === 'GB' ? `Westminster${pl.council ? ` and ${pl.council} Council` : ''}` : 'Your country’s politics',
     money: 'MoneySavingExpert’s latest guides and warnings', suppliers: 'Problems with your broadband, power, water and more', comingup: 'Festivals and holidays from your calendars',
     videos: 'New uploads from YouTube channels you pick', interests: 'Updates on the topics you follow', markets: 'Indices, currencies, gold and crypto',
-    transport: pl && pl.county === 'London' ? 'Tube, rail, DLR and tram status from TfL' : 'Train and bus problems in the local news', roads: pl && pl.county === 'London' ? 'Closures, works and incidents within 5 miles, from TfL' : 'Road closures and incidents in the local news',
+    transport: C.inLondon(pl) ? 'Tube, rail, DLR and tram status from TfL' : 'Train and bus problems in the local news', roads: C.inLondon(pl) ? 'Closures, works and incidents within 5 miles, from TfL' : 'Road closures and incidents in the local news',
+    journeys: 'Car and public transport times to up to 3 places',
     looked: 'Wikipedia’s most-read pages', onthisday: 'Three moments from history', greenest: 'When to run the washing machine' }[k] || '';
 }
 const swRow = (k, on, pl, scope) => `<label class="swrow"><span>${esc(partName(k, pl))}${partHint(k, pl) ? `<small>${esc(partHint(k, pl))}</small>` : ''}</span><input type="checkbox" role="switch" class="sw" data-sec="${k}" data-scope="${scope}"${on ? ' checked' : ''}></label>`;
@@ -2662,7 +2866,10 @@ function partOrderHTML() {
     <p class="hint" style="margin-top:2px">${pl.cc === 'GB' ? 'World, UK and Westminster news' : 'World news'} come from the ones you pick, taking turns, with the same story shown once. Your county and town use local news. Up to ${C.MAX_SOURCES}.</p>
     <div class="chips" id="srcBox">${sourceChips()}</div>
     <h3 class="grp" id="grp-travel">Getting around</h3>${['transport', 'roads'].map((k) => swRow(k, p.sections[k], pl, 'set')).join('')}
-    <button class="btn ghost edit" id="stBtn" data-act="stations">${ICON.pencil}${(p.stations || []).length ? `Your stations (${p.stations.length})` : 'Add your stations'}</button>`;
+    <button class="btn ghost edit" id="stBtn" data-act="stations">${ICON.pencil}${(p.stations || []).length ? `Your stations (${p.stations.length})` : 'Add your stations'}</button>
+    <h3 class="grp" id="grp-journeys">Your journeys</h3>
+    <label class="swrow"><span>Journey times from where I am<small>Uses your location when you refresh, if you allow it. Otherwise times are from ${esc(pl.town || 'your place')}.</small></span><input type="checkbox" role="switch" class="sw" data-jhere${p.journeyHere ? ' checked' : ''}></label>
+    <button class="btn ghost edit" id="jnBtn" data-act="journeys">${ICON.pencil}${(p.journeys || []).length ? `Your places (${p.journeys.length})` : 'Add places'}</button>`;
 }
 const mySources = () => (S.prefs.sources && S.prefs.sources.length ? S.prefs.sources : C.DEFAULT_SOURCES);
 function sourceChips() {
@@ -2882,7 +3089,7 @@ function settingsHTML() {
     <h3 class="grp">About</h3>
     <p class="about">Lowdown release ${RELEASE}. ${esc(scriptLine)}${esc(addrLine)}</p>
     <h3 class="grp" id="grp-credits">Sources</h3>
-    <p class="about">News from the papers you pick in News sources, and local news from Google News and Bing News; story cards from each publisher\u2019s own link preview. Money from MoneySavingExpert. Weather by Open-Meteo, air quality and pollen from Copernicus. Place names from OpenStreetMap. What people looked up and on this day from Wikipedia. Calendars from Hebcal and GOV.UK. Travel from TfL Open Data (Powered by TfL Open Data). Power cuts from UK Power Networks. Videos from YouTube. Prices from Google Finance and CoinGecko; charts from Yahoo Finance, the European Central Bank and CoinGecko. Grid data from the National Energy System Operator.</p>`;
+    <p class="about">News from the papers you pick in News sources, and local news from Google News and Bing News; story cards from each publisher\u2019s own link preview. Money from MoneySavingExpert. Weather by Open-Meteo, air quality and pollen from Copernicus. Place names from OpenStreetMap. What people looked up and on this day from Wikipedia. Calendars from Hebcal and GOV.UK. Travel and public transport journeys from TfL Open Data (Powered by TfL Open Data); driving times from TomTom; postcodes from postcodes.io. Power cuts from UK Power Networks. Videos from YouTube. Prices from Google Finance and CoinGecko; charts from Yahoo Finance, the European Central Bank and CoinGecko. Grid data from the National Energy System Operator.</p>`;
 }
 function openSettings(to) {
   if (topSheet() && topSheet().id === 'settings') return;
@@ -3129,7 +3336,31 @@ document.addEventListener('click', (e) => {
       el.replaceWith(f);
       break;
     }
-    case 'alert': jumpTo('travel', el.dataset.k); break;
+    case 'alert': if (el.dataset.k === 'journeys') showPart('journeys'); else jumpTo('travel', el.dataset.k); break;
+    case 'journeys': S.jpResults = []; openSheet('journeys', 'Your journeys', journeysSheetHTML()); break;
+    case 'addJourney': {
+      const r = (S.jpResults || [])[+el.dataset.i], list = (S.prefs.journeys = S.prefs.journeys || []);
+      if (!r) break;
+      if (list.length >= C.MAX_JOURNEYS) { toast(`You can keep up to ${C.MAX_JOURNEYS} places. Remove one first.`); break; }
+      list.push({ label: C.journeyLabel(r), name: r.name, sub: r.sub || '', lat: r.lat, lon: r.lon, car: true, pt: true });
+      S.prefs.sections.journeys = true;
+      S.jpResults = [];
+      journeysChanged(`${r.name} added. You can rename it here.`);
+      break;
+    }
+    case 'unjourney': {
+      const list = S.prefs.journeys || [], i = +el.dataset.i;
+      if (list[i]) { const [j] = list.splice(i, 1); journeysChanged(`${j.label} removed.`); }
+      break;
+    }
+    case 'jmode': {
+      const j = (S.prefs.journeys || [])[+el.dataset.i], m = el.dataset.m;
+      if (!j) break;
+      if (j[m] && !j[m === 'car' ? 'pt' : 'car']) { toast('Keep at least one way to travel.'); break; }
+      j[m] = !j[m];
+      journeysChanged();
+      break;
+    }
     case 'stations': S.stResults = []; openSheet('stations', 'Getting around', stationsHTML()); break;
     case 'addStation': {
       const s = (S.stResults || [])[+el.dataset.i], list = (S.prefs.stations = S.prefs.stations || []);
@@ -3226,6 +3457,7 @@ document.addEventListener('submit', (e) => {
   else if (f.dataset.form === 'invite' || f.dataset.form === 'own') submitInvite(f);
   else if (f.dataset.form === 'yt') searchChannels(f);
   else if (f.dataset.form === 'station') searchStations(f);
+  else if (f.dataset.form === 'jplace') searchJPlaces(f);
   else if (f.dataset.form === 'ics') addIcs(f);
 });
 document.addEventListener('input', (e) => {
@@ -3240,6 +3472,12 @@ document.addEventListener('input', (e) => {
 });
 document.addEventListener('change', (e) => {
   const t = e.target;
+  if ('jhere' in t.dataset) { setJourneyHere(t); return; }
+  if ('jlabel' in t.dataset) {
+    const j = (S.prefs.journeys || [])[+t.dataset.jlabel];
+    if (j) { j.label = t.value.trim().slice(0, 24) || C.journeyLabel(j); t.value = j.label; savePrefs(); render(); }
+    return;
+  }
   if (t.dataset.sec) {
     const scope = t.dataset.scope, secs = scope === 'setup' ? S.draft.sections : S.prefs.sections;
     secs[t.dataset.sec] = t.checked;
@@ -3327,6 +3565,7 @@ addEventListener('scroll', () => document.documentElement.classList.toggle('scro
 beginOpen();
 // Someone already set up sees one short note about what changed.
 if (S.prefs && S.prefs.setupDone && get('release', 0) < Math.min(RELEASE, 5)) { S.whatsNew = fromOld ? 3 : get('release', 0) >= 4 ? 5 : 4; put('whatsNew', S.whatsNew); }
+else if (S.prefs && S.prefs.setupDone && get('release', 0) < 10 && !(S.prefs.journeys || []).length) { S.whatsNew = 10; put('whatsNew', 10); }
 put('release', RELEASE);
 const fromLink = takeHashInvite();
 if (fromLink === 'bad') S.inviteError = 'That invite link is incomplete. Ask for it again, or paste it below.';

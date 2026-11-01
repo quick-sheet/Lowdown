@@ -21,6 +21,7 @@ Live at **https://quick-sheet.github.io/Lowdown/**
 - **Money.** The latest from Martin Lewis's MoneySavingExpert.
 - **Your suppliers.** Broadband, mobile, electricity, gas and water as tiles: a tick when there are no reports, an amber dot when one makes the news, red for a live power cut near you (UK Power Networks areas). Each tile opens the stories, a status-page search and the right emergency number.
 - **Getting around.** In London, live from TfL: **Public transport** shows your own stations first (every line that calls there, plus notices such as a lift out of service), then lines within 5 miles, then problems elsewhere in London; **Roads** lists closures, works and incidents within 5 miles. Elsewhere in the UK it's local news reports, plus your stations' lines if TfL lists them. Add stations in **Settings → Getting around → Add your stations** (up to 4); switch public transport or roads off there too. Your phone asks TfL itself, so the rest of the brief never waits on it; if TfL is slow, you see its last answer and the time it's from.
+- **Your journeys.** Add up to 3 places (by postcode, address or name) in **Settings → Your journeys**. Each refresh shows how long they take by car, with live traffic against the usual for that time of day (TomTom), and by public transport, with when to leave and any delays (TfL, covering London and the railways around it). Times are from where you are if you switch that on and allow location, otherwise from your place. A slow journey leads the line at the top. Tap a time for directions in Google Maps.
 - **Coming up.** Festivals and holidays from the calendars you pick (Christian, Orthodox, Jewish, Islamic, Hindu, Sikh, Buddhist, Lunar New Year, UK bank holidays), plus up to three public calendar links of your own, such as your church or gurdwara.
 - **Videos.** Search YouTube for channels; their new uploads from the past week show in your brief.
 - **Your interests.** Pick from a list or add your own ("snooker", "hip hop"); each gets a short update.
@@ -60,11 +61,19 @@ Searching for channels by name needs a YouTube Data API key. Without one, people
 
 The free allowance covers about 100 searches a day, plenty for friends. New uploads come from YouTube's public feeds and use no allowance.
 
-### 3. UK Power Networks key (only if power cuts don't show)
+### 3. TomTom key for driving times (optional, free)
+
+1. Register at developer.tomtom.com (free, no card) and confirm your email.
+2. In the dashboard, copy **My first API key** (or create a key with **Routing API** ticked).
+3. In the Apps Script, **Project Settings → Script Properties → Add script property**: `TOMTOM_KEY`, paste the key, **Save script properties**.
+
+The free allowance is 20,000 routes a month: three places refreshed 20 times a day uses about 1,800. Without the key, Your journeys shows public transport only.
+
+### 4. UK Power Networks key (only if power cuts don't show)
 
 Live power cuts come from UK Power Networks' open data. If the electricity sheet says "Live power cuts are unavailable just now" day after day, register free at **ukpowernetworks.opendatasoft.com**, create an API key under your account, and add it as a Script Property named `UKPN_KEY`.
 
-### 4. GitHub Pages
+### 5. GitHub Pages
 
 Upload every file to the public repo `quick-sheet/Lowdown`, then **Settings → Pages**: Source **Deploy from a branch**, Branch **main**, folder **/ (root)**, **Save**. The `apps-script` folder can go in the repo too; it holds no secrets.
 

@@ -381,6 +381,53 @@
       .slice(0, 8);
   }
 
+  /* ---------- Your journeys ---------- */
+  const MAX_JOURNEYS = 3;
+  // A full UK postcode, with or without its space.
+  const isPostcode = (q) => /^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$/i.test(String(q || '').trim());
+  function postcodeHit(j) {
+    const r = j && j.result;
+    if (!r || !isFinite(r.latitude) || !isFinite(r.longitude)) return [];
+    return [{ name: r.postcode, sub: [r.admin_ward, r.admin_district].filter(Boolean).join(', '), lat: r.latitude, lon: r.longitude }];
+  }
+  // OpenStreetMap search results: a short name, then the next few parts of the address.
+  function placeHits(j) {
+    const seen = new Set();
+    return (Array.isArray(j) ? j : []).map((r) => {
+      const parts = String(r.display_name || '').split(',').map((x) => x.trim()).filter(Boolean);
+      const name = clipText(r.name || parts[0] || '', 60);
+      return { name, sub: clipText(parts.filter((x) => x !== name).slice(0, 3).join(', '), 90), lat: Number(r.lat), lon: Number(r.lon) };
+    }).filter((x) => x.name && isFinite(x.lat) && isFinite(x.lon) && !seen.has(x.name + x.sub) && seen.add(x.name + x.sub)).slice(0, 6);
+  }
+  // A short label for a new place: "TW13 5AA", "Heathrow Airport".
+  const journeyLabel = (hit) => clipText(String((hit && hit.name) || 'Place').split(',')[0], 24);
+  // TfL's quickest journey: minutes, when to leave, the lines used, and whether TfL marks any of it disrupted.
+  function tflJourney(j) {
+    const js = ((j && j.journeys) || []).filter((x) => isFinite(x.duration));
+    if (!js.length) return null;
+    const b = js.slice().sort((x, y) => x.duration - y.duration)[0], legs = b.legs || [];
+    const ride = legs.filter((l) => l.mode && l.mode.id !== 'walking');
+    const lines = [...new Set(ride.map((l) => ((l.routeOptions || [])[0] || {}).name || (l.mode && l.mode.name) || '').map((x) => clipText(x, 30)).filter(Boolean))];
+    const bad = legs.find((l) => l.isDisrupted);
+    const why = bad ? ((bad.disruptions || []).find((d) => d.description) || {}).description || '' : '';
+    return { mins: Math.round(b.duration), leave: String(b.startDateTime || '').slice(11, 16), arrive: String(b.arrivalDateTime || '').slice(11, 16),
+      lines: lines.length ? lines : ['Walk'], disrupted: !!bad, why: clipText(plainText(why), 220) };
+  }
+  // How much slower than usual a drive is, in whole minutes (TomTom's usual is for this time of day).
+  const slowBy = (car) => (car && Number.isFinite(car.mins) && Number.isFinite(car.usual) && car.usual > 0 ? Math.max(0, Math.round(car.mins - car.usual)) : 0);
+  // Running slow: ten minutes or more, and at least a quarter longer than usual.
+  const carSlow = (car) => slowBy(car) >= 10 && car.mins >= car.usual * 1.25;
+  // The line at the top: your places that are running slow, worst first.
+  function journeyAlerts(list) {
+    const out = [];
+    (list || []).forEach((j) => {
+      if (carSlow(j.car)) out.push({ kind: 'car', name: j.label, what: `+${slowBy(j.car)} min by car`, w: slowBy(j.car) });
+      if (j.pt && j.pt.disrupted) out.push({ kind: 'pt', name: j.label, what: 'delays on the way', w: 5 });
+    });
+    out.sort((a, b) => b.w - a.w);
+    return out.length ? [{ ...out[0], more: out.length - 1 }] : [];
+  }
+
   /* ---------- Getting around ---------- */
   // TfL status codes that mean all's well: good service, no issues, information, closed for the night.
   const lineBad = (l) => !!l && ![10, 18, 19, 20].includes(Number(l.sev));
@@ -618,11 +665,11 @@
   }
 
   /* ---------- Parts of the brief ---------- */
-  const PARTS = ['news', 'politics', 'money', 'suppliers', 'travel', 'comingup', 'videos', 'interests', 'markets', 'looked', 'onthisday', 'greenest'];
+  const PARTS = ['news', 'politics', 'money', 'suppliers', 'journeys', 'travel', 'comingup', 'videos', 'interests', 'markets', 'looked', 'onthisday', 'greenest'];
   function defaultSections(cc) {
     const uk = cc === 'GB';
     return { world: true, country: true, county: true, local: true, politics: true, money: uk, suppliers: uk, comingup: true, videos: false,
-      interests: false, markets: false, looked: false, onthisday: false, greenest: false, transport: uk, roads: uk };
+      interests: false, markets: false, looked: false, onthisday: false, greenest: false, transport: uk, roads: uk, journeys: true };
   }
   const defaultCalendars = (cc) => ({ christian: false, orthodox: false, jewish: false, islamic: false, hindu: false, sikh: false, buddhist: false, lunar: false, bank: cc === 'GB' });
   // Release 3 adds parts, an order and calendars to older settings, keeping every choice already made.
@@ -648,6 +695,10 @@
     for (const k of ['transport', 'roads']) if (!(k in out.sections)) out.sections[k] = d5[k];
     delete out.sections.trending; delete out.sections.viral;
     if (!Array.isArray(out.stations)) out.stations = [];
+    // Release 10: journey times to up to three places. The part only shows once a place is added.
+    if (!('journeys' in out.sections)) out.sections.journeys = true;
+    out.journeys = (Array.isArray(out.journeys) ? out.journeys : []).filter((j) => j && isFinite(j.lat) && isFinite(j.lon)).slice(0, MAX_JOURNEYS);
+    out.journeyHere = !!out.journeyHere;
     // Release 7: the papers for World, UK and Westminster news. Unknown names drop out; none means the defaults.
     const ids = NEWS_SOURCES.map((x) => x[0]);
     out.sources = Array.isArray(out.sources) ? [...new Set(out.sources.filter((x) => ids.includes(x)))].slice(0, 8) : [];
@@ -820,6 +871,7 @@
     addDays, daysBetween, easter, orthodoxEaster, adventSunday, christianEvents, orthodoxEvents, FAITH_TABLE, CALENDARS, localEvents, upcoming, whenWord, shortDate,
     SUPPLY, NETWORKS, guessNetwork, supplyQuery, distanceKm, powerNear, lineBad, shortRoad, stationProblem, travelAlerts,
     NEWS_SOURCES, DEFAULT_SOURCES, MAX_SOURCES, sourceList,
+    MAX_JOURNEYS, isPostcode, postcodeHit, placeHits, journeyLabel, tflJourney, slowBy, carSlow, journeyAlerts,
     TFL_MODES, NEAR_KM, inLondon, inGreaterLondon, stationName, tflLines, tflNear, tflStation, tflNotices, tflRoads, tflSearch
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = Core;
