@@ -56,8 +56,31 @@ a{color:var(--link)}
 .hb .ib{width:40px;height:40px}
 .lk{position:relative}
 .badge{position:absolute;top:3px;right:1px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--ink);color:var(--bg);font-size:11px;font-weight:700;line-height:17px;text-align:center;font-variant-numeric:tabular-nums;box-shadow:0 0 0 2px var(--bg)}
+/* At a glance: one swipeable row under the masthead, problems first; a slim copy rides under the bar once it has scrolled away */
+.strip{display:flex;gap:8px;margin:0 -20px;padding:2px 20px 4px;overflow-x:auto;scroll-snap-type:x proximity;scroll-padding:0 20px;scrollbar-width:none}
+.strip::-webkit-scrollbar,.slim::-webkit-scrollbar{display:none}
+.gt{flex-shrink:0;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:108px;max-width:176px;height:64px;padding:0 14px;border:0;border-radius:16px;background:var(--raise);color:var(--ink);text-align:left}
+.gt:active,.gp:active{background:var(--raise-2)}
+.gl{display:flex;align-items:center;gap:6px;min-width:0;font-size:12px;font-weight:600;color:var(--ink-2);white-space:nowrap}
+.gl svg{flex-shrink:0;width:15px;height:15px}
+.gl span,.gv>span{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.gv{display:flex;align-items:baseline;gap:6px;min-width:0;font-size:16px;font-weight:700;white-space:nowrap}
+.gv i{flex-shrink:0;font-style:normal;font-size:13px;color:var(--down)}
+.gt.bad .gv>span{color:var(--down)}
+.gt.wxt{flex-direction:row;align-items:center;gap:10px;padding:0 14px 0 11px}
+.gt.wxt svg{width:30px;height:30px;flex-shrink:0;overflow:visible}
+.gx{display:flex;flex-direction:column;gap:3px;min-width:0}
+.gx b{font-size:20px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.gx span{font-size:12px;font-weight:600;color:var(--ink-2);white-space:nowrap}
+.gx span.wet{color:var(--rain)}
+.slim{position:absolute;left:0;right:0;top:100%;max-width:34rem;margin:0 auto;box-sizing:border-box;display:flex;gap:6px;padding:6px 20px 8px;background:var(--bg);box-shadow:0 1px 0 var(--line);overflow-x:auto;scrollbar-width:none;visibility:hidden;opacity:0;transform:translateY(-6px);transition:opacity .18s,transform .18s,visibility 0s .18s}
+.slimon .slim{visibility:visible;opacity:1;transform:none;transition:opacity .18s,transform .18s}
+.gp{flex-shrink:0;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px 0 10px;border:0;border-radius:16px;background:var(--raise);color:var(--ink);font-size:13px;font-weight:600;white-space:nowrap}
+.gp svg{width:14px;height:14px;flex-shrink:0;overflow:visible}
+.gp i{font-style:normal;color:var(--down)}
+.gp.bad span{color:var(--down)}
 /* Today: the weather, the next event and any travel alerts, together under the masthead */
-.today{max-width:34rem;margin:0 auto;padding:2px 20px 0}
+.today{max-width:34rem;margin:0 auto;padding:2px 20px 0;overflow:hidden}
 .tcard{display:flex;align-items:center;gap:12px;padding:6px 14px 6px 6px;border-radius:18px;background:var(--raise)}
 .wx{flex-shrink:0;display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 10px 0 8px;border:0;border-radius:14px;background:transparent;color:var(--ink);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
 .wx svg{width:28px;height:28px;flex-shrink:0;overflow:visible}
@@ -76,7 +99,7 @@ a{color:var(--link)}
 .evl>.more{flex-shrink:0;margin-left:6px;padding:0 6px;border-radius:9px;background:var(--line);color:var(--ink-2);font-size:12px;font-style:normal;font-weight:600;line-height:18px}
 .al1>span:nth-last-child(2){min-width:0;overflow:hidden;text-overflow:ellipsis}
 .ib{width:44px;height:44px;padding:0;border:0;border-radius:22px;background:transparent;color:var(--ink-2);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
-@media (max-width:379px){.top{padding-left:16px}.today{padding:2px 16px 0}.tcard{gap:10px;padding-right:12px}.wx{padding:0 8px 0 6px}.tlines{padding-left:10px}}
+@media (max-width:379px){.top{padding-left:16px}.today{padding:2px 16px 0}.strip{margin:0 -16px;padding:2px 16px 4px;scroll-padding:0 16px}.slim{padding:6px 16px 8px}.tcard{gap:10px;padding-right:12px}.wx{padding:0 8px 0 6px}.tlines{padding-left:10px}}
 .ib:active{background:var(--line)}
 .ib[aria-expanded="true"]{background:var(--line);color:var(--ink)}
 
@@ -118,11 +141,12 @@ main{max-width:34rem;margin:0 auto;padding:0 20px calc(32px + env(safe-area-inse
 .part.open::before{bottom:auto;height:29px}
 .part.open:first-of-type::before{display:none}
 .part:only-of-type:not(.open)::before{display:none}
-.ph{position:relative;display:flex;align-items:center;gap:10px;width:100%;min-height:60px;padding:0 0 0 42px;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left;scroll-margin-top:calc(70px + env(safe-area-inset-top))}
-.ph .t{flex:1;min-width:min-content;text-wrap:balance;font-family:var(--disp);font-size:20px;font-weight:600;letter-spacing:-.005em;line-height:1.2}
+.ph{position:relative;display:flex;align-items:center;gap:10px;width:100%;min-height:60px;padding:0 0 0 42px;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left;scroll-margin-top:calc(116px + env(safe-area-inset-top))}
+.ph .t{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--disp);font-size:20px;font-weight:600;letter-spacing:-.005em;line-height:1.2}
 .ph .n{flex:0 1 auto;min-width:0;max-width:44%;display:inline-flex;align-items:center;font-size:13px;color:var(--meta);white-space:nowrap}
 .ph .nt{min-width:0;overflow:hidden;text-overflow:ellipsis}
-.part.open .ph .n{max-width:42%;opacity:0}
+.part.open .ph .n{position:absolute;right:0;max-width:42%;opacity:0;pointer-events:none}
+.part.open .ph .t{margin-right:46px}
 .ph .n{transition:opacity .2s}
 .pr{position:absolute;z-index:2;top:8px;right:24px;width:44px;height:44px;color:var(--ink)}
 .pr.busy svg{animation:spin .8s linear infinite}
@@ -151,7 +175,25 @@ html,body{overscroll-behavior-y:contain}
 .empty{margin:0;padding:12px 0;font-size:15px;font-weight:400;line-height:1.5;color:var(--ink-2);display:flex;align-items:center;gap:8px}
 
 /* News tiers and items */
-.tier{border-bottom:1px solid var(--line)}
+.tier{position:relative;border-bottom:1px solid var(--line)}
+.tier.open .tierh .n{position:absolute;right:0;opacity:0;pointer-events:none}
+.tier.open .tierh .tn{margin-right:64px}
+.tall{position:absolute;z-index:2;top:11px;right:26px;height:34px;padding:0 11px 0 9px;border:0;border-radius:17px;background:var(--raise);color:var(--ink);display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+.tall svg{width:16px;height:16px}
+.tall.inl{position:static}
+.allrow{display:flex;justify-content:flex-end;margin-top:8px}
+.topicrow{display:flex;align-items:center;justify-content:space-between;gap:8px}
+/* A list on a page of its own: in from the side, back with the arrow, the phone's back, or a swipe */
+dialog.sheet.page{inset:0;max-width:34rem;max-height:none;height:100dvh;padding:0 20px calc(28px + env(safe-area-inset-bottom));border-radius:0;background:var(--bg)}
+dialog.sheet.page[open]{animation:slidein .26s cubic-bezier(.2,.8,.2,1)}
+dialog.sheet.page.closing{transform:translateX(48px)}
+@keyframes slidein{from{opacity:0;transform:translateX(48px)}to{opacity:1;transform:none}}
+.pghead{display:flex;align-items:center;gap:4px;margin:0 -20px;padding:calc(6px + env(safe-area-inset-top)) 12px 6px 6px;background:var(--bg);box-shadow:0 1px 0 var(--line)}
+.pghead .ib{color:var(--ink)}
+.pgt{flex:1;min-width:0;display:flex;flex-direction:column}
+.pgt h2{margin:0;font-family:var(--disp);font-size:22px;font-weight:600;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pgt span{font-size:12px;color:var(--meta);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pgmore{display:flex;justify-content:center;margin:18px 0 8px}
 .tier:last-of-type{border-bottom:0}
 .tierh{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;margin:0;padding:6px 0;border:0;background:transparent;color:var(--ink);text-align:left}
 .tic{flex-shrink:0;width:28px;height:36px;color:var(--ink-2);display:flex;align-items:center;justify-content:center}
@@ -392,7 +434,26 @@ html,body{overscroll-behavior-y:contain}
 .dist{font-size:12px;color:var(--meta)}
 .sh-why{font-size:15px;line-height:1.5;color:var(--ink-2)}
 .subh{margin:16px 0 0;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--meta)}
-/* Your journeys */
+/* Your journeys: one row per place */
+.jtab{margin-top:4px}
+.jth,.jrow{display:grid;grid-template-columns:minmax(0,1fr) repeat(var(--jc,2),88px);align-items:center;column-gap:8px}
+.jth{padding:0 0 6px;border-bottom:1px solid var(--line-2);font-size:12px;font-weight:600;color:var(--meta)}
+.jth span{display:inline-flex;align-items:center;gap:5px}
+.jth svg{width:14px;height:14px}
+.jr{border-bottom:1px solid var(--line)}
+.jrow{width:100%;min-height:56px;padding:6px 0;border:0;background:transparent;color:var(--ink);text-align:left}
+.jlab{min-width:0;font-size:16px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jc{display:flex;flex-direction:column;gap:1px;min-width:0}
+.jc .jt{font-size:17px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.jc .late{font-size:12px;font-weight:700;color:var(--down);white-space:nowrap}
+.jc .jn{font-size:13px;color:var(--meta);white-space:nowrap}
+.jd{margin:0 0 12px;padding:4px 14px;border-radius:14px;background:var(--raise)}
+.jwhere{margin:8px 0 0;font-size:13px;color:var(--meta)}
+.jpick{display:flex;align-items:center;gap:12px;margin-top:12px;padding:12px 14px;border-radius:16px;background:var(--bg)}
+.jpick>svg{flex-shrink:0}
+.jdname{margin-top:10px;font-weight:600}
+.jpacts{display:flex;gap:10px;margin-top:20px}
+.jpacts .btn{flex:0 0 auto}
 .jp{padding:12px 0 4px;border-bottom:1px solid var(--line)}
 .jph{display:flex;align-items:baseline;gap:8px;min-width:0}
 .jph b{flex-shrink:0;font-size:17px;font-weight:600}
@@ -557,23 +618,21 @@ dialog.sheet.closing{transition:transform .18s ease-in,opacity .18s;transform:tr
       <button class="ib" id="setBtn" data-act="settings" aria-label="Settings" title="Settings"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></button>
     </div>
   </header>
+  <div class="slim" id="slim" role="list" aria-label="At a glance"></div>
 </div>
 <div class="today" id="today" hidden>
-  <div class="tcard">
-    <button class="wx" id="wxBtn" data-act="weather"></button>
-    <div class="tlines"><button class="evl ev1" id="evLine" data-act="nextEvent" hidden></button><div class="als" id="alLine" hidden></div><button class="evl" id="wxSay" data-act="weather" hidden></button></div>
-  </div>
+  <div class="strip" id="strip" role="list" aria-label="At a glance"></div>
 </div>
 <main id="app" aria-live="off"></main>
 <div id="toast" popover="manual" role="status" aria-live="polite"></div>
 
-<script src="core.js?v=11"></script>
+<script src="core.js?v=12"></script>
 <script>
 'use strict';
 // Invite-only: the Apps Script address and the shared code arrive in an invite link and
 // stay on each phone, so neither is in this public repo.
-const EXPECT_BUILD = 10;    // the Apps Script release this page needs
-const RELEASE = 11;
+const EXPECT_BUILD = 11;    // the Apps Script release this page needs
+const RELEASE = 12;
 const SCRIPT_RE = /^https:\/\/script\.google\.com\/(?:a\/macros\/[^/]+|macros)\/s\/[\w-]+\/exec$/;
 const CODE_RE = /^[A-Za-z0-9-]{6,40}$/;
 const C = window.Core;
@@ -602,6 +661,8 @@ const ICON = {
   carS: svg('<path d="M6.5 7.5h11l2 5h-15z"/><rect x="3.5" y="12.5" width="17" height="5" rx="1.5"/><path d="M6.5 17.5v2M17.5 17.5v2"/>', 16, 1.9),
   car: svg('<path d="M6.5 7.5h11l2 5h-15z"/><rect x="3.5" y="12.5" width="17" height="5" rx="1.5"/><path d="M6.5 17.5v2M17.5 17.5v2"/><circle cx="7.5" cy="15" r=".9" fill="currentColor"/><circle cx="16.5" cy="15" r=".9" fill="currentColor"/>', 20, 1.6),
   chev: svg('<path d="m9 6 6 6-6 6"/>', 20),
+  back: svg('<path d="M15 5l-7 7 7 7"/>', 22, 2),
+  list: svg('<path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r=".9" fill="currentColor"/><circle cx="4.5" cy="12" r=".9" fill="currentColor"/><circle cx="4.5" cy="18" r=".9" fill="currentColor"/>', 16, 2),
   close: svg('<path d="M6 6l12 12M18 6 6 18"/>', 20, 1.8),
   x: svg('<path d="M7 7l10 10M17 7 7 17"/>', 16, 2),
   sunrise: svg('<path d="M3 18h18M7 18a5 5 0 0 1 10 0M12 3v6M9 5.5 12 2.8l3 2.7"/>', 18),
@@ -1113,10 +1174,9 @@ function heldNews(key) { const b = briefData(); return (b && b.news && b.news[ke
 function topicOf(name) { const b = briefData(); return (b && (b.topics || []).find((x) => x.name.toLowerCase() === name.toLowerCase())) || null; }
 function topicItems(name) { const t = topicOf(name); return t ? (t.show ? t.items.slice(0, t.show) : t.items) : null; }
 /* ---------- More stories ---------- */
-// Under each list: "More stories" shows the rest the brief brought, straight away; then "Load more" asks the script for
-// up to 20 more from the past week. Ticks still go by the first few, so a long list never has to be read.
+// Each list shows its first few stories. The list icon beside an open section opens all it holds on a page of its own,
+// where "Load more" asks the script for up to 20 more from the past week. Ticks still go by the first few.
 const MORE_CAP = 60;
-const moreOpen = (g) => !!(S.more && S.more[g]);
 function listAll(g) {
   const i = g.indexOf(':'), kind = g.slice(0, i), key = g.slice(i + 1);
   const held = kind === 'news' ? heldNews(key) : kind === 'topic' ? ((topicOf(key) || {}).items || []) : [];
@@ -1124,31 +1184,45 @@ function listAll(g) {
 }
 function listShown(g) {
   const i = g.indexOf(':'), kind = g.slice(0, i), key = g.slice(i + 1);
-  return moreOpen(g) ? listAll(g) : kind === 'news' ? newsItems(key) : topicItems(key) || [];
+  return kind === 'news' ? newsItems(key) : topicItems(key) || [];
 }
-function moreHTML(g) {
-  const all = listAll(g), shown = listShown(g), rest = all.length - shown.length;
-  if (rest > 0) return `<button class="btn ghost moreb" data-act="more" data-g="${esc(g)}">${ICON.down14}More stories (${rest})</button>`;
-  if ((S.moreDone || {})[g] || all.length >= MORE_CAP || !hasApi()) return all.length > 3 && (S.moreDone || {})[g] ? '<p class="src">That’s everything for now.</p>' : '';
-  return `<button class="btn ghost moreb" data-act="loadMore" data-g="${esc(g)}">${ICON.down14}Load more</button>`;
+// The list icon beside an open section: every story it holds, on a page of its own.
+function allIcon(g, label, inl) {
+  const n = listAll(g).length;
+  return `<button class="tall${inl ? ' inl' : ''}" data-act="allStories" data-g="${esc(g)}" data-label="${esc(label)}" aria-label="All ${n} ${esc(label)} stories, on their own page">${ICON.list}${n}</button>`;
+}
+function allPageHTML(g) {
+  const all = listAll(g), shown = listShown(g).length, held = listAll(g).length - ((S.extra && S.extra[g]) || []).length;
+  let h = all.slice(0, shown).map((it, i) => itemHTML(it, g, i, 'small')).join('');
+  if (held > shown) h += '<h3 class="subh">More from today</h3>' + all.slice(shown, held).map((it, i) => itemHTML(it, g, shown + i, 'small')).join('');
+  if (all.length > held) h += '<h3 class="subh">From this week</h3>' + all.slice(held).map((it, i) => itemHTML(it, g, held + i, 'small')).join('');
+  if (!all.length) h += '<p class="empty">No stories here just now.</p>';
+  const done = (S.moreDone || {})[g] || all.length >= MORE_CAP || !hasApi();
+  return h + `<div class="pgmore">${done ? '<p class="src">That’s everything for now.</p>' : `<button class="btn ghost" data-act="loadMore" data-g="${esc(g)}">Load more from this week</button>`}</div>`;
+}
+const pageSub = (g) => plural(listAll(g).length, 'story', 'stories');
+function openAllStories(g, label) {
+  openSheet('allst', label, allPageHTML(g), null, { sub: pageSub(g) });
+  $('#allst').dataset.g = g;
+}
+function allPageChanged(g) {
+  const d = $('#allst');
+  if (!d || d.dataset.g !== g) return;
+  const top = d.scrollTop;
+  $('.sbody', d).innerHTML = allPageHTML(g);
+  $('.pgt span', d).textContent = pageSub(g);
+  d.scrollTop = top;
 }
 function resetMore(prefix) {
-  for (const o of [S.more, S.extra, S.moreDone]) if (o) for (const k of Object.keys(o)) if (!prefix || prefix.some((x) => k === x || k.startsWith(x))) delete o[k];
+  for (const o of [S.extra, S.moreDone]) if (o) for (const k of Object.keys(o)) if (!prefix || prefix.some((x) => k === x || k.startsWith(x))) delete o[k];
 }
 // New rows slide in where the button was.
 function settleNew(g, from) {
   if (!moving()) return;
-  $$('.itm').filter((b) => b.dataset.g === g && +b.dataset.i >= from).slice(0, 12).forEach((b, k) => {
+  $$('#allst .itm').filter((b) => b.dataset.g === g && +b.dataset.i >= from).slice(0, 12).forEach((b, k) => {
     const row = b.closest('.item') || b;
     row.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 360, delay: k * 40, easing: EASE, fill: 'backwards' });
   });
-}
-function showMore(g) {
-  const from = listShown(g).length;
-  S.more = S.more || {};
-  S.more[g] = true;
-  renderBrief({ keep: true });
-  settleNew(g, from);
 }
 async function loadMore(g, btn) {
   const i = g.indexOf(':'), key = g.slice(i + 1), kind = g.slice(0, i), p = S.prefs;
@@ -1158,10 +1232,10 @@ async function loadMore(g, btn) {
       const r = await api('more', { key: kind === 'topic' ? 'topic:' + key : key, have: listAll(g).map((x) => x.id), sources: mySources(),
         place: { cc: p.place.cc, country: p.place.country, county: p.place.county, town: p.place.town, council: p.place.council || '', london: C.inLondon(p.place) } }, 45000);
       const have = new Set(listAll(g).map((x) => x.id)), add = (r.items || []).filter((x) => x && x.id && !have.has(x.id));
-      S.extra = S.extra || {}; S.moreDone = S.moreDone || {}; S.more = S.more || {};
+      S.extra = S.extra || {}; S.moreDone = S.moreDone || {};
       S.extra[g] = ((S.extra[g]) || []).concat(add);
-      S.more[g] = true;
       if (!add.length) S.moreDone[g] = true;
+      allPageChanged(g);
       renderBrief({ keep: true });
       if (add.length) settleNew(g, from);
     } catch (e) { toast(e.message || 'Couldn’t load more just now.'); }
@@ -1300,16 +1374,16 @@ function partList() {
 }
 // A section inside News or Politics: a row with its picture, opening to its stories.
 const tierSeen = (part, key) => S.read.day === today() && (S.read.tiers || []).includes(part + ':' + key);
-function subHTML(part, key, label, count, body) {
+function subHTML(part, key, label, count, body, extra) {
   const open = S.tier[part] === key, seen = tierSeen(part, key);
   return `<div class="tier${open ? ' open' : ''}" data-anchor="tier-${key}"><h3 style="margin:0"><button class="tierh" id="th-${part}-${key}" data-act="tier" data-part="${part}" data-k="${key}" aria-expanded="${open}">` +
     `<span class="tic" aria-hidden="true">${tierIcon(key)}</span><span class="tn">${esc(label)}</span><span class="n">${esc(count)}${seen ? ICON.tick + '<span class="vh">, opened</span>' : ''}</span>${ICON.chevd}</button></h3>` +
-    (open ? `<div class="tierb">${typeof body === 'function' ? body() : body}</div>` : '') + '</div>';
+    (open ? (extra || '') + `<div class="tierb">${typeof body === 'function' ? body() : body}</div>` : '') + '</div>';
 }
 function tierHTML(t, empty, part) {
   const items = newsItems(t.key), g = 'news:' + t.key;
   return subHTML(part, t.key, t.label, items.length ? plural(items.length, 'story', 'stories') : 'None today',
-    () => (items.length ? listShown(g).map((it, i) => itemHTML(it, g, i, i === 0 && t.level === 0 ? 'lead' : '')).join('') + moreHTML(g) : `<p class="empty">${esc(empty(t))}</p>${moreHTML(g)}`));
+    () => (items.length ? listShown(g).map((it, i) => itemHTML(it, g, i, i === 0 && t.level === 0 ? 'lead' : '')).join('') : `<p class="empty">${esc(empty(t))}</p>`), allIcon(g, t.label));
 }
 
 /* ---------- Getting around: public transport and roads ---------- */
@@ -1514,7 +1588,7 @@ function moneyHTML(parts, p) {
   let h = chOpen(parts, p, 'Money', 'from MoneySavingExpert');
   if (!briefData()) return h + waiting('Money') + chClose(p);
   const items = newsItems('money');
-  h += (items.length ? listShown('news:money').map((it, i) => itemHTML(it, 'news:money', i, '')).join('') : '<p class="empty">Nothing new from MoneySavingExpert in the last few days.</p>') + moreHTML('news:money');
+  h += (items.length ? listShown('news:money').map((it, i) => itemHTML(it, 'news:money', i, '')).join('') : '<p class="empty">Nothing new from MoneySavingExpert in the last few days.</p>') + `<div class="allrow">${allIcon('news:money', 'Money', true)}</div>`;
   return h + '<p class="src">Martin Lewis’s MoneySavingExpert, found through Google News. Tap a story to read it on MSE.</p>' + chClose(p);
 }
 function suppliersHTML(parts, p) {
@@ -1887,36 +1961,81 @@ function ptLine(j, href) {
   }
   return `<a class="jl" href="${esc(href)}" target="_blank" rel="noopener" aria-label="By public transport to ${esc(j.label)}. Directions in Google Maps."><span class="jic" aria-hidden="true">${TIER_ICON.transport}</span><span class="jx">${x}</span></a>`;
 }
+// One row per place, car and public transport side by side, so five places fit at a glance; a tap opens the row
+// for when to leave, the lines, how the drive compares with usual, and directions.
+function jCell(j, c) {
+  const T = jnyStore(), wait = S.refreshing ? '…' : '';
+  if (c === 'car') {
+    if (!j.wantCar) return '<span class="jn" aria-hidden="true">–</span>';
+    if (j.car) return `<span class="jt">${j.car.mins} min</span>${C.carSlow(j.car) ? `<span class="late">+${C.slowBy(j.car)} min</span>` : ''}`;
+    return `<span class="jn">${esc(wait || (T.nokey ? 'Needs key' : j.carErr === 'route' ? 'No route' : 'No answer'))}</span>`;
+  }
+  if (!j.wantPt) return '<span class="jn" aria-hidden="true">–</span>';
+  if (j.pt) return `<span class="jt">${j.pt.mins} min</span>${j.pt.disrupted ? '<span class="late">Delays</span>' : ''}`;
+  return `<span class="jn">${esc(wait || (j.ptNone ? 'No route' : 'No answer'))}</span>`;
+}
+function jSay(j) {
+  const bits = [j.label];
+  if (j.wantCar) bits.push(j.car ? `${j.car.mins} minutes by car${C.carSlow(j.car) ? `, ${C.slowBy(j.car)} slower than usual` : ''}` : 'no driving time yet');
+  if (j.wantPt) bits.push(j.pt ? `${j.pt.mins} minutes by public transport${j.pt.disrupted ? ', with delays' : ''}` : 'no public transport time yet');
+  return bits.join('. ') + '.';
+}
 function journeysHTML(parts, p) {
   const T = jnyStore(), from = T.from, L = journeyList();
+  const cols = [L.some((j) => j.wantCar) && 'car', L.some((j) => j.wantPt) && 'pt'].filter(Boolean);
   let h = chOpen(parts, p, 'Your journeys', from ? (from.here ? 'from where you are' : `from ${from.name || 'your place'}`) : 'by car and public transport');
+  h += `<div class="jtab" style="--jc:${cols.length}"><div class="jth" aria-hidden="true"><span></span>${cols.map((c) => `<span>${c === 'car' ? ICON.carS + 'Car' : ICON.trainS + 'Public'}</span>`).join('')}</div>`;
   h += L.map((j) => {
+    const open = S.jOpen === j.i;
     const dir = (mode) => outHref(`https://www.google.com/maps/dir/?api=1${from ? `&origin=${from.lat},${from.lon}` : ''}&destination=${j.lat},${j.lon}&travelmode=${mode}`);
-    const also = j.name && j.name.toLowerCase() !== String(j.label).toLowerCase() ? `<span>${esc(j.name)}</span>` : '';
-    return `<div class="jp" data-key="jn:${j.i}"><div class="jph"><b>${esc(j.label)}</b>${also}</div>` +
-      (j.wantCar ? carLine(j, dir('driving')) : '') + (j.wantPt ? ptLine(j, dir('transit')) : '') + '</div>';
-  }).join('');
-  return h + `<button class="btn ghost edit" data-act="journeys">${ICON.pencil}Edit your places</button>` +
-    '<p class="src">Driving times with live traffic from TomTom; public transport from TfL, powered by TfL Open Data. Tap a time for directions in Google Maps.</p>';
+    const also = j.name && j.name.toLowerCase() !== String(j.label).toLowerCase() ? `<p class="jwhere">${esc(j.name)}</p>` : '';
+    return `<div class="jr${open ? ' open' : ''}" data-key="jn:${j.i}"><button class="jrow" data-act="jrow" data-i="${j.i}" aria-expanded="${open}" aria-label="${esc(jSay(j))}">` +
+      `<b class="jlab">${esc(j.label)}</b>${cols.map((c) => `<span class="jc">${jCell(j, c)}</span>`).join('')}</button>` +
+      (open ? `<div class="jd">${also}${j.wantCar ? carLine(j, dir('driving')) : ''}${j.wantPt ? ptLine(j, dir('transit')) : ''}</div>` : '') + '</div>';
+  }).join('') + '</div>';
+  return h + `<button class="btn ghost edit" data-act="journeys">${ICON.pencil}Edit your places (${L.length} of ${C.MAX_JOURNEYS})</button>` +
+    '<p class="src">Tap a place for when to leave, the lines and directions. Driving times with live traffic from TomTom; public transport from TfL, powered by TfL Open Data.</p>';
 }
-// Settings: your places, how you'd travel to each, and adding one.
+function toggleJourney(i) {
+  S.jOpen = S.jOpen === i ? null : i;
+  renderBrief({ keep: true });
+  if (S.jOpen === i) revealIn($(`#ch-journeys .jr.open .jd`));
+}
+// Settings: your places, how you'd travel to each, and adding one: search, pick, then give it a short name.
 const modeChip = (i, m, label, on) => `<button class="chip${on ? ' on' : ''}" data-act="jmode" data-i="${i}" data-m="${m}" aria-pressed="${!!on}">${on ? ICON.tick : ICON.plus}${label}</button>`;
 function journeysSheetHTML() {
+  if (S.jpDraft) return jpDraftHTML(S.jpDraft);
   const L = myJourneys();
   return `<h2 class="sh-title" id="journeys-t">Your journeys</h2>
-    <p class="hint" style="margin-top:6px">Up to ${C.MAX_JOURNEYS} places. Each refresh shows how long they take by car, with live traffic, and by public transport, and the line at the top says when one is running slow.</p>
-    ${L.length ? `<ul class="jlist">${L.map((j, i) => `<li class="jedit"><div class="jeh"><label class="vh" for="jl-${i}">Name for ${esc(j.name)}</label><input class="field" id="jl-${i}" data-jlabel="${i}" value="${esc(j.label)}" maxlength="24" autocomplete="off">` +
+    <p class="hint" style="margin-top:6px">Up to ${C.MAX_JOURNEYS} places. Each refresh shows how long they take by car, with live traffic, and by public transport, and the strip at the top says when one is running slow.</p>
+    ${L.length ? `<ul class="jlist">${L.map((j, i) => `<li class="jedit"><div class="jeh"><label class="vh" for="jl-${i}">Name for ${esc(j.name)}</label><input class="field" id="jl-${i}" data-jlabel="${i}" value="${esc(j.label)}" maxlength="16" autocomplete="off">` +
       `<button class="ib" data-act="unjourney" data-i="${i}" aria-label="Remove ${esc(j.label)}" title="Remove">${ICON.x}</button></div><span class="jen">${esc([j.name, j.sub].filter(Boolean).join(', '))}</span>` +
       `<div class="chips">${modeChip(i, 'car', 'By car', j.car)}${modeChip(i, 'pt', 'Public transport', j.pt)}</div></li>`).join('')}</ul>` : '<p class="empty">No places yet.</p>'}
     ${L.length < C.MAX_JOURNEYS ? `<h3 class="grp">Add a place</h3>
     <form class="addrow" data-form="jplace"><label class="vh" for="jpQ">Search for a place</label><input class="field" id="jpQ" type="search" placeholder="Postcode, address or place" autocomplete="off" maxlength="80" enterkeyhint="search"><button class="btn small" type="submit">Search</button></form>
     <p class="ferr" id="jpErr" role="alert"></p>
-    <div class="res" id="jpRes">${jpResultsHTML()}</div>` : ''}
+    <div class="res" id="jpRes">${jpResultsHTML()}</div>` : `<p class="hint">That’s ${C.MAX_JOURNEYS} places. Remove one to add another.</p>`}
     <p class="hint">Your places stay on your phone. Driving times come from TomTom; public transport from TfL, which covers London and the railways around it.</p>`;
 }
 function jpResultsHTML() {
   return (S.jpResults || []).map((r, i) => `<div class="chrow"><span class="tic" aria-hidden="true">${TIER_ICON.pin}</span><span class="chx"><b>${esc(r.name)}</b><span>${esc(r.sub)}</span></span>` +
-    `<button class="btn small" data-act="addJourney" data-i="${i}">Add</button></div>`).join('');
+    `<button class="btn small" data-act="pickJourney" data-i="${i}">Choose</button></div>`).join('');
+}
+const draftChip = (m, label, on) => `<button class="chip${on ? ' on' : ''}" data-act="jdmode" data-m="${m}" aria-pressed="${!!on}">${on ? ICON.tick : ICON.plus}${label}</button>`;
+function jpDraftHTML(D) {
+  return `<h2 class="sh-title" id="journeys-t">Add a place</h2>
+    <div class="jpick"><span class="tic" aria-hidden="true">${TIER_ICON.pin}</span><span class="chx"><b>${esc(D.r.name)}</b><span>${esc(D.r.sub || '')}</span></span>${ICON.check}</div>
+    <h3 class="grp"><label for="jdName">What do you call it?</label></h3>
+    <div class="chips" role="group" aria-label="Quick names">${C.QUICK_NAMES.map((n) => `<button class="chip${D.label === n ? ' on' : ''}" data-act="jname" data-n="${esc(n)}" aria-pressed="${D.label === n}">${esc(n)}</button>`).join('')}</div>
+    <input class="field jdname" id="jdName" data-jdname value="${esc(D.label)}" maxlength="16" autocomplete="off" placeholder="A short name, such as School">
+    <p class="hint">Short names fit the strip at the top. Up to 16 letters.</p>
+    <h3 class="grp">How do you get there?</h3>
+    <div class="chips">${draftChip('car', 'By car', D.car)}${draftChip('pt', 'Public transport', D.pt)}</div>
+    <div class="jpacts"><button class="btn dark" id="jdAdd" data-act="addJourney">Add ${esc(D.label || 'place')}</button><button class="btn ghost" data-act="cancelPick">Back</button></div>`;
+}
+function draftChanged() {
+  const b = sheetBody('journeys');
+  if (b) b.innerHTML = journeysSheetHTML();
 }
 async function searchJPlaces(form) {
   const q = $('#jpQ').value.trim(), err = $('#jpErr'), btn = $('button', form);
@@ -1954,6 +2073,72 @@ function setJourneyHere(box) {
   navigator.geolocation.getCurrentPosition(() => set(true, 'Journey times will be from where you are.'),
     () => set(false, `Location is off for Lowdown, so journey times stay from ${town}.`), { timeout: 15000, maximumAge: 300000 });
 }
+
+/* ---------- At a glance ---------- */
+// The strip under the masthead: what needs you first (a slow journey, a problem at your station, a road closed nearby),
+// then the weather, the next event and your usual journeys. One row that swipes sideways, so it never takes more than
+// a tile's height; once it scrolls away a slim copy rides under the bar.
+const plainName = (n) => String(n || '').replace(/\s*\([^)]*\)$/, '') || n;
+function glanceItems() {
+  const on = S.prefs.sections, out = [], L = on.journeys ? journeyList() : [], t = travelData();
+  L.forEach((j) => {
+    if (C.carSlow(j.car)) out.push({ k: 'journeys', icon: ICON.carS, label: j.label, value: `${j.car.mins} min`, extra: `+${C.slowBy(j.car)}`, bad: true, slim: `+${C.slowBy(j.car)}`,
+      say: `${j.label} by car: ${j.car.mins} minutes, ${C.slowBy(j.car)} slower than usual. See Your journeys.` });
+    if (j.pt && j.pt.disrupted) out.push({ k: 'journeys', icon: ICON.trainS, label: j.label, value: 'Delays', bad: true, slim: 'delays',
+      say: `${j.label} by public transport: delays on the way. See Your journeys.` });
+  });
+  if (t && on.transport) myStations().filter((s) => s.known && s.problem).sort((a, b) => a.problem.sev - b.problem.sev).forEach((s) => {
+    const line = s.problem.sev <= 9;
+    out.push({ k: 'transport', icon: ICON.trainS, label: plainName(s.name), value: cap(s.problem.word), bad: line, slim: line ? 'delays' : 'notice',
+      say: `Your station ${s.name}: ${s.problem.word}. See Getting around.` });
+  });
+  if (t && on.roads && t.source === 'tfl') (t.roads || []).filter((r) => r.closure || r.sev === 'Serious' || r.sev === 'Severe').sort((a, b) => a.km - b.km).slice(0, 2).forEach((r) => {
+    const w = r.closure ? 'Closed' : 'Disrupted';
+    out.push({ k: 'roads', icon: ICON.roadS, label: C.shortRoad(r.loc), value: w, bad: true, slim: w.toLowerCase(), say: `${C.shortRoad(r.loc)}: ${w.toLowerCase()}, ${miles(r.km)} away. See Getting around.` });
+  });
+  out.push({ k: 'weather' });
+  const e = nextEvent();
+  if (e) out.push({ k: 'event', e });
+  L.forEach((j) => {
+    if (C.carSlow(j.car) || (j.pt && j.pt.disrupted)) return;
+    const car = !!j.car, m = j.car || j.pt;
+    if (!m) return;
+    out.push({ k: 'journeys', icon: car ? ICON.carS : ICON.trainS, label: j.label, value: `${m.mins} min`, slim: `${m.mins}m`,
+      say: `${j.label}: ${m.mins} minutes ${car ? 'by car' : 'by public transport'}. See Your journeys.` });
+  });
+  return out;
+}
+// "Rain 4pm", "Showers now", else the sky in a word or two.
+function wxWord(m) {
+  const r = (m.runs || []).find((x) => x.end > m.nowH);
+  if (r) return { text: r.start <= m.nowH ? `${cap(r.kind)} now` : `${cap(r.kind)} ${C.hourWord(r.start)}`, wet: true };
+  return { text: m.current ? C.conditionWord(m.current.code, m.current.isDay) : 'Forecast', wet: false };
+}
+function renderGlance() {
+  const m = heroModel(), items = glanceItems();
+  const temp = m.current ? Math.round(m.current.temp) + '°' : '–', ww = wxWord(m);
+  const tile = (x) => {
+    if (x.k === 'weather') return `<button class="gt wxt" id="wxBtn" role="listitem" data-act="weather" aria-label="${esc(m.current ? `Weather: ${temp}, ${C.conditionWord(m.current.code, m.current.isDay).toLowerCase()}${ww.wet ? ', ' + ww.text.toLowerCase() : ''}. Open the forecast.` : 'Weather. Open the forecast.')}">${chipSVG(m)}<span class="gx"><b>${temp}</b><span class="${ww.wet ? 'wet' : ''}">${esc(ww.text)}</span></span></button>`;
+    if (x.k === 'event') { const line = C.eventLine(x.e); return `<button class="gt" id="evLine" role="listitem" data-act="nextEvent" aria-label="${esc(line + '. See what’s coming up.')}"><span class="gl">${ICON.calS}<span>${esc(cap(C.whenWord(x.e.away, x.e.date)))}</span></span><span class="gv"><span>${esc(x.e.title)}</span></span></button>`; }
+    return `<button class="gt${x.bad ? ' bad' : ''}" role="listitem" data-act="alert" data-k="${x.k}" aria-label="${esc(x.say)}"><span class="gl">${x.icon}<span>${esc(x.label)}</span></span><span class="gv"><span>${esc(x.value)}</span>${x.extra ? `<i>${esc(x.extra)}</i>` : ''}</span></button>`;
+  };
+  const pill = (x) => {
+    if (x.k === 'weather') return `<button class="gp" role="listitem" data-act="weather" aria-label="Weather: ${esc(temp)}. Open the forecast.">${chipSVG(m)}${esc(temp)}</button>`;
+    if (x.k === 'event') return `<button class="gp" role="listitem" data-act="nextEvent" aria-label="${esc(C.eventLine(x.e))}">${ICON.calS}<span>${esc(cap(C.whenWord(x.e.away, x.e.date)))}</span></button>`;
+    return `<button class="gp${x.bad ? ' bad' : ''}" role="listitem" data-act="alert" data-k="${x.k}" aria-label="${esc(x.say)}">${x.icon}${esc(x.label)}${x.slim ? ` <${x.bad ? 'i' : 'span'}>${esc(x.slim)}</${x.bad ? 'i' : 'span'}>` : ''}</button>`;
+  };
+  $('#strip').innerHTML = items.map(tile).join('');
+  $('#slim').innerHTML = items.map(pill).join('');
+  slimCheck();
+}
+// The slim row shows once the strip has gone under the bar.
+function slimCheck() {
+  const t = $('#today'), bar = $('.bar');
+  const on = !!(t && bar && !t.hidden && $('#slim').children.length && t.getBoundingClientRect().bottom < bar.getBoundingClientRect().bottom + 2);
+  document.documentElement.classList.toggle('slimon', on);
+}
+let slimFrame = 0;
+addEventListener('scroll', () => { if (!slimFrame) slimFrame = requestAnimationFrame(() => { slimFrame = 0; slimCheck(); }); }, { passive: true });
 
 /* ---------- Header ---------- */
 // Problems at your stations and on roads near you, for the line under the next event.
@@ -1999,7 +2184,7 @@ function nextEvent() {
   return events()[0] || null;
 }
 function renderHeader() {
-  const wx = $('#wxBtn'), ev = $('#evLine'), ref = $('#refBtn');
+  const ref = $('#refBtn');
   $('#setBtn').hidden = !ready();
   $('#likedBtn').hidden = !ready();
   ref.hidden = !ready();
@@ -2008,30 +2193,8 @@ function renderHeader() {
   if (S.refreshing) document.documentElement.dataset.busy = '1'; else delete document.documentElement.dataset.busy;
   const shown = hasApi() && !S.iosFirst && S.view !== 'intro' && S.view !== 'setup' && ready();
   $('#today').hidden = !shown;
-  if (!shown) return;
-  const m = heroModel();
-  wx.innerHTML = chipSVG(m) + `<span>${m.current ? Math.round(m.current.temp) + '\u00b0' : '\u2013'}</span>`;
-  wx.setAttribute('aria-label', m.current ? `Weather: ${Math.round(m.current.temp)}\u00b0, ${C.conditionWord(m.current.code, m.current.isDay).toLowerCase()}. Open the forecast.` : 'Weather. Open the forecast.');
-  const e = nextEvent();
-  ev.hidden = !e;
-  if (e) {
-    const line = C.eventLine(e);
-    ev.innerHTML = `<span class="ali">${ICON.calS}</span><b>${esc(e.title)}</b><span>&nbsp;${esc(line.slice(e.title.length).trim())}</span>`;
-    ev.setAttribute('aria-label', line + '. Find out more.');
-  }
-  const al = $('#alLine'), A = [...journeyAlertList(), ...travelAlertList()];
-  al.hidden = !A.length;
-  al.innerHTML = A.map((a) => {
-    const name = a.name.replace(/\s*\([^)]*\)$/, '') || a.name, say = `${a.name}: ${a.what}${a.more ? `, and ${a.more} more` : ''}`;
-    const k = { car: 'journeys', pt: 'journeys', train: 'transport', road: 'roads' }[a.kind], icon = { car: ICON.carS, pt: ICON.trainS, train: ICON.trainS, road: ICON.roadS }[a.kind];
-    const lead = { journeys: 'Your journeys. ', transport: 'Your stations. ', roads: 'Roads near you. ' }[k], see = k === 'journeys' ? 'See Your journeys.' : 'See Getting around.';
-    return `<button class="evl al1" data-act="alert" data-k="${k}" aria-label="${esc(lead + say + '. ' + see)}">` +
-      `<span class="ali">${icon}</span><b>${esc(name)}</b><span>${a.kind === 'road' ? '' : ':'}&nbsp;${esc(a.what)}</span>${a.more ? `<i class="more">+${a.more}</i>` : ''}</button>`;
-  }).join('');
-  // Nothing else to say today: a word on the weather instead.
-  const say = $('#wxSay'), lone = !e && !A.length && m.current;
-  say.hidden = !lone;
-  if (lone) say.innerHTML = `<b>${esc(C.conditionWord(m.current.code, m.current.isDay))}</b><span>${m.today ? `&nbsp;\u00b7 high ${Math.round(m.today.max)}\u00b0, low ${Math.round(m.today.min)}\u00b0` : ''}</span>`;
+  if (!shown) { $('#slim').innerHTML = ''; slimCheck(); return; }
+  renderGlance();
   const pg = $('#prog');
   if (pg) pg.innerHTML = progHTML(partList());
   const lb = $('#likedBtn'), n = S.liked.length;
@@ -2309,10 +2472,10 @@ function interestsHTML(parts, p) {
   if (!b) return h + waiting('Your interests') + chClose(p);
   S.prefs.topics.forEach((name, ti) => {
     const items = topicItems(name);
-    h += `<div class="topic" data-anchor="topic-${ti}"><h3 class="topich">${esc(name)}</h3>`;
+    h += `<div class="topic" data-anchor="topic-${ti}"><div class="topicrow"><h3 class="topich">${esc(name)}</h3>${items && items.length ? allIcon('topic:' + name, name, true) : ''}</div>`;
     h += items == null ? `<p class="empty">${S.refreshing ? '<span class="spinner" aria-hidden="true"></span>Fetching…' : 'Arrives with your next refresh.'}</p>`
       : (items.length ? listShown('topic:' + name).map((it, i) => itemHTML(it, 'topic:' + name, i, 'small')).join('')
-      : `<p class="empty">Nothing new on ${esc(name)} in the last day.</p>`) + moreHTML('topic:' + name);
+      : `<p class="empty">Nothing new on ${esc(name)} in the last day.</p>`);
     h += '</div>';
   });
   return h + `<button class="btn ghost edit" data-act="settings" data-to="interests">${ICON.pencil}Edit your interests</button>` + chClose(p);
@@ -2432,7 +2595,8 @@ function restoreAnchor(a) {
   const el = $(`[data-anchor="${a.id}"]`);
   if (el) window.scrollBy(0, el.getBoundingClientRect().top - a.top);
 }
-const headerH = () => ($('.bar') ? $('.bar').offsetHeight : 0);
+// The bar, plus the slim strip that rides under it once you've scrolled (always there by the time a heading is brought up).
+const headerH = () => ($('.bar') ? $('.bar').offsetHeight : 0) + ($('#slim') && $('#slim').children.length ? $('#slim').offsetHeight : 0);
 function progHTML(parts) {
   const done = parts.filter(isDone).length, n = parts.reduce((x, p) => x + (p.n || 0), 0), mins = Math.max(1, Math.round((n * 8 + parts.length * 12) / 60));
   const read = parts.length && done >= parts.length ? 'All read' : `${done} of ${parts.length} read`;
@@ -2725,12 +2889,13 @@ function markRead() {
 
 /* ---------- Sheets ---------- */
 const stack = [];
-function openSheet(id, label, html, share) {
+function openSheet(id, label, html, share, page) {
   const d = document.createElement('dialog');
-  d.className = 'sheet';
+  d.className = page ? 'sheet page' : 'sheet';
   d.id = id;
   d.setAttribute('aria-labelledby', id + '-t');
-  d.innerHTML = `<div class="shead" data-drag><span class="grab" aria-hidden="true"></span><div class="shbar"><span class="lab">${esc(label)}</span><span class="shacts">${share ? `<button class="ib" data-act="share" aria-label="Share" title="Share">${ICON.share}</button>` : ''}<button class="ib" data-act="close" aria-label="Close" title="Close">${ICON.close}</button></span></div></div><div class="sbody">${html}</div>`;
+  d.innerHTML = (page ? `<div class="shead pghead"><button class="ib" data-act="close" aria-label="Back" title="Back">${ICON.back}</button><div class="pgt"><h2 id="${id}-t">${esc(label)}</h2><span>${esc(page.sub || '')}</span></div></div>`
+    : `<div class="shead" data-drag><span class="grab" aria-hidden="true"></span><div class="shbar"><span class="lab">${esc(label)}</span><span class="shacts">${share ? `<button class="ib" data-act="share" aria-label="Share" title="Share">${ICON.share}</button>` : ''}<button class="ib" data-act="close" aria-label="Close" title="Close">${ICON.close}</button></span></div></div>`) + `<div class="sbody">${html}</div>`;
   d._share = share || null;
   document.body.appendChild(d);
   d.addEventListener('cancel', (e) => { e.preventDefault(); closeTop(); });
@@ -3446,17 +3611,38 @@ document.addEventListener('click', (e) => {
       break;
     }
     case 'alert': if (el.dataset.k === 'journeys') showPart('journeys'); else jumpTo('travel', el.dataset.k); break;
-    case 'journeys': S.jpResults = []; openSheet('journeys', 'Your journeys', journeysSheetHTML()); break;
-    case 'addJourney': {
-      const r = (S.jpResults || [])[+el.dataset.i], list = (S.prefs.journeys = S.prefs.journeys || []);
+    case 'journeys': S.jpResults = []; S.jpDraft = null; openSheet('journeys', 'Your journeys', journeysSheetHTML()); break;
+    case 'pickJourney': {
+      const r = (S.jpResults || [])[+el.dataset.i];
       if (!r) break;
-      if (list.length >= C.MAX_JOURNEYS) { toast(`You can keep up to ${C.MAX_JOURNEYS} places. Remove one first.`); break; }
-      list.push({ label: C.journeyLabel(r), name: r.name, sub: r.sub || '', lat: r.lat, lon: r.lon, car: true, pt: true });
-      S.prefs.sections.journeys = true;
-      S.jpResults = [];
-      journeysChanged(`${r.name} added. You can rename it here.`);
+      S.jpDraft = { r, label: C.journeyLabel(r), car: true, pt: true };
+      draftChanged();
+      const sh = $('#journeys');
+      if (sh) sh.scrollTop = 0;
       break;
     }
+    case 'jname': if (S.jpDraft) { S.jpDraft.label = el.dataset.n; draftChanged(); } break;
+    case 'jdmode': {
+      const D = S.jpDraft, m = el.dataset.m;
+      if (!D) break;
+      if (D[m] && !D[m === 'car' ? 'pt' : 'car']) { toast('Keep at least one way to travel.'); break; }
+      D[m] = !D[m];
+      draftChanged();
+      break;
+    }
+    case 'cancelPick': S.jpDraft = null; draftChanged(); break;
+    case 'addJourney': {
+      const D = S.jpDraft, list = (S.prefs.journeys = S.prefs.journeys || []);
+      if (!D) break;
+      if (list.length >= C.MAX_JOURNEYS) { toast(`You can keep up to ${C.MAX_JOURNEYS} places. Remove one first.`); break; }
+      const label = String(D.label || '').trim().slice(0, 16) || C.journeyLabel(D.r);
+      list.push({ label, name: D.r.name, sub: D.r.sub || '', lat: D.r.lat, lon: D.r.lon, car: !!D.car, pt: !!D.pt });
+      S.prefs.sections.journeys = true;
+      S.jpResults = []; S.jpDraft = null;
+      journeysChanged(`${label} added.`);
+      break;
+    }
+    case 'jrow': toggleJourney(+el.dataset.i); break;
     case 'unjourney': {
       const list = S.prefs.journeys || [], i = +el.dataset.i;
       if (list[i]) { const [j] = list.splice(i, 1); journeysChanged(`${j.label} removed.`); }
@@ -3498,7 +3684,7 @@ document.addEventListener('click', (e) => {
     }
     case 'story': openStory(el.dataset.g, +el.dataset.i); break;
     case 'partRefresh': refreshPart(el.dataset.id, el); break;
-    case 'more': showMore(el.dataset.g); break;
+    case 'allStories': openAllStories(el.dataset.g, el.dataset.label); break;
     case 'loadMore': loadMore(el.dataset.g, el); break;
     case 'wiki': openWiki(el.dataset.src, +el.dataset.i); break;
     case 'close': closeTop(); break;
@@ -3574,6 +3760,13 @@ document.addEventListener('submit', (e) => {
 });
 document.addEventListener('input', (e) => {
   const t = e.target;
+  if ('jdname' in t.dataset && S.jpDraft) {
+    S.jpDraft.label = t.value;
+    const add = $('#jdAdd');
+    if (add) add.textContent = `Add ${t.value.trim() || 'place'}`;
+    $$('#journeys [data-act=jname]').forEach((b) => { const on = b.dataset.n === t.value.trim(); b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
+    return;
+  }
   if (t.dataset.town) searchTown(t.dataset.town, t.value);
   else if (t.id === 'mkQ') { S.mkQuery = t.value; $('#mkres').innerHTML = pickListHTML(); $$('.seg button', topSheet()).forEach((b) => b.setAttribute('aria-pressed', String(!S.mkQuery && b.dataset.k === S.mkTab))); }
   else if (t.id && t.id.startsWith('topicIn-')) { const err = $(`#topicErr-${t.id.slice(8)}`); if (err) err.textContent = ''; }
@@ -3587,7 +3780,7 @@ document.addEventListener('change', (e) => {
   if ('jhere' in t.dataset) { setJourneyHere(t); return; }
   if ('jlabel' in t.dataset) {
     const j = (S.prefs.journeys || [])[+t.dataset.jlabel];
-    if (j) { j.label = t.value.trim().slice(0, 24) || C.journeyLabel(j); t.value = j.label; savePrefs(); render(); }
+    if (j) { j.label = t.value.trim().slice(0, 16) || C.journeyLabel(j); t.value = j.label; savePrefs(); render(); }
     return;
   }
   if (t.dataset.sec) {

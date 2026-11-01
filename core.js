@@ -382,7 +382,8 @@
   }
 
   /* ---------- Your journeys ---------- */
-  const MAX_JOURNEYS = 3;
+  const MAX_JOURNEYS = 5;
+  const QUICK_NAMES = ['Home', 'Work', 'School', 'Gym', 'Family', 'Station'];
   // A full UK postcode, with or without its space.
   const isPostcode = (q) => /^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$/i.test(String(q || '').trim());
   function postcodeHit(j) {
@@ -400,7 +401,7 @@
     }).filter((x) => x.name && isFinite(x.lat) && isFinite(x.lon) && !seen.has(x.name + x.sub) && seen.add(x.name + x.sub)).slice(0, 6);
   }
   // A short label for a new place: "TW13 5AA", "Heathrow Airport".
-  const journeyLabel = (hit) => clipText(String((hit && hit.name) || 'Place').split(',')[0], 24);
+  const journeyLabel = (hit) => clipText(String((hit && hit.name) || 'Place').split(',')[0], 16);
   // TfL's quickest journey: minutes, when to leave, the lines used, and whether TfL marks any of it disrupted.
   function tflJourney(j) {
     const js = ((j && j.journeys) || []).filter((x) => isFinite(x.duration));
@@ -695,7 +696,7 @@
     for (const k of ['transport', 'roads']) if (!(k in out.sections)) out.sections[k] = d5[k];
     delete out.sections.trending; delete out.sections.viral;
     if (!Array.isArray(out.stations)) out.stations = [];
-    // Release 10: journey times to up to three places. The part only shows once a place is added.
+    // Release 10: journey times to places (up to five from release 12). The part only shows once a place is added.
     if (!('journeys' in out.sections)) out.sections.journeys = true;
     out.journeys = (Array.isArray(out.journeys) ? out.journeys : []).filter((j) => j && isFinite(j.lat) && isFinite(j.lon)).slice(0, MAX_JOURNEYS);
     out.journeyHere = !!out.journeyHere;
@@ -871,7 +872,7 @@
     addDays, daysBetween, easter, orthodoxEaster, adventSunday, christianEvents, orthodoxEvents, FAITH_TABLE, CALENDARS, localEvents, upcoming, whenWord, shortDate,
     SUPPLY, NETWORKS, guessNetwork, supplyQuery, distanceKm, powerNear, lineBad, shortRoad, stationProblem, travelAlerts,
     NEWS_SOURCES, DEFAULT_SOURCES, MAX_SOURCES, sourceList,
-    MAX_JOURNEYS, isPostcode, postcodeHit, placeHits, journeyLabel, tflJourney, slowBy, carSlow, journeyAlerts,
+    MAX_JOURNEYS, QUICK_NAMES, isPostcode, postcodeHit, placeHits, journeyLabel, tflJourney, slowBy, carSlow, journeyAlerts,
     TFL_MODES, NEAR_KM, inLondon, inGreaterLondon, stationName, tflLines, tflNear, tflStation, tflNotices, tflRoads, tflSearch
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = Core;
