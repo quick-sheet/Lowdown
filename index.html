@@ -545,13 +545,13 @@ dialog.sheet.closing{transition:transform .18s ease-in,opacity .18s;transform:tr
 <main id="app" aria-live="off"></main>
 <div id="toast" popover="manual" role="status" aria-live="polite"></div>
 
-<script src="core.js?v=7"></script>
+<script src="core.js?v=8"></script>
 <script>
 'use strict';
 // Invite-only: the Apps Script address and the shared code arrive in an invite link and
 // stay on each phone, so neither is in this public repo.
-const EXPECT_BUILD = 6;    // the Apps Script release this page needs
-const RELEASE = 7;
+const EXPECT_BUILD = 7;    // the Apps Script release this page needs
+const RELEASE = 8;
 const SCRIPT_RE = /^https:\/\/script\.google\.com\/(?:a\/macros\/[^/]+|macros)\/s\/[\w-]+\/exec$/;
 const CODE_RE = /^[A-Za-z0-9-]{6,40}$/;
 const C = window.Core;
@@ -708,7 +708,7 @@ const S = {
 };
 const hasApi = () => !!(S.invite && S.invite.u && S.invite.c);
 const ready = () => hasApi() && !!(S.prefs && S.prefs.setupDone && S.prefs.place);
-const savePrefs = () => put('prefs', S.prefs);
+const savePrefs = () => { S.travel = undefined; put('prefs', S.prefs); };
 const saveCache = () => put('cache', S.cache);
 
 /* ---------- Clock at your place ---------- */
@@ -805,12 +805,15 @@ function inviteLink(inv = S.invite) {
 // Checks an invite with the script, then keeps it. A slow or missing connection keeps it too,
 // so the brief can try again later; only a code the script turns down is refused.
 async function acceptInvite(inv) {
-  try { await api('check', {}, 15000, inv); }
-  catch (e) { if (e.invite) return { ok: false, message: e.message }; }
+  let build = null, quiet = false;
+  try { const j = await api('check', {}, 15000, inv); build = j && j.build; }
+  catch (e) { if (e.invite) return { ok: false, message: e.message }; quiet = true; }
   const updating = !!S.invite;
   S.invite = inv; S.inviteBad = false; S.inviteError = '';
   put('invite', inv);
-  return { ok: true, message: updating ? 'Invite updated.' : 'You\u2019re in. Welcome to Lowdown.' };
+  if (build) { S.scriptBuild = build; put('scriptBuild', build); }
+  if (quiet) return { ok: true, message: 'Saved, but that address didn\u2019t answer just now. Lowdown will keep trying.' };
+  return { ok: true, message: updating ? `Invite updated. Apps Script release ${build}.` : 'You\u2019re in. Welcome to Lowdown.' };
 }
 function takeHashInvite() {
   const m = /[#&]invite=([A-Za-z0-9_-]*)/.exec(location.hash);
@@ -948,19 +951,22 @@ async function loadBrief() {
   const p = S.prefs, on = p.sections;
   try {
     const supply = SUPPLY_CATS.filter(supplyIsSet).map((cat) => { const c = supplyChoice(cat), name = supplyName(cat); return { cat, name, q: C.supplyQuery(cat, c.name || name, cat === 'electricity' ? c.network : '') }; });
+    const london = C.inLondon(p.place);
     const j = await api('brief', {
       place: { cc: p.place.cc, country: p.place.country, county: p.place.county, town: p.place.town, council: p.place.council || '' },
-      sections: on,
+      // Travel comes straight from TfL on the phone (loadTravel). Outside London the script still finds travel news.
+      sections: { ...on, transport: !!on.transport && !london, roads: !!on.roads && !london },
+      travelOnPhone: true,
       topics: on.interests ? p.topics : [],
       symbols: on.markets ? p.watch.filter((w) => w.sym).map((w) => w.sym) : [],
       suppliers: on.suppliers ? supply : [],
       power: !!(on.suppliers && supplyChoice('electricity').network === 'ukpn'),
       calendars: { jewish: !!(p.calendars || {}).jewish, bank: (p.calendars || {}).bank ? bankDivision(p.place) : '', ics: p.ics || [] },
       youtube: on.videos ? (p.channels || []).map((c) => c.id) : [],
-      point: on.transport || on.roads ? { lat: Math.round(p.place.lat * 100) / 100, lon: Math.round(p.place.lon * 100) / 100 } : null,
-      stations: on.transport ? (p.stations || []).map((s) => s.id) : [],
+      point: null,
+      stations: [],
       sources: mySources()
-    });
+    }, 60000);
     S.cache.brief = { at: Date.now(), data: j };
     S.errors.brief = null;
   } catch (e) { S.errors.brief = e.message; }
@@ -982,8 +988,10 @@ function refresh(force) {
   if (refreshing) { S.again = force || S.again === 'force' ? 'force' : 'soft'; return refreshing; }
   S.refreshing = true;
   renderHeader();
-  refreshing = Promise.allSettled([loadWeather(force), loadWiki(force), loadBrief(), loadCrypto()]).then(() => {
-    S.refreshing = false; refreshing = null;
+  // TfL answers the phone in a second or two; show it straight away rather than waiting for the rest of the brief.
+  const travel = loadTravel(force).then(() => { if (refreshing && !S.folding && S.cache.brief && onBrief()) render(); });
+  refreshing = Promise.allSettled([loadWeather(force), loadWiki(force), loadBrief(), loadCrypto(), travel]).then(() => {
+    S.refreshing = false; refreshing = null; S.travel = undefined;
     S.cache.at = Date.now();
     saveCache();
     render();
@@ -1170,7 +1178,54 @@ function tierHTML(t, empty, part) {
 
 /* ---------- Getting around: public transport and roads ---------- */
 const MODE_NAME = { tube: 'Tube', overground: 'Overground', 'elizabeth-line': 'Elizabeth line', dlr: 'DLR', tram: 'Tram', 'national-rail': 'National Rail' };
-const travelData = () => (briefData() && briefData().travel) || null;
+/* TfL, asked by the phone itself: every request in parallel with its own 12-second limit, each kept for as long as it
+   stays useful (line status and station notices 5 minutes, roads 10, which lines are near and what calls at a station a day).
+   When TfL doesn't answer, the last good answer stays, marked with its time. */
+const TFL_API = 'https://api.tfl.gov.uk/';
+function tflStore() { if (!S.tfl) S.tfl = get('tfl', {}); return S.tfl; }
+async function loadTravel(force) {
+  const p = S.prefs, on = p.sections, pl = p.place;
+  if (!on.transport && !on.roads) return;
+  const london = C.inLondon(pl), ids = on.transport ? (p.stations || []).map((x) => x.id) : [];
+  if (!london && !ids.length) return;
+  const T = tflStore(), now = Date.now(), pt = { lat: Math.round(pl.lat * 100) / 100, lon: Math.round(pl.lon * 100) / 100 }, ptk = pt.lat + ',' + pt.lon;
+  const jobs = [];
+  const job = (k, key, ms, path, parse) => {
+    const x = T[k], due = !x || x.key !== key || now - x.at > ms || (force && ms <= 600000 && now - x.at > 60000);
+    if (!due) return;
+    jobs.push(getJSON(TFL_API + path, 12000).then((j) => { T[k] = { key, at: Date.now(), d: parse(j) }; }, () => { if (T[k]) T[k].failed = Date.now(); else T[k] = { key, at: 0, d: null, failed: Date.now() }; }));
+  };
+  if (on.transport) job('lines', 'all', 300000, `Line/Mode/${C.TFL_MODES}/Status`, C.tflLines);
+  if (on.transport && london) job('near', ptk, 86400000, `StopPoint?lat=${pt.lat}&lon=${pt.lon}&stopTypes=NaptanMetroStation,NaptanRailStation&radius=8050&modes=${C.TFL_MODES}`, C.tflNear);
+  ids.forEach((id) => job('st:' + id, id, 86400000, 'StopPoint/' + encodeURIComponent(id), (j) => C.tflStation(id, j)));
+  if (ids.length) job('notes', ids.join(','), 300000, `StopPoint/${ids.map(encodeURIComponent).join(',')}/Disruption?getFamily=true&flattenResponse=true`, (j) => j);
+  if (on.roads && london) job('roads', ptk, 600000, 'Road/all/Disruption?stripContent=true', (j) => C.tflRoads(j, pt));
+  await Promise.allSettled(jobs);
+  Object.keys(T).forEach((k) => { if (k.startsWith('st:') && !ids.includes(k.slice(3))) delete T[k]; });
+  put('tfl', T);
+  S.travel = undefined;
+}
+// What Getting around shows, built from whatever TfL answers the phone holds.
+function buildTravel() {
+  const p = S.prefs, on = p.sections, pl = p.place, T = tflStore();
+  if (!on.transport && !on.roads) return null;
+  const london = C.inLondon(pl), ids = on.transport ? (p.stations || []).map((x) => x.id) : [];
+  if (!london && !ids.length) return briefData() ? { source: 'news', lines: [], near: [], roads: [], stations: [] } : null;
+  const ptk = Math.round(pl.lat * 100) / 100 + ',' + Math.round(pl.lon * 100) / 100, use = (k, key) => (T[k] && T[k].key === key && T[k].d ? T[k] : null);
+  const lines = use('lines', 'all'), near = use('near', ptk), roads = use('roads', ptk), notes = use('notes', ids.join(','));
+  const parts = [on.transport && lines, on.transport && london && near, on.roads && london && roads].filter((x) => x !== false);
+  if (!parts.some(Boolean) && !ids.some((id) => use('st:' + id, id))) return null;
+  const info = ids.map((id) => (use('st:' + id, id) || {}).d).filter(Boolean);
+  const byId = notes ? C.tflNotices(notes.d, info, Date.now()) : {};
+  const stations = ids.map((id) => { const d = (use('st:' + id, id) || {}).d; return d ? { ...d, notices: byId[id] || [] } : { id, name: '', lines: [], notices: [], failed: true }; });
+  const used = [lines, near, roads, notes].filter(Boolean), failed = Object.values(T).some((x) => x && x.failed && x.failed > x.at);
+  return { source: london ? 'tfl' : 'news', lines: (lines && lines.d) || [], near: (near && near.d) || [], roads: (roads && roads.d) || [], stations,
+    at: used.length ? Math.min(...used.map((x) => x.at)) : 0, stale: failed };
+}
+function travelData() {
+  if (S.travel === undefined) S.travel = buildTravel();
+  return S.travel || null;
+}
 const lineBad = C.lineBad;
 const lineClass = (l) => (!lineBad(l) ? 'ok' : l.sev === 9 ? 'minor' : 'major');
 function travelLines() {
@@ -1248,8 +1303,11 @@ async function searchStations(form) {
   err.textContent = '';
   if (q.length < 2) { err.textContent = 'Type a station name.'; return; }
   await withBusy(btn, async () => {
-    try { const j = await api('stations', { q }); S.stResults = j.stations || []; $('#stRes').innerHTML = stResultsHTML(); }
-    catch (e) { S.stResults = []; $('#stRes').innerHTML = ''; err.textContent = e.message; }
+    try {
+      S.stResults = C.tflSearch(await getJSON(`${TFL_API}StopPoint/Search/${encodeURIComponent(q)}?modes=${C.TFL_MODES}&maxResults=12`, 12000));
+      $('#stRes').innerHTML = stResultsHTML();
+      if (!S.stResults.length) err.textContent = `No stations found for \u201c${q}\u201d.`;
+    } catch (e) { S.stResults = []; $('#stRes').innerHTML = ''; err.textContent = 'TfL didn\u2019t answer just now. Try again in a moment.'; }
   });
 }
 function stationsChanged(msg) {
@@ -1277,7 +1335,7 @@ function travelSubs() {
     const L = travelLines(), mine = myStations(), news = newsItems('transport'), probs = transportProblems();
     const count = !t ? '' : probs ? plural(probs, 'problem', 'problems') : !tfl && news.length ? plural(news.length, 'report', 'reports') : !tfl && !mine.length ? 'No reports' : 'Good service';
     out.push({ key: 'transport', label: 'Public transport', count, body: () => {
-      if (!t) return `<p class="empty">${esc(partError('travel') || 'Arrives with your next update.')}</p>`;
+      if (!t) return `<p class="empty">${esc(travelWait())}</p>`;
       const edit = `<button class="btn ghost edit" data-act="stations">${ICON.pencil}${mine.length ? 'Edit your stations' : 'Add your stations'}</button>`;
       let h = mine.length ? `<h4 class="subh">Your stations</h4>` + mine.map(stationRow).join('') : '';
       if (!tfl) {
@@ -1295,17 +1353,19 @@ function travelSubs() {
     const roads = (t && t.roads) || [], news = newsItems('roads');
     const count = !t ? '' : tfl ? (roads.length ? plural(roads.length, 'within 5 miles', 'within 5 miles') : 'All clear') : (news.length ? plural(news.length, 'report', 'reports') : 'No reports');
     out.push({ key: 'roads', label: 'Roads', count, body: () => {
-      if (!t) return `<p class="empty">${esc(partError('travel') || 'Arrives with your next update.')}</p>`;
+      if (!t) return `<p class="empty">${esc(travelWait())}</p>`;
       if (!tfl) return news.length ? news.map((x, i) => itemHTML(x, 'news:roads', i, 'small')).join('') + '<p class="src">From local news in the last day.</p>' : '<p class="empty">No road closures or incidents in the local news today.</p>';
       return (roads.length ? roads.map(roadRow).join('') : '<p class="empty">No closures, works or incidents within 5 miles.</p>') + '<p class="src">Live from TfL: closures, works and incidents within 5 miles. Powered by TfL Open Data.</p>';
     } });
   }
   return out;
 }
+const travelWait = () => (S.refreshing ? 'Asking TfL\u2026' : Object.values(tflStore()).some((x) => x && x.failed) ? 'TfL didn\u2019t answer just now. It will try again next time you refresh.' : partError('travel') || 'Arrives with your next update.');
 function travelHTML(parts, p) {
   const t = travelData();
   let h = chOpen(parts, p, 'Getting around', t && t.source !== 'tfl' ? 'from local news' : 'within 5 miles of you');
-  if (!briefData()) return h + waiting('Getting around');
+  if (!t && !briefData()) return h + waiting('Getting around');
+  if (t && t.stale && t.at) h += `<p class="hint stale">TfL didn\u2019t answer just now, so this is from ${esc(fmtTime(t.at))}.</p>`;
   return h + travelSubs().map((x) => subHTML('travel', x.key, x.label, x.count, x.body)).join('');
 }
 function politicsHTML(parts, p) {
@@ -1612,17 +1672,19 @@ function travelAlertList() {
 }
 // From the alerts at the top straight to the right part of Getting around.
 function jumpTo(part, key) {
-  if (S.folding) return;
+  settleMotion();
   if (S.open !== part) {
     const info = partInfo(part);
     S.open = part;
     S.tier = {};
     S.newKeys = { [part]: new Set(info && isRead(part) && info.keys ? info.keys.filter((k) => !S.seen[k]) : []) };
-    renderBrief({ scrollTo: part });
   }
-  if (S.tier[part] !== key) setTier(part, key);
+  const opening = S.tier[part] !== key;
+  if (opening) { S.tier[part] = key; markTier(part, key); }
+  renderBrief({ keep: true });
   const h = $(`#th-${part}-${key}`);
   if (h) window.scrollTo(0, Math.max(0, h.getBoundingClientRect().top + window.scrollY - headerH() - 4));
+  if (opening) revealIn(tierBody(part, key));
 }
 function nextEvent() {
   if (!ready() || !S.prefs.sections.comingup) return null;
@@ -1869,6 +1931,10 @@ function noticesHTML() {
     ? 'New in Lowdown: Politics, Money, Your suppliers, Coming up and Videos, and a cleaner look. Tap a part to open it; the weather sits top right.'
     : 'New look: tap a part to open it, and you\u2019ll get a tick when you reach its end. The weather sits at the top with what\u2019s coming up, and \u25d0 switches between white and black.'));
   if (S.whatsNew === 5 && !S.dismissed.new5) n.push(notice('new5', 'New: stories open right here, the bookmark saves any you want to keep, and Getting around covers trains and roads near you (add your stations in Settings). Plus market charts, and pull down to refresh.'));
+  if (S.errors.brief && !S.inviteBad && navigator.onLine !== false) {
+    const at = S.cache.brief && S.cache.brief.at;
+    n.push(notice('brieferr', esc(`Couldn\u2019t update: ${S.errors.brief}${/[.!?]$/.test(S.errors.brief) ? '' : '.'} ${at ? `Showing what was saved at ${fmtTime(at)}.` : ''} Pull down to try again.`), '', false));
+  }
   if (S.inviteBad) n.push(notice('invite', 'Your invite isn\u2019t valid any more, so news, interests and markets can\u2019t update. Ask whoever shared Lowdown for a new link.', '<button class="btn small" data-act="reinvite">Paste new link</button>', false));
   else if (S.scriptBuild != null && S.scriptBuild < EXPECT_BUILD) n.push(notice('script', `Your Apps Script is out of date (release ${S.scriptBuild}, this app needs ${EXPECT_BUILD}). In Apps Script, choose Deploy, Manage deployments, edit, New version, Deploy.`, '', false));
   return n.join('');
@@ -2060,13 +2126,14 @@ function progHTML(parts) {
   const read = parts.length && done >= parts.length ? 'All read' : `${done} of ${parts.length} read`;
   return `${navigator.onLine ? '' : 'Offline \u00b7 '}${read} \u00b7 about ${mins} min`;
 }
-// opt.scrollTo: bring that part's heading to the top. opt.hold: keep that heading where it is.
+// opt.scrollTo: bring that part's heading to the top. opt.hold: keep that heading where it is. opt.keep: leave the scroll alone.
 function renderBrief(opt = {}) {
+  settleMotion();
   const parts = partList();
   let held = null, a = null;
-  const holdId = opt.holdEl || (opt.hold ? 'h-' + opt.hold : '');
+  const holdId = opt.keep ? '' : opt.holdEl || (opt.hold ? 'h-' + opt.hold : '');
   if (holdId) { const el = document.getElementById(holdId); if (el) held = el.getBoundingClientRect().top; }
-  else if (!opt.scrollTo) a = keepAnchor();
+  else if (!opt.scrollTo && !opt.keep) a = keepAnchor();
   if (holdId) a = null;
   $('#app').innerHTML = noticesHTML() +
     (parts.length ? `<div class="bh"><h2>In today\u2019s brief</h2><span id="prog">${progHTML(parts)}</span></div>`
@@ -2078,34 +2145,152 @@ function renderBrief(opt = {}) {
   } else if (holdId && held != null) {
     const el = document.getElementById(holdId);
     if (el) window.scrollBy(0, el.getBoundingClientRect().top - held);
-  } else restoreAnchor(a);
+  } else if (!opt.keep) restoreAnchor(a);
   observe();
 }
 /* ---------- Motion ---------- */
 // Sections grow open and fold shut, what's inside settles in one after another, and a finished part's tick draws itself.
-// Only transform, opacity and the box's own height move; nothing moves at all with Reduce Motion on.
+// Boxes change height and padding together so they end exactly where the page has them; nothing moves at all with Reduce Motion on.
 const EASE = 'cubic-bezier(.2,.8,.2,1)', SPRING = 'cubic-bezier(.34,1.56,.64,1)';
 const moving = () => !reduced() && typeof Element !== 'undefined' && !!Element.prototype.animate;
 const kidsOf = (box) => (box ? [...box.children].filter((el) => !el.classList.contains('ch-end')) : []);
+const boxPads = (el) => { const c = getComputedStyle(el); return { pt: c.paddingTop, pb: c.paddingBottom, bb: parseFloat(c.borderBottomWidth) || 0 }; };
+// What's inside a box that opens settles in one after another.
+function settleKids(box) {
+  kidsOf(box).slice(0, 10).forEach((el, i) => el.animate([{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'none' }],
+    { duration: 380, delay: 70 + i * 45, easing: EASE, fill: 'backwards' }));
+}
+// One tap, one movement. The page switches to its finished state at once, then glides there: the box that closes
+// folds shut where it was (the old box itself, put back just for the fold), the one that opens grows from nothing,
+// headings ease between their open and closed sizes, and the tapped heading either stays where it is or slides up
+// under the bar. The boxes' sizes and the scroll are all set together, once a frame, from one clock and one curve,
+// so everything on screen moves in a single direction at a single pace with no wobble; every step ends exactly where
+// the finished page has it, so nothing jumps when the movement stops; and the browser's own scroll anchoring is
+// paused so it can't pull the page about while the boxes change size.
+//   o.anchor  id of the heading to steer by     o.top   true to bring it up under the bar, otherwise it stays put
+//   o.close   the box that is closing (taken before the change)   o.closeIn  () => where it goes back for its fold
+//   o.open    () => the box that is opening      o.heads  ids of headings whose title may change size
+function curve(x1, y1, x2, y2) {
+  const at = (t, a, b) => 3 * a * t * (1 - t) * (1 - t) + 3 * b * t * t * (1 - t) + t * t * t;
+  return (x) => {
+    if (x <= 0) return 0;
+    if (x >= 1) return 1;
+    let lo = 0, hi = 1, t = x;
+    for (let i = 0; i < 26; i++) { t = (lo + hi) / 2; if (at(t, x1, x2) < x) lo = t; else hi = t; }
+    return at(t, y1, y2);
+  };
+}
+const glide = curve(0.2, 0.8, 0.2, 1);   // EASE, in script
+const mix = (a, b, p) => a + (b - a) * p;
+let morphing = null;   // ends the movement under way at once, if there is one
+const settleMotion = () => { if (morphing) morphing(); };
+function morph(change, o) {
+  settleMotion();
+  const anc = () => document.getElementById(o.anchor);
+  const y0 = window.scrollY, a0 = anc(), t0 = a0 ? a0.getBoundingClientRect().top : null;
+  const heads = (o.heads || []).map((id) => { const t = $(`#${id} .t`); return { id, size: t ? parseFloat(getComputedStyle(t).fontSize) : 0 }; });
+  const ghost = moving() && o.close && o.close.isConnected ? o.close : null;
+  // Boxes are measured clipped (as they move), so margins at their edges count inside them rather than
+  // spilling out, and nothing shifts when the clip goes on or comes off.
+  if (ghost) ghost.style.overflow = 'hidden';
+  const gh = ghost ? ghost.offsetHeight : 0, gp = ghost ? boxPads(ghost) : null;
+  change();
+  const box = o.open ? o.open() : null;
+  if (box && moving()) box.style.overflow = 'hidden';
+  // Measure the finished page before anything is put back.
+  const a1 = anc(), docTop = a1 ? a1.getBoundingClientRect().top + window.scrollY : null;
+  const maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  const bh = box ? box.offsetHeight : 0, bp = box ? boxPads(box) : null;
+  let toY = y0;
+  if (docTop != null) toY = Math.min(maxY, Math.max(0, o.top ? docTop - headerH() : t0 != null ? docTop - t0 : docTop - headerH()));
+  if (!moving()) { window.scrollTo(0, toY); return; }
+  const html = document.documentElement, body = document.body, pad = body.style.paddingBottom;
+  html.style.overflowAnchor = body.style.overflowAnchor = 'none';
+  // Keep the page long enough for every step of the glide, so the browser never has to clamp the scroll.
+  body.style.paddingBottom = (bh + gh) + 'px';
+  const D = Math.round(Math.min(520, 300 + Math.max(bh, gh, Math.abs(toY - y0)) / 9));
+  const steps = [], cleanup = [];
+  // A box from one size to another: height, padding and (for a part's box) a 1px pull-up so its bottom line lands
+  // exactly on the heading's own line.
+  const sizer = (el, from, to) => (p) => {
+    el.style.height = mix(from.h, to.h, p) + 'px';
+    el.style.paddingTop = mix(from.pt, to.pt, p) + 'px';
+    el.style.paddingBottom = mix(from.pb, to.pb, p) + 'px';
+    el.style.marginTop = mix(from.mt, to.mt, p) + 'px';
+  };
+  const clear = (el) => { ['height', 'paddingTop', 'paddingBottom', 'marginTop', 'overflow', 'opacity'].forEach((k) => { el.style[k] = ''; }); };
+  if (ghost && o.closeIn && o.closeIn()) {
+    [ghost, ...ghost.querySelectorAll('[id],[data-anchor],[data-end],[data-key]')].forEach((el) => { el.removeAttribute('id'); el.removeAttribute('data-anchor'); el.removeAttribute('data-end'); el.removeAttribute('data-key'); });
+    ghost.setAttribute('aria-hidden', 'true');
+    ghost.inert = true;
+    ghost.style.overflow = 'hidden';
+    o.closeIn().appendChild(ghost);
+    const hd = ghost.previousElementSibling, line = gp.bb && hd && hd.classList.contains('ph');
+    if (line) { hd.style.borderBottomColor = 'transparent'; cleanup.push(() => { hd.style.borderBottomColor = ''; }); }
+    steps.push(sizer(ghost, { h: gh, pt: parseFloat(gp.pt), pb: parseFloat(gp.pb), mt: 0 }, { h: line ? gp.bb : 0, pt: 0, pb: 0, mt: line ? -gp.bb : 0 }));
+    ghost.animate([{ opacity: 1 }, { opacity: 0 }], { duration: Math.round(D * 0.5), easing: 'linear', fill: 'forwards' });
+    cleanup.push(() => ghost.remove());
+  }
+  if (box) {
+    box.style.overflow = 'hidden';
+    const line = bp.bb && box.classList.contains('pb');
+    steps.push(sizer(box, { h: line ? bp.bb : 0, pt: 0, pb: 0, mt: line ? -bp.bb : 0 }, { h: bh, pt: parseFloat(bp.pt), pb: parseFloat(bp.pb), mt: 0 }));
+    steps.push((p) => { box.style.opacity = String(mix(0.4, 1, Math.min(1, p * 1.6))); });
+    cleanup.push(() => clear(box));
+    settleKids(box);
+  }
+  // Titles that change size between open and closed ease from their old size instead of snapping.
+  heads.forEach((h) => {
+    const t = $(`#${h.id} .t`), now = t ? parseFloat(getComputedStyle(t).fontSize) : 0;
+    if (t && h.size && now && Math.abs(now - h.size) > 0.5) t.animate([{ transform: `scale(${h.size / now})`, transformOrigin: 'left center' }, { transform: 'none', transformOrigin: 'left center' }], { duration: D, easing: EASE });
+  });
+  // Every frame: one clock, one curve, then the boxes and the scroll set together. Every position on screen is then a
+  // straight mix of the start and the end, so nothing can overshoot or come back.
+  let stop = false, ended = false, start = null;
+  const quit = () => { stop = true; };
+  window.addEventListener('touchstart', quit, { passive: true, once: true });
+  window.addEventListener('wheel', quit, { passive: true, once: true });
+  const apply = (p) => {
+    steps.forEach((f) => f(p));
+    if (!stop) window.scrollTo(0, mix(y0, toY, p));
+  };
+  const frame = (ts) => {
+    if (ended) return;
+    if (start == null) start = ts;
+    const x = Math.min(1, (ts - start) / D);
+    apply(glide(x));
+    if (x < 1) requestAnimationFrame(frame); else finish();
+  };
+  const finish = () => {
+    if (ended) return;
+    ended = true;
+    morphing = null;
+    window.removeEventListener('touchstart', quit);
+    window.removeEventListener('wheel', quit);
+    cleanup.forEach((f) => f());
+    body.style.paddingBottom = pad;
+    if (!stop) window.scrollTo(0, toY);
+    html.style.overflowAnchor = body.style.overflowAnchor = '';
+    delete html.dataset.moving;
+    S.folding = false;
+  };
+  apply(0);
+  S.folding = true;
+  html.dataset.moving = '1';
+  morphing = finish;
+  requestAnimationFrame(frame);
+  setTimeout(finish, D + 1200);   // never left half-way if frames stop coming (a hidden tab)
+}
+// Bringing a box in without a tap on its heading (jumping from an alert): it just grows.
 function revealIn(box) {
   if (!box || !moving()) return;
-  const h = box.scrollHeight, body = document.body, pad = body.style.paddingBottom;
-  box.style.overflow = 'hidden';
-  // Hold the page's full length while the box grows, so the scroll position it was opened at still fits.
+  box.style.overflow = 'hidden';   // measured clipped, as it moves
+  const h = box.offsetHeight, p = boxPads(box), body = document.body, pad = body.style.paddingBottom;
   body.style.paddingBottom = h + 'px';
-  const a = box.animate([{ height: '0px', opacity: 0.3 }, { height: h + 'px', opacity: 1 }], { duration: Math.round(Math.min(460, 240 + h / 8)), easing: EASE });
+  const a = box.animate([{ height: '0px', paddingTop: '0px', paddingBottom: '0px', opacity: 0.4 }, { height: h + 'px', paddingTop: p.pt, paddingBottom: p.pb, opacity: 1 }],
+    { duration: Math.round(Math.min(480, 280 + h / 9)), easing: EASE });
   a.onfinish = a.oncancel = () => { box.style.overflow = ''; body.style.paddingBottom = pad; };
-  kidsOf(box).slice(0, 10).forEach((el, i) => el.animate([{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'none' }],
-    { duration: 380, delay: 60 + i * 45, easing: EASE, fill: 'backwards' }));
-}
-function foldAway(box, done) {
-  if (!box || !moving()) { done(); return; }
-  box.style.overflow = 'hidden';
-  const a = box.animate([{ height: box.offsetHeight + 'px', opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 210, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' });
-  let called = false;
-  const fin = () => { if (!called) { called = true; done(); } };
-  a.onfinish = fin; a.oncancel = fin;
-  setTimeout(fin, 400);   // never stuck if the animation is dropped
+  settleKids(box);
 }
 function turn(chev, open) {
   if (chev && moving()) chev.animate([{ transform: `rotate(${open ? 0 : 180}deg)` }, { transform: `rotate(${open ? 180 : 0}deg)` }], { duration: 420, easing: SPRING });
@@ -2124,50 +2309,47 @@ function tickPop(tick, node) {
   }
   popIcon(node);
 }
+function markTier(part, key) {
+  if (S.read.day !== today()) S.read = { day: today(), parts: [] };
+  S.read.tiers = S.read.tiers || [];
+  if (!S.read.tiers.includes(part + ':' + key)) { S.read.tiers.push(part + ':' + key); put('read', S.read); }
+}
+const tierBody = (part, key) => { const h = $(`#th-${part}-${key}`), t = h && h.closest('.tier'); return t && $('.tierb', t); };
+// A section inside News or Politics: the one that was open folds while the tapped one opens, and the tapped row stays put.
 function openTier(part, key) {
-  if (S.folding) return;
-  const cur = S.tier[part], th = (k) => $(`#th-${part}-${k}`), body = (k) => { const h = th(k); return h && h.closest('.tier') && $('.tierb', h.closest('.tier')); };
-  if (cur) {
-    S.folding = true;
-    foldAway(body(cur), () => { S.folding = false; setTier(part, key); });
-    return;
-  }
-  setTier(part, key);
+  settleMotion();
+  const was = S.tier[part], opening = was !== key;
+  const close = was ? tierBody(part, was) : null;
+  morph(() => {
+    S.tier[part] = opening ? key : null;
+    if (opening) markTier(part, key);
+    renderBrief({ keep: true });
+  }, { anchor: `th-${part}-${key}`, close, closeIn: () => was && $(`#th-${part}-${was}`) && $(`#th-${part}-${was}`).closest('.tier'), open: () => (opening ? tierBody(part, key) : null) });
+  const h = $(`#th-${part}-${key}`);
+  turn(h && $(':scope > svg', h), opening);
+  if (opening) popIcon(h && $('.tic', h));
+  if (was && opening) { const o = $(`#th-${part}-${was}`); turn(o && $(':scope > svg', o), false); }
 }
-function setTier(part, key) {
-  const was = S.tier[part];
-  S.tier[part] = S.tier[part] === key ? null : key;
-  if (S.tier[part]) {
-    if (S.read.day !== today()) S.read = { day: today(), parts: [] };
-    S.read.tiers = S.read.tiers || [];
-    if (!S.read.tiers.includes(part + ':' + key)) { S.read.tiers.push(part + ':' + key); put('read', S.read); }
-  }
-  renderBrief({ holdEl: `th-${part}-${key}` });
-  const h = $(`#th-${part}-${key}`), t = h && h.closest('.tier');
-  if (S.tier[part] === key) { revealIn(t && $('.tierb', t)); turn(h && $(':scope > svg', h), true); popIcon(h && $('.tic', h)); }
-  else turn(h && $(':scope > svg', h), false);
-  if (was && was !== key) { const o = $(`#th-${part}-${was}`); turn(o && $(':scope > svg', o), false); }
-}
+// A part: tapping its heading opens it and brings it up under the bar while any other open part folds away;
+// tapping it again folds it shut with the heading staying where it is.
 function openPart(id) {
-  if (S.folding) return;
-  if (S.open === id) {
-    S.folding = true;
-    foldAway($('#pb-' + id), () => { S.folding = false; S.open = null; renderBrief({ hold: id }); turn($(`#h-${id} > svg`), false); });
-    return;
-  }
-  const go = () => {
-    const info = partInfo(id);
-    S.open = id;
-    S.tier = {};
-    S.newKeys = { [id]: new Set(info && isRead(id) ? info.keys ? info.keys.filter((k) => !S.seen[k]) : [] : []) };
-    renderBrief({ scrollTo: id });
-    revealIn($('#pb-' + id));
-    turn($(`#h-${id} > svg`), true);
-    popIcon($(`#h-${id} .node`));
-  };
-  const old = S.open && $('#pb-' + S.open);
-  if (old) { S.folding = true; foldAway(old, () => { S.folding = false; go(); }); } else go();
+  settleMotion();
+  const was = S.open, opening = was !== id;
+  const close = was ? $('#pb-' + was) : null;
+  morph(() => {
+    if (opening) {
+      const info = partInfo(id);
+      S.open = id;
+      S.tier = {};
+      S.newKeys = { [id]: new Set(info && isRead(id) ? info.keys ? info.keys.filter((k) => !S.seen[k]) : [] : []) };
+    } else S.open = null;
+    renderBrief({ keep: true });
+  }, { anchor: 'h-' + id, top: opening, close, closeIn: () => was && $('#ch-' + was), open: () => (opening ? $('#pb-' + id) : null), heads: was && was !== id ? ['h-' + id, 'h-' + was] : ['h-' + id] });
+  turn($(`#h-${id} > svg`), opening);
+  if (opening) popIcon($(`#h-${id} .node`));
+  if (was && opening) turn($(`#h-${was} > svg`), false);
 }
+const onBrief = () => hasApi() && !S.iosFirst && ready() && S.view !== 'intro' && S.view !== 'setup';
 function render() {
   applyTheme();
   renderHeader();
@@ -2666,6 +2848,7 @@ function settingsHTML() {
   const p = S.prefs, pl = p.place;
   const scriptLine = S.scriptBuild == null ? 'Apps Script release: not checked yet.'
     : S.scriptBuild < EXPECT_BUILD ? `Apps Script release ${S.scriptBuild}: out of date (this app needs ${EXPECT_BUILD}).` : `Apps Script release ${S.scriptBuild}, up to date.`;
+  const addrLine = S.invite && S.invite.u ? ` Address ending \u2026${S.invite.u.replace(/\/exec$/, '').slice(-10)}.` : '';
   return `<h2 class="sh-title" id="settings-t">Settings</h2>
     <h3 class="grp">Your place</h3>
     <div class="placecard"><span>${ICON.pin}${esc(placeLine(pl))}</span></div>
@@ -2697,7 +2880,7 @@ function settingsHTML() {
     <h3 class="grp">Help</h3>
     <button class="btn ghost" data-act="tour">Show me around again</button>
     <h3 class="grp">About</h3>
-    <p class="about">Lowdown release ${RELEASE}. ${esc(scriptLine)}</p>
+    <p class="about">Lowdown release ${RELEASE}. ${esc(scriptLine)}${esc(addrLine)}</p>
     <h3 class="grp" id="grp-credits">Sources</h3>
     <p class="about">News from the papers you pick in News sources, and local news from Google News and Bing News; story cards from each publisher\u2019s own link preview. Money from MoneySavingExpert. Weather by Open-Meteo, air quality and pollen from Copernicus. Place names from OpenStreetMap. What people looked up and on this day from Wikipedia. Calendars from Hebcal and GOV.UK. Travel from TfL Open Data (Powered by TfL Open Data). Power cuts from UK Power Networks. Videos from YouTube. Prices from Google Finance and CoinGecko; charts from Yahoo Finance, the European Central Bank and CoinGecko. Grid data from the National Energy System Operator.</p>`;
 }
@@ -3143,7 +3326,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 addEventListener('scroll', () => document.documentElement.classList.toggle('scrolled', window.scrollY > 4), { passive: true });
 beginOpen();
 // Someone already set up sees one short note about what changed.
-if (S.prefs && S.prefs.setupDone && get('release', 0) < RELEASE) { S.whatsNew = fromOld ? 3 : get('release', 0) >= 4 ? 5 : 4; put('whatsNew', S.whatsNew); }
+if (S.prefs && S.prefs.setupDone && get('release', 0) < Math.min(RELEASE, 5)) { S.whatsNew = fromOld ? 3 : get('release', 0) >= 4 ? 5 : 4; put('whatsNew', S.whatsNew); }
 put('release', RELEASE);
 const fromLink = takeHashInvite();
 if (fromLink === 'bad') S.inviteError = 'That invite link is incomplete. Ask for it again, or paste it below.';

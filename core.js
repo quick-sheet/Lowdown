@@ -293,6 +293,77 @@
     return n.length <= 1 ? n.join('') : n.slice(0, -1).join(', ') + ' and ' + n[n.length - 1];
   }
 
+  /* ---------- TfL, read straight from the phone ---------- */
+  // The phone asks TfL itself (TfL allows it from browsers), each request with its own short time limit,
+  // so a slow TfL can never hold up the rest of the brief. These turn TfL's answers into what the brief shows.
+  const TFL_MODES = 'tube,overground,elizabeth-line,dlr,tram,national-rail';
+  const NEAR_KM = 8.05;   // five miles
+  const inLondon = (place) => !!place && place.cc === 'GB' && /^(greater )?london$/i.test(place.county || '');
+  const clipText = (s, n) => { s = String(s || ''); return s.length > n ? s.slice(0, n - 1).replace(/\s+\S*$/, '') + '…' : s; };
+  const plainText = (s) => String(s || '').replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'")
+    .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
+  // "Teddington Rail Station" -> "Teddington".
+  const stationName = (s) => clipText(String(s || '').replace(/\s+(Underground|Rail|DLR|Overground|Elizabeth line|Tram)?\s*(Station|Stop)$/i, '').trim(), 60);
+  // Every line's worst status.
+  function tflLines(j) {
+    return (Array.isArray(j) ? j : []).map((l) => {
+      const st = (l.lineStatuses || []).slice().sort((a, b) => a.statusSeverity - b.statusSeverity)[0] || {}, sev = Number(st.statusSeverity);
+      return { id: String(l.id || ''), name: clipText(l.name || '', 40), mode: String(l.modeName || ''), sev: isFinite(sev) && st.statusSeverityDescription ? sev : 10,
+        status: clipText(st.statusSeverityDescription || 'Good Service', 40), reason: clipText(plainText(st.reason), 400) };
+    }).filter((l) => l.id);
+  }
+  // The lines that call within five miles.
+  function tflNear(j) {
+    const ids = new Set();
+    ((j && j.stopPoints) || []).forEach((sp) => (sp.lines || []).forEach((x) => { if (x && x.id) ids.add(x.id); }));
+    return [...ids];
+  }
+  // A station's rail lines (not its buses).
+  function tflStation(id, j) {
+    if (Array.isArray(j)) j = j[0] || {};
+    j = j || {};
+    const modes = TFL_MODES.split(','), ids = new Set();
+    (j.lineModeGroups || []).forEach((g) => { if (modes.includes(g.modeName)) (g.lineIdentifier || []).forEach((x) => ids.add(x)); });
+    if (!ids.size) (j.lines || []).forEach((l) => { if (l && l.id) ids.add(l.id); });
+    return { id, name: stationName(j.commonName || ''), lines: [...ids] };
+  }
+  // Station notices in force now, each given to its station; the same notice once.
+  function tflNotices(j, stations, now) {
+    const notes = (Array.isArray(j) ? j : []).map((d) => {
+      const from = Date.parse(d.fromDate) || null, to = Date.parse(d.toDate) || null;
+      if ((from && from > now) || (to && to < now)) return null;
+      return { at: String(d.atcoCode || ''), st: String(d.stationAtcoCode || ''), name: stationName(d.commonName || ''), type: clipText(String(d.type || ''), 40), desc: clipText(plainText(d.description), 400), to };
+    }).filter((d) => d && d.desc);
+    const norm = (x) => String(x || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+    const out = {};
+    (stations || []).forEach((s) => {
+      const seen = new Set();
+      out[s.id] = notes.filter((d) => stations.length === 1 || d.at === s.id || d.st === s.id || (s.name && d.name && norm(d.name) === norm(s.name)))
+        .filter((d) => (seen.has(d.desc) ? false : seen.add(d.desc))).slice(0, 4).map((d) => ({ type: d.type, desc: d.desc, to: d.to }));
+    });
+    return out;
+  }
+  // Road problems happening now within five miles of a point, worst first, at most ten.
+  function tflRoads(j, pt) {
+    const w = { Severe: 0, Serious: 1, Moderate: 2, Minimal: 3 }, rank = (x) => (w[x] === undefined ? 4 : w[x]);
+    return (Array.isArray(j) ? j : []).map((d) => {
+      const m = /^\[\s*(-?[\d.]+)\s*,\s*(-?[\d.]+)\s*\]$/.exec(String(d.point || ''));
+      if (!m || String(d.status || '') !== 'Active') return null;
+      const dist = distanceKm(pt.lat, pt.lon, Number(m[2]), Number(m[1]));
+      if (!(dist <= NEAR_KM)) return null;
+      return { id: String(d.id || ''), sev: String(d.severity || ''), cat: clipText(String(d.category || ''), 40), sub: clipText(String(d.subCategory || ''), 40),
+        loc: clipText(plainText(d.location), 140), desc: clipText(plainText(d.currentUpdate || d.comments), 400), closure: !!d.hasClosures,
+        end: Date.parse(d.endDateTime) || null, km: Math.round(dist * 10) / 10 };
+    }).filter(Boolean).sort((a, b) => rank(a.sev) - rank(b.sev) || a.km - b.km).slice(0, 10);
+  }
+  // Station search results: rail stations only, names tidied, each once.
+  function tflSearch(j) {
+    const modes = TFL_MODES.split(','), seen = new Set();
+    return ((j && j.matches) || []).map((m) => ({ id: String(m.id || ''), name: stationName(m.name), modes: (m.modes || []).filter((x) => modes.includes(x)) }))
+      .filter((s) => { const k = s.name.toLowerCase() + '|' + s.modes.join(); if (!/^[A-Za-z0-9]{3,20}$/.test(s.id) || !s.name || !s.modes.length || seen.has(k)) return false; seen.add(k); return true; })
+      .slice(0, 8);
+  }
+
   /* ---------- Getting around ---------- */
   // TfL status codes that mean all's well: good service, no issues, information, closed for the night.
   const lineBad = (l) => !!l && ![10, 18, 19, 20].includes(Number(l.sev));
@@ -731,7 +802,8 @@
     placeFromNominatim, placeFromSearch, cleanCouncil, PARTS, defaultSections, defaultCalendars, migratePrefs,
     addDays, daysBetween, easter, orthodoxEaster, adventSunday, christianEvents, orthodoxEvents, FAITH_TABLE, CALENDARS, localEvents, upcoming, whenWord, shortDate,
     SUPPLY, NETWORKS, guessNetwork, supplyQuery, distanceKm, powerNear, lineBad, shortRoad, stationProblem, travelAlerts,
-    NEWS_SOURCES, DEFAULT_SOURCES, MAX_SOURCES, sourceList
+    NEWS_SOURCES, DEFAULT_SOURCES, MAX_SOURCES, sourceList,
+    TFL_MODES, NEAR_KM, inLondon, stationName, tflLines, tflNear, tflStation, tflNotices, tflRoads, tflSearch
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = Core;
   else root.Core = Core;
