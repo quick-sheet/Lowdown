@@ -27,6 +27,8 @@ Live at **https://quick-sheet.github.io/Lowdown/**
 - **Your interests.** Pick from a list or add your own ("snooker", "hip hop"); each gets a short update.
 - **Markets.** Indices, currencies, gold and crypto, plus any share: pick its market, type its code (LIDR on NASDAQ, BARC on London) and Lowdown checks it. Tap any of them for a close-up: today's price and change, a chart over 1 month, 6 months, 1 year or 5 years (drag along it to read a day), and the figures: today's and the 52-week range, open, previous close, market value, P/E and volume.
 - **What people looked up** (Wikipedia's most-read), **On this day**, and, in Britain, **the greenest hours** to run the washing machine.
+- **Refresh one part.** An open part has a ↻ beside its name that updates just that part, in a few seconds, and leaves it open where you are.
+- **More stories.** Each list shows its first few stories, then **More stories** shows the rest the brief brought (up to ten) straight away, and **Load more** fetches up to 20 more from the past week. Ticks still go by the first few, so a long list never has to be read.
 - **Every part can be switched off and put in your own order** in Settings.
 - **It ends.** Tick every part and it says "You're up to date."
 
