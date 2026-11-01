@@ -545,13 +545,13 @@ dialog.sheet.closing{transition:transform .18s ease-in,opacity .18s;transform:tr
 <main id="app" aria-live="off"></main>
 <div id="toast" popover="manual" role="status" aria-live="polite"></div>
 
-<script src="core.js?v=8"></script>
+<script src="core.js?v=9"></script>
 <script>
 'use strict';
 // Invite-only: the Apps Script address and the shared code arrive in an invite link and
 // stay on each phone, so neither is in this public repo.
-const EXPECT_BUILD = 7;    // the Apps Script release this page needs
-const RELEASE = 8;
+const EXPECT_BUILD = 8;    // the Apps Script release this page needs
+const RELEASE = 9;
 const SCRIPT_RE = /^https:\/\/script\.google\.com\/(?:a\/macros\/[^/]+|macros)\/s\/[\w-]+\/exec$/;
 const CODE_RE = /^[A-Za-z0-9-]{6,40}$/;
 const C = window.Core;
@@ -953,7 +953,7 @@ async function loadBrief() {
     const supply = SUPPLY_CATS.filter(supplyIsSet).map((cat) => { const c = supplyChoice(cat), name = supplyName(cat); return { cat, name, q: C.supplyQuery(cat, c.name || name, cat === 'electricity' ? c.network : '') }; });
     const london = C.inLondon(p.place);
     const j = await api('brief', {
-      place: { cc: p.place.cc, country: p.place.country, county: p.place.county, town: p.place.town, council: p.place.council || '' },
+      place: { cc: p.place.cc, country: p.place.country, county: p.place.county, town: p.place.town, council: p.place.council || '', london },
       // Travel comes straight from TfL on the phone (loadTravel). Outside London the script still finds travel news.
       sections: { ...on, transport: !!on.transport && !london, roads: !!on.roads && !london },
       travelOnPhone: true,

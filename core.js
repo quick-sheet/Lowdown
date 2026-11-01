@@ -298,7 +298,24 @@
   // so a slow TfL can never hold up the rest of the brief. These turn TfL's answers into what the brief shows.
   const TFL_MODES = 'tube,overground,elizabeth-line,dlr,tram,national-rail';
   const NEAR_KM = 8.05;   // five miles
-  const inLondon = (place) => !!place && place.cc === 'GB' && /^(greater )?london$/i.test(place.county || '');
+  // Greater London's boundary, simplified to about a kilometre, so a place counts as London by where it is,
+  // whatever its county is called (Middlesex, Surrey, Kent and Essex addresses are common inside London).
+  const LONDON = [[51.6918, -0.105], [51.686, -0.011], [51.654, 0.01], [51.618, 0.07], [51.625, 0.135], [51.628, 0.2], [51.603, 0.262], [51.58, 0.31],
+    [51.545, 0.334], [51.51, 0.27], [51.472, 0.216], [51.445, 0.213], [51.415, 0.165], [51.38, 0.15], [51.34, 0.15], [51.305, 0.095], [51.29, 0.03],
+    [51.288, -0.03], [51.295, -0.09], [51.286, -0.135], [51.32, -0.18], [51.33, -0.22], [51.36, -0.26], [51.335, -0.3], [51.36, -0.33], [51.395, -0.33],
+    [51.405, -0.38], [51.41, -0.395], [51.433, -0.415], [51.44, -0.44], [51.456, -0.465], [51.47, -0.49], [51.5, -0.5], [51.55, -0.505], [51.6, -0.495],
+    [51.63, -0.46], [51.62, -0.4], [51.633, -0.32], [51.65, -0.26], [51.67, -0.2], [51.683, -0.15]];
+  function inGreaterLondon(lat, lon) {
+    lat = Number(lat); lon = Number(lon);
+    if (!isFinite(lat) || !isFinite(lon)) return false;
+    let inside = false;
+    for (let i = 0, j = LONDON.length - 1; i < LONDON.length; j = i++) {
+      const [ai, oi] = LONDON[i], [aj, oj] = LONDON[j];
+      if ((ai > lat) !== (aj > lat) && lon < ((oj - oi) * (lat - ai)) / (aj - ai) + oi) inside = !inside;
+    }
+    return inside;
+  }
+  const inLondon = (place) => !!place && place.cc === 'GB' && (/^(greater )?london$/i.test(place.county || '') || inGreaterLondon(place.lat, place.lon));
   const clipText = (s, n) => { s = String(s || ''); return s.length > n ? s.slice(0, n - 1).replace(/\s+\S*$/, '') + '…' : s; };
   const plainText = (s) => String(s || '').replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'")
     .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
@@ -803,7 +820,7 @@
     addDays, daysBetween, easter, orthodoxEaster, adventSunday, christianEvents, orthodoxEvents, FAITH_TABLE, CALENDARS, localEvents, upcoming, whenWord, shortDate,
     SUPPLY, NETWORKS, guessNetwork, supplyQuery, distanceKm, powerNear, lineBad, shortRoad, stationProblem, travelAlerts,
     NEWS_SOURCES, DEFAULT_SOURCES, MAX_SOURCES, sourceList,
-    TFL_MODES, NEAR_KM, inLondon, stationName, tflLines, tflNear, tflStation, tflNotices, tflRoads, tflSearch
+    TFL_MODES, NEAR_KM, inLondon, inGreaterLondon, stationName, tflLines, tflNear, tflStation, tflNotices, tflRoads, tflSearch
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = Core;
   else root.Core = Core;
